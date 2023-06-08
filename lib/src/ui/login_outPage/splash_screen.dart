@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/ui/login_outPage/login.dart';
-// import 'login_page.dart';
 
 void main() {
   runApp(SplashPage());
@@ -42,10 +41,10 @@ class StartState extends State<SplashPage> {
           Container(
             decoration: BoxDecoration(
                 color: new Color(0xffF5591F),
-                gradient: LinearGradient(
-                    colors: [(new Color(0xff1393aa)), (new Color(0xff1fceee))],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter)),
+                gradient: LinearGradient(colors: [
+                  (Color.fromARGB(255, 240, 241, 241)),
+                  (Color.fromARGB(255, 237, 242, 243))
+                ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
           ),
           Center(
             child: Container(
