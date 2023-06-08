@@ -29,9 +29,55 @@ class SignUpScreen extends StatelessWidget {
             SizedBox(
               height: 5,
             ),
+<<<<<<< HEAD
             Padding(
               padding: kDefaultPadding,
               child: Row(
+=======
+            SizedBox(height: 10),
+            Padding(
+              padding: kDefaultPadding,
+              child: SignUpForm(),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: kDefaultPadding,
+              child: CheckBox('Agree to term and conditions.'),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: kDefaultPadding,
+              child: PrimaryButton(buttonText: 'Sign up'),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: kDefaultPadding,
+              child: Text(
+                'Or Sign in using:',
+                style: subtitle.copyWith(color: kBlackColor),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: kDefaultPadding,
+              child: LoginOption(),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: kDefaultPadding,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+>>>>>>> 20ceb71834057de0997dcb443612d6f243c8ac5c
                 children: [
                   Text(
                     'Already have an account?',
@@ -58,6 +104,7 @@ class SignUpScreen extends StatelessWidget {
                 ],
               ),
             ),
+<<<<<<< HEAD
             SizedBox(height: 10),
             Padding(
               padding: kDefaultPadding,
@@ -97,6 +144,8 @@ class SignUpScreen extends StatelessWidget {
             SizedBox(
               height: 20,
             )
+=======
+>>>>>>> 20ceb71834057de0997dcb443612d6f243c8ac5c
           ],
         ),
       ),

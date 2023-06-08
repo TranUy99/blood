@@ -10,7 +10,11 @@ class LoginOption extends StatelessWidget {
           iconImage: Image(
             height: 20,
             width: 20,
+<<<<<<< HEAD
             image: AssetImage('images/facebook.jpg'),
+=======
+            image: AssetImage('images/facebook.png'),
+>>>>>>> 20ceb71834057de0997dcb443612d6f243c8ac5c
           ),
           textButton: 'Facebook',
         ),
@@ -18,7 +22,11 @@ class LoginOption extends StatelessWidget {
           iconImage: Image(
             height: 20,
             width: 20,
+<<<<<<< HEAD
             image: AssetImage('images/google.jpg'),
+=======
+            image: AssetImage('images/google.png'),
+>>>>>>> 20ceb71834057de0997dcb443612d6f243c8ac5c
           ),
           textButton: 'Google',
         )
@@ -46,9 +54,19 @@ class BuildButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+<<<<<<< HEAD
           iconImage,
           SizedBox(width: 5),
           Text(textButton),
+=======
+          Expanded(
+            child: iconImage,
+          ),
+          SizedBox(width: 5),
+          Expanded(
+            child: Text(textButton),
+          ),
+>>>>>>> 20ceb71834057de0997dcb443612d6f243c8ac5c
         ],
       ),
     );
