@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/ui/login_outPage/signup.dart';
+import 'package:mobile_store/src/ui/login_outPage/forgot_pass.dart';
 import 'package:mobile_store/theme.dart';
 
 import '../widget/checkbox.dart';
@@ -15,9 +16,13 @@ class LogInScreen extends StatelessWidget {
         padding: kDefaultPadding,
         child: SingleChildScrollView(
           child:
-              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            Column(crossAxisAlignment: CrossAxisAlignment.center, 
+            children: [
             SizedBox(
               height: 120,
+            ),
+            const Image(
+              image: AssetImage("images/un_login.png"),
             ),
             Text(
               'LOGIN',
@@ -39,13 +44,21 @@ class LogInScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CheckBox('Save account'),
-                  Text(
-                    'Forgot password?',
-                    style: TextStyle(
-                      color: kZambeziColor,
-                      fontSize: 14,
-                      decoration: TextDecoration.underline,
-                      decorationThickness: 1,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ForgotPasswordScreen()));
+                    },
+                    child: Text(
+                      'Forgot password?',
+                      style: TextStyle(
+                        color: kZambeziColor,
+                        fontSize: 14,
+                        decoration: TextDecoration.underline,
+                        decorationThickness: 1,
+                      ),
                     ),
                   ),
                 ],
@@ -61,13 +74,16 @@ class LogInScreen extends StatelessWidget {
               height: 20,
             ),
             Text(
-              'Or log in with:',
+              'Or sign in using:',
               style: subtitle.copyWith(color: kBlackColor),
             ),
             SizedBox(
               height: 20,
             ),
             LoginOption(),
+            SizedBox(
+              height: 20,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

@@ -19,6 +19,9 @@ class SignUpScreen extends StatelessWidget {
             SizedBox(
               height: 70,
             ),
+            const Image(
+              image: AssetImage("images/un_login.png"),
+            ),
             Padding(
               padding: kDefaultPadding,
               child: Text(
@@ -54,7 +57,7 @@ class SignUpScreen extends StatelessWidget {
             Padding(
               padding: kDefaultPadding,
               child: Text(
-                'Or Sign in using:',
+                'Or sign in using:',
                 style: subtitle.copyWith(color: kBlackColor),
               ),
             ),

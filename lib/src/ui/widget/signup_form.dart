@@ -12,7 +12,7 @@ class _SignUpFormState extends State<SignUpForm> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        buildInputForm('Number Phone', false),
+        buildInputForm('Phone Number', false),
         buildInputForm('Email', false),
         buildInputForm('Full Name', false),
         buildInputForm('Password', true),
@@ -41,7 +41,7 @@ class _SignUpFormState extends State<SignUpForm> {
                   icon: _isObscure
                       ? Icon(
                           Icons.visibility_off,
-                          color: kPrimaryColor,
+                          color: kTextFieldColor,
                         )
                       : Icon(
                           Icons.visibility,
