@@ -10,26 +10,28 @@ import '../widget/primary_button.dart';
 class LogInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: kDefaultPadding,
-        child: SingleChildScrollView(
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+    var scaffold = Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
             SizedBox(
-              height: 120,
+              height: 70,
             ),
-            Text(
-              'LOGIN',
-              style: titleText,
+            Padding(
+              padding: kDefaultPadding,
+              child: Text(
+                'LOGIN',
+                style: titleText,
+              ),
             ),
             SizedBox(
-              height: 5,
+              height: 20,
             ),
-            SizedBox(
-              width: 10,
+            Padding(
+              padding: kDefaultPadding,
+              child: LogInForm(),
             ),
-            LogInForm(),
             SizedBox(
               height: 20,
             ),
@@ -39,6 +41,10 @@ class LogInScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CheckBox('Save account'),
+                  // GestureDetector(
+                  //   onTap(){
+                  //     Navigator.push(context, MaterialPageRoute(builder: (context) => ResetPassWordScreen()));
+                  //   },
                   Text(
                     'Forgot password?',
                     style: TextStyle(
@@ -48,58 +54,73 @@ class LogInScreen extends StatelessWidget {
                       decorationThickness: 1,
                     ),
                   ),
+                  // )
                 ],
               ),
             ),
             SizedBox(
               height: 20,
             ),
-            PrimaryButton(
-              buttonText: 'Log in',
+            Padding(
+              padding: kDefaultPadding,
+              child: PrimaryButton(buttonText: 'Log in'),
             ),
             SizedBox(
               height: 20,
             ),
-            Text(
-              'Or log in with:',
-              style: subtitle.copyWith(color: kBlackColor),
+            Padding(
+              padding: kDefaultPadding,
+              child: Text(
+                'Or Log in with:',
+                style: subtitle.copyWith(color: kBlackColor),
+              ),
             ),
             SizedBox(
               height: 20,
             ),
-            LoginOption(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Don\'t have an account?',
-                  style: subtitle,
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SignUpScreen(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'Register',
-                    style: textButton.copyWith(
-                      decoration: TextDecoration.underline,
-                      decorationThickness: 1,
-                    ),
+            Padding(
+              padding: kDefaultPadding,
+              child: LoginOption(),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: kDefaultPadding,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Don\'t have an account?',
+                    style: subtitle,
                   ),
-                ),
-              ],
+                  SizedBox(
+                    width: 5,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SignUpScreen()));
+                    },
+                    child: Text(
+                      'Register',
+                      style: textButton.copyWith(
+                        decoration: TextDecoration.underline,
+                        decorationThickness: 1,
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
-          ]),
+          ],
         ),
       ),
     );
+    return scaffold;
   }
 }
+
+ResetPassWordScreen() {}

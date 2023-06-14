@@ -4,15 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/src/ui/login_outPage/login.dart';
 
 void main() {
-  runApp(SplashPage());
+  runApp(SplashScreen());
 }
 
-class SplashPage extends StatefulWidget {
+class SplashScreen extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => StartState();
+  State<StatefulWidget> createState() {
+    var startState = StartState();
+    return startState;
+  }
 }
 
-class StartState extends State<SplashPage> {
+class StartState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
@@ -48,7 +51,7 @@ class StartState extends State<SplashPage> {
           ),
           Center(
             child: Container(
-              child: Image.asset("images/logo.jpg"),
+              child: Image.asset("images/logo_mobile.png"),
             ),
           )
         ],
