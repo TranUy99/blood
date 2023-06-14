@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_store/login/srceen/login.dart';
 import 'package:mobile_store/src/ui/widget/primary_button.dart';
 import 'package:mobile_store/theme.dart';
 
-import '../widget/forgot_pass_form.dart';
-import 'package:mobile_store/src/ui/login_outPage/otp.dart';
+import 'package:mobile_store/src/ui/widget/reset_form.dart';
 
-class ForgotPasswordScreen extends StatelessWidget {
+class ResetPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,37 +15,38 @@ class ForgotPasswordScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 200,
               ),
               const Image(
                 image: AssetImage("images/un_login.png"),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Text(
-                'Forgot Password',
+                'Reset Password',
                 style: titleText,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Text(
-                'Please enter your phone number',
-                style: subtitle.copyWith(fontWeight: FontWeight.w600),
+                'Please enter your new password',
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
               ),
-              SizedBox(height: 10),
-              ForgotPasswordForm(),
-              SizedBox(
-                height: 30,
+              const SizedBox(height: 8),
+              ResetPasswordForm(),
+              const SizedBox(
+                height: 40,
               ),
               GestureDetector(
                   onTap: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => OtpScreen()));
+                        MaterialPageRoute(builder: (context) => LogInScreen()));
                   },
-                  child: PrimaryButton(buttonText: 'Send OTP'))
+                  child: PrimaryButton(buttonText: 'Confirm'))
             ],
           ),
         ),

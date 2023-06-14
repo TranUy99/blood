@@ -1,12 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/ui/login_outPage/login.dart';
+import 'package:mobile_store/login/srceen/login.dart';
 import 'package:mobile_store/theme.dart';
 
-import '../widget/checkbox.dart';
-import '../widget/login_option.dart';
-import '../widget/primary_button.dart';
-import '../widget/signup_form.dart';
+import 'package:mobile_store/src/ui/widget/checkbox.dart';
+import 'package:mobile_store/src/ui/widget/login_option.dart';
+import 'package:mobile_store/src/ui/widget/primary_button.dart';
+import 'package:mobile_store/src/ui/widget/signup_form.dart';
 
 class SignUpScreen extends StatelessWidget {
   @override
@@ -16,7 +16,7 @@ class SignUpScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 70,
             ),
             const Image(
@@ -29,29 +29,29 @@ class SignUpScreen extends StatelessWidget {
                 style: titleText,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Padding(
               padding: kDefaultPadding,
               child: SignUpForm(),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Padding(
               padding: kDefaultPadding,
               child: CheckBox('Agree to term and conditions.'),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Padding(
               padding: kDefaultPadding,
               child: PrimaryButton(buttonText: 'Sign up'),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Padding(
@@ -61,14 +61,14 @@ class SignUpScreen extends StatelessWidget {
                 style: subtitle.copyWith(color: kBlackColor),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Padding(
               padding: kDefaultPadding,
               child: LoginOption(),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Padding(
@@ -80,7 +80,7 @@ class SignUpScreen extends StatelessWidget {
                     'Already have an account?',
                     style: subtitle,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   GestureDetector(

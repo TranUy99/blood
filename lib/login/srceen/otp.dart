@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/ui/login_outPage/login.dart';
-import 'package:mobile_store/src/ui/login_outPage/reset_pass.dart';
+import 'package:mobile_store/login/srceen/reset_pass.dart';
 import 'package:mobile_store/src/ui/widget/primary_button.dart';
 import 'package:mobile_store/theme.dart';
 
-import '../widget/otp_form.dart';
+import 'package:mobile_store/src/ui/widget/otp_form.dart';
 
 class OtpScreen extends StatelessWidget {
   @override
@@ -16,20 +15,20 @@ class OtpScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 200,
               ),
               const Image(
                 image: AssetImage("images/un_login.png"),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Text(
                 'Forgot Password',
                 style: titleText,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Column(
@@ -40,7 +39,7 @@ class OtpScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Text(
                     'Please confirm it.',
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
@@ -49,7 +48,7 @@ class OtpScreen extends StatelessWidget {
                 ],
               ),
               OtpForm(),
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
               Text(
@@ -57,7 +56,7 @@ class OtpScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               GestureDetector(

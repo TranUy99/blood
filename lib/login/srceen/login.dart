@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/ui/login_outPage/signup.dart';
-import 'package:mobile_store/src/ui/login_outPage/forgot_pass.dart';
+import 'package:mobile_store/login/srceen/signup.dart';
+import 'package:mobile_store/login/srceen/forgot_pass.dart';
 import 'package:mobile_store/theme.dart';
 
-import '../widget/checkbox.dart';
-import '../widget/login_form.dart';
-import '../widget/login_option.dart';
-import '../widget/primary_button.dart';
+import 'package:mobile_store/src/ui/widget//checkbox.dart';
+import 'package:mobile_store/src/ui/widget/login_form.dart';
+import 'package:mobile_store/src/ui/widget/login_option.dart';
+import 'package:mobile_store/src/ui/widget/primary_button.dart';
 
 class LogInScreen extends StatelessWidget {
   @override
@@ -16,9 +16,8 @@ class LogInScreen extends StatelessWidget {
         padding: kDefaultPadding,
         child: SingleChildScrollView(
           child:
-            Column(crossAxisAlignment: CrossAxisAlignment.center, 
-            children: [
-            SizedBox(
+              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            const SizedBox(
               height: 120,
             ),
             const Image(
@@ -28,14 +27,14 @@ class LogInScreen extends StatelessWidget {
               'LOGIN',
               style: titleText,
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             LogInForm(),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Padding(
@@ -64,24 +63,24 @@ class LogInScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             PrimaryButton(
               buttonText: 'Log in',
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Text(
               'Or sign in using:',
               style: subtitle.copyWith(color: kBlackColor),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             LoginOption(),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Row(
@@ -91,7 +90,7 @@ class LogInScreen extends StatelessWidget {
                   'Don\'t have an account?',
                   style: subtitle,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 ),
                 GestureDetector(
