@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/ui/homePage/home_pagr.dart';
-import 'package:mobile_store/src/ui/login_outPage/login.dart';
-import 'package:mobile_store/src/ui/login_outPage/splash_screen.dart';
+
+import 'login_outPage/login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +17,8 @@ class MyApp extends StatelessWidget {
         title: "Mobile Store",
         theme: ThemeData(fontFamily: 'Poppins'),
         // home: SplashScreen(),
-        home: LogInScreen());
+        home: LogInScreen()
+    );
     // home: HomePage());
   }
 }

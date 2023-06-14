@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/ui/login_outPage/login.dart';
+
+import 'login.dart';
 
 void main() {
   runApp(SplashScreen());

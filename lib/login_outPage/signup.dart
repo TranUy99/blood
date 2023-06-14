@@ -1,12 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/ui/login_outPage/login.dart';
 import 'package:mobile_store/theme.dart';
 
 import '../widget/checkbox.dart';
 import '../widget/login_option.dart';
 import '../widget/primary_button.dart';
 import '../widget/signup_form.dart';
+import 'login.dart';
 
 class SignUpScreen extends StatelessWidget {
   @override
@@ -46,7 +46,7 @@ class SignUpScreen extends StatelessWidget {
             ),
             Padding(
               padding: kDefaultPadding,
-              child: PrimaryButton(buttonText: 'Sign up'),
+              child: PrimaryButton(buttonText: 'Sign up',),
             ),
             SizedBox(
               height: 20,
