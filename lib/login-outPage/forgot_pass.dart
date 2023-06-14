@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/ui/widget/primary_button.dart';
 import 'package:mobile_store/theme.dart';
-
 import '../widget/forgot_pass_form.dart';
-import 'package:mobile_store/src/ui/login_outPage/otp.dart';
+import '../widget/primary_button.dart';
+import 'otp.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   @override

@@ -1,92 +1,73 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_store/homePage/home_page.dart';
-import 'package:mobile_store/login_outPage/signup.dart';
 import 'package:mobile_store/theme.dart';
 
 import '../widget/checkbox.dart';
-import '../widget/login_form.dart';
 import '../widget/login_option.dart';
 import '../widget/primary_button.dart';
+import '../widget/signup_form.dart';
+import 'login.dart';
 
-class LogInScreen extends StatelessWidget {
+class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var scaffold = Scaffold(
+    return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(
+            SizedBox(
               height: 70,
             ),
             Padding(
               padding: kDefaultPadding,
               child: Text(
-                'LOGIN',
+                'Register',
                 style: titleText,
               ),
             ),
-            const SizedBox(
+            SizedBox(
+              height: 5,
+            ),
+            SizedBox(height: 10),
+            Padding(
+              padding: kDefaultPadding,
+              child: SignUpForm(),
+            ),
+            SizedBox(
               height: 20,
             ),
             Padding(
               padding: kDefaultPadding,
-              child: LogInForm(),
+              child: CheckBox('Agree to term and conditions.'),
             ),
-            const SizedBox(
+            SizedBox(
               height: 20,
             ),
-            const Padding(
+            Padding(
               padding: kDefaultPadding,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CheckBox('Save account'),
-                  // GestureDetector(
-                  //   onTap(){
-                  //     Navigator.push(context, MaterialPageRoute(builder: (context) => ResetPassWordScreen()));
-                  //   },
-                  Text(
-                    'Forgot password?',
-                    style: TextStyle(
-                      color: kZambeziColor,
-                      fontSize: 14,
-                      decoration: TextDecoration.underline,
-                      decorationThickness: 1,
-                    ),
-                  ),
-                  // )
-                ],
+              child: PrimaryButton(
+                buttonText: 'Sign up',
               ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            GestureDetector(
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage(),)),
-              child: Padding(
-                padding: kDefaultPadding,
-                child: PrimaryButton(buttonText: 'Log in',),
-              ),
-            ),
-            const SizedBox(
+            SizedBox(
               height: 20,
             ),
             Padding(
               padding: kDefaultPadding,
               child: Text(
-                'Or Log in with:',
+                'Or Sign in using:',
                 style: subtitle.copyWith(color: kBlackColor),
               ),
             ),
-            const SizedBox(
+            SizedBox(
               height: 20,
             ),
             Padding(
               padding: kDefaultPadding,
               child: LoginOption(),
             ),
-            const SizedBox(
+            SizedBox(
               height: 20,
             ),
             Padding(
@@ -95,10 +76,10 @@ class LogInScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Don\'t have an account?',
+                    'Already have an account?',
                     style: subtitle,
                   ),
-                  const SizedBox(
+                  SizedBox(
                     width: 5,
                   ),
                   GestureDetector(
@@ -106,10 +87,10 @@ class LogInScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SignUpScreen()));
+                              builder: (context) => LogInScreen()));
                     },
                     child: Text(
-                      'Register',
+                      'Log In',
                       style: textButton.copyWith(
                         decoration: TextDecoration.underline,
                         decorationThickness: 1,
@@ -123,13 +104,5 @@ class LogInScreen extends StatelessWidget {
         ),
       ),
     );
-    return scaffold;
-  }
-
-  goToHomePage(BuildContext context) {
-    print('object');
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage(),));
   }
 }
-
-ResetPassWordScreen() {}

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/ui/homePage/home_page.dart';
-import 'package:mobile_store/src/ui/login_outPage/signup.dart';
+import 'package:mobile_store/homePage/home_page.dart';
+import 'package:mobile_store/login-outPage/signup.dart';
 import 'package:mobile_store/theme.dart';
 
 import '../widget/checkbox.dart';
@@ -16,7 +16,7 @@ class LogInScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 70,
             ),
             Padding(
@@ -26,18 +26,17 @@ class LogInScreen extends StatelessWidget {
                 style: titleText,
               ),
             ),
-
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Padding(
               padding: kDefaultPadding,
               child: LogInForm(),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            Padding(
+            const Padding(
               padding: kDefaultPadding,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -60,29 +59,23 @@ class LogInScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            // GestureDetector(
-            //         onTap: () {
-            //           Navigator.push(
-            //               context,
-            //               MaterialPageRoute(
-            //                   builder: (context) => HomePage()));
-            //         },
-            //         child: Text(
-            //           'Log In',
-            //           style: textButton.copyWith(
-            //             decoration: TextDecoration.underline,
-            //             decorationThickness: 1,
-            //           ),
-            //         ),
-            //       )
-            Padding(
-              padding: kDefaultPadding,
-              child: PrimaryButton(buttonText: 'Log in'),
+            GestureDetector(
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HomePage(),
+                  )),
+              child: Padding(
+                padding: kDefaultPadding,
+                child: PrimaryButton(
+                  buttonText: 'Log in',
+                ),
+              ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Padding(
@@ -92,14 +85,14 @@ class LogInScreen extends StatelessWidget {
                 style: subtitle.copyWith(color: kBlackColor),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Padding(
               padding: kDefaultPadding,
               child: LoginOption(),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Padding(
@@ -111,7 +104,7 @@ class LogInScreen extends StatelessWidget {
                     'Don\'t have an account?',
                     style: subtitle,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   GestureDetector(
@@ -137,6 +130,15 @@ class LogInScreen extends StatelessWidget {
       ),
     );
     return scaffold;
+  }
+
+  goToHomePage(BuildContext context) {
+    print('object');
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomePage(),
+        ));
   }
 }
 

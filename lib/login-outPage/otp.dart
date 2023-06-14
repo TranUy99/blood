@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/ui/login_outPage/login.dart';
-import 'package:mobile_store/src/ui/login_outPage/reset_pass.dart';
-import 'package:mobile_store/src/ui/widget/primary_button.dart';
+import 'package:mobile_store/login-outPage/reset_password.dart';
 import 'package:mobile_store/theme.dart';
+import 'package:mobile_store/widget/primary_button.dart';
 
 import '../widget/otp_form.dart';
 
