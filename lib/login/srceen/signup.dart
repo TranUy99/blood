@@ -1,12 +1,12 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+
 import 'package:mobile_store/login/srceen/login.dart';
 import 'package:mobile_store/theme.dart';
 
-import 'package:mobile_store/src/ui/widget/checkbox.dart';
-import 'package:mobile_store/src/ui/widget/login_option.dart';
-import 'package:mobile_store/src/ui/widget/primary_button.dart';
-import 'package:mobile_store/src/ui/widget/signup_form.dart';
+import 'package:mobile_store/widget/checkbox.dart';
+import 'package:mobile_store/widget/login_option.dart';
+import 'package:mobile_store/widget/primary_button.dart';
+import 'package:mobile_store/widget/signup_form.dart';
 
 class SignUpScreen extends StatelessWidget {
   @override
@@ -49,7 +49,9 @@ class SignUpScreen extends StatelessWidget {
             ),
             Padding(
               padding: kDefaultPadding,
-              child: PrimaryButton(buttonText: 'Sign up'),
+              child: PrimaryButton(
+                buttonText: 'Sign up',
+              ),
             ),
             const SizedBox(
               height: 20,
