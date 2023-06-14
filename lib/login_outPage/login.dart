@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/homePage/home_page.dart';
+import 'package:mobile_store/homePage/screen/home_page.dart';
 import 'package:mobile_store/login_outPage/signup.dart';
 import 'package:mobile_store/theme.dart';
 
