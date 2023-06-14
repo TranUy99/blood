@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/ui/homePage/home_pagr.dart';
+import 'package:mobile_store/src/ui/homePage/home_page.dart';
 import 'package:mobile_store/src/ui/login_outPage/login.dart';
 import 'package:mobile_store/src/ui/login_outPage/splash_screen.dart';
 
@@ -19,6 +19,5 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(fontFamily: 'Poppins'),
         // home: SplashScreen(),
         home: LogInScreen());
-    // home: HomePage());
   }
 }

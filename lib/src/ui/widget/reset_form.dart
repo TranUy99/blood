@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/theme.dart';
 
-class LogInForm extends StatefulWidget {
+class ResetPasswordForm extends StatefulWidget {
   @override
-  _LogInFormState createState() => _LogInFormState();
+  _ResetPasswordFormState createState() => _ResetPasswordFormState();
 }
 
-class _LogInFormState extends State<LogInForm> {
+class _ResetPasswordFormState extends State<ResetPasswordForm> {
   bool _isObscure = true;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        buildInputForm('Phone Number', false),
         buildInputForm('Password', true),
+        buildInputForm('Confirm Password', true),
       ],
     );
   }
