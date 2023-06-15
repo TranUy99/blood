@@ -63,7 +63,7 @@ class LogInScreen extends StatelessWidget {
               height: 20,
             ),
             GestureDetector(
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage(),)),
+              onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage(),)),
               child: Padding(
                 padding: kDefaultPadding,
                 child: PrimaryButton(buttonText: 'Log in',),
