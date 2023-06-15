@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/ui/login_outPage/signup.dart';
-import 'package:mobile_store/src/ui/login_outPage/forgot_pass.dart';
-import 'package:mobile_store/theme.dart';
+import 'package:mobile_store/login_outPage/forgot_pass.dart';
+import 'package:mobile_store/login_outPage/sign_up.dart';
 
-import '../widget/checkbox.dart';
-import '../widget/login_form.dart';
-import '../widget/login_option.dart';
-import '../widget/primary_button.dart';
+import 'package:mobile_store/theme.dart';
+import 'package:mobile_store/widget/checkbox.dart';
+import 'package:mobile_store/widget/login_form.dart';
+import 'package:mobile_store/widget/login_option.dart';
+import 'package:mobile_store/widget/primary_button.dart';
+
+
 
 class LogInScreen extends StatelessWidget {
+  const LogInScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +22,7 @@ class LogInScreen extends StatelessWidget {
           child:
             Column(crossAxisAlignment: CrossAxisAlignment.center, 
             children: [
-            SizedBox(
+            const SizedBox(
               height: 120,
             ),
             const Image(
@@ -28,14 +32,14 @@ class LogInScreen extends StatelessWidget {
               'LOGIN',
               style: titleText,
             ),
-            SizedBox(
+           const SizedBox(
               height: 5,
             ),
-            SizedBox(
+           const SizedBox(
               width: 10,
             ),
-            LogInForm(),
-            SizedBox(
+            const LogInForm(),
+            const SizedBox(
               height: 20,
             ),
             Padding(
@@ -43,15 +47,15 @@ class LogInScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CheckBox('Save account'),
+                  const CheckBox('Save account'),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ForgotPasswordScreen()));
+                              builder: (context) => const ForgotPasswordScreen()));
                     },
-                    child: Text(
+                    child:const  Text(
                       'Forgot password?',
                       style: TextStyle(
                         color: kZambeziColor,
@@ -64,13 +68,13 @@ class LogInScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            PrimaryButton(
+            const PrimaryButton(
               buttonText: 'Log in',
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Text(
@@ -99,7 +103,7 @@ class LogInScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SignUpScreen(),
+                        builder: (context) =>const  SignUpScreen(),
                       ),
                     );
                   },

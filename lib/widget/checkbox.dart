@@ -3,7 +3,7 @@ import 'package:mobile_store/theme.dart';
 
 class CheckBox extends StatefulWidget {
   final String text;
-  const CheckBox(this.text);
+  const CheckBox(this.text, {super.key});
   @override
   _CheckBoxState createState() => _CheckBoxState();
 }
@@ -37,7 +37,7 @@ class _CheckBoxState extends State<CheckBox> {
                     : null,
               ),
             ),
-             SizedBox(
+             const SizedBox(
               width: 12,
             ),
             Text(widget.text),

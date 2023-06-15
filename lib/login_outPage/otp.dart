@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/ui/login_outPage/login.dart';
-import 'package:mobile_store/src/ui/login_outPage/reset_pass.dart';
-import 'package:mobile_store/src/ui/widget/primary_button.dart';
+import 'package:mobile_store/login_outPage/reset_password.dart';
+
 import 'package:mobile_store/theme.dart';
+import 'package:mobile_store/widget/primary_button.dart';
 
 import '../widget/otp_form.dart';
 
 class OtpScreen extends StatelessWidget {
+  const OtpScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,23 +18,23 @@ class OtpScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
+             const  SizedBox(
                 height: 200,
               ),
               const Image(
                 image: AssetImage("images/un_login.png"),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Text(
                 'Forgot Password',
                 style: titleText,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Column(
+              const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
@@ -48,16 +50,16 @@ class OtpScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              OtpForm(),
-              SizedBox(
+             const OtpForm(),
+              const SizedBox(
                 height: 40,
               ),
-              Text(
+              const Text(
                 'OTP code expires later 57 seconds.',
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               GestureDetector(
@@ -65,9 +67,9 @@ class OtpScreen extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ResetPasswordScreen()));
+                            builder: (context) => const ResetPasswordScreen()));
                   },
-                  child: PrimaryButton(buttonText: 'Confirm'))
+                  child:const PrimaryButton(buttonText: 'Confirm'))
             ],
           ),
         ),

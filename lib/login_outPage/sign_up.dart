@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/ui/login_outPage/login.dart';
 import 'package:mobile_store/theme.dart';
 
 import '../widget/checkbox.dart';
 import '../widget/login_option.dart';
 import '../widget/primary_button.dart';
 import '../widget/signup_form.dart';
+import 'login.dart';
 
 class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +34,7 @@ class SignUpScreen extends StatelessWidget {
               height: 5,
             ),
             const SizedBox(height: 10),
-            Padding(
+            const Padding(
               padding: kDefaultPadding,
               child: SignUpForm(),
             ),
@@ -46,9 +48,9 @@ class SignUpScreen extends StatelessWidget {
            const  SizedBox(
               height: 20,
             ),
-            Padding(
+            const Padding(
               padding: kDefaultPadding,
-              child: PrimaryButton(buttonText: 'Sign up'),
+              child: PrimaryButton(buttonText: 'Sign up',),
             ),
            const  SizedBox(
               height: 20,
@@ -87,7 +89,7 @@ class SignUpScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => LogInScreen()));
+                              builder: (context) => const LogInScreen()));
                     },
                     child: Text(
                       'Log In',
