@@ -1,8 +1,9 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_store/category/screen/category_screen.dart';
 import 'package:mobile_store/homePage/screen/product_screen.dart';
 
 import 'bottom_navigation.dart';
+import 'carousel_slider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,38 +13,87 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final imageBanner = [
-    const Image(image: AssetImage('images/banner0.jpg'), fit: BoxFit.fill),
-    const Image(image: AssetImage('images/banner1.jpg'), fit: BoxFit.fill),
-    const Image(image: AssetImage('images/banner2.gif'), fit: BoxFit.fill),
-    const Image(image: AssetImage('images/banner3.webp'), fit: BoxFit.fill)
-  ];
+  navigatorPage(String categoryType) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CategoryScreen(categoryType: categoryType),
+        ));
+  }
+
+  onSelected(BuildContext context, int value) {
+    switch (value){
+      case 0: navigatorPage('Laptop');
+      break;
+      case 1: navigatorPage('PC');
+      break;
+      case 2: navigatorPage('Điện thoại');
+      break;
+      case 3: navigatorPage('Tai nghe');
+      break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Mobile Store')),
-      body: SingleChildScrollView(
+      appBar: AppBar(
+        bottom: PreferredSize(
+            preferredSize: Size.fromHeight(50), child: Text('Hehe')),
+        title: Container(
+          margin: EdgeInsets.only(top: 5, bottom: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // mainAxisSize: MainAxisSize.max,
+            children: [
+              PopupMenuButton(
+                onSelected: (value) => onSelected(context, value),
+                offset: Offset(-20, 52),
+                icon: const Icon(
+                  Icons.menu,
+                  color: Colors.white,
+                ),
+                itemBuilder: (context) => [
+                  const PopupMenuItem(
+                    value: 0,
+                    child: Text('Laptop'),
+                  ),
+                  const PopupMenuItem(
+                    value: 1,
+                    child: Text('PC'),
+                  ),
+                  const PopupMenuItem(
+                    value: 2,
+                    child: Text('Điện thoại'),
+                  ),
+                  const PopupMenuItem(
+                    value: 3,
+                    child: Text('Tai nghe'),
+                  ),
+                ],
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.7,
+                child: TextField(
+                  decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    filled: true,
+                    suffixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      body: const SingleChildScrollView(
         child: Expanded(
           child: Column(children: [
-            Container(
-              child: CarouselSlider.builder(
-                  itemCount: 4,
-                  itemBuilder: (context, index, realIndex) {
-                    return Container(
-                      // margin: EdgeInsets.only(left: 12, right: 12),
-                      child: imageBanner[index],
-                      // width: MediaQuery.of(context).size.width * 0.9,
-                    );
-                  },
-                  options: CarouselOptions(
-                    viewportFraction: 1,
-                    aspectRatio: 24 / 10,
-                    autoPlay: true,
-                    autoPlayInterval: Duration(seconds: 5),
-                  )),
-            ),
-            const ProductScreen(),
+            CarouselSliderBanner(),
+            ProductScreen(),
           ]),
         ),
       ),
@@ -53,4 +103,5 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+  
 }
