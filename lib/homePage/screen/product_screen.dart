@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_store/homePage/screen/product_detail_screen.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({Key? key}) : super(key: key);
@@ -22,9 +23,7 @@ class _ProductScreenState extends State<ProductScreen> {
       itemCount: 20,
       itemBuilder: (context, index) {
         return InkWell(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => Detail(title: '$index'),));
-          },
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetailScreen(),)),
           child: Container(
             decoration: BoxDecoration(border: Border.all()),
             child: Column(
@@ -49,17 +48,5 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 }
- class Detail extends StatelessWidget {
-  final String title;
-   const Detail({Key? key, required this.title}) : super(key: key);
- 
-   @override
-   Widget build(BuildContext context) {
-     return Scaffold(
-       body: Center(
-         child: Text(title),
-       ),
-     );
-   }
- }
+
  
