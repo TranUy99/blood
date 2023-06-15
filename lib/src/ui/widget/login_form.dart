@@ -20,13 +20,13 @@ class _LogInFormState extends State<LogInForm> {
 
   Padding buildInputForm(String label, bool pass) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 5),
+      padding:const EdgeInsets.symmetric(vertical: 5),
       child: TextFormField(
         obscureText: pass ? _isObscure : false,
         decoration: InputDecoration(
             labelText: label,
-            labelStyle: TextStyle(
-              color: kTextFieldColor,
+            labelStyle: const TextStyle(
+               color: kTextFieldColor,
             ),
             focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: kPrimaryColor),

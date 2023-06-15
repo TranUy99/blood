@@ -77,11 +77,11 @@ class LogInScreen extends StatelessWidget {
               'Or sign in using:',
               style: subtitle.copyWith(color: kBlackColor),
             ),
-            SizedBox(
+          const  SizedBox(
               height: 20,
             ),
             LoginOption(),
-            SizedBox(
+           const SizedBox(
               height: 20,
             ),
             Row(
@@ -91,7 +91,7 @@ class LogInScreen extends StatelessWidget {
                   'Don\'t have an account?',
                   style: subtitle,
                 ),
-                SizedBox(
+               const  SizedBox(
                   width: 5,
                 ),
                 GestureDetector(

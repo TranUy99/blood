@@ -7,7 +7,7 @@ class OtpForm extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 20),
       child: TextFormField(
-        decoration: InputDecoration(
+        decoration: const  InputDecoration(
             hintText: 'OTP',
             hintStyle: TextStyle(color: kTextFieldColor),
             focusedBorder: UnderlineInputBorder(

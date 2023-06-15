@@ -5,9 +5,9 @@ class ForgotPasswordForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 20),
+      padding: const EdgeInsets.only(top: 20),
       child: TextFormField(
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
             hintText: 'Phone Number',
             hintStyle: TextStyle(color: kTextFieldColor),
             focusedBorder: UnderlineInputBorder(
