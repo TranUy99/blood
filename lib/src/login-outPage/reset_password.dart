@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/theme.dart';
+
+import '../constant/colors/theme.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
   @override

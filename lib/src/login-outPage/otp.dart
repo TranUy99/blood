@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/login-outPage/reset_password.dart';
-import 'package:mobile_store/theme.dart';
-import 'package:mobile_store/widget/primary_button.dart';
+import 'package:mobile_store/src/login-outPage/reset_password.dart';
+
+import '../constant/colors/theme.dart';
 
 import '../widget/otp_form.dart';
+import '../widget/primary_button.dart';
 
 class OtpScreen extends StatelessWidget {
   @override

@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_store/theme.dart';
-
+import 'package:mobile_store/src/constant/colors/theme.dart';
 import '../widget/checkbox.dart';
 import '../widget/login_option.dart';
 import '../widget/primary_button.dart';

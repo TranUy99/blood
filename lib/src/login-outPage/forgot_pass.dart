@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/theme.dart';
+import '../constant/colors/theme.dart';
 import '../widget/forgot_pass_form.dart';
 import '../widget/primary_button.dart';
 import 'otp.dart';

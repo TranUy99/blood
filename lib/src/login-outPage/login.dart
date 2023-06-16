@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/homePage/home_page.dart';
-import 'package:mobile_store/login-outPage/signup.dart';
-import 'package:mobile_store/theme.dart';
-
+import 'package:mobile_store/src/login-outPage/signup.dart';
+import '../constant/colors/theme.dart';
+import '../homePage/screen/home_page.dart';
 import '../widget/checkbox.dart';
 import '../widget/login_form.dart';
 import '../widget/login_option.dart';
