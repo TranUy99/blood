@@ -1,5 +1,3 @@
-// ignore_for_file: unused_element
-
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/cartPage/cart_page.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
@@ -39,6 +37,21 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   items: NavigationDestination [
+      //     return BottomNavigationBarItem(
+      //       icon: GestureDetector(
+      //         child: Icon(NavigationDestination.icon),
+      //         onTap: (){
+      //           Navigator.push(
+      //             context,
+      //             MaterialPageRoute(builder:(context) => CartPage()),
+      //           );
+      //         },
+      //       ))
+      //   ],
+      //   ),
+
       bottomNavigationBar: Container(
         height: MediaQuery.of(context).size.height * 0.1,
         child: BottomNavigation(),
@@ -46,19 +59,12 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _onItemTapped(int index) {
+  goToHomePage(BuildContext context) {
+    print('object');
     Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => CartPage()),
-    );
+        context,
+        MaterialPageRoute(
+          builder: (context) => const CartPage(),
+        ));
   }
-}
-
-goToHomePage(BuildContext context) {
-  print('object');
-  Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const CartPage(),
-      ));
 }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/widget/forgot_pass_form.dart';
+import '../../src/constant/colors/theme.dart';
+import '../../src/widget/forgot_pass_form.dart';
+import '../../src/widget/primary_button.dart';
+import 'otp.dart';
 import 'package:mobile_store/login/srceen/otp.dart';
-import '../constant/colors/theme.dart';
-import '../widget/primary_button.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   @override

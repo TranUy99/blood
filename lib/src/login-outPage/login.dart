@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_store/login/srceen/reset_pass.dart';
 import 'package:mobile_store/src/login-outPage/signup.dart';
 import '../constant/colors/theme.dart';
 import '../homePage/screen/home_page.dart';
@@ -41,21 +42,35 @@ class LogInScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CheckBox('Save account'),
-                  // GestureDetector(
-                  //   onTap(){
-                  //     Navigator.push(context, MaterialPageRoute(builder: (context) => ResetPassWordScreen()));
-                  //   },
-                  Text(
-                    'Forgot password?',
-                    style: TextStyle(
-                      color: kZambeziColor,
-                      fontSize: 14,
-                      decoration: TextDecoration.underline,
-                      decorationThickness: 1,
-                    ),
-                  ),
-                  // )
+                  // Text(
+                  //   'Forgot password?',
+                  //   style: TextStyle(
+                  //     color: kZambeziColor,
+                  //     fontSize: 14,
+                  //     decoration: TextDecoration.underline,
+                  //     decorationThickness: 1,
+                  //   ),
+                  // ),
                 ],
+              ),
+            ),
+            GestureDetector(
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ResetPasswordScreen(),
+                  )),
+              child: Padding(
+                padding: kDefaultPadding,
+                child: Text(
+                  'Forgot password?',
+                  style: TextStyle(
+                    color: kZambeziColor,
+                    fontSize: 14,
+                    decoration: TextDecoration.underline,
+                    decorationThickness: 1,
+                  ),
+                ),
               ),
             ),
             const SizedBox(

@@ -37,7 +37,7 @@ class _CheckBoxState extends State<CheckBox> {
                     : null,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 12,
             ),
             Text(widget.text),

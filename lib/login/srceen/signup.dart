@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/login/srceen/login.dart';
-import '../constant/colors/theme.dart';
-import '../widget/checkbox.dart';
-import '../widget/login_option.dart';
-import '../widget/primary_button.dart';
-import '../widget/signup_form.dart';
+import 'package:mobile_store/src/widget/checkbox.dart';
+import 'package:mobile_store/src/widget/login_option.dart';
+import 'package:mobile_store/src/widget/signup_form.dart';
+
+import '../../src/constant/colors/theme.dart';
+import '../../src/widget/primary_button.dart';
 
 class SignUpScreen extends StatelessWidget {
   @override
@@ -16,9 +17,6 @@ class SignUpScreen extends StatelessWidget {
           children: [
             const SizedBox(
               height: 70,
-            ),
-            const Image(
-              image: AssetImage("images/un_login.png"),
             ),
             Padding(
               padding: kDefaultPadding,
@@ -57,7 +55,7 @@ class SignUpScreen extends StatelessWidget {
             Padding(
               padding: kDefaultPadding,
               child: Text(
-                'Or sign in using:',
+                'Or Sign in using:',
                 style: subtitle.copyWith(color: kBlackColor),
               ),
             ),

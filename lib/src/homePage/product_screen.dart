@@ -26,7 +26,7 @@ class _ProductScreenState extends State<ProductScreen> {
           onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ProductDetailScreen(),
+                builder: (context) => const ProductDetailScreen(),
               )),
           child: Container(
             decoration: BoxDecoration(border: Border.all()),

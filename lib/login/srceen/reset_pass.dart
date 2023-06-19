@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/widget/forgot_pass_form.dart';
-import 'package:mobile_store/login/srceen/otp.dart';
-import '../constant/colors/theme.dart';
-import '../widget/primary_button.dart';
+import 'package:mobile_store/login/srceen/login.dart';
+import 'package:mobile_store/src/widget/primary_button.dart';
+import 'package:mobile_store/src/widget/reset_form.dart';
+import '../../src/constant/colors/theme.dart';
 
-class ForgotPasswordScreen extends StatelessWidget {
+class ResetPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,27 +24,28 @@ class ForgotPasswordScreen extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                'Forgot Password',
+                'Reset Password',
                 style: titleText,
               ),
               const SizedBox(
                 height: 10,
               ),
               Text(
-                'Please enter your phone number',
-                style: subtitle.copyWith(fontWeight: FontWeight.w600),
+                'Please enter your new password',
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 10),
-              ForgotPasswordForm(),
+              const SizedBox(height: 8),
+              ResetPasswordForm(),
               const SizedBox(
-                height: 30,
+                height: 40,
               ),
               GestureDetector(
                   onTap: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => OtpScreen()));
+                        MaterialPageRoute(builder: (context) => LogInScreen()));
                   },
-                  child: PrimaryButton(buttonText: 'Send OTP'))
+                  child: PrimaryButton(buttonText: 'Confirm'))
             ],
           ),
         ),
