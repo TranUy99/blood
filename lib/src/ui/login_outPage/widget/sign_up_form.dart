@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../constant/colors/theme.dart';
+import '../../../constant/colors/theme.dart';
 
 Widget buildInputFormSignIn(
     String hint,TextEditingController controller) {
