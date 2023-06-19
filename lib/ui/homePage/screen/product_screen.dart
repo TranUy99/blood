@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/homePage/screen/product_detail_screen.dart';
+import 'package:mobile_store/ui/homePage/screen/product_detail_screen.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({Key? key}) : super(key: key);
@@ -12,9 +12,9 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        childAspectRatio: 0.75,
+        childAspectRatio: 10/16,
         crossAxisCount: 2,
         crossAxisSpacing: 5.0,
         mainAxisSpacing: 5.0,
@@ -29,17 +29,12 @@ class _ProductScreenState extends State<ProductScreen> {
             child: Column(
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.width * 0.45,
+                  height: MediaQuery.of(context).size.height * 0.25,
                   color: Colors.cyanAccent,
                 ),
                 Text('So so long title in this grid view $index'),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Price'),
-                    Text('Sold number $index'),
-                  ],
-                ),
+                Container(child: Text('Price'), width: MediaQuery.of(context).size.width * 1),
+                Text('Sold number $index'),
               ],
             ),
           ),

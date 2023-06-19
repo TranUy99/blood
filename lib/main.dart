@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'login_outPage/login.dart';
+import 'package:mobile_store/ui/login_outPage/screen/login.dart';
 
 void main() {
   runApp(const MyApp());
