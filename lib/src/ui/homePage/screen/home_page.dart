@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/ui/category/screen/category_screen.dart';
 import 'package:mobile_store/src/ui/homePage/screen/product_screen.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../category/screen/category_screen.dart';
 import 'bottom_navigation.dart';
 import 'carousel_slider.dart';
 
@@ -23,15 +22,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   onSelected(BuildContext context, int value) {
-    switch (value){
-      case 0: navigatorPage('Laptop');
-      break;
-      case 1: navigatorPage('PC');
-      break;
-      case 2: navigatorPage('Điện thoại');
-      break;
-      case 3: navigatorPage('Tai nghe');
-      break;
+    switch (value) {
+      case 0:
+        navigatorPage('Laptop');
+        break;
+      case 1:
+        navigatorPage('PC');
+        break;
+      case 2:
+        navigatorPage('Điện thoại');
+        break;
+      case 3:
+        navigatorPage('Tai nghe');
+        break;
     }
   }
 
@@ -39,55 +42,49 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        bottom:  PreferredSize(
-            preferredSize: const Size.fromHeight(50), child: Text(AppLocalizations.of(context)!.homePage)),
-        title: Container(
-          margin:const  EdgeInsets.only(top: 5, bottom: 5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            // mainAxisSize: MainAxisSize.max,
-            children: [
-              PopupMenuButton(
-                onSelected: (value) => onSelected(context, value),
-                offset: Offset(-20, 52),
-                icon: const Icon(
-                  Icons.menu,
-                  color: Colors.white,
-                ),
-                itemBuilder: (context) => [
-                  const PopupMenuItem(
-                    value: 0,
-                    child: Text('Laptop'),
-                  ),
-                  const PopupMenuItem(
-                    value: 1,
-                    child: Text('PC'),
-                  ),
-                  const PopupMenuItem(
-                    value: 2,
-                    child: Text('Điện thoại'),
-                  ),
-                  const PopupMenuItem(
-                    value: 3,
-                    child: Text('Tai nghe'),
-                  ),
-                ],
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            PopupMenuButton(
+              onSelected: (value) => onSelected(context, value),
+              offset: const Offset(-20, 52),
+              icon: const Icon(
+                Icons.menu,
+                color: Colors.white,
               ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.7,
-                child: TextField(
-                  decoration: InputDecoration(
-                    fillColor: Colors.white,
-                    filled: true,
-                    suffixIcon: Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+              itemBuilder: (context) => [
+                const PopupMenuItem(
+                  value: 0,
+                  child: Text('Laptop'),
+                ),
+                const PopupMenuItem(
+                  value: 1,
+                  child: Text('PC'),
+                ),
+                const PopupMenuItem(
+                  value: 2,
+                  child: Text('Điện thoại'),
+                ),
+                const PopupMenuItem(
+                  value: 3,
+                  child: Text('Tai nghe'),
+                ),
+              ],
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.7,
+              child: TextField(
+                decoration: InputDecoration(
+                  fillColor: Colors.white,
+                  filled: true,
+                  suffixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       body: const SingleChildScrollView(
@@ -104,5 +101,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-  
 }

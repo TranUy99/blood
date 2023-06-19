@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/languages/language_contanst.dart';
-import 'src/ui/login_outPage/login.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mobile_store/src/ui/login_outPage/screen/login.dart';
 
 void main() {
   runApp(const MyApp());
