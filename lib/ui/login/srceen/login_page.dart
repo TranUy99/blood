@@ -48,8 +48,19 @@ class _LoginPageState extends State<LoginPage> {
             child: Text("LOG IN", style: TextStyle(fontWeight: FontWeight.bold, color: kPrimaryColor, fontSize: 30),)
             
             ),
-            TextField(
-              decoration: InputDecoration(labelText: "Phone Number", labelStyle: TextStyle(color: kTextFieldColor, fontSize: )),
+            Padding(padding: const EdgeInsets.fromLTRB(0,0,0,40),
+              child:TextField(
+                style: TextStyle(fontSize: 18, color: Colors.black ),
+              decoration: InputDecoration(labelText: "Phone Number", labelStyle: TextStyle(color: kTextFieldColor, fontSize: 15)),
+            ) ,
+            ),
+            Stack(
+              children: <Widget> [
+                Padding(padding: const EdgeInsets.fromLTRB(0,0,0,40),
+                child: TextField(
+                  
+                ),)
+              ],
             )
           ],
         )
