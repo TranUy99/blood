@@ -18,9 +18,7 @@ class MyApp extends StatefulWidget {
   }
 }
 
-
-
- class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> {
   Locale? _locale;
   setLocale(Locale locale) {
     setState(() {
@@ -33,7 +31,6 @@ class MyApp extends StatefulWidget {
     getLocale().then((locale) => {setLocale(locale)});
     super.didChangeDependencies();
   }
-
 
   @override
   Widget build(BuildContext context) {

@@ -8,7 +8,6 @@ import 'package:mobile_store/src/ui/login_outPage/widget/login_form.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/login_option.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/primary_button.dart';
 
-
 class LogInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -43,10 +42,11 @@ class LogInScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CheckBox('Save account'),
-                  // GestureDetector(
-                  //   onTap(){
-                  //     Navigator.push(context, MaterialPageRoute(builder: (context) => ResetPassWordScreen()));
-                  //   },
+                  //   GestureDetector(
+                  //     onTap(){
+                  //       Navigator.push(context, MaterialPageRoute(builder: (context) => ResetPassWordScreen()));
+                  //     },
+                  //  ),
                   Text(
                     'Forgot password?',
                     style: TextStyle(
@@ -64,10 +64,16 @@ class LogInScreen extends StatelessWidget {
               height: 20,
             ),
             GestureDetector(
-              onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage(),)),
+              onTap: () => Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HomePage(),
+                  )),
               child: Padding(
                 padding: kDefaultPadding,
-                child: PrimaryButton(buttonText: 'Log in',),
+                child: PrimaryButton(
+                  buttonText: 'Log in',
+                ),
               ),
             ),
             const SizedBox(
@@ -129,7 +135,11 @@ class LogInScreen extends StatelessWidget {
 
   goToHomePage(BuildContext context) {
     print('object');
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage(),));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomePage(),
+        ));
   }
 }
 
