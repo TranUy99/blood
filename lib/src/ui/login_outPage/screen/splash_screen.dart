@@ -33,7 +33,7 @@ class StartState extends State<SplashScreen> {
 
   route() {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const LogInScreen()));
+        context, MaterialPageRoute(builder: (context) =>  LogInScreen()));
   }
 
   @override

@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_store/src/constant/colors/theme.dart';
+import 'package:mobile_store/src/ui/homePage/screen/home_page.dart';
+import 'package:mobile_store/src/ui/login_outPage/screen/reset_password.dart';
 import 'package:mobile_store/src/ui/login_outPage/screen/signup.dart';
-import 'package:mobile_store/theme.dart';
-
-import '../../homePage/screen/home_page.dart';
-import '../../widget/checkbox.dart';
-import '../../widget/login_form.dart';
-import '../../widget/login_option.dart';
-import '../../widget/primary_button.dart';
+import 'package:mobile_store/src/ui/login_outPage/widget/checkbox.dart';
+import 'package:mobile_store/src/ui/login_outPage/widget/login_form.dart';
+import 'package:mobile_store/src/ui/login_outPage/widget/login_option.dart';
+import 'package:mobile_store/src/ui/login_outPage/widget/primary_button.dart';
 
 
 class LogInScreen extends StatelessWidget {
-  const LogInScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     var scaffold = Scaffold(
@@ -32,7 +30,7 @@ class LogInScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            const Padding(
+            Padding(
               padding: kDefaultPadding,
               child: LogInForm(),
             ),
@@ -67,7 +65,7 @@ class LogInScreen extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage(),)),
-              child: const Padding(
+              child: Padding(
                 padding: kDefaultPadding,
                 child: PrimaryButton(buttonText: 'Log in',),
               ),
@@ -109,7 +107,7 @@ class LogInScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const SignUpScreen()));
+                              builder: (context) => SignUpScreen()));
                     },
                     child: Text(
                       'Register',
@@ -130,11 +128,9 @@ class LogInScreen extends StatelessWidget {
   }
 
   goToHomePage(BuildContext context) {
-     // ignore: avoid_print
-     print('object');
+    print('object');
     Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage(),));
   }
 }
 
-// ignore: non_constant_identifier_names
 ResetPassWordScreen() {}

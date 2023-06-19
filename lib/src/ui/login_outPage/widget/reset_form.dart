@@ -1,36 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/theme.dart';
 
-class LogInForm extends StatefulWidget {
-  const LogInForm({super.key});
+import '../../../constant/colors/theme.dart';
+
+class ResetPasswordForm extends StatefulWidget {
+  const ResetPasswordForm({super.key});
 
   @override
-  _LogInFormState createState() => _LogInFormState();
+  _ResetPasswordFormState createState() => _ResetPasswordFormState();
 }
 
-class _LogInFormState extends State<LogInForm> {
+class _ResetPasswordFormState extends State<ResetPasswordForm> {
   bool _isObscure = true;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        buildInputForm('Phone Number', false),
         buildInputForm('Password', true),
+        buildInputForm('Confirm Password', true),
       ],
     );
   }
 
   Padding buildInputForm(String label, bool pass) {
     return Padding(
-      padding:const EdgeInsets.symmetric(vertical: 5),
+      padding: const EdgeInsets.symmetric(vertical: 5),
       child: TextFormField(
         obscureText: pass ? _isObscure : false,
         decoration: InputDecoration(
             labelText: label,
             labelStyle: const TextStyle(
-               color: kTextFieldColor,
+              color: kTextFieldColor,
             ),
-            focusedBorder:const UnderlineInputBorder(
+            focusedBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: kPrimaryColor),
             ),
             suffixIcon: pass

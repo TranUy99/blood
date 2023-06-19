@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/theme.dart';
+import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/login_outPage/bloc/sign_up_bloc.dart';
 import 'package:mobile_store/src/ui/login_outPage/event/sign_up_event.dart';
 import 'package:mobile_store/src/ui/login_outPage/state/sign_up_state.dart';
-
-import '../../widget/checkbox.dart';
-import '../../widget/login_option.dart';
-import '../../widget/primary_button.dart';
-import '../../widget/signup_form.dart';
+import 'package:mobile_store/src/ui/login_outPage/widget/checkbox.dart';
+import 'package:mobile_store/src/ui/login_outPage/widget/login_option.dart';
+import 'package:mobile_store/src/ui/login_outPage/widget/primary_button.dart';
 import 'login.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -61,9 +59,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.03),
                   child: Column(children: [
-                    buildInputForm('Full name', textNameController),
-                    buildInputForm('Phone number', textPhoneController),
-                    buildInputForm('Email', textEmailController),
+                    // buildInputForm('Full name', textNameController),
+                    // buildInputForm('Phone number', textPhoneController),
+                    // buildInputForm('Email', textEmailController),
                     buildInputFormPassword('Password', textPasswordController),
                     buildInputFormPassword('Confirm Password', textConfirmPasswordController),
                     StreamBuilder<SignUpState>(
@@ -84,7 +82,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   },
                   child: Padding(
                     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
-                    child: PrimaryButton(
+                    child: const PrimaryButton(
                       buttonText: 'Sign up',
                     ),
                   ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/theme.dart';
+import 'package:mobile_store/src/constant/colors/theme.dart';
 
 class CheckBox extends StatefulWidget {
   final String text;
@@ -37,7 +37,7 @@ class _CheckBoxState extends State<CheckBox> {
                     : null,
               ),
             ),
-             const SizedBox(
+            const SizedBox(
               width: 12,
             ),
             Text(widget.text),

@@ -8,7 +8,7 @@ const kWhiteColor = Color(0xFFFFFFFF);
 const kZambeziColor = Color(0xFF5B5B5B);
 const kBlackColor = Color(0xFF272726);
 const kTextFieldColor = Color(0xFF979797);
-
+const kColorSearchBars = Color(0xffd4d181);
 const kDefaultPadding = EdgeInsets.symmetric(horizontal: 30);
 
 TextStyle titleText = const TextStyle(color: kPrimaryColor, fontSize: 32, fontWeight: FontWeight.w700);

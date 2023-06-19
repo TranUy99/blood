@@ -41,13 +41,7 @@ class MyApp extends StatefulWidget {
         debugShowCheckedModeBanner: false,
         title: "Mobile Store",
         theme: ThemeData(fontFamily: 'Poppins'),
-        // home: SplashScreen(),
-         localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            locale: _locale,
-
-        home: const LogInScreen()
-    );
+        home: LogInScreen());
     // home: HomePage());
   }
 }

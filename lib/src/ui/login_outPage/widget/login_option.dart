@@ -49,7 +49,7 @@ class BuildButton extends StatelessWidget {
           Expanded(
             child: iconImage,
           ),
-         const SizedBox(width: 5),
+          const SizedBox(width: 5),
           Expanded(
             child: Text(textButton),
           ),
