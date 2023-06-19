@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/constant/colors/theme.dart';
-import 'package:mobile_store/src/homePage/screen/bottom_navigation.dart';
-import 'package:mobile_store/src/homePage/screen/product_screen.dart';
+
+import '../homePage/screen/bottom_navigation.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({Key? key}) : super(key: key);

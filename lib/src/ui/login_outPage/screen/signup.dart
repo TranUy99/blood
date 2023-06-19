@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/login_outPage/bloc/sign_up_bloc.dart';
 import 'package:mobile_store/src/ui/login_outPage/event/sign_up_event.dart';
-import 'package:mobile_store/src/ui/login_outPage/state/sign_up_state.dart';
+import 'package:mobile_store/src/ui/login_outPage/widget/sign_up_form.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/checkbox.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/login_option.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/primary_button.dart';
+import '../state/sign_up_state.dart';
 import 'login.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -59,11 +60,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.03),
                   child: Column(children: [
-                    // buildInputForm('Full name', textNameController),
-                    // buildInputForm('Phone number', textPhoneController),
-                    // buildInputForm('Email', textEmailController),
-                    buildInputFormPassword('Password', textPasswordController),
-                    buildInputFormPassword('Confirm Password', textConfirmPasswordController),
+                    buildInputFormSignIn('Full name', textNameController),
+                    buildInputFormSignIn('Phone number', textPhoneController),
+                    buildInputFormSignIn('Email', textEmailController),
+                    buildInputFormPassword(hint: 'Password', obscure: obscure, textController: textPasswordController, function: obscureChange(),),
+                    buildInputFormPassword(hint: 'Confirm Password', obscure: obscure, textController: textConfirmPasswordController, function: obscureChange(),),
                     StreamBuilder<SignUpState>(
                       stream: bloc.stateController.stream,
                       initialData: bloc.state,
@@ -135,35 +136,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
-
-  Widget buildInputFormPassword(String hint, TextEditingController controller) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 5),
-      child: TextField(
-        controller: controller,
-        obscureText: obscure,
-        decoration: InputDecoration(
-            hintText: hint,
-            hintStyle: const TextStyle(color: kTextFieldColor),
-            focusedBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: kPrimaryColor)),
-            suffixIcon: IconButton(
-                onPressed: () {
-                  setState(() {
-                    obscure = !obscure;
-                  });
-                },
-                icon: obscure
-                    ? const Icon(
-                        Icons.visibility_off,
-                        color: kPrimaryColor,
-                      )
-                    : const Icon(
-                        Icons.visibility,
-                        color: kPrimaryColor,
-                      ))),
-      ),
-    );
+  Widget obscureChange(){
+    return IconButton(
+        onPressed: () {
+          setState(() {
+            obscure = !obscure;
+          });
+        },
+        icon: obscure
+            ? const Icon(
+          Icons.visibility_off,
+          color: kPrimaryColor,
+        )
+            : const Icon(
+          Icons.visibility,
+          color: kPrimaryColor,
+        ));
   }
 }
 
