@@ -18,9 +18,9 @@ class _CartPageState extends State<CartPage> {
       appBar: AppBar(actions: [
         IconButton(onPressed: () {}, icon: Icon(Icons.shopping_cart)),
         IconButton(onPressed: () {}, icon: Icon(Icons.more_vert)),
-      ], title: Text('Cart Page ')),
+      ], title: const Text('Cart Page ')),
       body: SingleChildScrollView(
-        physics: AlwaysScrollableScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
           children: [
             Container(
