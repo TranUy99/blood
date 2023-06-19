@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/category/screen/category_screen.dart';
-import 'package:mobile_store/homePage/screen/product_screen.dart';
+import 'package:mobile_store/ui/category/screen/category_screen.dart';
+import 'package:mobile_store/ui/homePage/screen/product_screen.dart';
 
 import 'bottom_navigation.dart';
 import 'carousel_slider.dart';

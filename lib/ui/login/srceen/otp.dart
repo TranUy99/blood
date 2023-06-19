@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/login/srceen/reset_pass.dart';
-import 'package:mobile_store/widget/primary_button.dart';
+import 'package:mobile_store/ui/login/srceen/reset_pass.dart';
+import 'package:mobile_store/ui/widget/primary_button.dart';
 import 'package:mobile_store/theme.dart';
 
-import 'package:mobile_store/widget/otp_form.dart';
+import 'package:mobile_store/ui/widget/otp_form.dart';
 
 class OtpScreen extends StatelessWidget {
   @override

@@ -27,6 +27,11 @@ class ProductDetailScreen extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyText1,
           ),
           const SizedBox(height: 16),
+          Text(
+            'Product Price',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+          const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

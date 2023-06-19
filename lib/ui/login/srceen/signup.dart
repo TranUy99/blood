@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:mobile_store/login/srceen/login.dart';
+import 'package:mobile_store/ui/login/srceen/login.dart';
 import 'package:mobile_store/theme.dart';
 
-import 'package:mobile_store/widget/checkbox.dart';
-import 'package:mobile_store/widget/login_option.dart';
-import 'package:mobile_store/widget/primary_button.dart';
-import 'package:mobile_store/widget/signup_form.dart';
+import 'package:mobile_store/ui/widget/checkbox.dart';
+import 'package:mobile_store/ui/widget/login_option.dart';
+import 'package:mobile_store/ui/widget/primary_button.dart';
+import 'package:mobile_store/ui/widget/signup_form.dart';
 
 class SignUpScreen extends StatelessWidget {
   @override

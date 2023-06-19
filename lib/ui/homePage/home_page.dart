@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/category/screen/category_screen.dart';
-import 'package:mobile_store/homePage/screen/product_screen.dart';
+import 'package:mobile_store/ui/category/screen/category_screen.dart';
+import 'package:mobile_store/ui/homePage/screen/product_screen.dart';
 
 import 'bottom_navigation.dart';
 import 'carousel_slider.dart';
@@ -22,15 +22,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   onSelected(BuildContext context, int value) {
-    switch (value){
-      case 0: navigatorPage('Laptop');
-      break;
-      case 1: navigatorPage('PC');
-      break;
-      case 2: navigatorPage('Điện thoại');
-      break;
-      case 3: navigatorPage('Tai nghe');
-      break;
+    switch (value) {
+      case 0:
+        navigatorPage('Laptop');
+        break;
+      case 1:
+        navigatorPage('PC');
+        break;
+      case 2:
+        navigatorPage('Điện thoại');
+        break;
+      case 3:
+        navigatorPage('Tai nghe');
+        break;
     }
   }
 
@@ -103,5 +107,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-  
 }

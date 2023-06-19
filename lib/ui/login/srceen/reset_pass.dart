@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/login/srceen/login.dart';
-import 'package:mobile_store/widget/primary_button.dart';
+import 'package:mobile_store/ui/login/srceen/login.dart';
+import 'package:mobile_store/ui/widget/primary_button.dart';
 import 'package:mobile_store/theme.dart';
 
-import 'package:mobile_store/widget/reset_form.dart';
+import 'package:mobile_store/ui/widget/reset_form.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
   @override

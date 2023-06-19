@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/homePage/screen/product_detail_screen.dart';
+import 'package:mobile_store/ui/homePage/screen/product_detail_screen.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({Key? key}) : super(key: key);
@@ -23,11 +23,7 @@ class _ProductScreenState extends State<ProductScreen> {
       itemCount: 20,
       itemBuilder: (context, index) {
         return InkWell(
-          onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const ProductDetailScreen(),
-              )),
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetailScreen(),)),
           child: Container(
             decoration: BoxDecoration(border: Border.all()),
             child: Column(
@@ -52,3 +48,5 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 }
+
+ 
