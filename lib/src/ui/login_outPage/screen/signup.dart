@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/login_outPage/bloc/sign_up_bloc.dart';
 import 'package:mobile_store/src/ui/login_outPage/event/sign_up_event.dart';
-import 'package:mobile_store/src/ui/login_outPage/widget/sign_up_form.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/checkbox.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/login_option.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/primary_button.dart';
+import 'package:mobile_store/src/ui/login_outPage/widget/sign_up_form.dart';
+
 import '../state/sign_up_state.dart';
 import 'login.dart';
 
@@ -38,7 +40,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
     return listOfRegister;
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,11 +61,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.03),
                   child: Column(children: [
-                    buildInputFormSignIn('Full name', textNameController),
-                    buildInputFormSignIn('Phone number', textPhoneController),
+                    buildInputFormSignIn(AppLocalizations.of(context)!.fullName,
+                        textNameController),
+                    buildInputFormSignIn(
+                        AppLocalizations.of(context)!.phoneNumber,
+                        textPhoneController),
                     buildInputFormSignIn('Email', textEmailController),
-                    buildInputFormPassword(hint: 'Password', obscure: obscure, textController: textPasswordController, function: obscureChange(),),
-                    buildInputFormPassword(hint: 'Confirm Password', obscure: obscure, textController: textConfirmPasswordController, function: obscureChange(),),
+                    buildInputFormPassword(
+                      hint: AppLocalizations.of(context)!.password,
+                      obscure: obscure,
+                      textController: textPasswordController,
+                      function: obscureChange(),
+                    ),
+                    buildInputFormPassword(hint: AppLocalizations.of(context)!.confirmPassword, obscure: obscure, textController: textConfirmPasswordController, function: obscureChange(),),
                     StreamBuilder<SignUpState>(
                       stream: bloc.stateController.stream,
                       initialData: bloc.state,
@@ -75,11 +84,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
-                  child: const CheckBox('Agree to term and conditions.'),
+                  child: CheckBox('${AppLocalizations.of(context)?.agreeToTermAndConditions}.'),
                 ),
                 GestureDetector(
                   onTap: () {
-                    return bloc.eventSignUpController.sink.add(SignUpEvent(registerList()));
+                    if(textPasswordController.text == textConfirmPasswordController.text){
+                      return bloc.eventSignUpController.sink.add(SignUpEvent(registerList()));
+                    }else{
+
+                    }
                   },
                   child: Padding(
                     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
@@ -91,7 +104,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Padding(
                   padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
                   child: Text(
-                    'Or Sign in using:',
+                    '${AppLocalizations.of(context)!.orSignInUsing}:',
                     style: subtitle.copyWith(color: kBlackColor),
                   ),
                 ),
@@ -105,7 +118,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Already have an account?',
+                        '${AppLocalizations.of(context)!.alreadyHaveAnAccount}?',
                         style: subtitle,
                       ),
                       SizedBox(
@@ -119,7 +132,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   builder: (context) => LogInScreen()));
                         },
                         child: Text(
-                          'Log In',
+                          AppLocalizations.of(context)!.logIn,
                           style: textButton.copyWith(
                             decoration: TextDecoration.underline,
                             decorationThickness: 1,

@@ -39,6 +39,7 @@ class _buildInputFormPasswordState extends State<buildInputFormPassword> {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 5),
       child: TextField(
+
         controller: widget.textController,
         obscureText: widget.obscure,
         decoration: InputDecoration(

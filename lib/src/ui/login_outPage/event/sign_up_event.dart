@@ -1,5 +1,3 @@
-
-
 abstract class SignUpRemoteEvent{}
 
 class SignUpEvent extends SignUpRemoteEvent{
