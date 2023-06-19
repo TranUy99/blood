@@ -1,125 +1,139 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/login_outPage/forgot_pass.dart';
-import 'package:mobile_store/login_outPage/sign_up.dart';
-
+import 'package:mobile_store/src/ui/homePage/screen/home_page.dart';
+import 'package:mobile_store/src/ui/login_outPage/sign_up.dart';
 import 'package:mobile_store/theme.dart';
-import 'package:mobile_store/widget/checkbox.dart';
-import 'package:mobile_store/widget/login_form.dart';
-import 'package:mobile_store/widget/login_option.dart';
-import 'package:mobile_store/widget/primary_button.dart';
 
-
+import '../../../widget/checkbox.dart';
+import '../../../widget/login_form.dart';
+import '../../../widget/login_option.dart';
+import '../../../widget/primary_button.dart';
 
 class LogInScreen extends StatelessWidget {
   const LogInScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: kDefaultPadding,
-        child: SingleChildScrollView(
-          child:
-            Column(crossAxisAlignment: CrossAxisAlignment.center, 
-            children: [
+    var scaffold = Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
             const SizedBox(
-              height: 120,
+              height: 70,
             ),
-            const Image(
-              image: AssetImage("images/un_login.png"),
+            Padding(
+              padding: kDefaultPadding,
+              child: Text(
+                'LOGIN',
+                style: titleText,
+              ),
             ),
-            Text(
-              'LOGIN',
-              style: titleText,
-            ),
-           const SizedBox(
-              height: 5,
-            ),
-           const SizedBox(
-              width: 10,
-            ),
-            const LogInForm(),
             const SizedBox(
               height: 20,
             ),
-            Padding(
+            const Padding(
+              padding: kDefaultPadding,
+              child: LogInForm(),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            const Padding(
               padding: kDefaultPadding,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const CheckBox('Save account'),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ForgotPasswordScreen()));
-                    },
-                    child:const  Text(
-                      'Forgot password?',
-                      style: TextStyle(
-                        color: kZambeziColor,
-                        fontSize: 14,
-                        decoration: TextDecoration.underline,
-                        decorationThickness: 1,
-                      ),
+                  CheckBox('Save account'),
+                  // GestureDetector(
+                  //   onTap(){
+                  //     Navigator.push(context, MaterialPageRoute(builder: (context) => ResetPassWordScreen()));
+                  //   },
+                  Text(
+                    'Forgot password?',
+                    style: TextStyle(
+                      color: kZambeziColor,
+                      fontSize: 14,
+                      decoration: TextDecoration.underline,
+                      decorationThickness: 1,
                     ),
                   ),
+                  // )
                 ],
               ),
             ),
             const SizedBox(
               height: 20,
             ),
-            const PrimaryButton(
-              buttonText: 'Log in',
+            GestureDetector(
+              onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage(),)),
+              child: const Padding(
+                padding: kDefaultPadding,
+                child: PrimaryButton(buttonText: 'Log in',),
+              ),
             ),
             const SizedBox(
               height: 20,
             ),
-            Text(
-              'Or sign in using:',
-              style: subtitle.copyWith(color: kBlackColor),
+            Padding(
+              padding: kDefaultPadding,
+              child: Text(
+                'Or Log in with:',
+                style: subtitle.copyWith(color: kBlackColor),
+              ),
             ),
-          const  SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            LoginOption(),
-           const SizedBox(
+            Padding(
+              padding: kDefaultPadding,
+              child: LoginOption(),
+            ),
+            const SizedBox(
               height: 20,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Don\'t have an account?',
-                  style: subtitle,
-                ),
-               const  SizedBox(
-                  width: 5,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>const  SignUpScreen(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'Register',
-                    style: textButton.copyWith(
-                      decoration: TextDecoration.underline,
-                      decorationThickness: 1,
-                    ),
+            Padding(
+              padding: kDefaultPadding,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Don\'t have an account?',
+                    style: subtitle,
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SignUpScreen()));
+                    },
+                    child: Text(
+                      'Register',
+                      style: textButton.copyWith(
+                        decoration: TextDecoration.underline,
+                        decorationThickness: 1,
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
-          ]),
+          ],
         ),
       ),
     );
+    return scaffold;
+  }
+
+  goToHomePage(BuildContext context) {
+     // ignore: avoid_print
+     print('object');
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage(),));
   }
 }
+
+// ignore: non_constant_identifier_names
+ResetPassWordScreen() {}

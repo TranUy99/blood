@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/login_outPage/reset_password.dart';
+import 'package:mobile_store/src/ui/login_outPage/reset_password.dart';
 
 import 'package:mobile_store/theme.dart';
 import 'package:mobile_store/widget/primary_button.dart';
 
-import '../widget/otp_form.dart';
+import '../../../widget/otp_form.dart';
 
 class OtpScreen extends StatelessWidget {
   const OtpScreen({super.key});

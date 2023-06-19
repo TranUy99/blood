@@ -1,8 +1,6 @@
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
 
 class CarouselSliderBanner extends StatefulWidget {
   const CarouselSliderBanner({Key? key}) : super(key: key);
@@ -16,7 +14,7 @@ class _CarouselSliderBannerState extends State<CarouselSliderBanner> {
     const Image(image: AssetImage('images/banner0.jpg'), fit: BoxFit.fill),
     const Image(image: AssetImage('images/banner1.jpg'), fit: BoxFit.fill),
     const Image(image: AssetImage('images/banner2.gif'), fit: BoxFit.fill),
-    const Image(image: AssetImage('images/banner3.web'), fit: BoxFit.fill)
+    const Image(image: AssetImage('images/banner1.jpg'), fit: BoxFit.fill)
   ];
   int activeIndex = 0;
 

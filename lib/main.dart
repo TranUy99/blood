@@ -1,15 +1,40 @@
 import 'package:flutter/material.dart';
-
-import 'login_outPage/login.dart';
+import 'package:mobile_store/languages/language_contanst.dart';
+import 'src/ui/login_outPage/login.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+  static void setLocale(BuildContext context, Locale newLocale) {
+    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
+    state?.setLocale(newLocale);
+  }
+}
+
+
+
+ class _MyAppState extends State<MyApp> {
+  Locale? _locale;
+  setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    getLocale().then((locale) => {setLocale(locale)});
+    super.didChangeDependencies();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,6 +42,10 @@ class MyApp extends StatelessWidget {
         title: "Mobile Store",
         theme: ThemeData(fontFamily: 'Poppins'),
         // home: SplashScreen(),
+         localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            locale: _locale,
+
         home: const LogInScreen()
     );
     // home: HomePage());

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/category/screen/category_screen.dart';
-import 'package:mobile_store/homePage/screen/product_screen.dart';
+import 'package:mobile_store/src/ui/category/screen/category_screen.dart';
+import 'package:mobile_store/src/ui/homePage/screen/product_screen.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'bottom_navigation.dart';
 import 'carousel_slider.dart';
 
@@ -38,8 +39,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        bottom: const PreferredSize(
-            preferredSize: Size.fromHeight(50), child: Text('Hehe')),
+        bottom:  PreferredSize(
+            preferredSize: const Size.fromHeight(50), child: Text(AppLocalizations.of(context)!.homePage)),
         title: Container(
           margin:const  EdgeInsets.only(top: 5, bottom: 5),
           child: Row(
@@ -48,7 +49,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               PopupMenuButton(
                 onSelected: (value) => onSelected(context, value),
-                offset: const Offset(-20, 52),
+                offset: Offset(-20, 52),
                 icon: const Icon(
                   Icons.menu,
                   color: Colors.white,
@@ -72,13 +73,13 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-              SizedBox(
+              Container(
                 width: MediaQuery.of(context).size.width * 0.7,
                 child: TextField(
                   decoration: InputDecoration(
                     fillColor: Colors.white,
                     filled: true,
-                    suffixIcon: const Icon(Icons.search),
+                    suffixIcon: Icon(Icons.search),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -97,7 +98,7 @@ class _HomePageState extends State<HomePage> {
           ]),
         ),
       ),
-      bottomNavigationBar: SizedBox(
+      bottomNavigationBar: Container(
         height: MediaQuery.of(context).size.height * 0.1,
         child: const BottomNavigation(),
       ),

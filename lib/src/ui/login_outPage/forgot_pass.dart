@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:mobile_store/login_outPage/otp.dart';
+import 'package:mobile_store/src/ui/login_outPage/otp.dart';
 
 import 'package:mobile_store/theme.dart';
 import 'package:mobile_store/widget/forgot_pass_form.dart';
 
 
-import '../widget/primary_button.dart';
+import '../../../widget/primary_button.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   const ForgotPasswordScreen({super.key});
