@@ -31,7 +31,7 @@ class _SignUpFormState extends State<SignUpForm> {
           hintText: hint,
           hintStyle: const TextStyle(color: kTextFieldColor),
           focusedBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: kPrimaryColor)),
+              borderSide: BorderSide(color: kGreenColor)),
           suffixIcon: pass
               ? IconButton(
                   onPressed: () {
@@ -46,7 +46,7 @@ class _SignUpFormState extends State<SignUpForm> {
                         )
                       : const Icon(
                           Icons.visibility,
-                          color: kPrimaryColor,
+                          color: kGreenColor,
                         ))
               : null,
         ),

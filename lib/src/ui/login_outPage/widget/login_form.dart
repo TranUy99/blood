@@ -32,7 +32,7 @@ class _LogInFormState extends State<LogInForm> {
                color: kTextFieldColor,
             ),
             focusedBorder:const UnderlineInputBorder(
-              borderSide: BorderSide(color: kPrimaryColor),
+              borderSide: BorderSide(color: kGreenColor),
             ),
             suffixIcon: pass
                 ? IconButton(
@@ -48,7 +48,7 @@ class _LogInFormState extends State<LogInForm> {
                           )
                         : const Icon(
                             Icons.visibility,
-                            color: kPrimaryColor,
+                            color: kGreenColor,
                           ))
                 : null),
       ),

@@ -14,7 +14,7 @@ class OtpForm extends StatelessWidget {
             hintText: 'OTP',
             hintStyle: TextStyle(color: kTextFieldColor),
             focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: kPrimaryColor))),
+                borderSide: BorderSide(color: kGreenColor))),
       ),
     );
   }

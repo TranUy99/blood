@@ -20,7 +20,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
         }),
         selectedIndex: index,
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.home_outlined), label: 'Home', selectedIcon: Icon(Icons.home)),
+          NavigationDestination(icon: Icon(Icons.home_outlined), label: 'Home', selectedIcon: Icon(Icons.home_outlined)),
           NavigationDestination(icon: Icon(Icons.shopping_cart_outlined), label: 'Cart', selectedIcon: Icon(Icons.shopping_cart)),
           NavigationDestination(icon: Icon(Icons.account_circle_outlined), label: 'Me', selectedIcon: Icon(Icons.account_circle))
         ],

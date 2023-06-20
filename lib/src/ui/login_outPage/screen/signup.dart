@@ -146,7 +146,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             hintText: hint,
             hintStyle: const TextStyle(color: kTextFieldColor),
             focusedBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: kPrimaryColor)),
+                borderSide: BorderSide(color: kGreenColor)),
             suffixIcon: IconButton(
                 onPressed: () {
                   setState(() {
@@ -156,11 +156,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 icon: obscure
                     ? const Icon(
                         Icons.visibility_off,
-                        color: kPrimaryColor,
+                        color: kGreenColor,
                       )
                     : const Icon(
                         Icons.visibility,
-                        color: kPrimaryColor,
+                        color: kGreenColor,
                       ))),
       ),
     );
