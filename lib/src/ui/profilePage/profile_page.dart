@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/constant/colors/theme.dart';
 
 import '../homePage/screen/bottom_navigation.dart';
 

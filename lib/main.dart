@@ -38,6 +38,9 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         title: "Mobile Store",
         theme: ThemeData(fontFamily: 'Poppins'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: _locale,
         home: LogInScreen());
     // home: HomePage());
   }

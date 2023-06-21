@@ -1,5 +1,13 @@
 {
-     "homePage": "Trang chu",
-  "personalInformation": "Personal Information"
-
+    "homePage": "Trang chu",
+    "personalInformation": "Thông tin cá nhân",
+    "fullName": "Họ và tên",
+    "phoneNumber": "Số điện thoại",
+    "password": "Mật khẩu",
+    "confirmPassword": "Xác thực mật khẩu",
+    "signUp": "Đăng kí",
+    "logIn": "Đăng nhập",
+    "agreeToTermAndConditions": "Đồng ý với điều khoản và điều kiện",
+    "orSignInUsing": "Hoặc đang nhập bằng",
+    "alreadyHaveAnAccount": "Đã có tài khoản"
 }
