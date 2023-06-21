@@ -13,5 +13,16 @@
   "reviewOfCustomerBoughtTheProduct": "Review of customer bought the product",
   "close": "Close",
   "seeMore": "See more",
+  "homePage": "Home Page",
+  "personalInformation": "Personal Information",
+  "fullName": "Full name",
+  "phoneNumber": "Phone number",
+  "password": "Password",
+  "confirmPassword": "Confirm Password",
+  "signUp": "Sign up",
+  "logIn": "Log In",
+  "agreeToTermAndConditions": "Agree to term and conditions",
+  "orSignInUsing": "Or Sign in using",
+  "alreadyHaveAnAccount": "Already have an account",
   "logout": "Log out"
 }
