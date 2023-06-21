@@ -1,24 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/ui/homePage/home_page.dart';
-//import 'package:mobile_store/ui/login/srceen/login.dart';
-import 'package:mobile_store/ui/login/srceen/login_page.dart';
+import 'package:mobile_store/languages/language_contanst.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mobile_store/src/ui/login_outPage/screen/login.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+  static void setLocale(BuildContext context, Locale newLocale) {
+    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
+    state?.setLocale(newLocale);
+  }
+}
+
+
+
+ class _MyAppState extends State<MyApp> {
+  Locale? _locale;
+  setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    getLocale().then((locale) => {setLocale(locale)});
+    super.didChangeDependencies();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "Mobile Store",
         theme: ThemeData(fontFamily: 'Poppins'),
-        // home: SplashScreen(),
-        home: LoginPage());
-        //home: HomePage());
+        home: LogInScreen());
+    // home: HomePage());
   }
 }
