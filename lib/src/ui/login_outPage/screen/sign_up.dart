@@ -28,8 +28,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController textPasswordController = TextEditingController();
   TextEditingController textConfirmPasswordController = TextEditingController();
   bool obscure = true;
-  final bloc = SignUpBloc();
+  SignUpBloc signUpBloc = SignUpBloc();
   SharedTextPasswordBloc sharedTextBloc = SharedTextPasswordBloc();
+
 
   List<String> registerList() {
     List<TextEditingController> textEditingControllerList = [
@@ -105,13 +106,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       sharedTextPasswordBloc: sharedTextBloc,
                       isConfirm: true,
                     ),
-                    StreamBuilder<SignUpState>(
-                      stream: bloc.stateController.stream,
-                      initialData: bloc.state,
-                      builder: (context, snapshot) {
-                        return Text(snapshot.data!.onUpdated.join(', '));
-                      },
-                    )
                   ]),
                 ),
                 Padding(
@@ -126,10 +120,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Validate.invalidateEmail(registerList()[2]) == false &&
                         Validate.checkInvalidateNewPassword(registerList()[3]) == false &&
                         Validate.checkNotEqualNewPassword(registerList()[3], registerList()[4]) == false){
-                      bloc.eventSignUpController.sink.add(SignUpEvent(registerList()));
+                      signUpBloc.updateInformation(registerList());
+                      signUpBloc.signUp();
                     }else{
                       showTopSnackBar(Overlay.of(context), CustomSnackBar.error(message: 'Invalid information'));
                     }
+
                   },
                   child: Padding(
                     padding: EdgeInsets.only(
@@ -139,6 +135,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                 ),
+                ElevatedButton(onPressed: () => signUpBloc.signUp(), child: Text('test')),
                 Padding(
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.03),

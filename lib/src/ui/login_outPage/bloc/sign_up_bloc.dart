@@ -6,17 +6,18 @@ import 'package:rxdart/rxdart.dart';
 import '../event/sign_up_event.dart';
 import '../state/sign_up_state.dart';
 
-class SignUpBloc{
-  var state = SignUpState([]);
-  final eventSignUpController = StreamController<SignUpEvent>();
-  final stateController = StreamController<SignUpState>();
-  SignUpBloc(){
-    eventSignUpController.stream.listen((event) {
-      state = SignUpState(event.saveInformation);
-      stateController.sink.add(state);
-    });
+class SignUpBloc {
+  late List<String> _registerList;
+  void updateInformation(List<String> registerList) {
+    _registerList = registerList;
+  }
+  void signUp() {
+    // Perform registration logic here
+    // You can use the _email and _password variables to submit the registration data
+    print(_registerList.join(', '));
   }
 }
+
 
 class SharedTextPasswordBloc extends ChangeNotifier {
   final _textFieldController = BehaviorSubject<String>();
