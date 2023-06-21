@@ -1,79 +1,127 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/ui/login_outPage/bloc/sign_up_bloc.dart';
-import 'package:mobile_store/src/ui/login_outPage/event/sign_up_event.dart';
-import 'package:mobile_store/src/ui/login_outPage/state/sign_up_state.dart';
-import 'package:provider/provider.dart';
+import 'package:mobile_store/src/ui/login_outPage/validate.dart';
 
 import '../../../constant/colors/theme.dart';
-import '../validate.dart';
 
-Widget buildInputFormSignIn(String hint, TextEditingController controller) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 5),
-    child: TextField(
-
-      controller: controller,
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: const TextStyle(color: kTextFieldColor),
-        focusedBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(color: kPrimaryColor)),
-      ),
-    ),
-  );
-}
-
-class buildInputFormPassword extends StatefulWidget {
-  const buildInputFormPassword(
+class BuildInputFormSignIn extends StatefulWidget {
+  const BuildInputFormSignIn(
       {Key? key,
-      required this.hint,
-      required this.obscure,
       required this.textController,
-      required this.isObscure, required this.isConfirm, required this.haha, required this.provider})
+      required this.hint, required this.validationType})
       : super(key: key);
   final TextEditingController textController;
   final String hint;
-  final bool obscure;
-  final Widget isObscure;
-  final bool isConfirm;
-  final String haha;
-  final SharedTextPasswordBloc provider;
+  final int validationType;
 
   @override
-  State<buildInputFormPassword> createState() => _buildInputFormPasswordState();
+  State<BuildInputFormSignIn> createState() => _BuildInputFormSignInState();
 }
 
-class _buildInputFormPasswordState extends State<buildInputFormPassword> {
+class _BuildInputFormSignInState extends State<BuildInputFormSignIn> {
   bool error = false;
-  final bloc = OnChangePasswordBloc();
+  String errorText = '';
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 5),
-      child: StreamBuilder<OnChangePasswordState>(
-        stream: bloc.stateOnChangePasswordController.stream,
-        builder: (context, snapshot) {
-          String passwordState = snapshot.data?.onChangePasswordState ?? '';
-          return TextField(
-            onTap: () {
-              print(widget.provider.sharedText);
-            },
-            onChanged: (value) => widget.provider.sharedText = value,
-            controller: widget.textController,
-            obscureText: widget.obscure,
-            decoration: InputDecoration(
-              errorText: error? 'haah': null,
-                hintText: widget.hint,
-                hintStyle: const TextStyle(color: kTextFieldColor),
-                focusedBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: kPrimaryColor)),
-                suffixIcon: widget.isObscure),
-          );
-        }
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: TextField(
+        onChanged: (value) {
+          setState(() {
+            if(widget.validationType == 0 && Validate.validFullName(value)){
+              error = true;
+              errorText = 'Invalid name';
+            }else if(widget.validationType == 1 && Validate.invalidateMobile(value)){
+              error = true;
+              errorText = 'Invalid phone number';
+            } else if(widget.validationType == 2 && Validate.invalidateEmail(value)){
+              error = true;
+              errorText = 'Invalid email';
+            } else{
+              error = false;
+            }
+          });
+        },
+        controller: widget.textController,
+        decoration: InputDecoration(
+          errorText: error ? errorText: null,
+          hintText: widget.hint,
+          hintStyle: const TextStyle(color: kTextFieldColor),
+          focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: kGreenColor)),
+        ),
       ),
     );
   }
 }
 
 
+class BuildInputFormPassword extends StatefulWidget {
+  BuildInputFormPassword(
+      {Key? key,
+        required this.hint,
+      required this.obscure,
+      required this.textController,
+      required this.function,
+      required this.sharedTextPasswordBloc,
+      required this.isConfirm})
+      : super(key: key);
+  final TextEditingController textController;
+  final String hint;
+  late final bool obscure;
+  final Widget function;
+  final SharedTextPasswordBloc sharedTextPasswordBloc;
+  final bool isConfirm;
+  @override
+  State<BuildInputFormPassword> createState() => _BuildInputFormPasswordState();
+}
+
+class _BuildInputFormPasswordState extends State<BuildInputFormPassword> {
+  bool error = false;
+  String errorText = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 5),
+      child: StreamBuilder<String>(
+        stream: widget.sharedTextPasswordBloc.textFieldStream,
+        builder: (context, snapshot) {
+          return TextField(
+            onTap: () => print(snapshot.data),
+            onChanged: (value) {
+              setState(() {
+                if(widget.isConfirm == false){
+                  if(Validate.checkInvalidateNewPassword(value)){
+                    error = true;
+                    errorText = 'Invalid password';
+                  }else{
+                    error = false;
+                    widget.sharedTextPasswordBloc.updateTextField(value);
+                  }
+                }else{
+                  if(Validate.checkNotEqualNewPassword(snapshot.data ?? '', value)){
+                    error = true;
+                    errorText = 'Invalid confirm password';
+                  }else{
+                    error = false;
+                  }
+                }
+              });
+            },
+            controller: widget.textController,
+            obscureText: widget.obscure,
+            decoration: InputDecoration(
+              errorText: error ? errorText : null,
+                hintText: widget.hint,
+                hintStyle: const TextStyle(color: kTextFieldColor),
+                focusedBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: kGreenColor)),
+                suffixIcon: widget.function),
+          );
+        }
+      ),
+    );
+  }
+}

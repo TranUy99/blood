@@ -32,7 +32,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
               color: kTextFieldColor,
             ),
             focusedBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: kPrimaryColor),
+              borderSide: BorderSide(color: kGreenColor),
             ),
             suffixIcon: pass
                 ? IconButton(
@@ -48,7 +48,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                           )
                         : const Icon(
                             Icons.visibility,
-                            color: kPrimaryColor,
+                            color: kGreenColor,
                           ))
                 : null),
       ),

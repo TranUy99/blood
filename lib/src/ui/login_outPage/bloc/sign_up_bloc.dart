@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../event/sign_up_event.dart';
 import '../state/sign_up_state.dart';
@@ -17,24 +18,13 @@ class SignUpBloc{
   }
 }
 
-class OnChangePasswordBloc{
-  var state = OnChangePasswordState('');
-  final eventOnChangePasswordController = StreamController<OnChangePasswordEvent>();
-  final stateOnChangePasswordController = StreamController<OnChangePasswordState>();
-  OnChangePasswordBloc(){
-    eventOnChangePasswordController.stream.listen((event) {
-      state = OnChangePasswordState(event.onChangePasswordEvent);
-      stateOnChangePasswordController.sink.add(state);
-    });
-  }
-}
-
 class SharedTextPasswordBloc extends ChangeNotifier {
-  String _sharedText = '';
-  String get sharedText => _sharedText;
-
-  set sharedText(String value) {
-    _sharedText = value;
-    notifyListeners();
+  final _textFieldController = BehaviorSubject<String>();
+  Stream<String> get textFieldStream => _textFieldController.stream;
+  void updateTextField(String value) {
+    _textFieldController.add(value);
+  }
+  void dispose() {
+    _textFieldController.close();
   }
 }

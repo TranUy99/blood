@@ -2,27 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/login_outPage/bloc/sign_up_bloc.dart';
+import 'package:mobile_store/src/ui/login_outPage/event/sign_up_event.dart';
+import 'package:mobile_store/src/ui/login_outPage/validate.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/checkbox.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/login_option.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/primary_button.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/sign_up_form.dart';
-import 'package:provider/provider.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-import '../event/sign_up_event.dart';
 import '../state/sign_up_state.dart';
-import 'login.dart';
 
-class SignUpProvider extends StatelessWidget {
-  const SignUpProvider({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(providers: [
-      ChangeNotifierProvider(create: (_) => SharedTextPasswordBloc(),)
-    ],
-      child: const SignUpScreen(),);
-  }
-}
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -39,13 +29,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController textConfirmPasswordController = TextEditingController();
   bool obscure = true;
   final bloc = SignUpBloc();
+  SharedTextPasswordBloc sharedTextBloc = SharedTextPasswordBloc();
 
   List<String> registerList() {
     List<TextEditingController> textEditingControllerList = [
       textNameController,
       textPhoneController,
       textEmailController,
-      textPasswordController
+      textPasswordController,
+      textConfirmPasswordController,
     ];
     List<String> listOfRegister = [];
     for (TextEditingController controllers in textEditingControllerList) {
@@ -53,21 +45,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
     return listOfRegister;
   }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    sharedTextBloc.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final sharedTextPasswordBloc = SharedTextPasswordBloc();
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.05),
             child: Column(
               children: [
                 Padding(
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.04),
                   child: Text(
-                    'Register',
+                    'REGISTER',
                     style: titleText,
                   ),
                 ),
@@ -75,62 +75,86 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.03),
                   child: Column(children: [
-                    buildInputFormSignIn(
-                        AppLocalizations.of(context)!.fullName,
-                        textNameController),
-                    buildInputFormSignIn(
-                        AppLocalizations.of(context)!.phoneNumber,
-                        textPhoneController),
-                    buildInputFormSignIn(
-                        'Email', textEmailController),
-                    buildInputFormPassword(
-                        hint: AppLocalizations.of(context)!.password,
-                        obscure: obscure,
-                        textController: textPasswordController,
-                        isObscure: obscureChange(), isConfirm: false, haha: registerList()[3], provider: sharedTextPasswordBloc),
-                    buildInputFormPassword(
-                        hint: AppLocalizations.of(context)!.confirmPassword,
-                        obscure: obscure,
-                        textController: textConfirmPasswordController,
-                        isObscure: obscureChange(), isConfirm: true, haha: registerList()[3], provider: sharedTextPasswordBloc),
+                    BuildInputFormSignIn(
+                      hint: AppLocalizations.of(context)!.fullName,
+                      textController: textNameController,
+                      validationType: 0,
+                    ),
+                    BuildInputFormSignIn(
+                        hint: AppLocalizations.of(context)!.phoneNumber,
+                        textController: textPhoneController,
+                        validationType: 1),
+                    BuildInputFormSignIn(
+                      hint: 'Email',
+                      textController: textEmailController,
+                      validationType: 2,
+                    ),
+                    BuildInputFormPassword(
+                      hint: 'Password',
+                      obscure: obscure,
+                      textController: textPasswordController,
+                      function: obscureChange(),
+                      sharedTextPasswordBloc: sharedTextBloc,
+                      isConfirm: false,
+                    ),
+                    BuildInputFormPassword(
+                      hint: 'Confirm Password',
+                      obscure: obscure,
+                      textController: textConfirmPasswordController,
+                      function: obscureChange(),
+                      sharedTextPasswordBloc: sharedTextBloc,
+                      isConfirm: true,
+                    ),
                     StreamBuilder<SignUpState>(
                       stream: bloc.stateController.stream,
                       initialData: bloc.state,
                       builder: (context, snapshot) {
                         return Text(snapshot.data!.onUpdated.join(', '));
-                      },)
+                      },
+                    )
                   ]),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
-                  child: CheckBox('${AppLocalizations.of(context)?.agreeToTermAndConditions}.'),
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.02),
+                  child: const CheckBox('Agree to term and conditions.'),
                 ),
                 GestureDetector(
                   onTap: () {
-                    // if(textPasswordController.text == textConfirmPasswordController.text){
+                    if(Validate.validFullName(registerList()[0]) == false &&
+                        Validate.invalidateMobile(registerList()[1]) == false &&
+                        Validate.invalidateEmail(registerList()[2]) == false &&
+                        Validate.checkInvalidateNewPassword(registerList()[3]) == false &&
+                        Validate.checkNotEqualNewPassword(registerList()[3], registerList()[4]) == false){
                       bloc.eventSignUpController.sink.add(SignUpEvent(registerList()));
-                    // }
+                    }else{
+                      showTopSnackBar(Overlay.of(context), CustomSnackBar.error(message: 'Invalid information'));
+                    }
                   },
                   child: Padding(
-                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.02),
                     child: const PrimaryButton(
                       buttonText: 'Sign up',
                     ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.03),
                   child: Text(
                     '${AppLocalizations.of(context)!.orSignInUsing}:',
                     style: subtitle.copyWith(color: kBlackColor),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.03),
                   child: LoginOption(),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.02),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -163,7 +187,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
-  Widget obscureChange(){
+
+  Widget obscureChange() {
     return IconButton(
         onPressed: () {
           setState(() {
@@ -172,13 +197,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
         },
         icon: obscure
             ? const Icon(
-          Icons.visibility_off,
-          color: kPrimaryColor,
-        )
+                Icons.visibility_off,
+                color: kGreenColor,
+              )
             : const Icon(
-          Icons.visibility,
-          color: kPrimaryColor,
-        ));
+                Icons.visibility,
+                color: kGreenColor,
+              ));
   }
 }
-
