@@ -23,8 +23,8 @@ class ProductBloc {
       ProductDTO(
         id: 3,
         name: 'IPhone 14 Pro1',
-        price: '1099 USD',
-        image: 'images/iphone14.jpg',
+        price: '2000 USD',
+        image: 'images/iphone.png',
       )
     ];
     _productListController.add(products);

@@ -5,7 +5,6 @@ import 'package:mobile_store/src/ui/detail_product/widget/another_product.dart';
 import 'package:mobile_store/src/ui/detail_product/widget/configuration_product.dart';
 import 'package:mobile_store/src/ui/detail_product/widget/product_information.dart';
 import 'package:mobile_store/src/ui/detail_product/widget/review_product.dart';
-
 import 'package:mobile_store/src/ui/homePage/widget/custom_app_bar.dart';
 import 'package:mobile_store/src/ui/detail_product/widget/image_product.dart';
 import 'package:mobile_store/src/ui/detail_product/widget/name_product.dart';
