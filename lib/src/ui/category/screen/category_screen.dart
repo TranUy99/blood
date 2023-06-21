@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class CategoryScreen extends StatefulWidget {
   final String categoryType;
-  const CategoryScreen({Key? key, required this.categoryType}) : super(key: key);
+  const CategoryScreen({Key? key, required this.categoryType})
+      : super(key: key);
 
   @override
   State<CategoryScreen> createState() => _CategoryScreenState();

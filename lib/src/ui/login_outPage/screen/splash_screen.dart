@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'login.dart';
 
 void main() {
-  runApp( const SplashScreen());
+  runApp(const SplashScreen());
 }
 
 class SplashScreen extends StatefulWidget {
@@ -33,7 +33,7 @@ class StartState extends State<SplashScreen> {
 
   route() {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) =>  LogInScreen()));
+        context, MaterialPageRoute(builder: (context) => LogInScreen()));
   }
 
   @override
@@ -46,9 +46,9 @@ class StartState extends State<SplashScreen> {
       body: Stack(
         children: [
           Container(
-            decoration:const  BoxDecoration(
+            decoration: const BoxDecoration(
                 color: Color(0xffF5591F),
-                gradient:  LinearGradient(colors: [
+                gradient: LinearGradient(colors: [
                   (Color.fromARGB(255, 240, 241, 241)),
                   (Color.fromARGB(255, 237, 242, 243))
                 ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
