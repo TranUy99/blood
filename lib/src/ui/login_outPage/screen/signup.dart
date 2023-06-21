@@ -75,14 +75,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.03),
                   child: Column(children: [
-                    // buildInputFormSignIn(
-                    //     AppLocalizations.of(context)!.fullName,
-                    //     textNameController),
-                    // BuildInputForm(
-                    //     hint: AppLocalizations.of(context)!.phoneNumber,
-                    //     textController: textPhoneController),
-                    // BuildInputForm(
-                    //     hint: 'Email', textController: textEmailController),
+                    buildInputFormSignIn(
+                        AppLocalizations.of(context)!.fullName,
+                        textNameController),
+                    buildInputFormSignIn(
+                        AppLocalizations.of(context)!.phoneNumber,
+                        textPhoneController),
+                    buildInputFormSignIn(
+                        'Email', textEmailController),
                     buildInputFormPassword(
                         hint: AppLocalizations.of(context)!.password,
                         obscure: obscure,
@@ -143,10 +143,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LogInScreen()));
+                          Navigator.pop(context);
                         },
                         child: Text(
                           AppLocalizations.of(context)!.logIn,
