@@ -285,6 +285,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.0"
+  get:
+    dependency: transitive
+    description:
+      name: get
+      sha256: "2ba20a47c8f1f233bed775ba2dd0d3ac97b4cf32fc17731b3dfc672b06b0e92a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.6.5"
   glob:
     dependency: transitive
     description:
@@ -525,6 +533,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.1"
+  rxdart:
+    dependency: "direct main"
+    description:
+      name: rxdart
+      sha256: "0c7c0cedd93788d996e33041ffecda924cc54389199cde4e6a34b440f50044cb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.27.7"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -610,6 +626,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  snackbar:
+    dependency: "direct main"
+    description:
+      name: snackbar
+      sha256: "614c81d5d73e00eac5b89931e17b7cf2f103827941e222266f36701d5afa395f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   source_gen:
     dependency: transitive
     description:
@@ -690,6 +714,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
+  top_snackbar_flutter:
+    dependency: "direct main"
+    description:
+      name: top_snackbar_flutter
+      sha256: "7d4aa8f0031ad4a597c02487b4bb9b0dbb6a8d76ce1ab6e13e9565f865c1b70c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0+1"
   tuple:
     dependency: transitive
     description:

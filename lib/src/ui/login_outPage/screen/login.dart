@@ -21,10 +21,6 @@ class LogInScreen extends StatefulWidget {
 class _LogInScreenState extends State<LogInScreen> {
   TextEditingController textPhoneController = TextEditingController();
   TextEditingController textPasswordController = TextEditingController();
-  var phoneErr = "Tài khoản không hợp lệ";
-  var passErr = "Mật khẩu phải trên 8 ký tự";
-  var phoneInvalid = false;
-  var passInvalid = false;
   bool obscure = true;
   final bloc = LogInBloc();
 
@@ -64,18 +60,16 @@ class _LogInScreenState extends State<LogInScreen> {
               padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width * 0.05),
               child: Column(children: [
-                //buildInputFormLogIn('Phone number', textPhoneController),
                 buildInputFormLogIn(
-                  'Phone number',
-                  textPhoneController,
-                  errorText: phoneInvalid ? phoneErr : null,
+                  'Phone number', 
+                  textPhoneController
                 ),
                 buildInputFormPassword(
                   hint: 'Password',
                   obscure: obscure,
                   // textController: textPasswordController,
                   textController: textPasswordController,
-                  // errorText: passInvalid ? passErr : null,
+                  //errorText: passInvalid ? passErr : null,
                   function: obscureChange(),
                 ),
                 StreamBuilder<LogInState>(
@@ -108,7 +102,6 @@ class _LogInScreenState extends State<LogInScreen> {
                   ),
                   // )
                 ],
-                
               ),
             ),
             const SizedBox(
@@ -242,7 +235,7 @@ class _LogInScreenState extends State<LogInScreen> {
   //           context, MaterialPageRoute(builder: (context) => const HomePage()));
   //     }
   //   });
-  }
+}
 
 //ResetPassWordScreen() {}
-}
+
