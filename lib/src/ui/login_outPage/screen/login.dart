@@ -68,14 +68,14 @@ class _LogInScreenState extends State<LogInScreen> {
                 buildInputFormLogIn(
                   'Phone number',
                   textPhoneController,
-                  errorText: phoneInvalid ? phoneErr : null,
+                  //errorText: phoneInvalid ? phoneErr : null,
                 ),
                 buildInputFormPassword(
                   hint: 'Password',
                   obscure: obscure,
                   // textController: textPasswordController,
                   textController: textPasswordController,
-                  errorText: passInvalid ? passErr : null,
+                  //errorText: passInvalid ? passErr : null,
                   function: obscureChange(),
                 ),
                 StreamBuilder<LogInState>(
