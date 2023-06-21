@@ -2,7 +2,7 @@ import 'dart:async';
 
 import '../widget/validations.dart';
 import '../event/log_in_event.dart';
-import '../state/log_in_state.dart'; 
+import '../state/log_in_state.dart';
 
 class LoginBloc {
   StreamController _phonenumberController = new StreamController();

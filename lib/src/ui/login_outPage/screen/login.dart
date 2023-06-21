@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/homePage/screen/home_page.dart';
-import 'package:mobile_store/src/ui/login_outPage/screen/reset_password.dart';
-import 'package:mobile_store/src/ui/login_outPage/screen/signup.dart';
+import 'package:mobile_store/src/ui/login_outPage/screen/sign_up.dart';
+
 import 'package:mobile_store/src/ui/login_outPage/widget/checkbox.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/login_form.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/login_option.dart';
@@ -68,14 +68,14 @@ class _LogInScreenState extends State<LogInScreen> {
                 buildInputFormLogIn(
                   'Phone number',
                   textPhoneController,
-                  //errorText: phoneInvalid ? phoneErr : null,
+                  errorText: phoneInvalid ? phoneErr : null,
                 ),
                 buildInputFormPassword(
                   hint: 'Password',
                   obscure: obscure,
                   // textController: textPasswordController,
                   textController: textPasswordController,
-                  //errorText: passInvalid ? passErr : null,
+                  // errorText: passInvalid ? passErr : null,
                   function: obscureChange(),
                 ),
                 StreamBuilder<LogInState>(
@@ -87,14 +87,6 @@ class _LogInScreenState extends State<LogInScreen> {
                 )
               ]),
             ),
-
-            // Padding(
-            //   padding: kDefaultPadding,
-            //   child: LogInForm(),
-            // ),
-            // const SizedBox(
-            //   height: 20,
-            // ),
             const Padding(
               padding: kDefaultPadding,
               child: Row(
@@ -116,6 +108,7 @@ class _LogInScreenState extends State<LogInScreen> {
                   ),
                   // )
                 ],
+                
               ),
             ),
             const SizedBox(
@@ -127,10 +120,15 @@ class _LogInScreenState extends State<LogInScreen> {
             //       MaterialPageRoute(
             //         builder: (context) => const HomePage(),
             //       )),
+            // GestureDetector(
+            //   onTap: () {
+            //     return bloc.eventLogInController.sink
+            //         .add(LogInEvent(loginList()));
+            //   },
             GestureDetector(
               onTap: () {
-                return bloc.eventLogInController.sink
-                    .add(LogInEvent(loginList()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomePage()));
               },
               child: Padding(
                 padding: kDefaultPadding,
@@ -206,11 +204,11 @@ class _LogInScreenState extends State<LogInScreen> {
         icon: obscure
             ? const Icon(
                 Icons.visibility_off,
-                color: kPrimaryColor,
+                color: kGreenColor,
               )
             : const Icon(
                 Icons.visibility,
-                color: kPrimaryColor,
+                color: kGreenColor,
               ));
   }
 
@@ -221,29 +219,29 @@ class _LogInScreenState extends State<LogInScreen> {
   //       MaterialPageRoute(
   //         builder: (context) => const HomePage(),
   //       ));
-  //}
+  // }
 
-  void onLogInClicked() {
-    setState(() {
-      if (textPhoneController.text.length == 10 &&
-          textPhoneController.text.contains("0")) {
-        phoneInvalid = true;
-      } else {
-        phoneInvalid = false;
-      }
+  // void onLogInClicked() {
+  //   setState(() {
+  //     if (textPhoneController.text.length == 10 &&
+  //         textPhoneController.text.contains("0")) {
+  //       phoneInvalid = true;
+  //     } else {
+  //       phoneInvalid = false;
+  //     }
 
-      if (textPasswordController.text.length > 8 &&
-          textPasswordController.text.contains("0")) {
-        passInvalid = true;
-      } else {
-        passInvalid = false;
-      }
+  //     if (textPasswordController.text.length > 8 &&
+  //         textPasswordController.text.contains("0")) {
+  //       passInvalid = true;
+  //     } else {
+  //       passInvalid = false;
+  //     }
 
-      if (!phoneInvalid && !passInvalid) {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const HomePage()));
-      }
-    });
+  //     if (!phoneInvalid && !passInvalid) {
+  //       Navigator.push(
+  //           context, MaterialPageRoute(builder: (context) => const HomePage()));
+  //     }
+  //   });
   }
 
 //ResetPassWordScreen() {}

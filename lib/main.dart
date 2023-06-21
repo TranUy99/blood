@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/languages/language_contanst.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/ui/login_outPage/screen/login.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -18,9 +17,7 @@ class MyApp extends StatefulWidget {
   }
 }
 
-
-
- class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> {
   Locale? _locale;
   setLocale(Locale locale) {
     setState(() {
@@ -34,13 +31,16 @@ class MyApp extends StatefulWidget {
     super.didChangeDependencies();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "Mobile Store",
         theme: ThemeData(fontFamily: 'Poppins'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            locale: _locale,
+
         home: LogInScreen());
     // home: HomePage());
   }

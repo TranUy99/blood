@@ -69,4 +69,15 @@ class Validate {
     }
     return true;
   }
+
+  static bool validFullName(String? value){
+    RegExp rex = RegExp(r'^[A-Za-z\s-]{1,}$');
+    if (value == null) {
+      return false;
+    }
+    if (rex.hasMatch(value)) {
+      return false;
+    }
+    return true;
+  }
 }

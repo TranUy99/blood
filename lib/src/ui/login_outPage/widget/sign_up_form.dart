@@ -11,7 +11,7 @@ Widget buildInputFormSignIn(String hint, TextEditingController controller) {
         hintText: hint,
         hintStyle: const TextStyle(color: kTextFieldColor),
         focusedBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(color: kPrimaryColor)),
+            borderSide: BorderSide(color: kGreenColor)),
       ),
     ),
   );
@@ -46,7 +46,7 @@ class _buildInputFormPasswordState extends State<buildInputFormPassword> {
             hintText: widget.hint,
             hintStyle: const TextStyle(color: kTextFieldColor),
             focusedBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: kPrimaryColor)),
+                borderSide: BorderSide(color: kGreenColor)),
             suffixIcon: widget.function),
       ),
     );

@@ -2,17 +2,44 @@ import 'package:flutter/material.dart';
 
 import '../../../constant/colors/theme.dart';
 
-Widget buildInputFormLogIn(String hint, TextEditingController controller) {
+// Widget buildInputFormLogIn(String hint, TextEditingController controller, String errorText) {
+//   return Padding(
+//     padding: const EdgeInsets.symmetric(vertical: 5),
+//     child: TextField(
+//       controller: controller,
+//       decoration: InputDecoration(
+//         hintText: hint,
+//         hintStyle: const TextStyle(color: kTextFieldColor),
+//         focusedBorder: const UnderlineInputBorder(
+//             borderSide: BorderSide(color: kGreenColor)),
+//       ),
+//     ),
+//   );
+// }
+
+Widget buildInputFormLogIn(
+  String hint, TextEditingController controller, String errorText) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 5),
-    child: TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: const TextStyle(color: kTextFieldColor),
-        focusedBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(color: kPrimaryColor)),
-      ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            hintText: hint,
+            hintStyle: const TextStyle(color: kTextFieldColor),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: kGreenColor),
+            ),
+          ),
+        ),
+        if (errorText != null)
+          Text(
+            errorText,
+            style: const TextStyle(color: Colors.red),
+          ),
+      ],
     ),
   );
 }
@@ -46,7 +73,7 @@ class _buildInputFormPasswordState extends State<buildInputFormPassword> {
             hintText: widget.hint,
             hintStyle: const TextStyle(color: kTextFieldColor),
             focusedBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: kPrimaryColor)),
+                borderSide: BorderSide(color: kGreenColor)),
             suffixIcon: widget.function),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/login_outPage/bloc/sign_up_bloc.dart';
 import 'package:mobile_store/src/ui/login_outPage/event/sign_up_event.dart';
@@ -6,8 +7,21 @@ import 'package:mobile_store/src/ui/login_outPage/widget/sign_up_form.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/checkbox.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/login_option.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/primary_button.dart';
+import 'package:provider/provider.dart';
 import '../state/sign_up_state.dart';
 import 'login.dart';
+
+class SignUpProvider extends StatelessWidget {
+  const SignUpProvider({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(providers: [
+      ChangeNotifierProvider(create: (_) => SharedTextPasswordBloc(),)
+    ],
+      child: const SignUpScreen(),);
+  }
+}
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -38,9 +52,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
     return listOfRegister;
   }
-
   @override
   Widget build(BuildContext context) {
+    final sharedTextPasswordBloc = SharedTextPasswordBloc();
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -107,7 +121,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.03),
                   child: Text(
-                    'Or Sign in using:',
+                    '${AppLocalizations.of(context)!.orSignInUsing}:',
                     style: subtitle.copyWith(color: kBlackColor),
                   ),
                 ),
@@ -123,7 +137,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Already have an account?',
+                        '${AppLocalizations.of(context)!.alreadyHaveAnAccount}?',
                         style: subtitle,
                       ),
                       SizedBox(
@@ -137,7 +151,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   builder: (context) => LogInScreen()));
                         },
                         child: Text(
-                          'Log In',
+                          AppLocalizations.of(context)!.logIn,
                           style: textButton.copyWith(
                             decoration: TextDecoration.underline,
                             decorationThickness: 1,
@@ -165,11 +179,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
         icon: obscure
             ? const Icon(
                 Icons.visibility_off,
-                color: kPrimaryColor,
+                color: kGreenColor,
               )
             : const Icon(
                 Icons.visibility,
-                color: kPrimaryColor,
+                color: kGreenColor,
               ));
   }
 }

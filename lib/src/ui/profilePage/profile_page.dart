@@ -10,7 +10,7 @@ class CartPage extends StatefulWidget {
 
   _CartPageState() {}
 }
-
+ 
 class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
@@ -18,9 +18,9 @@ class _CartPageState extends State<CartPage> {
       appBar: AppBar(actions: [
         IconButton(onPressed: () {}, icon: Icon(Icons.account_circle)),
         IconButton(onPressed: () {}, icon: Icon(Icons.more_vert)),
-      ], title: Text('Profile ')),
+      ], title: const Text('Profile ')),
       body: SingleChildScrollView(
-        physics: AlwaysScrollableScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
           children: [
             Container(
@@ -30,9 +30,9 @@ class _CartPageState extends State<CartPage> {
           ],
         ),
       ),
-      bottomNavigationBar: Container(
+      bottomNavigationBar: SizedBox(
         height: MediaQuery.of(context).size.height * 0.1,
-        child: BottomNavigation(),
+        child: const BottomNavigation(),
       ),
     );
   }
