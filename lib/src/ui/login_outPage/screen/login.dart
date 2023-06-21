@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/homePage/screen/home_page.dart';
-import 'package:mobile_store/src/ui/login_outPage/screen/reset_password.dart';
-import 'package:mobile_store/src/ui/login_outPage/screen/signup.dart';
+import 'package:mobile_store/src/ui/login_outPage/screen/sign_up.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/checkbox.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/login_form.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/login_option.dart';

@@ -1,10 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:mobile_store/src/core/model/product.dart';
 
 class NameProduct extends StatefulWidget {
-  const NameProduct({super.key});
+  final ProductDTO productDTO;
+  const NameProduct({super.key, required this.productDTO});
 
   @override
   State<NameProduct> createState() => _NameProductState();
@@ -19,13 +20,15 @@ class _NameProductState extends State<NameProduct> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.only(left: 8),
+        //name product
+         Padding(
+          padding: const EdgeInsets.only(left: 8),
           child: Text(
-            'IPhone 14 Pro Max',
-            style: TextStyle(fontSize: 16, color: kRedColor),
+            '${widget.productDTO.name}',
+            style: const TextStyle(fontSize: 16, color: kRedColor),
           ),
         ),
+        //rating product
         RatingBar.builder(
           initialRating: 3,
           minRating: 1,
@@ -44,6 +47,7 @@ class _NameProductState extends State<NameProduct> {
             // log('$rating');
           },
         ),
+        //memory product
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -130,7 +134,10 @@ class _NameProductState extends State<NameProduct> {
             ),
           ],
         ),
-        const SizedBox(height: 5,),
+        const SizedBox(
+          height: 5,
+        ),
+        //color product
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -147,13 +154,13 @@ class _NameProductState extends State<NameProduct> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5.0),
                     border: Border.all(
-                      color: selectedOption == 'Blue' ? Colors.blue : Colors.grey,
+                      color: selectedColor == 'Blue' ? kBlueColor : kGreyColor,
                     ),
                   ),
                   child: Text(
                     'Blue',
                     style: TextStyle(
-                      color: selectedOption == 'Blue' ? Colors.blue : Colors.grey,
+                      color: selectedColor == 'Blue' ? kBlueColor : kGreyColor,
                     ),
                   ),
                 ),
@@ -175,13 +182,13 @@ class _NameProductState extends State<NameProduct> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5.0),
                     border: Border.all(
-                      color: selectedOption == 'Red' ? Colors.blue : Colors.grey,
+                      color: selectedColor == 'Red' ? kRedColor : kGreyColor,
                     ),
                   ),
                   child: Text(
                     'Red',
                     style: TextStyle(
-                      color: selectedOption == 'Red' ? Colors.blue : Colors.grey,
+                      color: selectedColor == 'Red' ? kRedColor : kGreyColor,
                     ),
                   ),
                 ),
@@ -203,20 +210,29 @@ class _NameProductState extends State<NameProduct> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5.0),
                     border: Border.all(
-                      color: selectedOption == 'Black' ? Colors.blue : Colors.grey,
+                      color: selectedColor == 'Black' ? kBlackColor : Colors.grey,
                     ),
                   ),
                   child: Text(
                     'Black',
                     style: TextStyle(
-                      color: selectedOption == 'Black' ? Colors.blue : Colors.grey,
+                      color: selectedColor == 'Black' ? kBlackColor: Colors.grey,
                     ),
                   ),
                 ),
               ),
             ),
           ],
+        ),
+            //price product
+           Padding(
+          padding: const EdgeInsets.only(left: 12),
+          child: Text(
+            '${widget.productDTO.price}',
+            style:  const TextStyle(fontSize: 16, color: kRedColor,fontWeight: FontWeight.bold,fontFamily: "Times New Roman",),
+          ),
         )
+        
       ],
     );
   }

@@ -11,7 +11,10 @@ const kTextFieldColor = Color(0xFF979797);
 const kColorSearchBars = Color(0xffd4d181);
 const kDefaultPadding = EdgeInsets.symmetric(horizontal: 30);
 const kAppBarColor = Color.fromARGB(222, 222, 222, 222);
-const kRedColor = Color.fromARGB(222, 252, 0, 0);
+const kRedColor = Colors.red;
+const kBlueColor = Colors.blue;
+const kGreyColor = Colors.grey;
+const kWhiteGrey = Color.fromARGB(255, 225, 224, 224);
 
 TextStyle titleText = const TextStyle(color: kGreenColor, fontSize: 32, fontWeight: FontWeight.w700);
 TextStyle subtitle = const TextStyle(color: kSecondaryColor, fontSize: 18, fontWeight: FontWeight.w500);

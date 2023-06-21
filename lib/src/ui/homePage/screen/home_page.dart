@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
+import 'package:mobile_store/src/ui/homePage/bloc/product_bloc.dart';
 import 'package:mobile_store/src/ui/homePage/screen/product_screen.dart';
-import 'package:mobile_store/src/ui/homePage/widget/custom_appbar.dart';
+import 'package:mobile_store/src/ui/homePage/widget/custom_app_bar.dart';
 import 'bottom_navigation.dart';
 import 'carousel_slider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -13,7 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  
+    final ProductBloc productBloc = ProductBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +30,10 @@ class _HomePageState extends State<HomePage> {
           flexibleSpace: const CustomAppBar()
         ),
       ),
-      body: const SingleChildScrollView(
+      body:  SingleChildScrollView(
         child: Column(children: [
-          CarouselSliderBanner(),
-          ProductScreen(),
+          const CarouselSliderBanner(),
+          ProductScreen(productBloc: productBloc,),
         ]),
       ),
       bottomNavigationBar: SizedBox(

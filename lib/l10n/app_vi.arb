@@ -1,5 +1,17 @@
 {
      "homePage": "Trang chu",
   "personalInformation": "Personal Information",
-  "news": "Mới nhất"
+  "news": "Mới nhất",
+  "configuration": "Cấu Hình",
+  "capacity": "Dung lượng",
+  "camera": "Camera",
+  "battery": "Pin",
+  "chip": "Chip",
+  "ram": "Ram",
+  "close": "Đóng",
+  "seeMore": "Hiển thị thêm",
+  "productInformation": "Thông tin sản phẩm",
+  "reviewOfCustomerBoughtTheProduct": "Đánh giá của khách hàng đã mua sản phẩm",
+  "screen": "Màn hình",
+  "logout": "Đăng xuất"
 }

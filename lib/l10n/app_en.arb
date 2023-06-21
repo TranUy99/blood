@@ -1,6 +1,17 @@
 {
      "homePage": "Home Page",
   "personalInformation": "Personal Information",
-  "news": "New"
-
+  "news": "New" ,
+  "configuration": "Configuration",
+  "capacity": "Capacity",
+  "camera": "Camera",
+  "battery": "Battery",
+  "chip": "Chip",
+  "ram": "Ram",
+  "screen": "Screen",
+  "productInformation": "Product Information",
+  "reviewOfCustomerBoughtTheProduct": "Review of customer bought the product",
+  "close": "Close",
+  "seeMore": "See more",
+  "logout": "Log out"
 }
