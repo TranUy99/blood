@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/homePage/screen/home_page.dart';
 import 'package:mobile_store/src/ui/login_outPage/screen/sign_up.dart';
@@ -7,6 +8,9 @@ import 'package:mobile_store/src/ui/login_outPage/widget/checkbox.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/login_form.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/login_option.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/primary_button.dart';
+import 'package:mobile_store/src/ui/login_outPage/validate.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../state/log_in_state.dart';
 import '../bloc/log_in_bloc.dart';
 import '../event/log_in_event.dart';
@@ -21,12 +25,9 @@ class LogInScreen extends StatefulWidget {
 class _LogInScreenState extends State<LogInScreen> {
   TextEditingController textPhoneController = TextEditingController();
   TextEditingController textPasswordController = TextEditingController();
-  var phoneErr = "Tài khoản không hợp lệ";
-  var passErr = "Mật khẩu phải trên 8 ký tự";
-  var phoneInvalid = false;
-  var passInvalid = false;
   bool obscure = true;
   final bloc = LogInBloc();
+  SharedTextPasswordBloc sharedTextBloc = SharedTextPasswordBloc();
 
   List<String> loginList() {
     List<TextEditingController> textEditingControllerList = [
@@ -64,19 +65,18 @@ class _LogInScreenState extends State<LogInScreen> {
               padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width * 0.05),
               child: Column(children: [
-                //buildInputFormLogIn('Phone number', textPhoneController),
-                buildInputFormLogIn(
-                  'Phone number',
-                  textPhoneController,
-                  // errorText: phoneInvalid ? phoneErr : null,
+                BuildInputFormLogIn(
+                  hint: AppLocalizations.of(context)!.phoneNumber,
+                  textController: textPhoneController,
+                  validationType: 1,
                 ),
-                buildInputFormPassword(
+                BuildInputFormPassword(
                   hint: 'Password',
-                  obscure: obscure,
-                  // textController: textPasswordController,
-                  textController: textPasswordController,
-                  // errorText: passInvalid ? passErr : null,
-                  function: obscureChange(),
+                      obscure: obscure,
+                      textController: textPasswordController,
+                      function: obscureChange(),
+                      sharedTextPasswordBloc: sharedTextBloc,
+                      isPassword: false,
                 ),
                 StreamBuilder<LogInState>(
                   stream: bloc.stateController.stream,
@@ -87,14 +87,6 @@ class _LogInScreenState extends State<LogInScreen> {
                 )
               ]),
             ),
-
-            // Padding(
-            //   padding: kDefaultPadding,
-            //   child: LogInForm(),
-            // ),
-            // const SizedBox(
-            //   height: 20,
-            // ),
             const Padding(
               padding: kDefaultPadding,
               child: Row(
@@ -121,18 +113,22 @@ class _LogInScreenState extends State<LogInScreen> {
             const SizedBox(
               height: 20,
             ),
-
+            // GestureDetector(
+            //   onTap: () => Navigator.pushReplacement(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) => const HomePage(),
+            //       )),
+            // GestureDetector(
+            //   onTap: () {
+            //     return bloc.eventLogInController.sink
+            //         .add(LogInEvent(loginList()));
+            //   },
             GestureDetector(
-              // onTap: () {
-              //   return bloc.eventLogInController.sink
-              //       .add(LogInEvent(loginList()));
-              // },
-              // GestureDetector(
-                onTap: () => Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const HomePage(),
-                    )),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomePage()));
+              },
               child: Padding(
                 padding: kDefaultPadding,
                 child: PrimaryButton(
@@ -222,31 +218,10 @@ class _LogInScreenState extends State<LogInScreen> {
   //       MaterialPageRoute(
   //         builder: (context) => const HomePage(),
   //       ));
-  //}
+  // }
 
-  void onLogInClicked() {
-    setState(() {
-      if (textPhoneController.text.length == 10 &&
-          textPhoneController.text.contains("0")) {
-        phoneInvalid = true;
-      } else {
-        phoneInvalid = false;
-      }
-
-      if (textPasswordController.text.length > 8 &&
-          textPasswordController.text.contains("0")) {
-        passInvalid = true;
-      } else {
-        passInvalid = false;
-      }
-
-      if (!phoneInvalid && !passInvalid) {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const HomePage()));
-      }
-    });
-  }
+ 
+}
 
 //ResetPassWordScreen() {}
-}
 
