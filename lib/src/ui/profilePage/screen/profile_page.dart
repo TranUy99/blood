@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/ui/homePage/widget/custom_app_bar.dart';
-import 'package:mobile_store/src/ui/profilePage/order.dart';
-import 'package:mobile_store/src/ui/profilePage/promotion.dart';
-import 'package:mobile_store/src/ui/profilePage/your_information.dart';
+import 'package:mobile_store/src/ui/profilePage/screen/order.dart';
+import 'package:mobile_store/src/ui/profilePage/screen/promotion.dart';
+import 'package:mobile_store/src/ui/profilePage/screen/your_information.dart';
 
-import '../../constant/colors/theme.dart';
+import '../../../constant/colors/theme.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -52,7 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   Container(
                     padding: EdgeInsets.symmetric(
-                        vertical: MediaQuery.of(context).padding.vertical * 0.3,
+                        vertical: MediaQuery.of(context).size.height * 0.02,
                         ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,

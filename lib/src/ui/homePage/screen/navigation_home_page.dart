@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/src/ui/cartPage/cart_page.dart';
 import 'package:mobile_store/src/ui/homePage/screen/home_page.dart';
 import 'package:mobile_store/src/ui/login_outPage/screen/login.dart';
-import 'package:mobile_store/src/ui/profilePage/profile_page.dart';
+import 'package:mobile_store/src/ui/profilePage/screen/profile_page.dart';
 
 import '../../../constant/colors/theme.dart';
 
@@ -15,14 +15,14 @@ class NavigationHomePage extends StatefulWidget {
 
 class _NavigationHomePageState extends State<NavigationHomePage> {
   int index = 0;
-  List<StatefulWidget> appScreens = [const HomePage(), const LogInScreen(), const LogInScreen()];
+  List appScreens = [const HomePage(), LogInScreen(), LogInScreen()];
 
-  List<StatefulWidget> navigationLoginScreen() {
+  List navigationLoginScreen() {
     return appScreens = [const HomePage(), const CartPage(), const ProfilePage()];
   }
 
-  List<StatefulWidget> navigationLogoutScreen(){
-    return appScreens = [const HomePage(), const LogInScreen(), const LogInScreen()];
+  List navigationLogoutScreen(){
+    return appScreens = [const HomePage(), LogInScreen(), LogInScreen()];
   }
 
   @override
