@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_store/src/ui/homePage/screen/bottom_navigation.dart';
 
-import '../homePage/screen/bottom_navigation.dart';
-
-class CartPage extends StatefulWidget {
-  const CartPage({Key? key}) : super(key: key);
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
 
   @override
-  State<CartPage> createState() => _CartPageState();
-
-  _CartPageState() {}
+  State<ProfilePage> createState() => _ProfilePageState();
 }
- 
-class _CartPageState extends State<CartPage> {
+
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

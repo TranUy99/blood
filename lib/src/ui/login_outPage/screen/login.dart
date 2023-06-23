@@ -6,7 +6,6 @@ import 'package:mobile_store/src/ui/login_outPage/widget/checkbox.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/login_option.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/primary_button.dart';
 
-
 class LogInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
