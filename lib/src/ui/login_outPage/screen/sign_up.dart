@@ -125,7 +125,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     }else{
                       showTopSnackBar(Overlay.of(context), CustomSnackBar.error(message: 'Invalid information'));
                     }
-
                   },
                   child: Padding(
                     padding: EdgeInsets.only(

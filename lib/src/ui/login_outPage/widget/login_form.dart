@@ -59,15 +59,13 @@ class BuildInputFormPassword extends StatefulWidget {
       required this.obscure,
       required this.textController,
       required this.function,
-      required this.sharedTextPasswordBloc,
-      required this.isPassword})
+      required this.sharedTextPasswordBloc})
       : super(key: key);
   final TextEditingController textController;
   final String hint;
   late final bool obscure;
   final Widget function;
   final SharedTextPasswordBloc sharedTextPasswordBloc;
-  final bool isPassword;
   @override
   State<BuildInputFormPassword> createState() => _BuildInputFormPasswordState();
 }
@@ -87,14 +85,12 @@ class _BuildInputFormPasswordState extends State<BuildInputFormPassword> {
               onTap: () => print(snapshot.data),
               onChanged: (value) {
                 setState(() {
-                  if (widget.isPassword == false) {
-                    if (Validate.checkInvalidateNewPassword(value)) {
-                      error = true;
-                      errorText = 'Invalid password';
-                    } else {
-                      error = false;
-                      widget.sharedTextPasswordBloc.updateTextField(value);
-                    }
+                  if (Validate.checkInvalidateNewPassword(value)) {
+                    error = true;
+                    errorText = 'Invalid password';
+                  } else {
+                    error = false;
+                    widget.sharedTextPasswordBloc.updateTextField(value);
                   }
                 });
               },
@@ -112,6 +108,8 @@ class _BuildInputFormPasswordState extends State<BuildInputFormPassword> {
     );
   }
 }
+
+
 
 // Widget buildInputFormLogIn(
 //     String hint, TextEditingController controller) {
