@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/ui/homePage/screen/bottom_navigation.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -7,7 +6,7 @@ class CartPage extends StatefulWidget {
   @override
   State<CartPage> createState() => _CartPageState();
 
-  _CartPageState() {}
+  // _CartPageState() {}
 }
 
 class _CartPageState extends State<CartPage> {
@@ -28,10 +27,6 @@ class _CartPageState extends State<CartPage> {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: Container(
-        height: MediaQuery.of(context).size.height * 0.1,
-        child: BottomNavigation(),
       ),
     );
   }

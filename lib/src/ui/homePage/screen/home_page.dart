@@ -3,7 +3,6 @@ import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/homePage/bloc/product_bloc.dart';
 import 'package:mobile_store/src/ui/homePage/screen/product_screen.dart';
 import 'package:mobile_store/src/ui/homePage/widget/custom_app_bar.dart';
-import 'bottom_navigation.dart';
 import 'carousel_slider.dart';
 
 class HomePage extends StatefulWidget {
@@ -36,10 +35,7 @@ class _HomePageState extends State<HomePage> {
           ProductScreen(productBloc: productBloc,),
         ]),
       ),
-      bottomNavigationBar: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.1,
-        child: const BottomNavigation(),
-      ),
+
     );
   }
 }

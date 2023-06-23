@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/languages/language_contanst.dart';
+import 'package:mobile_store/src/ui/homePage/screen/home_page.dart';
+import 'package:mobile_store/src/ui/homePage/screen/navigation_home_page.dart';
 import 'package:mobile_store/src/ui/login_outPage/screen/login.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 void main() {
@@ -40,8 +42,9 @@ class _MyAppState extends State<MyApp> {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             locale: _locale,
-
-        home: LogInScreen());
+        // home: const LogInScreen()
+      home: NavigationHomePage(),
+    );
     // home: HomePage());
   }
 }
