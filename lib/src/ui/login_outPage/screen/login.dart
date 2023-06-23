@@ -140,10 +140,12 @@ class _LogInScreenState extends State<LogInScreen> {
 
             GestureDetector(
               onTap: () {
-                if (Validate.invalidateMobile(loginList()[1]) == false &&
-                    Validate.checkInvalidateNewPassword(loginList()[3]) == false) {
-                  logInBloc.updateInformation(loginList());
+                if (Validate.invalidateMobile(textPhoneController.text) == false &&
+                    Validate.checkInvalidateNewPassword(textPasswordController.text) == false) {
+                  logInBloc.updateInformation(textPhoneController.text, textPasswordController.text);
                   logInBloc.logIn();
+                   showTopSnackBar(Overlay.of(context),
+                      CustomSnackBar.success(message: 'Right'));
                 } else {
                   showTopSnackBar(Overlay.of(context),
                       CustomSnackBar.error(message: 'Invalid information'));
@@ -156,6 +158,7 @@ class _LogInScreenState extends State<LogInScreen> {
                 ),
               ),
             ),
+            ElevatedButton(onPressed: () => logInBloc.logIn(), child: Text('Check')),
             const SizedBox(
               height: 20,
             ),

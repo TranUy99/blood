@@ -5,29 +5,18 @@ import 'package:rxdart/rxdart.dart';
 import '../event/log_in_event.dart';
 import '../state/log_in_state.dart';
 
-// class LogInBloc {
-//   var state = LogInState([]);
-//   final eventLogInController = StreamController<LogInRemoteEvent>();
-//   final stateController = StreamController<LogInState>();
-//   LogInBloc() {
-//     eventLogInController.stream.listen((event) {
-//       if (event is LogInEvent) {
-//         state = LogInState(event.saveInformation);
-//       }
-//       stateController.sink.add(state);
-//     });
-//   }
-// }
-
 class LogInBloc {
-  late List<String> _loginList;
-  void updateInformation(List<String> loginList) {
-    _loginList = loginList;
+  late String _phonenumber;
+  late String _password;
+
+  void updateInformation(String phonenumber, String password) {
+    _phonenumber = phonenumber;
+    _password = password;
   }
   void logIn() {
     // Perform registration logic here
     // You can use the _email and _password variables to submit the registration data
-    print(_loginList.join(', '));
+    print('Phone number:$_phonenumber, Password: $_password');
   }
 }
 
