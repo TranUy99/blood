@@ -9,7 +9,7 @@ class ProductDTO {
   final String? name;
   @JsonKey(name: 'price')
   final String? price;
-    @JsonKey(name: 'image')
+    @JsonKey(name: 'image') 
   final String? image;
 
 

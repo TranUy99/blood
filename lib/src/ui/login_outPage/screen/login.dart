@@ -26,19 +26,26 @@ class _LogInScreenState extends State<LogInScreen> {
   TextEditingController textPhoneController = TextEditingController();
   TextEditingController textPasswordController = TextEditingController();
   bool obscure = true;
-  final bloc = LogInBloc();
+  LogInBloc logInBloc = LogInBloc();
   SharedTextPasswordBloc sharedTextBloc = SharedTextPasswordBloc();
 
   List<String> loginList() {
     List<TextEditingController> textEditingControllerList = [
       textPhoneController,
-      textPasswordController
+      textPasswordController,
     ];
     List<String> listOfLogin = [];
     for (TextEditingController controllers in textEditingControllerList) {
       listOfLogin.add(controllers.text);
     }
     return listOfLogin;
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    sharedTextBloc.dispose();
   }
 
   @override
@@ -72,21 +79,22 @@ class _LogInScreenState extends State<LogInScreen> {
                 ),
                 BuildInputFormPassword(
                   hint: 'Password',
-                      obscure: obscure,
-                      textController: textPasswordController,
-                      function: obscureChange(),
-                      sharedTextPasswordBloc: sharedTextBloc,
-                      isPassword: false,
+                  obscure: obscure,
+                  textController: textPasswordController,
+                  function: obscureChange(),
+                  sharedTextPasswordBloc: sharedTextBloc,
+                  isConfirm: false,
                 ),
-                StreamBuilder<LogInState>(
-                  stream: bloc.stateController.stream,
-                  initialData: bloc.state,
-                  builder: (context, snapshot) {
-                    return Text(snapshot.data!.onUpdated.join(', '));
-                  },
-                )
+                // StreamBuilder<LogInState>(
+                //   stream: bloc.stateController.stream,
+                //   initialData: bloc.state,
+                //   builder: (context, snapshot) {
+                //     return Text(snapshot.data!.onUpdated.join(', '));
+                //   },
+                //   )
               ]),
             ),
+
             const Padding(
               padding: kDefaultPadding,
               child: Row(
@@ -124,10 +132,22 @@ class _LogInScreenState extends State<LogInScreen> {
             //     return bloc.eventLogInController.sink
             //         .add(LogInEvent(loginList()));
             //   },
+            // GestureDetector(
+            //   onTap: () {
+            //     Navigator.push(context,
+            //         MaterialPageRoute(builder: (context) => HomePage()));
+            //   },
+
             GestureDetector(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomePage()));
+                if (Validate.invalidateMobile(loginList()[1]) == false &&
+                    Validate.checkInvalidateNewPassword(loginList()[3]) == false) {
+                  logInBloc.updateInformation(loginList());
+                  logInBloc.logIn();
+                } else {
+                  showTopSnackBar(Overlay.of(context),
+                      CustomSnackBar.error(message: 'Invalid information'));
+                }
               },
               child: Padding(
                 padding: kDefaultPadding,
@@ -173,7 +193,7 @@ class _LogInScreenState extends State<LogInScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SignUpScreen()));
+                              builder: (context) => const SignUpScreen()));
                     },
                     child: Text(
                       'Register',
@@ -219,8 +239,6 @@ class _LogInScreenState extends State<LogInScreen> {
   //         builder: (context) => const HomePage(),
   //       ));
   // }
-
- 
 }
 
 //ResetPassWordScreen() {}

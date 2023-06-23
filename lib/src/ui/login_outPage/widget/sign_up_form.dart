@@ -8,7 +8,8 @@ class BuildInputFormSignIn extends StatefulWidget {
   const BuildInputFormSignIn(
       {Key? key,
       required this.textController,
-      required this.hint, required this.validationType})
+      required this.hint, 
+      required this.validationType})
       : super(key: key);
   final TextEditingController textController;
   final String hint;
