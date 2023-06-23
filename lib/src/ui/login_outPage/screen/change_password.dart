@@ -13,19 +13,19 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   var http;
 
-  Future<void> _changePassword() async {
-    final url = 'https://example.com/api/change-password';
-    final response = await http.get(Uri.parse(url), headers: {
-      'Content-Type': 'application/json',
-    }, body: {
-      'email': _email,
-      'oldPassword': _oldPassword,
-      'newPassword': _newPassword,
-    });
-    // if (response.statusCode == 200) {
-    // } else {
-    // }
-  }
+  // Future<void> _changePassword() async {
+  //   final url = 'https://example.com/api/change-password';
+  //   final response = await http.get(Uri.parse(url), headers: {
+  //     'Content-Type': 'application/json',
+  //   }, body: {
+  //     'email': _email,
+  //     'oldPassword': _oldPassword,
+  //     'newPassword': _newPassword,
+  //   });
+  //   // if (response.statusCode == 200) {
+  //   // } else {
+  //   // }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -41,25 +41,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
-                decoration: InputDecoration(labelText: 'Email'),
+                decoration: InputDecoration(labelText: 'Mật khẩu cũ'),
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Vui lòng nhập email';
+                    return 'Vui lòng nhập mật khẩu mới';
                   }
                   return null;
                 },
                 onSaved: (value) => _email = value!,
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Mật khẩu cũ'),
-                obscureText: true,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Vui lòng nhập mật khẩu cũ';
-                  }
-                  return null;
-                },
-                onSaved: (value) => _oldPassword = value!,
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Mật khẩu mới'),
@@ -67,6 +56,17 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Vui lòng nhập mật khẩu mới';
+                  }
+                  return null;
+                },
+                onSaved: (value) => _oldPassword = value!,
+              ),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Nhập lại mật khẩu mới'),
+                obscureText: true,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Vui lòng nhập lại mật khẩu mới';
                   }
                   return null;
                 },
@@ -89,3 +89,5 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     );
   }
 }
+
+void _changePassword() {}

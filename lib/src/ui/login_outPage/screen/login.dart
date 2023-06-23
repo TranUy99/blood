@@ -1,9 +1,12 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/homePage/screen/home_page.dart';
 import 'package:mobile_store/src/ui/login_outPage/screen/sign_up.dart';
 
 import 'package:mobile_store/src/ui/login_outPage/widget/checkbox.dart';
+import 'package:mobile_store/src/ui/login_outPage/widget/forgot_pass_form.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/login_form.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/login_option.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/primary_button.dart';
@@ -28,6 +31,8 @@ class _LogInScreenState extends State<LogInScreen> {
   bool obscure = true;
   final bloc = LogInBloc();
 
+  var Get;
+
   List<String> loginList() {
     List<TextEditingController> textEditingControllerList = [
       textPhoneController,
@@ -42,6 +47,7 @@ class _LogInScreenState extends State<LogInScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var get = Get;
     var scaffold = Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -105,6 +111,7 @@ class _LogInScreenState extends State<LogInScreen> {
                   //   onTap(){
                   //     Navigator.push(context, MaterialPageRoute(builder: (context) => ResetPassWordScreen()));
                   //   },
+
                   Text(
                     'Forgot password?',
                     style: TextStyle(
@@ -136,6 +143,16 @@ class _LogInScreenState extends State<LogInScreen> {
                 padding: kDefaultPadding,
                 child: PrimaryButton(
                   buttonText: 'Log in',
+                  onPressed: () {
+                    GestureDetector(
+                      onTap: () => Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HomePage(),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
@@ -248,4 +265,3 @@ class _LogInScreenState extends State<LogInScreen> {
 
 //ResetPassWordScreen() {}
 }
-

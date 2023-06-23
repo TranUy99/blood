@@ -16,10 +16,14 @@ class SignUpProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(providers: [
-      ChangeNotifierProvider(create: (_) => SharedTextPasswordBloc(),)
-    ],
-      child: const SignUpScreen(),);
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => SharedTextPasswordBloc(),
+        )
+      ],
+      child: const SignUpScreen(),
+    );
   }
 }
 
@@ -52,6 +56,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
     return listOfRegister;
   }
+
   @override
   Widget build(BuildContext context) {
     final sharedTextPasswordBloc = SharedTextPasswordBloc();
@@ -112,8 +117,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Padding(
                     padding: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * 0.02),
-                    child: const PrimaryButton(
+                    child: PrimaryButton(
                       buttonText: 'Sign up',
+                      onPressed: () {},
                     ),
                   ),
                 ),
