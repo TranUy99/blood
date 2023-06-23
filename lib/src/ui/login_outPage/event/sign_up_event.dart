@@ -1,6 +1,5 @@
 class SignUpEvent {
   final List<String> saveInformation;
-
   SignUpEvent(this.saveInformation);
 }
 

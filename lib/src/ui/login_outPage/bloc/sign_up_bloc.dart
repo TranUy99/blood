@@ -1,41 +1,34 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:rxdart/rxdart.dart';
+
 import '../event/sign_up_event.dart';
 import '../state/sign_up_state.dart';
 
 class SignUpBloc {
-  var state = SignUpState([]);
-  final eventSignUpController = StreamController<SignUpEvent>();
-  final stateController = StreamController<SignUpState>();
-  SignUpBloc() {
-    eventSignUpController.stream.listen((event) {
-      state = SignUpState(event.saveInformation);
-      stateController.sink.add(state);
-    });
+  late List<String> _registerList;
+  void updateInformation(List<String> registerList) {
+    _registerList = registerList;
   }
-}
 
-class OnChangePasswordBloc {
-  var state = OnChangePasswordState('');
-  final eventOnChangePasswordController =
-      StreamController<OnChangePasswordEvent>();
-  final stateOnChangePasswordController =
-      StreamController<OnChangePasswordState>();
-  OnChangePasswordBloc() {
-    eventOnChangePasswordController.stream.listen((event) {
-      state = OnChangePasswordState(event.onChangePasswordEvent);
-      stateOnChangePasswordController.sink.add(state);
-    });
+  void signUp() {
+    // Perform registration logic here
+    // You can use the _email and _password variables to submit the registration data
+    print(_registerList.join(', '));
   }
 }
 
 class SharedTextPasswordBloc extends ChangeNotifier {
-  String _sharedText = '';
-  String get sharedText => _sharedText;
+  final _textFieldController = BehaviorSubject<String>();
+  Stream<String> get textFieldStream => _textFieldController.stream;
+  void updateTextField(String value) {
+    _textFieldController.add(value);
+  }
 
-  set sharedText(String value) {
-    _sharedText = value;
-    notifyListeners();
+  void dispose() {
+    _textFieldController.close();
   }
 }
+
+class ChangePasswordBloc {}

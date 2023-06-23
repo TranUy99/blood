@@ -3,29 +3,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/login_outPage/bloc/sign_up_bloc.dart';
 import 'package:mobile_store/src/ui/login_outPage/event/sign_up_event.dart';
-import 'package:mobile_store/src/ui/login_outPage/widget/sign_up_form.dart';
+import 'package:mobile_store/src/ui/login_outPage/validate.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/checkbox.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/login_option.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/primary_button.dart';
-import 'package:provider/provider.dart';
+import 'package:mobile_store/src/ui/login_outPage/widget/sign_up_form.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../state/sign_up_state.dart';
-import 'login.dart';
-
-class SignUpProvider extends StatelessWidget {
-  const SignUpProvider({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (_) => SharedTextPasswordBloc(),
-        )
-      ],
-      child: const SignUpScreen(),
-    );
-  }
-}
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -41,14 +26,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController textPasswordController = TextEditingController();
   TextEditingController textConfirmPasswordController = TextEditingController();
   bool obscure = true;
-  final bloc = SignUpBloc();
+  SignUpBloc signUpBloc = SignUpBloc();
+  SharedTextPasswordBloc sharedTextBloc = SharedTextPasswordBloc();
 
   List<String> registerList() {
     List<TextEditingController> textEditingControllerList = [
       textNameController,
       textPhoneController,
       textEmailController,
-      textPasswordController
+      textPasswordController,
+      textConfirmPasswordController,
     ];
     List<String> listOfRegister = [];
     for (TextEditingController controllers in textEditingControllerList) {
@@ -58,8 +45,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    sharedTextBloc.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final sharedTextPasswordBloc = SharedTextPasswordBloc();
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -80,28 +73,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.03),
                   child: Column(children: [
-                    buildInputFormSignIn('Full name', textNameController),
-                    buildInputFormSignIn('Phone number', textPhoneController),
-                    buildInputFormSignIn('Email', textEmailController),
-                    buildInputFormPassword(
+                    BuildInputFormSignIn(
+                      hint: AppLocalizations.of(context)!.fullName,
+                      textController: textNameController,
+                      validationType: 0,
+                    ),
+                    BuildInputFormSignIn(
+                        hint: AppLocalizations.of(context)!.phoneNumber,
+                        textController: textPhoneController,
+                        validationType: 1),
+                    BuildInputFormSignIn(
+                      hint: 'Email',
+                      textController: textEmailController,
+                      validationType: 2,
+                    ),
+                    BuildInputFormPassword(
                       hint: 'Password',
                       obscure: obscure,
                       textController: textPasswordController,
                       function: obscureChange(),
+                      sharedTextPasswordBloc: sharedTextBloc,
+                      isConfirm: false,
                     ),
-                    buildInputFormPassword(
+                    BuildInputFormPassword(
                       hint: 'Confirm Password',
                       obscure: obscure,
                       textController: textConfirmPasswordController,
                       function: obscureChange(),
+                      sharedTextPasswordBloc: sharedTextBloc,
+                      isConfirm: true,
                     ),
-                    StreamBuilder<SignUpState>(
-                      stream: bloc.stateController.stream,
-                      initialData: bloc.state,
-                      builder: (context, snapshot) {
-                        return Text(snapshot.data!.onUpdated.join(', '));
-                      },
-                    )
                   ]),
                 ),
                 Padding(
@@ -111,8 +112,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    return bloc.eventSignUpController.sink
-                        .add(SignUpEvent(registerList()));
+                    if (Validate.validFullName(registerList()[0]) == false &&
+                        Validate.invalidateMobile(registerList()[1]) == false &&
+                        Validate.invalidateEmail(registerList()[2]) == false &&
+                        Validate.checkInvalidateNewPassword(
+                                registerList()[3]) ==
+                            false &&
+                        Validate.checkNotEqualNewPassword(
+                                registerList()[3], registerList()[4]) ==
+                            false) {
+                      signUpBloc.updateInformation(registerList());
+                      signUpBloc.signUp();
+                    } else {
+                      showTopSnackBar(Overlay.of(context),
+                          CustomSnackBar.error(message: 'Invalid information'));
+                    }
                   },
                   child: Padding(
                     padding: EdgeInsets.only(
@@ -123,6 +137,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                 ),
+                ElevatedButton(
+                    onPressed: () => signUpBloc.signUp(), child: Text('test')),
                 Padding(
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.03),
@@ -151,10 +167,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LogInScreen()));
+                          Navigator.pop(context);
                         },
                         child: Text(
                           AppLocalizations.of(context)!.logIn,

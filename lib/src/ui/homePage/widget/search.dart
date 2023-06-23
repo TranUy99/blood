@@ -11,7 +11,7 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.8,
+      width: MediaQuery.of(context).size.width * 0.75,
       height: MediaQuery.of(context).size.height * 0.05,
       child: TextField(
         decoration: InputDecoration(

@@ -7,10 +7,8 @@ class ChangePasswordScreen extends StatefulWidget {
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final _formKey = GlobalKey<FormState>();
-  late String _email;
   late String _oldPassword;
   late String _newPassword;
-
   var http;
 
   // Future<void> _changePassword() async {
@@ -44,11 +42,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 decoration: InputDecoration(labelText: 'Mật khẩu cũ'),
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Vui lòng nhập mật khẩu mới';
+                    return 'Vui lòng nhập mật khẩu cũ';
                   }
                   return null;
                 },
-                onSaved: (value) => _email = value!,
+                onSaved: (value) => _oldPassword = value!,
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Mật khẩu mới'),
@@ -59,7 +57,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   }
                   return null;
                 },
-                onSaved: (value) => _oldPassword = value!,
+                onSaved: (value) => _newPassword = value!,
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Nhập lại mật khẩu mới'),

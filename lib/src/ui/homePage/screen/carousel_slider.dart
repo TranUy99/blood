@@ -23,27 +23,25 @@ class _CarouselSliderBannerState extends State<CarouselSliderBanner> {
     return Stack(
       alignment: AlignmentDirectional.bottomCenter,
       children: [
-        Container(
-          child: CarouselSlider.builder(
-              itemCount: 4,
-              itemBuilder: (context, index, realIndex) {
-                return Container(
-                  child: imageBanner[index],
-                  // width: MediaQuery.of(context).size.width * 0.9,
-                );
+        CarouselSlider.builder(
+            itemCount: 4,
+            itemBuilder: (context, index, realIndex) {
+              return Container(
+                child: imageBanner[index],
+                // width: MediaQuery.of(context).size.width * 0.9,
+              );
+            },
+            options: CarouselOptions(
+              viewportFraction: 1,
+              aspectRatio: 21 / 9,
+              autoPlay: true,
+              autoPlayInterval: const Duration(seconds: 5),
+              onPageChanged: (index, reason) {
+                setState(() {
+                  activeIndex = index;
+                });
               },
-              options: CarouselOptions(
-                viewportFraction: 1,
-                aspectRatio: 21 / 9,
-                autoPlay: true,
-                autoPlayInterval: const Duration(seconds: 5),
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    activeIndex = index;
-                  });
-                },
-              )),
-        ),
+            )),
         AnimatedSmoothIndicator(
           activeIndex: activeIndex,
           count: imageBanner.length,
