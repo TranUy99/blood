@@ -31,4 +31,4 @@ class SharedTextPasswordBloc extends ChangeNotifier {
   }
 }
 
-class ChangePasswordBloc {}
+

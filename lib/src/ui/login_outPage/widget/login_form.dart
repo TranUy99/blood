@@ -59,7 +59,9 @@ class BuildInputFormPassword extends StatefulWidget {
       required this.obscure,
       required this.textController,
       required this.function,
-      required this.sharedTextPasswordBloc})
+      required this.sharedTextPasswordBloc,
+      required int validationType,
+      required bool isConfirm})
       : super(key: key);
   final TextEditingController textController;
   final String hint;

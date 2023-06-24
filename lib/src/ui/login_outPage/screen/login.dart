@@ -1,22 +1,16 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/homePage/screen/home_page.dart';
 import 'package:mobile_store/src/ui/login_outPage/screen/sign_up.dart';
-
 import 'package:mobile_store/src/ui/login_outPage/widget/checkbox.dart';
-import 'package:mobile_store/src/ui/login_outPage/widget/forgot_pass_form.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/login_form.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/login_option.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/primary_button.dart';
 import 'package:mobile_store/src/ui/login_outPage/validate.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
-import '../state/log_in_state.dart';
 import '../bloc/log_in_bloc.dart';
-import '../event/log_in_event.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
@@ -55,7 +49,6 @@ class _LogInScreenState extends State<LogInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var get = Get;
     var scaffold = Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -89,6 +82,8 @@ class _LogInScreenState extends State<LogInScreen> {
                   textController: textPasswordController,
                   function: obscureChange(),
                   sharedTextPasswordBloc: sharedTextBloc,
+                  isConfirm: false,
+                  validationType: 2,
                 ),
                 // StreamBuilder<LogInState>(
                 //   stream: bloc.stateController.stream,

@@ -3,7 +3,7 @@ class SignUpEvent {
   SignUpEvent(this.saveInformation);
 }
 
-class OnChangePasswordEvent {
-  final String onChangePasswordEvent;
-  OnChangePasswordEvent(this.onChangePasswordEvent);
-}
+// class OnChangePasswordEvent {
+//   final String onChangePasswordEvent;
+//   OnChangePasswordEvent(this.onChangePasswordEvent);
+// }
