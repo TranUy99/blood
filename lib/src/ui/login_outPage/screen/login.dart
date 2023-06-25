@@ -144,8 +144,8 @@ class _LogInScreenState extends State<LogInScreen> {
                     Validate.checkInvalidateNewPassword(textPasswordController.text) == false) {
                   logInBloc.updateInformation(textPhoneController.text, textPasswordController.text);
                   logInBloc.logIn();
-                   showTopSnackBar(Overlay.of(context),
-                      CustomSnackBar.success(message: 'Right'));
+                  showTopSnackBar(Overlay.of(context),
+                    CustomSnackBar.success(message: 'Ok'));
                 } else {
                   showTopSnackBar(Overlay.of(context),
                       CustomSnackBar.error(message: 'Invalid information'));
