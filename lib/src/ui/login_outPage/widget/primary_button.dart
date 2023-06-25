@@ -4,10 +4,11 @@ import '../../../constant/colors/theme.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String buttonText;
-  PrimaryButton(
-      {super.key,
-      required this.buttonText,
-      required Null Function() onPressed});
+  PrimaryButton({
+    super.key,
+    required this.buttonText,
+    required Null Function() onPressed,
+  });
   @override
   Widget build(BuildContext context) {
     return Container(

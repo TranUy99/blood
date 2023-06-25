@@ -45,10 +45,10 @@ class _MyAppState extends State<MyApp> {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         locale: _locale,
-        home: ChangePasswordScreen());
-    // home: LogInScreen());
-    // home: NavigationHomePage());
-    // home: ProfilePage());
+        // home: ChangePasswordScreen());
+        // home: LogInScreen());
+        // home: NavigationHomePage());
+        home: ProfilePage());
     // home: HomePage());
   }
 }
