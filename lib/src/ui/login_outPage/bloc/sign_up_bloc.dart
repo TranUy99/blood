@@ -11,6 +11,7 @@ class SignUpBloc {
   void updateInformation(List<String> registerList) {
     _registerList = registerList;
   }
+
   void signUp() {
     // Perform registration logic here
     // You can use the _email and _password variables to submit the registration data
@@ -18,14 +19,16 @@ class SignUpBloc {
   }
 }
 
-
 class SharedTextPasswordBloc extends ChangeNotifier {
   final _textFieldController = BehaviorSubject<String>();
   Stream<String> get textFieldStream => _textFieldController.stream;
   void updateTextField(String value) {
     _textFieldController.add(value);
   }
+
   void dispose() {
     _textFieldController.close();
   }
 }
+
+

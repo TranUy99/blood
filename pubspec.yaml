@@ -52,7 +52,8 @@ dependencies:
   rxdart: ^0.27.7
   snackbar: ^1.0.2
   top_snackbar_flutter: ^3.0.0+1
-
+  connectivity_plus: ^4.0.1
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

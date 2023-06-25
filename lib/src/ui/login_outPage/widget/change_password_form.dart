@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/ui/login_outPage/bloc/sign_up_bloc.dart';
+import 'package:mobile_store/src/ui/login_outPage/bloc/change_password_bloc.dart';
 import 'package:mobile_store/src/ui/login_outPage/validate.dart';
 
 import '../../../constant/colors/theme.dart';
 
-class BuildInputFormSignIn extends StatefulWidget {
-  const BuildInputFormSignIn(
+class BuildInputFormChangePassword extends StatefulWidget {
+  const BuildInputFormChangePassword(
       {Key? key,
       required this.textController,
       required this.hint,
@@ -15,11 +15,15 @@ class BuildInputFormSignIn extends StatefulWidget {
   final String hint;
   final int validationType;
 
+  get sharedTextPasswordBloc => null;
+
   @override
-  State<BuildInputFormSignIn> createState() => _BuildInputFormSignInState();
+  State<BuildInputFormChangePassword> createState() =>
+      _BuildInputFormChangePasswordState();
 }
 
-class _BuildInputFormSignInState extends State<BuildInputFormSignIn> {
+class _BuildInputFormChangePasswordState
+    extends State<BuildInputFormChangePassword> {
   bool error = false;
   String errorText = '';
 
@@ -30,17 +34,10 @@ class _BuildInputFormSignInState extends State<BuildInputFormSignIn> {
       child: TextField(
         onChanged: (value) {
           setState(() {
-            if (widget.validationType == 0 && Validate.validFullName(value)) {
+            if (widget.validationType == 0 &&
+                Validate.checkInvalidateOldPassword(value)) {
               error = true;
-              errorText = 'Invalid name';
-            } else if (widget.validationType == 1 &&
-                Validate.invalidateMobile(value)) {
-              error = true;
-              errorText = 'Invalid phone number';
-            } else if (widget.validationType == 2 &&
-                Validate.invalidateEmail(value)) {
-              error = true;
-              errorText = 'Invalid email';
+              errorText = 'Invalid old password';
             } else {
               error = false;
             }
@@ -86,7 +83,7 @@ class _BuildInputFormPasswordState extends State<BuildInputFormPassword> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 5),
+      padding: EdgeInsets.symmetric(vertical: 6),
       child: StreamBuilder<String>(
           stream: widget.sharedTextPasswordBloc.textFieldStream,
           builder: (context, snapshot) {
@@ -97,7 +94,7 @@ class _BuildInputFormPasswordState extends State<BuildInputFormPassword> {
                   if (widget.isConfirm == false) {
                     if (Validate.checkInvalidateNewPassword(value)) {
                       error = true;
-                      errorText = 'Invalid password';
+                      errorText = 'Invalid new password';
                     } else {
                       error = false;
                       widget.sharedTextPasswordBloc.updateTextField(value);

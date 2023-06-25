@@ -84,6 +84,7 @@ class _LogInScreenState extends State<LogInScreen> {
                   function: obscureChange(),
                   sharedTextPasswordBloc: sharedTextBloc,
                   isConfirm: false,
+                  validationType: 2,
                 ),
                 // StreamBuilder<LogInState>(
                 //   stream: bloc.stateController.stream,
@@ -105,6 +106,7 @@ class _LogInScreenState extends State<LogInScreen> {
                   //   onTap(){
                   //     Navigator.push(context, MaterialPageRoute(builder: (context) => ResetPassWordScreen()));
                   //   },
+
                   Text(
                     'Forgot password?',
                     style: TextStyle(
@@ -155,6 +157,17 @@ class _LogInScreenState extends State<LogInScreen> {
                 padding: kDefaultPadding,
                 child: PrimaryButton(
                   buttonText: 'Log in',
+                  onPressed: () {
+                    GestureDetector(
+                      onTap: () => Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HomePage(),
+                        ),
+                      ),
+                    );
+                  },
+                  //color: kBlueColor,
                 ),
               ),
             ),
@@ -234,15 +247,14 @@ class _LogInScreenState extends State<LogInScreen> {
               ));
   }
 
-  // goToHomePage(BuildContext context) {
-  //   print('object');
-  //   Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) => const HomePage(),
-  //       ));
-  // }
+// goToHomePage(BuildContext context) {
+//   print('object');
+//   Navigator.push(
+//       context,
+//       MaterialPageRoute(
+//         builder: (context) => const HomePage(),
+//       ));
+// }
 }
 
 //ResetPassWordScreen() {}
-
