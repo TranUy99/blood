@@ -18,7 +18,7 @@ class ChangePasswordBloc {
   }
 }
 
-class sharedTextPasswordBloc extends ChangeNotifier {
+class SharedTextPasswordBloc extends ChangeNotifier {
   final _textFieldController = BehaviorSubject<String>();
   Stream<String> get textFieldStream => _textFieldController.stream;
   void updateTextField(String value) {

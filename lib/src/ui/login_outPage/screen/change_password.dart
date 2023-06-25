@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
-import 'package:mobile_store/src/ui/homePage/screen/home_page.dart';
 import 'package:mobile_store/src/ui/login_outPage/bloc/change_password_bloc.dart';
-import 'package:mobile_store/src/ui/login_outPage/bloc/sign_up_bloc.dart';
 import 'package:mobile_store/src/ui/login_outPage/validate.dart';
-import 'package:mobile_store/src/ui/login_outPage/widget/login_form.dart';
+import 'package:mobile_store/src/ui/login_outPage/widget/change_password_form.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/primary_button.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../state/change_password_state.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({Key? key}) : super(key: key);
@@ -25,7 +21,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   bool obscure = true;
   ChangePasswordBloc changePasswordBloc = ChangePasswordBloc();
   SharedTextPasswordBloc sharedTextBloc = SharedTextPasswordBloc();
-
   List<String> passwordList() {
     List<TextEditingController> textEditingControllerList = [
       textConfirmPasswordController,
@@ -48,9 +43,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var sharedTextBloc2 = sharedTextBloc;
-    var sharedTextBloc22 = sharedTextBloc2;
-    var sharedTextBloc3 = sharedTextBloc;
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -70,14 +62,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   padding: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width * 0.04),
                   child: Column(children: [
-                    BuildInputFormPassword(
+                    BuildInputFormChangePassword(
                       hint: 'Old password',
-                      obscure: obscure,
                       textController: textOldPasswordController,
-                      function: obscureChange(),
-                      sharedTextPasswordBloc: sharedTextBloc,
                       validationType: 0,
-                      isConfirm: false,
                     ),
                     BuildInputFormPassword(
                       hint: 'New password',
@@ -85,7 +73,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       textController: textNewPasswordController,
                       function: obscureChange(),
                       sharedTextPasswordBloc: sharedTextBloc,
-                      validationType: 1,
                       isConfirm: false,
                     ),
                     BuildInputFormPassword(
@@ -94,7 +81,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       textController: textConfirmPasswordController,
                       function: obscureChange(),
                       sharedTextPasswordBloc: sharedTextBloc,
-                      validationType: 2,
                       isConfirm: true,
                     ),
                   ]),
@@ -102,14 +88,17 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 GestureDetector(
                   onTap: () {
                     if (Validate.checkInvalidateNewPassword(
-                                passwordList()[0]) ==
+                                textNewPasswordController.text) ==
                             false &&
                         Validate.checkNotEqualNewPassword(
-                                passwordList()[1], passwordList()[2]) ==
+                                passwordList()[0], passwordList()[0]) ==
                             false) {
-                      changePasswordBloc
-                          .updatePassword(passwordList() as String);
+                      changePasswordBloc.updatePassword(
+                          textOldPasswordController.text,
+                          textNewPasswordController.text);
                       changePasswordBloc.changePassword();
+                      showTopSnackBar(Overlay.of(context),
+                          CustomSnackBar.success(message: 'Success'));
                     } else {
                       showTopSnackBar(Overlay.of(context),
                           CustomSnackBar.error(message: 'Invalid password'));
@@ -184,11 +173,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         icon: obscure
             ? const Icon(
                 Icons.visibility_off,
-                color: kGreenColor,
+                color: kGreyColor,
               )
             : const Icon(
                 Icons.visibility,
-                color: kGreenColor,
+                color: kGreyColor,
               ));
   }
   // @override
