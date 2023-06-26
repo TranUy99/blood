@@ -42,8 +42,8 @@ class _MyAppState extends State<MyApp> {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             locale: _locale,
-        home: LogInScreen()
-      // home: NavigationHomePage(),
+        // home: LogInScreen()
+      home: NavigationHomePage(),
     );
     // home: HomePage());
   }

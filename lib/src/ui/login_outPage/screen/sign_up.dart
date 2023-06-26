@@ -111,7 +111,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Padding(
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.02),
-                  child: const CheckBox('Agree to term and conditions.'),
+                  child: CheckBox(text: 'Agree to term and conditions.'),
                 ),
                 GestureDetector(
                   onTap: () {
@@ -122,8 +122,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Validate.checkNotEqualNewPassword(registerList()[3], registerList()[4]) == false){
                       signUpBloc.updateInformation(registerList());
                       signUpBloc.signUp();
+                      Navigator.pop(context);
+                      showTopSnackBar(Overlay.of(context), const CustomSnackBar.success(message: 'Sign up successful, Please login'));
                     }else{
-                      showTopSnackBar(Overlay.of(context), CustomSnackBar.error(message: 'Invalid information'));
+                      showTopSnackBar(Overlay.of(context), const CustomSnackBar.error(message: 'Invalid information'));
                     }
                   },
                   child: Padding(
@@ -134,7 +136,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                 ),
-                ElevatedButton(onPressed: () => signUpBloc.signUp(), child: Text('test')),
                 Padding(
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.03),
