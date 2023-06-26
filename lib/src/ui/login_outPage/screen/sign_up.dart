@@ -3,12 +3,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/login_outPage/bloc/sign_up_bloc.dart';
 import 'package:mobile_store/src/ui/login_outPage/validate.dart';
-import 'package:mobile_store/src/ui/login_outPage/widget/checkbox.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/login_option.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/primary_button.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/sign_up_form.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -23,9 +23,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController textNameController = TextEditingController();
   TextEditingController textPasswordController = TextEditingController();
   TextEditingController textConfirmPasswordController = TextEditingController();
-  bool obscure = true;
   SignUpBloc signUpBloc = SignUpBloc();
   SharedTextPasswordBloc sharedTextBloc = SharedTextPasswordBloc();
+  bool obscure = true;
+  bool isCheck = false;
 
   List<String> registerList() {
     List<TextEditingController> textEditingControllerList = [
@@ -52,8 +53,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width * 0.05),
@@ -63,7 +64,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.04),
                   child: Text(
-                    'REGISTER',
+                    AppLocalizations.of(context)!.signUp.toUpperCase(),
                     style: titleText,
                   ),
                 ),
@@ -106,32 +107,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Padding(
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.02),
-                  child: CheckBox(text: 'Agree to term and conditions.'),
+                  child: CheckBoxSignIn(text: 'Agree to term and conditions.', isCheck: isCheckCheckbox()),
                 ),
                 GestureDetector(
                   onTap: () {
-                    if (Validate.validFullName(registerList()[0]) == false &&
-                        Validate.invalidateMobile(registerList()[1]) == false &&
-                        Validate.invalidateEmail(registerList()[2]) == false &&
-                        Validate.checkInvalidateNewPassword(
-                                registerList()[3]) ==
-                            false &&
-                        Validate.checkNotEqualNewPassword(
-                                registerList()[3], registerList()[4]) ==
-                            false) {
-                      signUpBloc.updateInformation(registerList());
-                      signUpBloc.signUp();
-                      Navigator.pop(context);
-                      showTopSnackBar(Overlay.of(context), const CustomSnackBar.success(message: 'Sign up successful, Please login'));
+                    if(isCheck){
+                      if (Validate.validFullName(registerList()[0]) == false &&
+                          Validate.invalidateMobile(registerList()[1]) == false &&
+                          Validate.invalidateEmail(registerList()[2]) == false &&
+                          Validate.checkInvalidateNewPassword(
+                              registerList()[3]) ==
+                              false &&
+                          Validate.checkNotEqualNewPassword(
+                              registerList()[3], registerList()[4]) ==
+                              false) {
+                        signUpBloc.updateInformation(registerList());
+                        signUpBloc.signUp();
+                        Navigator.pop(context);
+                        showTopSnackBar(Overlay.of(context), const CustomSnackBar.success(message: 'Sign up successful, Please login'));
+                      }else{
+                        showTopSnackBar(Overlay.of(context), const CustomSnackBar.error(message: 'Invalid information'));
+                      }
                     }else{
-                      showTopSnackBar(Overlay.of(context), const CustomSnackBar.error(message: 'Invalid information'));
+                      showTopSnackBar(Overlay.of(context), const CustomSnackBar.error(message: 'Please agree to the terms and conditions'));
                     }
                   },
                   child: Padding(
                     padding: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * 0.02),
                     child: PrimaryButton(
-                      buttonText: 'Sign up',
+                      buttonText: AppLocalizations.of(context)!.signUp,
                     ),
                   ),
                 ),
@@ -200,5 +205,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Icons.visibility,
                 color: kGreenColor,
               ));
+  }
+
+  Widget isCheckCheckbox(){
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          isCheck = !isCheck;
+        });
+      },
+      child: Container(
+        width: MediaQuery.of(context).devicePixelRatio * 7,
+        height: MediaQuery.of(context).devicePixelRatio * 7,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(4),
+            border: Border.all(color: kDarkGreyColor)),
+        child: isCheck
+            ? const Icon(Icons.check, size: 17, color: Colors.green)
+            : null,
+      ),
+    );
   }
 }

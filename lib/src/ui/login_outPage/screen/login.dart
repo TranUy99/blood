@@ -13,6 +13,7 @@ import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../bloc/log_in_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
@@ -38,150 +39,147 @@ class _LogInScreenState extends State<LogInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var scaffold = Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(
-              height: 70,
-            ),
-            Padding(
-                padding: kDefaultPadding,
-                child: Text('LOGIN', style: titleText)),
-            const SizedBox(height: 20),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.05),
-              child: Column(children: [
-                BuildInputFormLogIn(
-                  hint: AppLocalizations.of(context)!.phoneNumber,
-                  textController: textPhoneController,
-                  validationType: 1,
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.05),
+            child: Column(
+              children: [
+                Padding(
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.04),
+                    child: Text(AppLocalizations.of(context)!.logIn.toUpperCase(), style: titleText)),
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.03),
+                  child: Column(children: [
+                    BuildInputFormLogIn(
+                      hint: AppLocalizations.of(context)!.phoneNumber,
+                      textController: textPhoneController,
+                    ),
+                    BuildInputFormPassword(
+                      hint: 'Password',
+                      obscure: obscure,
+                      textController: textPasswordController,
+                      function: obscureChange(),
+                    ),
+                  ]),
                 ),
-                BuildInputFormPassword(
-                  hint: 'Password',
-                  obscure: obscure,
-                  textController: textPasswordController,
-                  function: obscureChange(),
-                  sharedTextPasswordBloc: sharedTextBloc,
-                ),
-              ]),
-            ),
-            Padding(
-              padding: kDefaultPadding,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const CheckBox(text: 'Save account'),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ChangePasswordScreen()));
-                    },
-                    child: const Text(
-                      'Forgot password?',
-                      style: TextStyle(
-                        color: kZambeziColor,
-                        fontSize: 14,
-                        decoration: TextDecoration.underline,
-                        decorationThickness: 1,
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.02),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const CheckBox(text: 'Save account'),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ChangePasswordScreen()));
+                        },
+                        child: const Text(
+                          'Forgot password?',
+                          style: TextStyle(
+                            color: kZambeziColor,
+                            fontSize: 14,
+                            decoration: TextDecoration.underline,
+                            decorationThickness: 1,
+                          ),
+                        ),
                       ),
+                      // )
+                    ],
+                  ),
+                ),
+
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.03),
+                  child: InkWell(
+                    onTap: () {
+                      if (Validate.checkInvalidateNewPassword(textPasswordController.text) == false
+                          && Validate.invalidateMobile(textPhoneController.text) == false) {
+                        //Input to bloc and set state
+                        logInBloc.updateInformation(textPhoneController.text, textPasswordController.text);
+                        logInBloc.logIn();
+                        showTopSnackBar(Overlay.of(context),
+                            const CustomSnackBar.success(message: 'Login successfully'));
+                        //Login
+                        setState(() {
+                          indexScreen = 0;
+                        });
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const NavigationHomePage(),
+                            ));
+                      } else {
+                        showTopSnackBar(
+                            Overlay.of(context),
+                            const CustomSnackBar.error(
+                                message: 'Invalid information'));
+                      }
+                    },
+                    child: const PrimaryButton(
+                      buttonText: 'Log in'
                     ),
                   ),
-                  // )
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: kDefaultPadding,
-              child: InkWell(
-                onTap: () {
-                  if (Validate.checkInvalidateNewPassword(textPasswordController.text) == false
-                      && Validate.invalidateMobile(textPhoneController.text) == false) {
-                    //Input to bloc and set state
-                    logInBloc.updateInformation(textPhoneController.text, textPasswordController.text);
-                    logInBloc.logIn();
-                    showTopSnackBar(Overlay.of(context),
-                        const CustomSnackBar.success(message: 'Right'));
-                    //Login
-                    setState(() {
-                      indexScreen = 0;
-                    });
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const NavigationHomePage(),
-                        ));
-                  } else {
-                    showTopSnackBar(
-                        Overlay.of(context),
-                        const CustomSnackBar.error(
-                            message: 'Invalid information'));
-                  }
-                },
-                child: PrimaryButton(
-                  buttonText: 'Log in'
                 ),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: kDefaultPadding,
-              child: Text(
-                'Or Log in with:',
-                style: subtitle.copyWith(color: kBlackColor),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: kDefaultPadding,
-              child: LoginOption(),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: kDefaultPadding,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Don\'t have an account?',
-                    style: subtitle,
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.03),
+                  child: Text(
+                    'Or Log in with:',
+                    style: subtitle.copyWith(color: kBlackColor),
                   ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SignUpScreen()));
-                    },
-                    child: Text(
-                      'Register',
-                      style: textButton.copyWith(
-                        decoration: TextDecoration.underline,
-                        decorationThickness: 1,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.03),
+                  child: LoginOption(),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.03),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Don\'t have an account?',
+                        style: subtitle,
                       ),
-                    ),
-                  )
-                ],
-              ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const SignUpScreen()));
+                        },
+                        child: Text(
+                          AppLocalizations.of(context)!.signUp,
+                          style: textButton.copyWith(
+                            decoration: TextDecoration.underline,
+                            decorationThickness: 1,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
-    return scaffold;
   }
 
   Widget obscureChange() {

@@ -8,12 +8,10 @@ class BuildInputFormChangePassword extends StatefulWidget {
   const BuildInputFormChangePassword(
       {Key? key,
       required this.textController,
-      required this.hint,
-      required this.validationType})
+      required this.hint})
       : super(key: key);
   final TextEditingController textController;
   final String hint;
-  final int validationType;
 
   get sharedTextPasswordBloc => null;
 
@@ -34,8 +32,7 @@ class _BuildInputFormChangePasswordState
       child: TextField(
         onChanged: (value) {
           setState(() {
-            if (widget.validationType == 0 &&
-                Validate.checkInvalidateOldPassword(value)) {
+            if (Validate.checkInvalidateOldPassword(value)) {
               error = true;
               errorText = 'Invalid old password';
             } else {
