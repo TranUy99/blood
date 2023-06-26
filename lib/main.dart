@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/languages/language_contanst.dart';
-import 'package:mobile_store/src/ui/homePage/screen/home_page.dart';
+import 'package:mobile_store/src/core/network/network_manager.dart';
 import 'package:mobile_store/src/ui/homePage/screen/navigation_home_page.dart';
-import 'package:mobile_store/src/ui/login_outPage/screen/change_password.dart';
-import 'package:mobile_store/src/ui/login_outPage/screen/login.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:mobile_store/src/ui/profilePage/screen/profile_page.dart';
+import 'package:get/get.dart';
 
 void main() {
+   final NetworkController networkContrroller = Get.put(NetworkController());
+  networkContrroller.onInit();
+
   runApp(const MyApp());
 }
 
@@ -45,10 +46,8 @@ class _MyAppState extends State<MyApp> {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         locale: _locale,
-        // home: ChangePasswordScreen());
-        // home: LogInScreen());
+
         home: NavigationHomePage());
-    // home: ProfilePage());
-    // home: HomePage());
+   
   }
 }
