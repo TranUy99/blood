@@ -171,7 +171,7 @@ class _LogInScreenState extends State<LogInScreen> {
                 ),
               ),
             ),
-            ElevatedButton(onPressed: () => logInBloc.logIn(), child: Text('Check')),
+            //ElevatedButton(onPressed: () => logInBloc.logIn(), child: Text('Check')),
             const SizedBox(
               height: 20,
             ),
