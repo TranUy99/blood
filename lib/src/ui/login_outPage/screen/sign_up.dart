@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/login_outPage/bloc/sign_up_bloc.dart';
-import 'package:mobile_store/src/ui/login_outPage/event/sign_up_event.dart';
 import 'package:mobile_store/src/ui/login_outPage/validate.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/checkbox.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/login_option.dart';
@@ -10,9 +9,6 @@ import 'package:mobile_store/src/ui/login_outPage/widget/primary_button.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/sign_up_form.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
-
-import '../state/sign_up_state.dart';
-
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -30,7 +26,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool obscure = true;
   SignUpBloc signUpBloc = SignUpBloc();
   SharedTextPasswordBloc sharedTextBloc = SharedTextPasswordBloc();
-
 
   List<String> registerList() {
     List<TextEditingController> textEditingControllerList = [
@@ -115,11 +110,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    if(Validate.validFullName(registerList()[0]) == false &&
+                    if (Validate.validFullName(registerList()[0]) == false &&
                         Validate.invalidateMobile(registerList()[1]) == false &&
                         Validate.invalidateEmail(registerList()[2]) == false &&
-                        Validate.checkInvalidateNewPassword(registerList()[3]) == false &&
-                        Validate.checkNotEqualNewPassword(registerList()[3], registerList()[4]) == false){
+                        Validate.checkInvalidateNewPassword(
+                                registerList()[3]) ==
+                            false &&
+                        Validate.checkNotEqualNewPassword(
+                                registerList()[3], registerList()[4]) ==
+                            false) {
                       signUpBloc.updateInformation(registerList());
                       signUpBloc.signUp();
                       Navigator.pop(context);
@@ -131,7 +130,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Padding(
                     padding: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * 0.02),
-                    child: const PrimaryButton(
+                    child: PrimaryButton(
                       buttonText: 'Sign up',
                     ),
                   ),

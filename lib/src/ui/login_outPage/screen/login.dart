@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/homePage/screen/navigation_home_page.dart';
+import 'package:mobile_store/src/ui/login_outPage/screen/change_password.dart';
 import 'package:mobile_store/src/ui/login_outPage/screen/sign_up.dart';
 import 'package:mobile_store/src/ui/login_outPage/validate.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/checkbox.dart';
@@ -46,15 +47,9 @@ class _LogInScreenState extends State<LogInScreen> {
               height: 70,
             ),
             Padding(
-              padding: kDefaultPadding,
-              child: Text(
-                'LOGIN',
-                style: titleText,
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
+                padding: kDefaultPadding,
+                child: Text('LOGIN', style: titleText)),
+            const SizedBox(height: 20),
             Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width * 0.05),
@@ -73,19 +68,24 @@ class _LogInScreenState extends State<LogInScreen> {
                 ),
               ]),
             ),
-            const Padding(
+            Padding(
               padding: kDefaultPadding,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CheckBox(text: 'Save account'),
-                  Text(
-                    'Forgot password?',
-                    style: TextStyle(
-                      color: kZambeziColor,
-                      fontSize: 14,
-                      decoration: TextDecoration.underline,
-                      decorationThickness: 1,
+                  const CheckBox(text: 'Save account'),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ChangePasswordScreen()));
+                    },
+                    child: const Text(
+                      'Forgot password?',
+                      style: TextStyle(
+                        color: kZambeziColor,
+                        fontSize: 14,
+                        decoration: TextDecoration.underline,
+                        decorationThickness: 1,
+                      ),
                     ),
                   ),
                   // )
@@ -95,35 +95,35 @@ class _LogInScreenState extends State<LogInScreen> {
             const SizedBox(
               height: 20,
             ),
-            GestureDetector(
-              onTap: () {
-                if (Validate.checkInvalidateNewPassword(textPasswordController.text) == false
-                    && Validate.invalidateMobile(textPhoneController.text) == false) {
-                  //Input to bloc and set state
-                  logInBloc.updateInformation(textPhoneController.text, textPasswordController.text);
-                  logInBloc.logIn();
-                  showTopSnackBar(Overlay.of(context),
-                      const CustomSnackBar.success(message: 'Right'));
-                  //Login
-                  setState(() {
-                    indexScreen = 0;
-                  });
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const NavigationHomePage(),
-                      ));
-                } else {
-                  showTopSnackBar(
-                      Overlay.of(context),
-                      const CustomSnackBar.error(
-                          message: 'Invalid information'));
-                }
-              },
-              child: const Padding(
-                padding: kDefaultPadding,
+            Padding(
+              padding: kDefaultPadding,
+              child: InkWell(
+                onTap: () {
+                  if (Validate.checkInvalidateNewPassword(textPasswordController.text) == false
+                      && Validate.invalidateMobile(textPhoneController.text) == false) {
+                    //Input to bloc and set state
+                    logInBloc.updateInformation(textPhoneController.text, textPasswordController.text);
+                    logInBloc.logIn();
+                    showTopSnackBar(Overlay.of(context),
+                        const CustomSnackBar.success(message: 'Right'));
+                    //Login
+                    setState(() {
+                      indexScreen = 0;
+                    });
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const NavigationHomePage(),
+                        ));
+                  } else {
+                    showTopSnackBar(
+                        Overlay.of(context),
+                        const CustomSnackBar.error(
+                            message: 'Invalid information'));
+                  }
+                },
                 child: PrimaryButton(
-                  buttonText: 'Log in',
+                  buttonText: 'Log in'
                 ),
               ),
             ),

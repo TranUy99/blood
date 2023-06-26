@@ -10,7 +10,7 @@ ProductDTO _$ProductDTOFromJson(Map<String, dynamic> json) => ProductDTO(
       id: json['id'] as int?,
       name: json['name'] as String?,
       price: json['price'] as String?,
-       image: json['image'] as String?,
+      image: json['image'] as String?,
     );
 
 Map<String, dynamic> _$ProductDTOToJson(ProductDTO instance) =>

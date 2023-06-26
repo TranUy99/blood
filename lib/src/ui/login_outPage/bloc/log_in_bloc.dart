@@ -11,12 +11,13 @@ class LogInBloc {
   void updateInformation(String phoneNumber, String password) {
     logInState = LogInState(phoneNumber, password);
   }
+
   void logIn() {
     print('keep state ${logInState.phoneNumber} - ${logInState.password}');
     if(logInState.phoneNumber != '' && logInState.password != ''){
       onLogInState = OnLogInState(true);
     }
-    print(onLogInState.onLogin);
+    print('Login state: ${onLogInState.onLogin}');
   }
   bool checkLogin(){
     return onLogInState.onLogin;
@@ -29,8 +30,8 @@ class SharedTextPasswordBloc extends ChangeNotifier {
   void updateTextField(String value) {
     _textFieldController.add(value);
   }
+
   void dispose() {
     _textFieldController.close();
   }
 }
-

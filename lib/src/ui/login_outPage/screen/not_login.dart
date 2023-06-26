@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/ui/homePage/screen/navigation_home_page.dart';
 import 'package:mobile_store/src/ui/login_outPage/bloc/log_in_bloc.dart';
 import 'package:mobile_store/src/ui/login_outPage/screen/login.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/primary_button.dart';
@@ -28,16 +27,14 @@ class _NotLoginState extends State<NotLogin> {
             ,child: Image.asset('images/not_login.png'),),
           SizedBox(height: MediaQuery.of(context).size.height * 0.05,),
           InkWell(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LogInScreen(),
-                  ));
-            },
-            child: const PrimaryButton(buttonText: 'Login'),
-          ),
-
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LogInScreen(),
+                    ));
+              },
+              child: PrimaryButton(buttonText: 'Login')),
         ],
       ),
     );

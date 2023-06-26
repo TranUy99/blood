@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_store/src/ui/login_outPage/screen/change_password.dart';
 
 import '../../../constant/colors/theme.dart';
 
@@ -10,6 +11,8 @@ class YourInformation extends StatefulWidget {
 }
 
 class _YourInformationState extends State<YourInformation> {
+  var home;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -25,7 +28,6 @@ class _YourInformationState extends State<YourInformation> {
               Container(
                   padding: EdgeInsets.only(
                       bottom: MediaQuery.of(context).size.height * 0.015),
-
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -65,9 +67,16 @@ class _YourInformationState extends State<YourInformation> {
               ),
               Row(
                 children: [
-                  ElevatedButton(onPressed: () {
-                    
-                  }, child: Text('Change password')),
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChangePasswordScreen(),
+                          ),
+                        );
+                      },
+                      child: Text('Change password')),
                 ],
               )
             ],
@@ -82,11 +91,9 @@ class _YourInformationState extends State<YourInformation> {
             children: [
               Container(
                   padding: EdgeInsets.only(
-                      bottom:
-                      MediaQuery.of(context).size.height * 0.015),
+                      bottom: MediaQuery.of(context).size.height * 0.015),
                   width: MediaQuery.of(context).size.width * 1,
-                  child: const Text('ADDRESS',
-                      style: TextStyle(fontSize: 18))),
+                  child: const Text('ADDRESS', style: TextStyle(fontSize: 18))),
               addressInformation(),
               Row(
                 children: [
@@ -140,8 +147,8 @@ class _YourInformationState extends State<YourInformation> {
                     width: MediaQuery.of(context).size.width * 1,
                   ),
                   Container(
-                    child:
-                    Text('Linh Trung ward, Thu Duc distric, Ho Chi Minh City'),
+                    child: Text(
+                        'Linh Trung ward, Thu Duc distric, Ho Chi Minh City'),
                     width: MediaQuery.of(context).size.width * 1,
                   )
                 ],
@@ -166,7 +173,9 @@ class _YourInformationState extends State<YourInformation> {
                 ],
               ),
             ),
-            Divider(thickness: MediaQuery.of(context).size.height * 0.004,),
+            Divider(
+              thickness: MediaQuery.of(context).size.height * 0.004,
+            ),
           ],
         );
       },
