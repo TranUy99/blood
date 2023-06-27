@@ -6,6 +6,7 @@ import 'package:mobile_store/src/ui/login_outPage/screen/change_password.dart';
 import 'package:mobile_store/src/ui/login_outPage/screen/login.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/ui/profilePage/screen/profile_page.dart';
+import 'package:mobile_store/src/ui/profilePage/widget/edit_information_form.dart';
 
 void main() {
   runApp(const MyApp());
@@ -47,8 +48,9 @@ class _MyAppState extends State<MyApp> {
         locale: _locale,
         // home: ChangePasswordScreen());
         // home: LogInScreen());
-        home: NavigationHomePage());
-    // home: ProfilePage());
+        // home: NavigationHomePage());
+        home: ProfilePage());
     // home: HomePage());
+    // home: PersonalInfomationForm());
   }
 }
