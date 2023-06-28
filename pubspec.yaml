@@ -53,6 +53,7 @@ dependencies:
   snackbar: ^1.0.2
   top_snackbar_flutter: ^3.0.0+1
   connectivity_plus: ^4.0.1
+  custom_pop_up_menu: ^1.2.4
   
 dev_dependencies:
   flutter_test:

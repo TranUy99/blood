@@ -1,75 +1,179 @@
+import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constant/colors/theme.dart';
+import '../../homePage/bloc/product_bloc.dart';
+import '../../homePage/screen/product_screen.dart';
 import '../../homePage/widget/custom_app_bar.dart';
 
 class CategoryScreen extends StatefulWidget {
-  final String categoryType;
-  const CategoryScreen({Key? key, required this.categoryType}) : super(key: key);
+  const CategoryScreen({Key? key}) : super(key: key);
 
   @override
   State<CategoryScreen> createState() => _CategoryScreenState();
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
+  final ProductBloc productBloc = ProductBloc();
+  List<String> brandName = [
+    'Apple',
+    'Samsung',
+    'Oppo',
+    'Xiaomi',
+    'Vivo',
+    'Realme',
+    'Nokia',
+    'Apple',
+    'Samsung',
+    'Oppo',
+    'Xiaomi',
+    'Vivo',
+    'Realme',
+    'Nokia',
+    'Apple',
+    'Samsung',
+    'Oppo',
+    'Xiaomi',
+    'Vivo',
+    'Realme',
+    'Nokia'
+  ];
+  List<String> priceRange = ['Under 500 USD',
+    '500 - 1000 USD',
+    '1000 - 1500 USD',
+    '1500 - 2000 USD',
+    '2000 - 2500 USD',
+    '2500 - 3000 USD'
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.15),
+        preferredSize:
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.15),
         child: AppBar(
-          backgroundColor: kSecondaryColor,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          title: Text(widget.categoryType),
-          flexibleSpace: const CustomAppBar(),
+            backgroundColor: kSecondaryColor,
+            flexibleSpace: const CustomAppBar()),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: MediaQuery.of(context).size.height * 0.02,
+                horizontal: MediaQuery.of(context).size.width * 0.02
+              ),
+              child: Row(
+                children: [
+                  productFilter('Manufacturer', 0.35, manufacturerMenuItems),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+                  productFilter('Price', 0.25, priceMenuItems)
+                ],
+              ),
+            ),
+            ProductScreen(productBloc: productBloc),
+          ],
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: 10, // Number of MenuItemButton items
-              itemBuilder: (BuildContext context, int index) {
-                return SubmenuButton(
-                  menuChildren: <Widget>[
-                    Wrap(
-                      spacing: 8.0,
-                      children: List<Widget>.generate(4, (int i) {
-                        int itemIndex = index * 4 + i;
-                        if (itemIndex >= 10) {
-                          return SizedBox.shrink(); // Limit the number of buttons
-                        }
-                        List<String> labels = ['iPhone', 'Samsung', 'Nokia', 'Vivo', 'Oppo', 'Xiaomi', 'Realme', 'Google', 'Microsoft', 'Other'];
-                        return MenuItemButton(
-                          onPressed: () {
-                            String message = labels[itemIndex];
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(message),
-                              ),
-                            );
-                          },
-                          child: MenuAcceleratorLabel(getMenuItemLabel(itemIndex)),
-                        );
-                      }),
-                    ),
-                  ],
-                  child: Row(
-                    children: [
-                      MenuAcceleratorLabel('Manufacturer'),
-                      Icon(Icons.arrow_drop_down),
-                    ],
-                  ),
-                );
-              },
-            ),
+    );
+  }
+
+  Widget productFilter(String title, double sizeWidth, Widget Function() menuItem) {
+    return CustomPopupMenu(
+      position: PreferredPosition.bottom,
+      arrowColor: kWhiteColor,
+      barrierColor: Colors.black45,
+        menuBuilder: menuItem,
+        pressType: PressType.singleClick,
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.04,
+          width: MediaQuery.of(context).size.width * sizeWidth,
+          decoration: BoxDecoration(
+            border: Border.all(),
+            borderRadius: BorderRadius.circular(5)
           ),
-        ],
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(title),
+              const Icon(Icons.arrow_drop_down_outlined),
+            ],
+          ),
+        )
+    );
+  }
+
+  Widget manufacturerMenuItems() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01,
+      horizontal: MediaQuery.of(context).size.width * 0.02),
+      decoration: const BoxDecoration(
+        color: kWhiteColor,
+      ),
+      child: GridView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          childAspectRatio: 2,
+          crossAxisCount: 4,
+          crossAxisSpacing: MediaQuery.of(context).size.width * 0.02,
+          mainAxisSpacing: MediaQuery.of(context).size.height * 0.01,
+        ),
+        shrinkWrap: true,
+        itemCount: brandName.length,
+        itemBuilder: (context, index) {
+          return InkWell(
+            onTap: () {
+              print(brandName[index]);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Center(
+                child: Text(brandName[index]),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget priceMenuItems() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01,
+          horizontal: MediaQuery.of(context).size.width * 0.02),
+      decoration: const BoxDecoration(
+        color: kWhiteColor,
+      ),
+      child: GridView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          childAspectRatio: 3/1,
+          crossAxisCount: 3,
+          crossAxisSpacing: MediaQuery.of(context).size.width * 0.02,
+          mainAxisSpacing: MediaQuery.of(context).size.height * 0.01,
+        ),
+        shrinkWrap: true,
+        itemCount: priceRange.length,
+        itemBuilder: (context, index) {
+          return InkWell(
+            onTap: () {
+              print(priceRange[index]);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Center(
+                child: Text(priceRange[index]),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
