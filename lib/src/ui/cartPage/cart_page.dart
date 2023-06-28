@@ -44,7 +44,7 @@ class _CartPageState extends State<CartPage> {
                       //Xử lý xóa tất cả sản phẩm
                     },
                     icon: Icon(Icons.clear_outlined),
-                    label: Text(
+                    label:const  Text(
                       'Clear cart',
                       style: TextStyle(
                         color: Colors.white,
@@ -63,12 +63,12 @@ class _CartPageState extends State<CartPage> {
             ),
             ListView.builder(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: 3, // số lượng sản phẩm trong giỏ hàng
               itemBuilder: (context, index) {
                 return Padding(
                   padding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                      const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
                   child: Container(
                     height: 120,
                     decoration: BoxDecoration(
@@ -87,7 +87,7 @@ class _CartPageState extends State<CartPage> {
                       children: <Widget>[
                         Container(
                           width: 120.0,
-                          decoration: BoxDecoration(
+                          decoration:const  BoxDecoration(
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(15.0),
                               bottomLeft: Radius.circular(15.0),
@@ -104,7 +104,7 @@ class _CartPageState extends State<CartPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text(
+                           const  Text(
                               //'Product ${index + 1}',
                               'Iphone 14 ProMax',
                               style: TextStyle(
@@ -112,14 +112,14 @@ class _CartPageState extends State<CartPage> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(height: 10.0),
-                            Text(
+                          const  SizedBox(height: 10.0),
+                           const  Text(
                               'Price: 1099 USD',
                               style: TextStyle(
                                 fontSize: 14.0,
                               ),
                             ),
-                            SizedBox(height: 10.0),
+                           const  SizedBox(height: 10.0),
                             Row(
                               children: <Widget>[
                                 IconButton(
@@ -128,7 +128,7 @@ class _CartPageState extends State<CartPage> {
                                     // xử lý giảm số lượng sản phẩm
                                   },
                                 ),
-                                Text(
+                               const  Text(
                                   '1',
                                   style: TextStyle(
                                     fontSize: 14.0,
@@ -136,7 +136,7 @@ class _CartPageState extends State<CartPage> {
                                   ),
                                 ),
                                 IconButton(
-                                  icon: Icon(Icons.add),
+                                  icon: const Icon(Icons.add),
                                   onPressed: () {
                                     // xử lý tăng số lượng sản phẩm
                                   },
@@ -338,7 +338,7 @@ class _CartPageState extends State<CartPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(left: 20.0, bottom: 10.0),
+                padding: const EdgeInsets.only(left: 20.0, bottom: 10.0),
                 child: ElevatedButton.icon(
                   onPressed: () {
                     Navigator.push(
@@ -348,8 +348,8 @@ class _CartPageState extends State<CartPage> {
                       ),
                     );
                   },
-                  icon: Icon(Icons.arrow_back_rounded),
-                  label: Text(
+                  icon: const Icon(Icons.arrow_back_rounded),
+                  label:const Text(
                     'Continue shopping',
                     style: TextStyle(
                       color: Colors.white,
@@ -365,7 +365,7 @@ class _CartPageState extends State<CartPage> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(right: 20.0, bottom: 10.0),
+                padding: const EdgeInsets.only(right: 20.0, bottom: 10.0),
                 child: ElevatedButton.icon(
                   onPressed: () {
                     Navigator.push(
@@ -376,7 +376,7 @@ class _CartPageState extends State<CartPage> {
                     );
                   },
                   icon: Icon(Icons.shopping_cart),
-                  label: Text(
+                  label:const  Text(
                     'Check out',
                     style: TextStyle(
                       color: Colors.white,

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/ui/profilePage/widget/hexagon_discount.dart';
 
@@ -12,31 +10,33 @@ class Promotion extends StatefulWidget {
 class _PromotionState extends State<Promotion> {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: 6,
-      itemBuilder: (context, index) {
-        return Container(
-          padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.015),
-          child: ListTile(
-            leading: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                HexagonPage(
-                  height: MediaQuery.of(context).size.height * 0.07,
-                  discount: 20,
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.55,
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: 6,
+          itemBuilder: (context, index) {
+            return Container(
+              padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.015),
+              child: ListTile(
+                leading: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    HexagonPage(
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      discount: 20,
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            title: const Text(
-                '20% discount for orders under 1500\$, for customers who bought 10000\$ '),
-          ),
-        );
-      },
+                title: const Text('20% discount for orders under 1500\$, for customers who bought 10000\$ '),
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }
-
-
-

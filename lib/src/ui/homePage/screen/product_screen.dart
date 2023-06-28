@@ -98,7 +98,7 @@ Widget build(BuildContext context) {
                   ),
                 ),
                 child: Container(
-                  decoration: BoxDecoration(border: Border.all()),
+                  // decoration: BoxDecoration(border: Border.all()),
                   child: Column(
                     children: [
                       SizedBox(

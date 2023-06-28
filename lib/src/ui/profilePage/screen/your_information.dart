@@ -15,100 +15,105 @@ class _YourInformationState extends State<YourInformation> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          padding: EdgeInsets.symmetric(
-            vertical: MediaQuery.of(context).size.height * 0.015,
-            horizontal: MediaQuery.of(context).size.width * 0.03,
-          ),
-          width: MediaQuery.of(context).size.width * 1,
-          child: Column(
-            children: [
-              Container(
-                  padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).size.height * 0.015),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('INFORMATION', style: TextStyle(fontSize: 18)),
-                      InkWell(
-                        onTap: () {},
-                        child: Image.asset(
-                          'images/edit.png',
-                          height: MediaQuery.of(context).size.height * 0.03,
-                        ),
-                      )
-                    ],
-                  )),
-              Row(
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.55,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(
+                vertical: MediaQuery.of(context).size.height * 0.015,
+                horizontal: MediaQuery.of(context).size.width * 0.03,
+              ),
+              width: MediaQuery.of(context).size.width * 1,
+              child: Column(
                 children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    child: Column(
-                      children: [
-                        Text(''),
-                        Text('Tran Ky Anh'),
-                        Text('01/01/2001'),
-                      ],
-                    ),
+                  Container(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height * 0.015),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text('INFORMATION', style: TextStyle(fontSize: 18)),
+                          InkWell(
+                            onTap: () {},
+                            child: Image.asset(
+                              'images/edit.png',
+                              height: MediaQuery.of(context).size.height * 0.03,
+                            ),
+                          )
+                        ],
+                      )),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: const Column(
+                          children: [
+                            Text(''),
+                            Text('Tran Ky Anh'),
+                            Text('01/01/2001'),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: const Column(
+                          children: [
+                            Text('0583841958'),
+                            Text('Tran Ky Anh'),
+                            Text('01/01/2001'),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    child: Column(
-                      children: [
-                        Text('0583841958'),
-                        Text('Tran Ky Anh'),
-                        Text('01/01/2001'),
-                      ],
-                    ),
-                  ),
+                  Row(
+                    children: [
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChangePasswordScreen(),
+                              ),
+                            );
+                          },
+                          child: Text('Change password')),
+                    ],
+                  )
                 ],
               ),
-              Row(
+            ),
+            const Divider(color: kWhiteGrey, thickness: 10),
+            Container(
+              padding: EdgeInsets.symmetric(
+                  vertical: MediaQuery.of(context).size.height * 0.015,
+                  horizontal: MediaQuery.of(context).size.width * 0.03),
+              child: Column(
                 children: [
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ChangePasswordScreen(),
-                          ),
-                        );
-                      },
-                      child: Text('Change password')),
+                  Container(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height * 0.015),
+                      width: MediaQuery.of(context).size.width * 1,
+                      child: const Text('ADDRESS', style: TextStyle(fontSize: 18))),
+                  addressInformation(),
+                  Row(
+                    children: [
+                      SizedBox(
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          child: Text('Add'),
+                        ),
+                      ),
+                    ],
+                  )
                 ],
-              )
-            ],
-          ),
+              ),
+            ),
+          ],
         ),
-        const Divider(color: kWhiteGrey, thickness: 10),
-        Container(
-          padding: EdgeInsets.symmetric(
-              vertical: MediaQuery.of(context).size.height * 0.015,
-              horizontal: MediaQuery.of(context).size.width * 0.03),
-          child: Column(
-            children: [
-              Container(
-                  padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).size.height * 0.015),
-                  width: MediaQuery.of(context).size.width * 1,
-                  child: const Text('ADDRESS', style: TextStyle(fontSize: 18))),
-              addressInformation(),
-              Row(
-                children: [
-                  SizedBox(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Text('Add'),
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ],
+      ),
     );
   }
 
