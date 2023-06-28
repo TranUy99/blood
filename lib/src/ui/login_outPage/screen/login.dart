@@ -13,7 +13,7 @@ import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../bloc/log_in_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
