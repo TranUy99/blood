@@ -1,9 +1,11 @@
+
 class LogInState {
-  final List<String> onUpdated;
-  LogInState(this.onUpdated);
+  final String phoneNumber;
+  final String password;
+  LogInState(this.phoneNumber, this.password);
 }
 
-class OnChangePasswordState {
-  final String onChangePasswordState;
-  OnChangePasswordState(this.onChangePasswordState);
+class OnLogInState {
+  final bool onLogin;
+  OnLogInState(this.onLogin);
 }

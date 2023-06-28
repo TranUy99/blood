@@ -2,22 +2,25 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../event/log_in_event.dart';
 import '../state/log_in_state.dart';
 
-class LogInBloc {
-  late String _phonenumber;
-  late String _password;
+LogInState logInState = LogInState('', '');
+OnLogInState onLogInState = OnLogInState(false);
 
-  void updateInformation(String phonenumber, String password) {
-    _phonenumber = phonenumber;
-    _password = password;
+class LogInBloc {
+  void updateInformation(String phoneNumber, String password) {
+    logInState = LogInState(phoneNumber, password);
   }
 
   void logIn() {
-    // Perform registration logic here
-    // You can use the _email and _password variables to submit the registration data
-    print('Phone number:$_phonenumber, Password: $_password');
+    print('keep state ${logInState.phoneNumber} - ${logInState.password}');
+    if(logInState.phoneNumber != '' && logInState.password != ''){
+      onLogInState = OnLogInState(true);
+    }
+    print('Login state: ${onLogInState.onLogin}');
+  }
+  bool checkLogin(){
+    return onLogInState.onLogin;
   }
 }
 
