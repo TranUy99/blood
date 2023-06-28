@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 
 class LoginOption extends StatelessWidget {
+  const LoginOption({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         BuildButton(
           iconImage: Image(
-            height: 20,
-            width: 20,
+            height: MediaQuery.of(context).devicePixelRatio * 8,
             image: AssetImage('images/facebook.png'),
           ),
           textButton: 'Facebook',
         ),
         BuildButton(
           iconImage: Image(
-            height: 20,
-            width: 20,
+            height: MediaQuery.of(context).devicePixelRatio * 8,
             image: AssetImage('images/google.png'),
           ),
           textButton: 'Google',
@@ -44,15 +44,10 @@ class BuildButton extends StatelessWidget {
         border: Border.all(color: Colors.grey),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Expanded(
-            child: iconImage,
-          ),
-          const SizedBox(width: 5),
-          Expanded(
-            child: Text(textButton),
-          ),
+          iconImage,
+          Text(textButton),
         ],
       ),
     );
