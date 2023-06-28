@@ -2,33 +2,25 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../event/log_in_event.dart';
 import '../state/log_in_state.dart';
 
-// class LogInBloc {
-//   var state = LogInState([]);
-//   final eventLogInController = StreamController<LogInRemoteEvent>();
-//   final stateController = StreamController<LogInState>();
-//   LogInBloc() {
-//     eventLogInController.stream.listen((event) {
-//       if (event is LogInEvent) {
-//         state = LogInState(event.saveInformation);
-//       }
-//       stateController.sink.add(state);
-//     });
-//   }
-// }
+LogInState logInState = LogInState('', '');
+OnLogInState onLogInState = OnLogInState(false);
 
 class LogInBloc {
-  late String _phoneNumber;
-  late String _password;
   void updateInformation(String phoneNumber, String password) {
-    _phoneNumber = phoneNumber;
-    _password = password;
+    logInState = LogInState(phoneNumber, password);
   }
 
   void logIn() {
-    print('Keep: $_phoneNumber - $_password');
+    print('keep state ${logInState.phoneNumber} - ${logInState.password}');
+    if(logInState.phoneNumber != '' && logInState.password != ''){
+      onLogInState = OnLogInState(true);
+    }
+    print('Login state: ${onLogInState.onLogin}');
+  }
+  bool checkLogin(){
+    return onLogInState.onLogin;
   }
 }
 

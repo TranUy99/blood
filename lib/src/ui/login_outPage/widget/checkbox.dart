@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/constant/colors/theme.dart';
+
+import '../../../constant/colors/theme.dart';
 
 class CheckBox extends StatefulWidget {
   final String text;
-  const CheckBox(this.text, {super.key});
+  const CheckBox({super.key, required this.text});
+
   @override
   _CheckBoxState createState() => _CheckBoxState();
 }
@@ -12,37 +14,29 @@ class _CheckBoxState extends State<CheckBox> {
   bool _isSelected = false;
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
       children: [
-        Row(
-          children: [
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  _isSelected = !_isSelected;
-                });
-              },
-              child: Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: kDarkGreyColor)),
-                child: _isSelected
-                    ? const Icon(
-                        Icons.check,
-                        size: 17,
-                        color: Colors.green,
-                      )
-                    : null,
-              ),
-            ),
-            const SizedBox(
-              width: 12,
-            ),
-            Text(widget.text),
-          ],
-        )
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _isSelected = !_isSelected;
+            });
+          },
+          child: Container(
+            width: 20,
+            height: 20,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                border: Border.all(color: kDarkGreyColor)),
+            child: _isSelected
+                ? const Icon(Icons.check, size: 17, color: Colors.green)
+                : null,
+          ),
+        ),
+        const SizedBox(
+          width: 12,
+        ),
+        Text(widget.text),
       ],
     );
   }

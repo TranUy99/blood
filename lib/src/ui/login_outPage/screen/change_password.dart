@@ -52,7 +52,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             child: Column(
               children: [
                 Padding(
-                  padding: kDefaultPadding,
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.04),
                   child: Text(
                     'Change Password',
                     style: titleText,
@@ -65,7 +66,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     BuildInputFormChangePassword(
                       hint: 'Old password',
                       textController: textOldPasswordController,
-                      validationType: 0,
                     ),
                     BuildInputFormPassword(
                       hint: 'New password',
@@ -87,29 +87,45 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    if (Validate.checkInvalidateNewPassword(
-                                textNewPasswordController.text) ==
+                    if (textOldPasswordController.text ==
+                            textNewPasswordController.text &&
+                        textNewPasswordController.text.isNotEmpty &&
+                        textOldPasswordController.text.isNotEmpty) {
+                      showTopSnackBar(
+                          Overlay.of(context),
+                          const CustomSnackBar.error(
+                              message: 'The old and new passwords must be different'));
+                    }else{
+                      {
+                        if (Validate.checkInvalidateNewPassword(
+                            textNewPasswordController.text) ==
                             false &&
-                        Validate.checkNotEqualNewPassword(
+                            Validate.checkNotEqualNewPassword(
                                 passwordList()[0], passwordList()[0]) ==
-                            false) {
-                      changePasswordBloc.updatePassword(
-                          textOldPasswordController.text,
-                          textNewPasswordController.text);
-                      changePasswordBloc.changePassword();
-                      showTopSnackBar(Overlay.of(context),
-                          CustomSnackBar.success(message: 'Success'));
-                    } else {
-                      showTopSnackBar(Overlay.of(context),
-                          CustomSnackBar.error(message: 'Invalid password'));
+                                false) {
+                          changePasswordBloc.updatePassword(
+                              textOldPasswordController.text,
+                              textNewPasswordController.text);
+                          changePasswordBloc.changePassword();
+                          showTopSnackBar(
+                              Overlay.of(context),
+                              const CustomSnackBar.success(
+                                  message: 'Password changed successfully'));
+                          Navigator.pop(context);
+                        } else {
+                          showTopSnackBar(
+                              Overlay.of(context),
+                              const CustomSnackBar.error(
+                                  message: 'Invalid information'));
+                        }
+                      }
                     }
                   },
                   child: Padding(
                     padding: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * 0.02),
-                    child: PrimaryButton(
+                    child: const PrimaryButton(
                       buttonText: 'Save',
-                      onPressed: () {},
                     ),
                   ),
                 ),
@@ -120,48 +136,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       ),
     );
   }
-
-  // const SizedBox(
-  //   height: 20,
-  // ),
-  // GestureDetector(
-  //   onTap: () {
-  //     if (Validate.checkInvalidateNewPassword(
-  //                 textPasswordController.text) ==
-  //             false &&
-  //         Validate.checkInvalidateNewPassword(
-  //                 textConfirmPasswordController.text) ==
-  //             false) {
-  //       ChangePasswordBloc.updatePassword(
-  //           textOldPasswordController.text,
-  //           textNewPasswordController.text);
-  //       ChangePasswordBloc.changePassword();
-  //       showTopSnackBar(Overlay.of(context),
-  //           CustomSnackBar.success(message: 'Yes'));
-  //     } else {
-  //       showTopSnackBar(Overlay.of(context),
-  //           CustomSnackBar.error(message: 'Invalid information'));
-  //     }
-  //   },
-  //   child: Padding(
-  //     padding: kDefaultPadding,
-  //     child: PrimaryButton(
-  //       buttonText: 'Log in',
-  //       onPressed: () {
-  //         GestureDetector(
-  //           onTap: () => Navigator.pushReplacement(
-  //             context,
-  //             MaterialPageRoute(
-  //               builder: (context) => const HomePage(),
-  //             ),
-  //           ),
-  //         );
-  //           },
-  //         ),
-  //       ),
-  //     ),
-  //   ],
-  // )),
 
   Widget obscureChange() {
     return IconButton(
@@ -180,67 +154,4 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 color: kGreyColor,
               ));
   }
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: Text('Change Password'),
-  //     ),
-  //     body: Padding(
-  //       padding: const EdgeInsets.all(16.0),
-  //       child: Form(
-  //         key: _formKey,
-  //         child: Column(
-  //           crossAxisAlignment: CrossAxisAlignment.start,
-  //           children: [
-  //             TextFormField(
-  //               decoration: InputDecoration(labelText: 'Old password'),
-  //               validator: (value) {
-  //                 if (value!.isEmpty) {
-  //                   return 'Please enter old password';
-  //                 }
-  //                 return null;
-  //               },
-  //               onSaved: (value) => _oldPassword = value!,
-  //             ),
-  //             TextFormField(
-  //               decoration: InputDecoration(labelText: 'New password'),
-  //               obscureText: true,
-  //               validator: (value) {
-  //                 if (value!.isEmpty) {
-  //                   return 'Please enter new password';
-  //                 }
-  //                 return null;
-  //               },
-  //               onSaved: (value) => _newPassword = value!,
-  //             ),
-  //             TextFormField(
-  //               decoration: InputDecoration(labelText: 'Confirm new password'),
-  //               obscureText: true,
-  //               validator: (value) {
-  //                 if (value!.isEmpty) {
-  //                   return 'Please re-enter new password';
-  //                 }
-  //                 return null;
-  //               },
-  //               onSaved: (value) => _newPassword = value!,
-  //             ),
-  //             SizedBox(height: 16.0),
-  //             ElevatedButton(
-  //               onPressed: () {
-  //                 if (_formKey.currentState!.validate()) {
-  //                   _formKey.currentState!.save();
-  //                   _changePassword();
-  //                 }
-  //               },
-  //               child: Text('Save'),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 }
-
-void _changePassword() {}

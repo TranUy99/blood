@@ -40,16 +40,15 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: "Mobile Store",
-        theme: ThemeData(fontFamily: 'Poppins'),
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        locale: _locale,
-        // home: ChangePasswordScreen());
-        // home: LogInScreen());
-        // home: NavigationHomePage());
-        home: ProfilePage());
+      debugShowCheckedModeBanner: false,
+      title: "Mobile Store",
+      theme: ThemeData(fontFamily: 'Poppins'),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: _locale,
+      // home: LogInScreen()
+      home: NavigationHomePage(),
+    );
     // home: HomePage());
     // home: PersonalInfomationForm());
   }
