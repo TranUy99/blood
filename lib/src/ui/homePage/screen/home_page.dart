@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
       body:  SingleChildScrollView(
         child: Column(children: [
           const CarouselSliderBanner(),
-          ProductScreen(productBloc: productBloc,),
+          ProductScreen(productBloc: productBloc),
         ]),
       ),
 
