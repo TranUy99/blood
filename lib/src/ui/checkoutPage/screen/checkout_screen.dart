@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/homePage/widget/custom_app_bar.dart';
 
+import '../../cartPage/cart_page.dart';
+
+import '../widget/payment.dart';
+
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({Key? key}) : super(key: key);
 
@@ -20,248 +24,200 @@ class _CheckoutPageState extends State<CheckoutPage> {
             Size.fromHeight(MediaQuery.of(context).size.height * 0.15),
         child: AppBar(
             backgroundColor: kSecondaryColor,
-            leading: Image(
-              image: const AssetImage('images/banner0.jpg'),
-              height: MediaQuery.of(context).size.height * 0.04,
-            ),
             flexibleSpace: const CustomAppBar()),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.location_on,
-                              color: Colors.red,
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.location_on,
+                            color: Colors.red,
+                          ),
+                          SizedBox(width: 8.0),
+                          Text(
+                            'Delivery address',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
                             ),
-                            SizedBox(width: 8.0),
-                            Text(
-                              'Delivery address',
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 16.0),
+                      RichText(
+                        text: TextSpan(
+                          text: 'Tran Ky Anh',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16.0,
+                          ),
+                          children: [
+                            TextSpan(
+                              text:
+                                  ' | 0583841958\n273 Ly Thuong Kiet, 6 ward, district 8, Ho Chi Minh city',
                               style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
+                                color: Colors.black54,
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(height: 16.0),
-                        RichText(
-                          text: TextSpan(
-                            text: 'Tran Ky Anh',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16.0,
-                            ),
-                            children: [
-                              TextSpan(
-                                text:
-                                    ' | 0583841958\n273 Ly Thuong Kiet, 6 ward, district 8, Ho Chi Minh cit',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black54,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 32.0),
+          Text(
+            'Payment details',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 10),
+          Row(
+            children: [
+              Image.asset(
+                'images/iphone14Blue.jpg',
+                width: 100,
+                height: 100,
+              ),
+              SizedBox(width: 5),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Iphone 14',
+                      style: TextStyle(
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                ],
+                    Text(
+                      'Blue, 128 GB',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    Text(
+                      'Quantity: 1',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 32.0),
-            Text(
-              'Payment details',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+              Text(
+                '1025 USD',
+                style: TextStyle(
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.bold,
+                  color: kGreenColor,
+                ),
               ),
-            ),
-            SizedBox(height: 16.0),
-            Row(
+            ],
+          ),
+          SizedBox(height: 14),
+          Row(
+            children: [
+              Image.asset(
+                'images/ZFlip4.jpg',
+                width: 100,
+                height: 100,
+              ),
+              SizedBox(width: 5),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Samsung Galaxy Z Flip 4',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      'Purple, 128GB',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    Text(
+                      'Quantity: 1',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Text(
+                '1000 USD',
+                style: TextStyle(
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.bold,
+                  color: kGreenColor,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 16),
+          PaymentMethod(
+            paymentMethod: _paymentMethod,
+            onChanged: (value) {
+              setState(() {
+                _paymentMethod = value;
+              });
+            },
+          ),
+          SizedBox(height: 32.0),
+          Container(
+            margin: EdgeInsets.only(bottom: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Product Name'),
-                      Text('SKU: 123456789'),
-                      Text('Quantity: 1'),
-                    ],
-                  ),
-                ),
-                Text('\$999.99'),
-              ],
-            ),
-            SizedBox(height: 14.0),
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Product Name'),
-                      Text('SKU: 987654321'),
-                      Text('Quantity: 1'),
-                    ],
-                  ),
-                ),
-                Text('\$699.99'),
-              ],
-            ),
-            SizedBox(height: 32.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Discount'),
-                Text('0 USD'),
-              ],
-            ),
-            SizedBox(height: 14.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Delivery fee'),
-                Text('15 USD'),
-              ],
-            ),
-            SizedBox(height: 14.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Total',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  '1025 USD',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: kRedColor,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 32.0),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Select form to pay',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 5),
-                RadioListTile<String>(
-                  title: Row(
-                    children: [
-                      Icon(Icons.account_balance_wallet),
-                      SizedBox(width: 5),
-                      Text('Wallet MoMo'),
-                    ],
-                  ),
-                  value: 'wallet_momo',
-                  groupValue: _paymentMethod,
-                  onChanged: (value) {
-                    setState(() {
-                      _paymentMethod = value;
-                    });
-                  },
-                  activeColor: kGreenColor,
-                ),
-                RadioListTile<String>(
-                  title: Row(
-                    children: [
-                      Icon(Icons.payment),
-                      SizedBox(width: 5),
-                      Text('Pay after receive order'),
-                    ],
-                  ),
-                  value: 'pay_after_receive_order',
-                  groupValue: _paymentMethod,
-                  onChanged: (value) {
-                    setState(() {
-                      _paymentMethod = value;
-                    });
-                  },
-                  activeColor: kGreenColor,
-                ),
-                RadioListTile<String>(
-                  title: Row(
-                    children: [
-                      Icon(Icons.account_balance),
-                      SizedBox(width: 5),
-                      Text('Banking'),
-                    ],
-                  ),
-                  value: 'banking',
-                  groupValue: _paymentMethod,
-                  onChanged: (value) {
-                    setState(() {
-                      _paymentMethod = value;
-                    });
-                  },
-                  activeColor: kGreenColor,
-                ),
-              ],
-            ),
-            Container(
-              margin: EdgeInsets.only(bottom: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: SizedBox(
-                      height: 50.0,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: kGreenColor,
-                        ),
-                        child: Text(
-                          'Pay',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
+                  child: SizedBox(
+                    height: 50.0,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: kGreenColor,
+                      ),
+                      child: Text(
+                        'Pay',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ]),
       ),
     );
   }

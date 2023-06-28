@@ -1,0 +1,81 @@
+import 'package:flutter/material.dart';
+import 'package:mobile_store/src/constant/colors/theme.dart';
+
+class AddressInfo extends StatelessWidget {
+  final int selectedAddressIndex;
+  final List<String> addresses;
+  final Function(int) onAddressSelected;
+
+  const AddressInfo ({
+    Key? key,
+    required this.selectedAddressIndex,
+    required this.addresses,
+    required this.onAddressSelected,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Text('ADDRESS', style: TextStyle(fontSize: 14)),
+        ),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: addresses.length,
+          itemBuilder: (context, index) {
+            return RadioListTile(
+              value: index,
+              groupValue: selectedAddressIndex,
+              onChanged: (int? value) {
+                onAddressSelected(value!);
+              },
+              activeColor: kGreenColor,
+              title: RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: addresses[index].split('|')[0].trim(),
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    TextSpan(
+                      text: ' | ${addresses[index].split('|')[1].trim()}',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: TextButton(
+            onPressed: () {
+              // Xử lý sự kiện khi người dùng nhấn vào nút "Thêm địa chỉ khác"
+            },
+            child: Text(
+              'Add another address',
+              style: TextStyle(
+                fontSize: 14,
+                color: kGreenColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}

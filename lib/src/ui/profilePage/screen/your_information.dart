@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/ui/login_outPage/screen/change_password.dart';
+import 'package:mobile_store/src/ui/profilePage/widget/edit_information_form.dart';
 
 import '../../../constant/colors/theme.dart';
 
@@ -33,11 +34,18 @@ class _YourInformationState extends State<YourInformation> {
                     children: [
                       const Text('INFORMATION', style: TextStyle(fontSize: 18)),
                       InkWell(
-                        onTap: () {},
-                        child: Image.asset(
-                          'images/edit.png',
-                          height: MediaQuery.of(context).size.height * 0.03,
-                        ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditInfomationForm()),
+                          );
+                        },
+                        child: Icon(Icons.edit),
+                        // Image.asset(
+                        //   'images/edit.png',
+                        //   height: MediaQuery.of(context).size.height * 0.03,
+                        // ),
                       )
                     ],
                   )),
@@ -158,17 +166,19 @@ class _YourInformationState extends State<YourInformation> {
                 children: [
                   InkWell(
                     onTap: () {},
-                    child: Image.asset(
-                      'images/edit.png',
-                      height: MediaQuery.of(context).size.height * 0.03,
-                    ),
+                    child: Icon(Icons.edit),
+                    // Image.asset(
+                    //   'images/edit.png',
+                    //   height: MediaQuery.of(context).size.height * 0.03,
+                    // ),
                   ),
                   InkWell(
                     onTap: () {},
-                    child: Image.asset(
-                      'images/delete.png',
-                      height: MediaQuery.of(context).size.height * 0.03,
-                    ),
+                    child: Icon(Icons.delete),
+                    // Image.asset(
+                    //   'images/delete.png',
+                    //   height: MediaQuery.of(context).size.height * 0.03,
+                    // ),
                   )
                 ],
               ),

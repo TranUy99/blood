@@ -6,6 +6,7 @@ import 'package:mobile_store/src/ui/login_outPage/screen/change_password.dart';
 import 'package:mobile_store/src/ui/login_outPage/screen/login.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/ui/profilePage/screen/profile_page.dart';
+import 'package:mobile_store/src/ui/profilePage/widget/edit_information_form.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,15 +40,16 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: "Mobile Store",
-        theme: ThemeData(fontFamily: 'Poppins'),
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            locale: _locale,
-        // home: LogInScreen()
+      debugShowCheckedModeBanner: false,
+      title: "Mobile Store",
+      theme: ThemeData(fontFamily: 'Poppins'),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: _locale,
+      // home: LogInScreen()
       home: NavigationHomePage(),
     );
     // home: HomePage());
+    // home: PersonalInfomationForm());
   }
 }
