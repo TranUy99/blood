@@ -72,7 +72,7 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
                     child: DropdownButtonFormField<String>(
                       value: _selectedGender,
                       onChanged: (value) =>
-                          setState(() => _selectedGender = value!),
+                          setState(() => _selectedGender = value),
                       decoration: InputDecoration(
                         hintText: 'Gender',
                         border: OutlineInputBorder(),
@@ -217,31 +217,6 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
     );
   }
 
-  //         TextFormField(
-  //           controller: _nameController,
-  //           decoration: InputDecoration(
-  //             labelText: 'Full name',
-  //           ),
-  //           validator: (value) {
-  //             if (value!.isEmpty) {
-  //               return 'Please enter full name';
-  //             }
-  //             return null;
-  //           },
-  //         ),
-  //         SizedBox(height: 16.0),
-  //         TextFormField(
-  //           controller: _dateOfbirthController,
-  //           decoration: InputDecoration(
-  //             labelText: 'Date of birth',
-  //           ),
-  //           validator: (value) {
-  //             if (value!.isEmpty) {
-  //               return 'Please enter date of birth';
-  //             }
-  //             return null;
-  //           },
-  //         ),
   //         // GestureDetector(
   //         //   onTap: () => _selectDate(context),
   //         //   child: AbsorbPointer(
@@ -343,48 +318,7 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
   //         //   },
   //         //   buttonText: 'Save',
   //         // ),
-  //         Row(
-  //           mainAxisAlignment: MainAxisAlignment.end,
-  //           children: [
-  //             ElevatedButton(
-  //               onPressed: () {
-  //                 if (_formKey.currentState!.validate()) {
-  //                   // Submit the form
-  //                   // Handle the form data here
-  //                   final name = _nameController.text;
-  //                   final email = _emailController.text;
-  //                   final dateOfBirth = _dateOfbirthController.text;
-  //                   // '${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}';
-  //                   final gender = _selectedGenderController.text;
-  //                   print('Name: $name');
-  //                   print('Email: $email');
-  //                   print('Date of birth: $dateOfBirth');
-  //                   print('Gender: $gender');
-  //                 }
-  //                 // Navigator.push(
-  //                 //   context,
-  //                 //   MaterialPageRoute(builder: (context) => ProfilePage()),
-  //                 // );
-  //               },
-  //               child: Text('Save'),
-  //               style: ButtonStyle(
-  //                 backgroundColor:
-  //                     MaterialStateProperty.all<Color>(Colors.green),
-  //               ),
-  //             ),
-  //             SizedBox(width: 10),
-  //             ElevatedButton(
-  //               onPressed: () {
-  //               },
-  //               child: Text('Cancel'),
-  //               style: ButtonStyle(
-  //                 backgroundColor:
-  //                     MaterialStateProperty.all<Color>(Colors.red),
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       ]),
+  //
 
 //   Future<void> _selectDate(BuildContext context) async {
 //     final DateTime? picked = await showDatePicker(
