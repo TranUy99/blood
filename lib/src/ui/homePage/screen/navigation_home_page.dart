@@ -16,30 +16,42 @@ class NavigationHomePage extends StatefulWidget {
   @override
   State<NavigationHomePage> createState() => _NavigationHomePageState();
 }
-
+int indexScreen = 0;
 class _NavigationHomePageState extends State<NavigationHomePage> {
-  int index = 0;
-  List appScreens = [const HomePage(), LogInScreen(), LogInScreen()];
+
+  final LogInBloc loginBloc = LogInBloc();
+
+  List appScreens = [const HomePage(), const LogInScreen(), const LogInScreen()];
 
   List navigationLoginScreen() {
     return appScreens = [const HomePage(), const CartPage(), const ProfilePage()];
   }
 
   List navigationLogoutScreen(){
-    return appScreens = [const HomePage(), LogInScreen(), LogInScreen()];
+    return appScreens = [const HomePage(), const NotLogin(), const NotLogin()];
+  }
+
+  navi(){
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const LogInScreen(),
+        ));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: navigationLoginScreen()[index],
+      body: loginBloc.checkLogin()
+          ? navigationLoginScreen()[indexScreen]
+          : navigationLogoutScreen()[indexScreen],
       bottomNavigationBar: NavigationBar(
         height: MediaQuery.of(context).size.height * 0.07,
         onDestinationSelected: (value) => setState(() {
-          index = value;
+          indexScreen = value;
         }),
-        indicatorColor: Color.fromARGB(100, 233, 233, 233),
-        selectedIndex: index,
+        indicatorColor: const Color.fromARGB(100, 233, 233, 233),
+        selectedIndex: indexScreen,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
         destinations: const [
           NavigationDestination(
