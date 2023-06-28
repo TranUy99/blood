@@ -82,7 +82,6 @@ class _ProfilePageState extends State<ProfilePage> {
         setState(() {
           screenIndex = screen;
         });
-        print(screenIndex);
       },
       child: Column(
         children: [
