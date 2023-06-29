@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/homePage/widget/custom_app_bar.dart';
 import '../checkoutPage/screen/checkout_screen.dart';
+import '../checkoutPage/widget/address.dart';
 import '../homePage/screen/navigation_home_page.dart';
 
 class CartPage extends StatefulWidget {
@@ -15,8 +16,9 @@ class _CartPageState extends State<CartPage> {
   int selectedAddressIndex = 0;
   List<String> addresses = [
     'Tran Ky Anh | 0583841958,\n515 a2-07 Le Van Luong, Tan Phong ward, district 7, Ho Chi Minh city',
-    'Tran Ky Anh | 0583841958,\n515 Nguyen Van Cu, Nguyen Cu Trinh ward, district 1, Ho Chi Minh city',
+    'Tran Ky Anh | 0583841958\n273 Ly Thuong Kiet, 6 ward, district 8, Ho Chi Minh city',
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,20 +108,22 @@ class _CartPageState extends State<CartPage> {
                           children: <Widget>[
                            const  Text(
                               //'Product ${index + 1}',
-                              'Iphone 14 ProMax',
+                              'Iphone 14 Pro Max',
                               style: TextStyle(
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                          const  SizedBox(height: 10.0),
-                           const  Text(
-                              'Price: 1099 USD',
+                            SizedBox(height: 10),
+                            Text(
+                              '1099 USD',
                               style: TextStyle(
-                                fontSize: 14.0,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: kGreenColor,
                               ),
                             ),
-                           const  SizedBox(height: 10.0),
+                            SizedBox(height: 10),
                             Row(
                               children: <Widget>[
                                 IconButton(
@@ -181,70 +185,14 @@ class _CartPageState extends State<CartPage> {
                 ),
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Text('ADDRESS', style: TextStyle(fontSize: 14)),
-                ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: addresses.length,
-                  itemBuilder: (context, index) {
-                    return RadioListTile(
-                      value: index,
-                      groupValue: selectedAddressIndex,
-                      onChanged: (int? value) {
-                        setState(() {
-                          selectedAddressIndex = value!;
-                        });
-                      },
-                      activeColor: kGreenColor,
-                      title: RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: addresses[index].split('|')[0].trim(),
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87,
-                              ),
-                            ),
-                            TextSpan(
-                              text:
-                                  ' | ${addresses[index].split('|')[1].trim()}',
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black54,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: TextButton(
-                    onPressed: () {
-                      // Xử lý sự kiện khi người dùng nhấn vào nút "Thêm địa chỉ khác"
-                    },
-                    child: Text(
-                      'Add another address',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: kGreenColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+            AddressInfo (
+              selectedAddressIndex: selectedAddressIndex,
+              addresses: addresses,
+              onAddressSelected: (int index) {
+                setState(() {
+                  selectedAddressIndex = index;
+                });
+              },
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
