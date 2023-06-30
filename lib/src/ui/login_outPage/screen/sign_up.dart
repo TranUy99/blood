@@ -87,7 +87,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       validationType: 2,
                     ),
                     BuildInputFormPassword(
-                      hint: 'Password',
+                      hint: AppLocalizations.of(context)!.password,
                       obscure: obscure,
                       textController: textPasswordController,
                       function: obscureChange(),
@@ -95,7 +95,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       isConfirm: false,
                     ),
                     BuildInputFormPassword(
-                      hint: 'Confirm Password',
+                      hint: AppLocalizations.of(context)!.confirmPassword,
                       obscure: obscure,
                       textController: textConfirmPasswordController,
                       function: obscureChange(),
@@ -107,7 +107,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Padding(
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.02),
-                  child: CheckBoxSignIn(text: 'Agree to term and conditions.', isCheck: isCheckCheckbox()),
+                  child: CheckBoxSignIn(text: AppLocalizations.of(context)!.agreeToTermAndConditions, isCheck: isCheckCheckbox()),
                 ),
                 GestureDetector(
                   onTap: () {

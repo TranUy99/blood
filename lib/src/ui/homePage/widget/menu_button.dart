@@ -13,31 +13,6 @@ class MenuButton extends StatefulWidget {
 class _MenuButtonState extends State<MenuButton> {
   @override
   Widget build(BuildContext context) {
-    navigatorPage(String categoryType) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => CategoryScreen(categoryType: categoryType),
-          ));
-    }
-
-    onSelected(BuildContext context, int value) {
-      switch (value) {
-        case 0:
-          navigatorPage('Laptop');
-          break;
-        case 1:
-          navigatorPage('PC');
-          break;
-        case 2:
-          navigatorPage('Điện thoại');
-          break;
-        case 3:
-          navigatorPage('Tai nghe');
-          break;
-      }
-    }
-
     return PopupMenuButton(
       onSelected: (value) => onSelected(context, value),
       offset: const Offset(-20, 52),
@@ -46,23 +21,48 @@ class _MenuButtonState extends State<MenuButton> {
         color: Colors.white,
       ),
       itemBuilder: (context) => [
-        const PopupMenuItem(
+        PopupMenuItem(
           value: 0,
-          child: Text('Laptop'),
+          child: menuItems('Mobile', 'images/mobile_menu_item.png'),
         ),
-        const PopupMenuItem(
+        PopupMenuItem(
           value: 1,
-          child: Text('PC'),
+          child: menuItems('Laptop', 'images/laptop_menu_item.png'),
         ),
-        const PopupMenuItem(
+        PopupMenuItem(
           value: 2,
-          child: Text('Điện thoại'),
+          child: menuItems('Tablet', 'images/tablet_menu_item.png'),
         ),
-        const PopupMenuItem(
+        PopupMenuItem(
           value: 3,
-          child: Text('Tai nghe'),
+          child: menuItems('PC', 'images/pc_menu_item.png'),
         ),
       ],
+    );
+  }
+
+  navigatorPage(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const CategoryScreen(),
+        ));
+  }
+
+  onSelected(BuildContext context, int value) {
+    navigatorPage(context);
+  }
+
+  Widget menuItems(String title, String src){
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.25,
+      child: Row(
+        children: [
+          Image.asset(src, height: MediaQuery.of(context).size.height * 0.03),
+          SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+          Text(title),
+        ],
+      ),
     );
   }
 }
