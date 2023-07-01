@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PaymentMethod extends StatefulWidget {
   final String? paymentMethod;
@@ -22,7 +23,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Select form to pay',
+          AppLocalizations.of(context)!.selectPay,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -38,7 +39,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 height: 24,
               ),
               SizedBox(width: 5),
-              Text('Wallet MoMo'),
+              Text(AppLocalizations.of(context)!.momo),
             ],
           ),
           value: 'wallet_momo',
@@ -55,7 +56,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 height: 24,
               ),
               SizedBox(width: 5),
-              Text('Pay after receive order'),
+              Text(AppLocalizations.of(context)!.payAfter),
             ],
           ),
           value: 'pay_after_receive_order',
@@ -72,7 +73,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 height: 24,
               ),
               SizedBox(width: 5),
-              Text('Banking'),
+              Text(AppLocalizations.of(context)!.banking),
             ],
           ),
           value: 'banking',

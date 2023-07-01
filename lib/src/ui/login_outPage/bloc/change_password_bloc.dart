@@ -1,10 +1,6 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
-
-import '../event/log_in_event.dart';
-import '../state/log_in_state.dart';
-
 class ChangePasswordBloc {
   late String _oldPassword;
   late String _newPassword;

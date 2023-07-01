@@ -17,14 +17,15 @@ class _ProductInformationState extends State<ProductInformation> {
       padding: const EdgeInsets.all(5),
       child: Container(
         width: MediaQuery.of(context).size.width * 1,
-        decoration: const BoxDecoration(border: Border(top: BorderSide(color: kGreyColor, width: 0.8))),
+        decoration: const BoxDecoration(
+            border: Border(top: BorderSide(color: kGreyColor, width: 0.8))),
         child: Column(
           children: [
             const SizedBox(
               height: 5,
             ),
             Text(
-              AppLocalizations.of(context)!.productInformation,
+              AppLocalizations.of(context)!.productInformation.toUpperCase(),
               style: const TextStyle(
                 color: kBlackColor,
                 fontWeight: FontWeight.bold,

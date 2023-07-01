@@ -21,11 +21,12 @@ class _NameProductState extends State<NameProduct> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         //name product
-         Padding(
+        Padding(
           padding: const EdgeInsets.only(left: 8),
           child: Text(
             '${widget.productDTO.name}',
-            style: const TextStyle(fontSize: 16, color: kRedColor),
+            style: const TextStyle(
+                fontSize: 16, color: kBlackColor, fontWeight: FontWeight.bold),
           ),
         ),
         //rating product
@@ -64,13 +65,15 @@ class _NameProductState extends State<NameProduct> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5.0),
                     border: Border.all(
-                      color: selectedOption == '64GB' ? Colors.blue : Colors.grey,
+                      color:
+                          selectedOption == '64GB' ? Colors.green : Colors.grey,
                     ),
                   ),
                   child: Text(
                     '64GB',
                     style: TextStyle(
-                      color: selectedOption == '64GB' ? Colors.blue : Colors.grey,
+                      color:
+                          selectedOption == '64GB' ? Colors.green : Colors.grey,
                     ),
                   ),
                 ),
@@ -92,13 +95,17 @@ class _NameProductState extends State<NameProduct> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5.0),
                     border: Border.all(
-                      color: selectedOption == '128GB' ? Colors.blue : Colors.grey,
+                      color: selectedOption == '128GB'
+                          ? Colors.green
+                          : Colors.grey,
                     ),
                   ),
                   child: Text(
                     '128GB',
                     style: TextStyle(
-                      color: selectedOption == '128GB' ? Colors.blue : Colors.grey,
+                      color: selectedOption == '128GB'
+                          ? Colors.green
+                          : Colors.grey,
                     ),
                   ),
                 ),
@@ -120,13 +127,17 @@ class _NameProductState extends State<NameProduct> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5.0),
                     border: Border.all(
-                      color: selectedOption == '256GB' ? Colors.blue : Colors.grey,
+                      color: selectedOption == '256GB'
+                          ? Colors.green
+                          : Colors.grey,
                     ),
                   ),
                   child: Text(
                     '256GB',
                     style: TextStyle(
-                      color: selectedOption == '256GB' ? Colors.blue : Colors.grey,
+                      color: selectedOption == '256GB'
+                          ? Colors.green
+                          : Colors.grey,
                     ),
                   ),
                 ),
@@ -210,13 +221,15 @@ class _NameProductState extends State<NameProduct> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5.0),
                     border: Border.all(
-                      color: selectedColor == 'Black' ? kBlackColor : Colors.grey,
+                      color:
+                          selectedColor == 'Black' ? kBlackColor : Colors.grey,
                     ),
                   ),
                   child: Text(
                     'Black',
                     style: TextStyle(
-                      color: selectedColor == 'Black' ? kBlackColor: Colors.grey,
+                      color:
+                          selectedColor == 'Black' ? kBlackColor : Colors.grey,
                     ),
                   ),
                 ),
@@ -224,15 +237,20 @@ class _NameProductState extends State<NameProduct> {
             ),
           ],
         ),
-            //price product
-           Padding(
+        const SizedBox(height: 10),
+        //price product
+        Padding(
           padding: const EdgeInsets.only(left: 12),
           child: Text(
             '${widget.productDTO.price}',
-            style:  const TextStyle(fontSize: 16, color: kRedColor,fontWeight: FontWeight.bold,fontFamily: "Times New Roman",),
+            style: const TextStyle(
+              fontSize: 16,
+              color: kRedColor,
+              fontWeight: FontWeight.bold,
+              fontFamily: "Times New Roman",
+            ),
           ),
         )
-        
       ],
     );
   }

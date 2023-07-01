@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/homePage/widget/custom_app_bar.dart';
 
@@ -45,7 +46,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           ),
                           SizedBox(width: 8.0),
                           Text(
-                            'Delivery address',
+                            AppLocalizations.of(context)!.deliveryAdress,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -80,7 +81,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
           ),
           SizedBox(height: 32.0),
           Text(
-            'Payment details',
+            AppLocalizations.of(context)!.paymentDetails,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
@@ -204,7 +205,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         backgroundColor: kGreenColor,
                       ),
                       child: Text(
-                        'Pay',
+                        AppLocalizations.of(context)!.pay,
                         style: TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,

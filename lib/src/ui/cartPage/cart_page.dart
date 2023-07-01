@@ -4,6 +4,7 @@ import 'package:mobile_store/src/ui/homePage/widget/custom_app_bar.dart';
 import '../checkoutPage/screen/checkout_screen.dart';
 import '../checkoutPage/widget/address.dart';
 import '../homePage/screen/navigation_home_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -47,10 +48,10 @@ class _CartPageState extends State<CartPage> {
                     },
                     icon: Icon(Icons.clear_outlined),
                     label: Text(
-                      'Clear cart',
+                      AppLocalizations.of(context)!.clearCart,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 15.0,
+                        fontSize: 15,
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
@@ -116,6 +117,7 @@ class _CartPageState extends State<CartPage> {
                             ),
                             SizedBox(height: 10),
                             Text(
+                              //'${widget.productDTO.price}',
                               '1099 USD',
                               style: TextStyle(
                                 fontSize: 16,
@@ -164,7 +166,7 @@ class _CartPageState extends State<CartPage> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      'Temporary price:',
+                      AppLocalizations.of(context)!.temporaryprice,
                       textAlign: TextAlign.right,
                       style: TextStyle(
                         fontSize: 16.0,
@@ -185,7 +187,7 @@ class _CartPageState extends State<CartPage> {
                 ),
               ),
             ),
-            AddressInfo (
+            AddressInfo(
               selectedAddressIndex: selectedAddressIndex,
               addresses: addresses,
               onAddressSelected: (int index) {
@@ -199,7 +201,11 @@ class _CartPageState extends State<CartPage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
-                  child: Text('DISCOUNT', style: TextStyle(fontSize: 14)),
+                  child: Text(
+                      //'DISCOUNT',
+                      AppLocalizations.of(context)!.discount.toUpperCase(),
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -209,7 +215,8 @@ class _CartPageState extends State<CartPage> {
                         padding: EdgeInsets.symmetric(horizontal: 14),
                         child: TextField(
                           decoration: InputDecoration(
-                            hintText: 'Enter the discount code',
+                            hintText:
+                                AppLocalizations.of(context)!.enterDiscountCode,
                             border: OutlineInputBorder(),
                             isDense: true,
                             prefixIcon: Icon(Icons.arrow_downward),
@@ -226,7 +233,7 @@ class _CartPageState extends State<CartPage> {
                           //Xử lý áp dụng mã giảm giá
                         },
                         child: Text(
-                          'Apply',
+                          AppLocalizations.of(context)!.apply,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 15.0,
@@ -253,7 +260,7 @@ class _CartPageState extends State<CartPage> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      'Total:',
+                      AppLocalizations.of(context)!.total,
                       textAlign: TextAlign.right,
                       style: TextStyle(
                         fontSize: 16.0,
@@ -298,7 +305,7 @@ class _CartPageState extends State<CartPage> {
                   },
                   icon: Icon(Icons.arrow_back_rounded),
                   label: Text(
-                    'Continue shopping',
+                    AppLocalizations.of(context)!.continueShopping,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15.0,
@@ -325,7 +332,7 @@ class _CartPageState extends State<CartPage> {
                   },
                   icon: Icon(Icons.shopping_cart),
                   label: Text(
-                    'Check out',
+                    AppLocalizations.of(context)!.checkout,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15.0,

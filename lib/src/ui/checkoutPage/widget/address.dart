@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddressInfo extends StatelessWidget {
   final int selectedAddressIndex;
   final List<String> addresses;
   final Function(int) onAddressSelected;
 
-  const AddressInfo ({
+  const AddressInfo({
     Key? key,
     required this.selectedAddressIndex,
     required this.addresses,
@@ -20,7 +21,9 @@ class AddressInfo extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
-          child: Text('ADDRESS', style: TextStyle(fontSize: 14)),
+          child: Text(
+              AppLocalizations.of(context)!.address.toUpperCase(),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
         ),
         ListView.builder(
           shrinkWrap: true,
@@ -66,7 +69,8 @@ class AddressInfo extends StatelessWidget {
               // Xử lý sự kiện khi người dùng nhấn vào nút "Thêm địa chỉ khác"
             },
             child: Text(
-              'Add another address',
+              //'Add another address',
+              AppLocalizations.of(context)!.anotheraddress,
               style: TextStyle(
                 fontSize: 14,
                 color: kGreenColor,

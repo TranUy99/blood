@@ -3,6 +3,8 @@ import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/detail_product/widget/more_configuration.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'more_product_information.dart';
+
 class ConfigurationProduct extends StatefulWidget {
   const ConfigurationProduct({super.key});
 
@@ -30,7 +32,7 @@ class _ConfigurationProductState extends State<ConfigurationProduct> {
             ),
             //configuration product
             Text(
-              AppLocalizations.of(context)!.configuration,
+              AppLocalizations.of(context)!.configuration.toUpperCase(),
               style: const TextStyle(
                 color: kBlackColor,
                 fontWeight: FontWeight.bold,
@@ -55,11 +57,13 @@ class _ConfigurationProductState extends State<ConfigurationProduct> {
                   ),
                   const Text(
                     "OLED6.7 Super Retina XDR",
-                    style: TextStyle(color: kBlackColor, fontWeight: FontWeight.w500),
+                    style: TextStyle(
+                        color: kBlackColor, fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
             ),
+            SizedBox(height: 10),
             //chip product
             Row(
               children: [
@@ -75,10 +79,12 @@ class _ConfigurationProductState extends State<ConfigurationProduct> {
                 ),
                 const Text(
                   "Apple A16 Bionic",
-                  style: TextStyle(color: kBlackColor, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                      color: kBlackColor, fontWeight: FontWeight.w500),
                 ),
               ],
             ),
+            SizedBox(height: 10),
             Container(
               color: kWhiteGrey,
               child: Row(
@@ -95,11 +101,13 @@ class _ConfigurationProductState extends State<ConfigurationProduct> {
                   ),
                   const Text(
                     "6 GB",
-                    style: TextStyle(color: kBlackColor, fontWeight: FontWeight.w500),
+                    style: TextStyle(
+                        color: kBlackColor, fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
             ),
+            SizedBox(height: 10),
             //capacity product
             Row(
               children: [
@@ -115,10 +123,12 @@ class _ConfigurationProductState extends State<ConfigurationProduct> {
                 ),
                 const Text(
                   "128 Gb",
-                  style: TextStyle(color: kBlackColor, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                      color: kBlackColor, fontWeight: FontWeight.w500),
                 ),
               ],
             ),
+            SizedBox(height: 10),
             //ram product
             Container(
               color: kWhiteGrey,
@@ -136,11 +146,14 @@ class _ConfigurationProductState extends State<ConfigurationProduct> {
                   ),
                   const Text(
                     "4323 mAh",
-                    style: TextStyle(color: kBlackColor, fontWeight: FontWeight.w500),
+                    style: TextStyle(
+                        color: kBlackColor, fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
             ),
+            SizedBox(height: 10),
+            //camera
             Row(
               children: [
                 SizedBox(
@@ -155,15 +168,40 @@ class _ConfigurationProductState extends State<ConfigurationProduct> {
                 ),
                 const Text(
                   " 48 MP &  12 MP, 12 MP",
-                  style: TextStyle(color: kBlackColor, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                      color: kBlackColor, fontWeight: FontWeight.w500),
                 ),
               ],
             ),
+            SizedBox(height: 10),
+            //
+            Container(
+              color: kWhiteGrey,
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.25,
+                    child: Text(
+                      AppLocalizations.of(context)!.connect,
+                      style: const TextStyle(
+                        color: kBlackColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const Text(
+                    "1 Nano SIM & 1 eSIM, 5G Support",
+                    style: TextStyle(
+                        color: kBlackColor, fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
             // more configuration product
-           const MoreConfiguration(),
-       
+            const MoreConfiguration(),
+
             // more  product information
-           
           ],
         ),
       ),

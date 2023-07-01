@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/ui/detail_product/widget/another_product.dart';
@@ -12,13 +13,17 @@ import 'package:mobile_store/src/ui/detail_product/widget/name_product.dart';
 class ProductDetailScreen extends StatelessWidget {
   final ProductDTO productDTO;
 
-  const ProductDetailScreen({Key? key, required this.productDTO,}) : super(key: key);
+  const ProductDetailScreen({
+    Key? key,
+    required this.productDTO,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.15),
+        preferredSize:
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.15),
         child: AppBar(
             backgroundColor: kSecondaryColor,
             leading: IconButton(
@@ -36,10 +41,31 @@ class ProductDetailScreen extends StatelessWidget {
           children: [
             const ImageProduct(),
             NameProduct(productDTO: productDTO),
+            Container(
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Add your code to handle the button press here.
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: kGreenColor,
+                  ),
+                  child: Text(
+                    AppLocalizations.of(context)!.buynow.toUpperCase(),
+                    style: TextStyle(
+                      color: kWhiteColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
             const ConfigurationProduct(),
             const ProductInformation(),
             const Review(),
-             AnotherProduct(),
+            AnotherProduct(),
           ],
         ),
       )),
