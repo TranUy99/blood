@@ -50,7 +50,9 @@ class _LogInScreenState extends State<LogInScreen> {
                 Padding(
                     padding: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * 0.04),
-                    child: Text(AppLocalizations.of(context)!.logIn.toUpperCase(), style: titleText)),
+                    child: Text(
+                        AppLocalizations.of(context)!.logIn.toUpperCase(),
+                        style: titleText)),
                 Padding(
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.03),
@@ -92,23 +94,27 @@ class _LogInScreenState extends State<LogInScreen> {
                           ),
                         ),
                       ),
-                      // )
                     ],
                   ),
                 ),
-
                 Padding(
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.03),
                   child: InkWell(
                     onTap: () {
-                      if (Validate.checkInvalidateNewPassword(textPasswordController.text) == false
-                          && Validate.invalidateMobile(textPhoneController.text) == false) {
+                      if (Validate.checkInvalidateNewPassword(
+                                  textPasswordController.text) ==
+                              false &&
+                          Validate.invalidateMobile(textPhoneController.text) ==
+                              false) {
                         //Input to bloc and set state
-                        logInBloc.updateInformation(textPhoneController.text, textPasswordController.text);
+                        logInBloc.updateInformation(textPhoneController.text,
+                            textPasswordController.text);
                         logInBloc.logIn();
-                        showTopSnackBar(Overlay.of(context),
-                            const CustomSnackBar.success(message: 'Login successfully'));
+                        showTopSnackBar(
+                            Overlay.of(context),
+                            const CustomSnackBar.success(
+                                message: 'Login successfully'));
                         //Login
                         setState(() {
                           indexScreen = 0;
@@ -125,9 +131,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                 message: 'Invalid information'));
                       }
                     },
-                    child: const PrimaryButton(
-                      buttonText: 'Log in'
-                    ),
+                    child: const PrimaryButton(buttonText: 'Log in'),
                   ),
                 ),
                 Padding(
