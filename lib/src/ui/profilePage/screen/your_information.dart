@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/ui/login_outPage/screen/change_password.dart';
-import 'package:mobile_store/src/ui/profilePage/widget/edit_information_form.dart';
-
 import '../../../constant/colors/theme.dart';
 
 class YourInformation extends StatefulWidget {

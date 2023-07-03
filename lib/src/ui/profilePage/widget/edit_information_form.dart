@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/ui/login_outPage/widget/primary_button.dart';
 import 'package:mobile_store/src/ui/profilePage/screen/profile_page.dart';
 
 class EditInfomationForm extends StatefulWidget {
