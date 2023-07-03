@@ -16,6 +16,9 @@ const kBlueColor = Colors.blue;
 const kGreyColor = Colors.grey;
 const kWhiteGrey = Color.fromARGB(255, 225, 224, 224);
 
-TextStyle titleText = const TextStyle(color: kGreenColor, fontSize: 32, fontWeight: FontWeight.w700);
-TextStyle subtitle = const TextStyle(color: kSecondaryColor, fontSize: 18, fontWeight: FontWeight.w500);
-TextStyle textButton = const TextStyle(color: kThirdColor, fontSize: 18, fontWeight: FontWeight.w700);
+TextStyle titleText = const TextStyle(
+    color: kGreenColor, fontSize: 32, fontWeight: FontWeight.w700);
+TextStyle subtitle = const TextStyle(
+    color: kSecondaryColor, fontSize: 18, fontWeight: FontWeight.w500);
+TextStyle textButton = const TextStyle(
+    color: kThirdColor, fontSize: 18, fontWeight: FontWeight.w700);

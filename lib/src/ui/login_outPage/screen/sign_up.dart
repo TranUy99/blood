@@ -107,29 +107,46 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Padding(
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.02),
-                  child: CheckBoxSignIn(text: AppLocalizations.of(context)!.agreeToTermAndConditions, isCheck: isCheckCheckbox()),
+                  child: CheckBoxSignIn(
+                      text: AppLocalizations.of(context)!
+                          .agreeToTermAndConditions,
+                      isCheck: isCheckCheckbox()),
                 ),
                 GestureDetector(
                   onTap: () {
-                    if(isCheck){
+                    if (isCheck) {
                       if (Validate.validFullName(registerList()[0]) == false &&
-                          Validate.invalidateMobile(registerList()[1]) == false &&
-                          Validate.invalidateEmail(registerList()[2]) == false &&
+                          Validate.invalidateMobile(registerList()[1]) ==
+                              false &&
+                          Validate.invalidateEmail(registerList()[2]) ==
+                              false &&
                           Validate.checkInvalidateNewPassword(
-                              registerList()[3]) ==
+                                  registerList()[3]) ==
                               false &&
                           Validate.checkNotEqualNewPassword(
-                              registerList()[3], registerList()[4]) ==
+                                  registerList()[3], registerList()[4]) ==
                               false) {
                         signUpBloc.updateInformation(registerList());
                         signUpBloc.signUp();
                         Navigator.pop(context);
-                        showTopSnackBar(Overlay.of(context), const CustomSnackBar.success(message: 'Sign up successful, Please login'));
-                      }else{
-                        showTopSnackBar(Overlay.of(context), const CustomSnackBar.error(message: 'Invalid information'));
+                        showTopSnackBar(
+                            Overlay.of(context),
+                            CustomSnackBar.success(
+                                message: AppLocalizations.of(context)!
+                                    .signUpsuccessfully));
+                      } else {
+                        showTopSnackBar(
+                            Overlay.of(context),
+                            CustomSnackBar.error(
+                                message: AppLocalizations.of(context)!
+                                    .invalidInformation));
                       }
-                    }else{
-                      showTopSnackBar(Overlay.of(context), const CustomSnackBar.error(message: 'Please agree to the terms and conditions'));
+                    } else {
+                      showTopSnackBar(
+                          Overlay.of(context),
+                          CustomSnackBar.error(
+                              message: AppLocalizations.of(context)!
+                                  .agreeToTermAndConditions));
                     }
                   },
                   child: Padding(
@@ -142,42 +159,89 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.03),
-                  child: Text(
-                    '${AppLocalizations.of(context)!.orSignInUsing}:',
-                    style: subtitle.copyWith(color: kBlackColor),
+                    top: MediaQuery.of(context).size.height * 0.03,
+                    bottom: MediaQuery.of(context).size.height * 0.03,
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.03),
-                  child: LoginOption(),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.02),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment
+                        .center, 
+                    mainAxisAlignment: MainAxisAlignment
+                        .center, 
                     children: [
-                      Text(
-                        '${AppLocalizations.of(context)!.alreadyHaveAnAccount}?',
-                        style: subtitle,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Divider(
+                              color: kGreyColor,
+                              height: 1.5,
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(
+                              AppLocalizations.of(context)!.or,
+                              style: subtitle.copyWith(
+                                color: kGreyColor,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Divider(
+                              color: kGreyColor,
+                              height: 1.5,
+                            ),
+                          ),
+                        ],
                       ),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.012,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          AppLocalizations.of(context)!.logIn,
-                          style: textButton.copyWith(
-                            decoration: TextDecoration.underline,
-                            decorationThickness: 1,
+                          height: MediaQuery.of(context).size.height * 0.01), 
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            AppLocalizations.of(context)!.signUpwith,
+                            style: subtitle.copyWith(color: kGreyColor),
                           ),
-                        ),
-                      )
+                        ],
+                      ),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01), 
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        child: LoginOption(),
+                      ),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01), 
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment
+                            .center, 
+                        mainAxisAlignment: MainAxisAlignment
+                            .center,
+                        children: [
+                          Text(
+                            '${AppLocalizations.of(context)!.alreadyHaveAnAccount}?',
+                            style: subtitle,
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.012,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              AppLocalizations.of(context)!.logIn,
+                              style: textButton.copyWith(
+                                decoration: TextDecoration.underline,
+                                decorationThickness: 1,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -207,7 +271,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ));
   }
 
-  Widget isCheckCheckbox(){
+  Widget isCheckCheckbox() {
     return GestureDetector(
       onTap: () {
         setState(() {

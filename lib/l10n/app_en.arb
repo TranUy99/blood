@@ -52,8 +52,17 @@
   "confirmPassword": "Confirm Password",
   "signUp": "Sign up",
   "logIn": "Log in",
+  "loginSuccessfully": "Login Successfully",
+  "invalidInformation": "Invalid Information",
+  "signUpsuccessfully": "Sign up successfully",
+  "or": "or",
+  "logInwith": "Log in with",
+  "signUpwith": "Sign up with",
+  "rememberMe": "Remember me",
+  "forgotPassword": "Forgot password",
   "agreeToTermAndConditions": "Agree to term and conditions",
-  "orSignInUsing": "Or Sign in using",
+  "dontAccount": "Don't have an account",
   "alreadyHaveAnAccount": "Already have an account",
   "logout": "Log out"
+  
 }
