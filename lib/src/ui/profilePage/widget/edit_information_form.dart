@@ -12,8 +12,7 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _dateOfbirthController = TextEditingController();
   // late DateTime _selectedDate;
-  final TextEditingController _selectedGenderController =
-      TextEditingController();
+  final TextEditingController _selectedGenderController = TextEditingController();
   // late String _selectedGender;
   String? _selectedGender;
 
@@ -35,13 +34,11 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
         backgroundColor: Color.fromARGB(122, 31, 254, 86),
       ),
       body: padding2 = Padding(
-        padding:
-            EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.015),
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.015),
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).size.height * 0.015),
+              padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.015),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -64,14 +61,13 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
                     ),
                   ),
                 ),
-                SizedBox(width: 1),
+                const SizedBox(width: 1),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: DropdownButtonFormField<String>(
                       value: _selectedGender,
-                      onChanged: (value) =>
-                          setState(() => _selectedGender = value!),
+                      onChanged: (value) => setState(() => _selectedGender = value!),
                       decoration: InputDecoration(
                         hintText: 'Gender',
                         border: OutlineInputBorder(),
@@ -178,9 +174,7 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
                       print('Gender: $gender');
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                            content:
-                                Text('Please fill in all required fields')),
+                        SnackBar(content: Text('Please fill in all required fields')),
                       );
                     }
                     Navigator.push(
@@ -190,8 +184,7 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
                   },
                   child: Text('Save'),
                   style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.green),
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
                   ),
                 ),
                 SizedBox(width: 10),
@@ -204,8 +197,7 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
                   },
                   child: Text('Cancel'),
                   style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.red),
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
                   ),
                 ),
               ],

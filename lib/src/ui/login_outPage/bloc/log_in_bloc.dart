@@ -31,7 +31,9 @@ class SharedTextPasswordBloc extends ChangeNotifier {
     _textFieldController.add(value);
   }
 
+  @override
   void dispose() {
+    super.dispose();
     _textFieldController.close();
   }
 }

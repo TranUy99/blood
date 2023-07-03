@@ -3,9 +3,6 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../event/sign_up_event.dart';
-import '../state/sign_up_state.dart';
-
 class SignUpBloc {
   late List<String> _registerList;
   void updateInformation(List<String> registerList) {
@@ -26,7 +23,9 @@ class SharedTextPasswordBloc extends ChangeNotifier {
     _textFieldController.add(value);
   }
 
+  @override
   void dispose() {
+    super.dispose();
     _textFieldController.close();
   }
 }
