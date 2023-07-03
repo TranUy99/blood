@@ -43,10 +43,10 @@ class _LogInScreenState extends State<LogInScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.05),
             child: Column(
               children: [
-                Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.04), child: Text(AppLocalizations.of(context)!.logIn.toUpperCase(), style: titleText)),
                 Padding(
                     padding: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * 0.04),
@@ -70,14 +70,19 @@ class _LogInScreenState extends State<LogInScreen> {
                   ]),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.02),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CheckBox(text: AppLocalizations.of(context)!.rememberMe),
                       InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const ChangePasswordScreen()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ChangePasswordScreen()));
                         },
                         child: Text(
                           '${AppLocalizations.of(context)!.forgotPassword}?',
@@ -94,7 +99,8 @@ class _LogInScreenState extends State<LogInScreen> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.03),
                   child: InkWell(
                     onTap: () {
                       if (Validate.checkInvalidateNewPassword(
@@ -237,7 +243,8 @@ class _LogInScreenState extends State<LogInScreen> {
             obscure = !obscure;
           });
         },
-        icon: obscure ? const Icon(Icons.visibility_off, color: kGreenColor) : const Icon(Icons.visibility, color: kGreenColor));
+        icon: obscure
+            ? const Icon(Icons.visibility_off, color: kGreenColor)
+            : const Icon(Icons.visibility, color: kGreenColor));
   }
 }
-
