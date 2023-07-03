@@ -48,14 +48,21 @@ class _LogInScreenState extends State<LogInScreen> {
               children: [
                 Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.04), child: Text(AppLocalizations.of(context)!.logIn.toUpperCase(), style: titleText)),
                 Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.04),
+                    child: Text(
+                        AppLocalizations.of(context)!.logIn.toUpperCase(),
+                        style: titleText)),
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.03),
                   child: Column(children: [
                     BuildInputFormLogIn(
                       hint: AppLocalizations.of(context)!.phoneNumber,
                       textController: textPhoneController,
                     ),
                     BuildInputFormPassword(
-                      hint: 'Password',
+                      hint: AppLocalizations.of(context)!.password,
                       obscure: obscure,
                       textController: textPasswordController,
                       function: obscureChange(),
@@ -67,15 +74,15 @@ class _LogInScreenState extends State<LogInScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const CheckBox(text: 'Save account'),
+                      CheckBox(text: AppLocalizations.of(context)!.rememberMe),
                       InkWell(
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => const ChangePasswordScreen()));
                         },
-                        child: const Text(
-                          'Forgot password?',
+                        child: Text(
+                          '${AppLocalizations.of(context)!.forgotPassword}?',
                           style: TextStyle(
-                            color: kZambeziColor,
+                            color: kBlackColor,
                             fontSize: 14,
                             decoration: TextDecoration.underline,
                             decorationThickness: 1,
@@ -90,11 +97,20 @@ class _LogInScreenState extends State<LogInScreen> {
                   padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
                   child: InkWell(
                     onTap: () {
-                      if (Validate.checkInvalidateNewPassword(textPasswordController.text) == false && Validate.invalidateMobile(textPhoneController.text) == false) {
+                      if (Validate.checkInvalidateNewPassword(
+                                  textPasswordController.text) ==
+                              false &&
+                          Validate.invalidateMobile(textPhoneController.text) ==
+                              false) {
                         //Input to bloc and set state
-                        logInBloc.updateInformation(textPhoneController.text, textPasswordController.text);
+                        logInBloc.updateInformation(textPhoneController.text,
+                            textPasswordController.text);
                         logInBloc.logIn();
-                        showTopSnackBar(Overlay.of(context), const CustomSnackBar.success(message: 'Login successfully'));
+                        showTopSnackBar(
+                            Overlay.of(context),
+                            CustomSnackBar.success(
+                                message: AppLocalizations.of(context)!
+                                    .loginSuccessfully));
                         //Login
                         setState(() {
                           indexScreen = 0;
@@ -105,47 +121,104 @@ class _LogInScreenState extends State<LogInScreen> {
                               builder: (context) => const NavigationHomePage(),
                             ));
                       } else {
-                        showTopSnackBar(Overlay.of(context), const CustomSnackBar.error(message: 'Invalid information'));
+                        showTopSnackBar(
+                            Overlay.of(context),
+                            CustomSnackBar.error(
+                                message: AppLocalizations.of(context)!
+                                    .invalidInformation));
                       }
                     },
-                    child: const PrimaryButton(buttonText: 'Log in'),
+                    child: PrimaryButton(
+                        buttonText: AppLocalizations.of(context)!.logIn),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
-                  child: Text(
-                    'Or Log in with:',
-                    style: subtitle.copyWith(color: kBlackColor),
+                  padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.03,
+                    bottom: MediaQuery.of(context).size.height * 0.03,
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
-                  child: LoginOption(),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment
+                        .center, 
+                    mainAxisAlignment: MainAxisAlignment
+                        .center,
                     children: [
-                      Text(
-                        'Don\'t have an account?',
-                        style: subtitle,
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUpScreen()));
-                        },
-                        child: Text(
-                          AppLocalizations.of(context)!.signUp,
-                          style: textButton.copyWith(
-                            decoration: TextDecoration.underline,
-                            decorationThickness: 1,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Divider(
+                              color: kGreyColor,
+                              height: 1.5,
+                            ),
                           ),
-                        ),
-                      )
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(
+                              AppLocalizations.of(context)!.or,
+                              style: subtitle.copyWith(
+                                color: kGreyColor,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Divider(
+                              color: kGreyColor,
+                              height: 1.5,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            AppLocalizations.of(context)!.logInwith,
+                            style: subtitle.copyWith(color: kGreyColor),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height *
+                              0.01), 
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        child: LoginOption(),
+                      ),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height *0.01),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            AppLocalizations.of(context)!.dontAccount,
+                            style: subtitle,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SignUpScreen()));
+                            },
+                            child: Text(
+                              AppLocalizations.of(context)!.signUp,
+                              style: textButton.copyWith(
+                                decoration: TextDecoration.underline,
+                                decorationThickness: 1,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ],
                   ),
                 ),
