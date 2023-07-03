@@ -47,10 +47,11 @@ class _MyAppState extends State<MyApp> {
         title: "Mobile Store",
         theme: ThemeData(fontFamily: 'Poppins'),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            locale: _locale,
-      home: const NavigationHomePage(),
-    );
-    // home: HomePage());
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: _locale,
+        // home: ChangePasswordScreen());
+        //home: LogInScreen());
+        home: NavigationHomePage());
+    // home: ProfilePage());
   }
 }

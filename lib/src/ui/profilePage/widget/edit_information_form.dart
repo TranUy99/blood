@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:mobile_store/src/ui/login_outPage/widget/primary_button.dart';
 import 'package:mobile_store/src/ui/profilePage/screen/profile_page.dart';
 
 class EditInfomationForm extends StatefulWidget {
@@ -11,8 +13,10 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _dateOfbirthController = TextEditingController();
-  // late DateTime _selectedDate;
-  final TextEditingController _selectedGenderController = TextEditingController();
+  late DateTime _selectedDate;
+  final TextEditingController _selectedGenderController =
+      TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
   // late String _selectedGender;
   String? _selectedGender;
 
@@ -22,6 +26,7 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
     _emailController.dispose();
     _dateOfbirthController.dispose();
     _selectedGenderController.dispose();
+    _phoneNumberController.dispose();
     super.dispose();
   }
 
@@ -34,12 +39,36 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
         backgroundColor: Color.fromARGB(122, 31, 254, 86),
       ),
       body: padding2 = Padding(
-        padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.015),
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.03),
         child: Column(
           children: [
             Container(
               padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.015),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                    child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                  child: TextFormField(
+                    controller: _phoneNumberController,
+                    decoration: InputDecoration(
+                      labelText: 'Number phone',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter number phone';
+                      }
+                      return null;
+                    },
+                  ),
+                )),
+              ],
+            ),
+            SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -67,7 +96,8 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: DropdownButtonFormField<String>(
                       value: _selectedGender,
-                      onChanged: (value) => setState(() => _selectedGender = value!),
+                      onChanged: (value) =>
+                          setState(() => _selectedGender = value),
                       decoration: InputDecoration(
                         hintText: 'Gender',
                         border: OutlineInputBorder(),
@@ -93,19 +123,6 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
                         return null;
                       },
                     ),
-
-                    //  TextFormField(
-                    //   controller: _selectedGenderController,
-                    //   decoration: InputDecoration(
-                    //     labelText: 'Gender',
-                    //     border: OutlineInputBorder(),
-                    //   ),
-                    // validator: (value) {
-                    //   if (value!.isEmpty) {
-                    //     return 'Please select gender';
-                    //   }
-                    //   return null;
-                    // },
                   ),
                 ),
               ],
@@ -120,6 +137,15 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
                       controller: _dateOfbirthController,
                       decoration: InputDecoration(
                         labelText: 'Date of birth',
+                        suffixIcon: GestureDetector(onTap: () async {
+                          DateTime? selectedDate = await _selectedDate;
+                          if (selectedDate != null) {
+                            setState(() {
+                              _dateOfbirthController.text =
+                                  DateFormat('dd/MM/yyyy').format(selectedDate);
+                            });
+                          }
+                        }),
                         border: OutlineInputBorder(),
                       ),
                       validator: (value) {
@@ -156,18 +182,20 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
             ),
             SizedBox(height: 10),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       // Submit the form
                       // Handle the form data here
+                      final phone = _phoneNumberController.text;
                       final name = _nameController.text;
                       final email = _emailController.text;
                       final dateOfBirth = _dateOfbirthController.text;
                       // '${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}';
                       final gender = _selectedGenderController.text;
+                      print('Number phone: $phone');
                       print('Name: $name');
                       print('Email: $email');
                       print('Date of birth: $dateOfBirth');
@@ -177,10 +205,10 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
                         SnackBar(content: Text('Please fill in all required fields')),
                       );
                     }
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ProfilePage()),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => ProfilePage()),
+                    // );
                   },
                   child: Text('Save'),
                   style: ButtonStyle(
@@ -208,31 +236,6 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
     );
   }
 
-  //         TextFormField(
-  //           controller: _nameController,
-  //           decoration: InputDecoration(
-  //             labelText: 'Full name',
-  //           ),
-  //           validator: (value) {
-  //             if (value!.isEmpty) {
-  //               return 'Please enter full name';
-  //             }
-  //             return null;
-  //           },
-  //         ),
-  //         SizedBox(height: 16.0),
-  //         TextFormField(
-  //           controller: _dateOfbirthController,
-  //           decoration: InputDecoration(
-  //             labelText: 'Date of birth',
-  //           ),
-  //           validator: (value) {
-  //             if (value!.isEmpty) {
-  //               return 'Please enter date of birth';
-  //             }
-  //             return null;
-  //           },
-  //         ),
   //         // GestureDetector(
   //         //   onTap: () => _selectDate(context),
   //         //   child: AbsorbPointer(
@@ -241,9 +244,9 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
   //         //         labelText: 'Date of birth',
   //         //       ),
   //         //       controller: TextEditingController(
-  //         //         text: _selectedDate == null
-  //         //             ? ''
-  //         //             : '${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}',
+  // text: _selectedDate == null
+  //     // ? ''
+  //     : '${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}',
   //         //       ),
   //         //       validator: (value) {
   //         //         if (_selectedDate == null) {
@@ -310,86 +313,43 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
   //             return null;
   //           },
   //         ),
-  //         SizedBox(height: 16.0),
-  //         // PrimaryButton(
-  //         //   onPressed: () {
-  //         //     if (_formKey.currentState!.validate()) {
-  //         //       // Submit the form
-  //         //       // Handle the form data here
-  //         //       late final name = _nameController.text;
-  //         //       late final email = _emailController.text;
-  //         //       late final dateOfBirth = _dateOfbirthController.text;
-  //         //       // '${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}';
-  //         //       late final gender = _selectedGenderController.text;
-  //         //       print('Name: $name');
-  //         //       print('Email: $email');
-  //         //       print('Date of birth: $dateOfBirth');
-  //         //       print('Gender: $gender');
-  //         //     }
-  //         //     Navigator.push(
-  //         //       context,
-  //         //       MaterialPageRoute(
-  //         //           builder: (context) => PersonalInfomationForm()),
-  //         //     );
-  //         //   },
-  //         //   buttonText: 'Save',
-  //         // ),
-  //         Row(
-  //           mainAxisAlignment: MainAxisAlignment.end,
-  //           children: [
-  //             ElevatedButton(
-  //               onPressed: () {
-  //                 if (_formKey.currentState!.validate()) {
-  //                   // Submit the form
-  //                   // Handle the form data here
-  //                   final name = _nameController.text;
-  //                   final email = _emailController.text;
-  //                   final dateOfBirth = _dateOfbirthController.text;
-  //                   // '${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}';
-  //                   final gender = _selectedGenderController.text;
-  //                   print('Name: $name');
-  //                   print('Email: $email');
-  //                   print('Date of birth: $dateOfBirth');
-  //                   print('Gender: $gender');
-  //                 }
-  //                 // Navigator.push(
-  //                 //   context,
-  //                 //   MaterialPageRoute(builder: (context) => ProfilePage()),
-  //                 // );
-  //               },
-  //               child: Text('Save'),
-  //               style: ButtonStyle(
-  //                 backgroundColor:
-  //                     MaterialStateProperty.all<Color>(Colors.green),
-  //               ),
-  //             ),
-  //             SizedBox(width: 10),
-  //             ElevatedButton(
-  //               onPressed: () {
-  //               },
-  //               child: Text('Cancel'),
-  //               style: ButtonStyle(
-  //                 backgroundColor:
-  //                     MaterialStateProperty.all<Color>(Colors.red),
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       ]),
+  // SizedBox(height: 16.0),
+  // PrimaryButton(
+  //   onPressed: () {
+  //     if (_formKey.currentState!.validate()) {
+  //       // Submit the form
+  //       // Handle the form data here
+  //       late final name = _nameController.text;
+  //       late final email = _emailController.text;
+  //       late final dateOfBirth = _dateOfbirthController.text;
+  //       // '${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}';
+  //       late final gender = _selectedGenderController.text;
+  //       print('Name: $name');
+  //       print('Email: $email');
+  //       print('Date of birth: $dateOfBirth');
+  //       print('Gender: $gender');
+  //     }
+  //     Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //           builder: (context) => PersonalInfomationForm()),
+  //     );
+  //   },
+  //   buttonText: 'Save',
+  // ),
 
-//   Future<void> _selectDate(BuildContext context) async {
-//     final DateTime? picked = await showDatePicker(
-//       context: context,
-//       initialDate:
-//           _selectedDate ?? DateTime.now().subtract(Duration(days: 365 * 18)),
-//       firstDate: DateTime(1900),
-//       lastDate: DateTime.now().subtract(Duration(days: 365 * 18)),
-//     );
-//     if (picked != null && picked != _selectedDate) {
-//       setState(() {
-//         _selectedDate = picked;
-//       });
-//     }
-//   }
-// }
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate:
+          _selectedDate ?? DateTime.now().subtract(Duration(days: 365 * 18)),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now().subtract(Duration(days: 365 * 18)),
+    );
+    if (picked != null && picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
+      });
+    }
+  }
 }
