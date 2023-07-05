@@ -3,9 +3,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/homePage/widget/custom_app_bar.dart';
 
-import '../../cartPage/cart_page.dart';
+import '../../cartPage/screen/cart_page.dart';
 
 import '../widget/payment.dart';
+import '../widget/delivery_address.dart';
 
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({Key? key}) : super(key: key);
@@ -28,66 +29,22 @@ class _CheckoutPageState extends State<CheckoutPage> {
             flexibleSpace: const CustomAppBar()),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.location_on,
-                            color: Colors.red,
-                          ),
-                          SizedBox(width: 8.0),
-                          Text(
-                            AppLocalizations.of(context)!.deliveryAdress,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 16.0),
-                      RichText(
-                        text: TextSpan(
-                          text: 'Tran Ky Anh',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16.0,
-                          ),
-                          children: [
-                            TextSpan(
-                              text:
-                                  ' | 0583841958\n273 Ly Thuong Kiet, 6 ward, district 8, Ho Chi Minh city',
-                              style: TextStyle(
-                                color: Colors.black54,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+          const DeliveryAddress(
+            name: 'Tran Ky Anh',
+            phone: '0583841958',
+            address: '273 Ly Thuong Kiet, 6 ward, district 8, Ho Chi Minh city',
           ),
-          SizedBox(height: 32.0),
+          const SizedBox(height: 10),
           Text(
             AppLocalizations.of(context)!.paymentDetails,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             children: [
               Image.asset(
@@ -95,8 +52,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 width: 100,
                 height: 100,
               ),
-              SizedBox(width: 5),
-              Expanded(
+              const SizedBox(width: 5),
+              const Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -111,20 +68,20 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       'Blue, 128 GB',
                       style: TextStyle(
                         fontSize: 14,
-                        color: Colors.grey,
+                        color: kGreyColor,
                       ),
                     ),
                     Text(
                       'Quantity: 1',
                       style: TextStyle(
                         fontSize: 14,
-                        color: Colors.grey,
+                        color: kGreyColor,
                       ),
                     ),
                   ],
                 ),
               ),
-              Text(
+              const Text(
                 '1025 USD',
                 style: TextStyle(
                   fontSize: 15.0,
@@ -134,7 +91,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
               ),
             ],
           ),
-          SizedBox(height: 14),
+          const SizedBox(height: 14),
           Row(
             children: [
               Image.asset(
@@ -142,8 +99,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 width: 100,
                 height: 100,
               ),
-              SizedBox(width: 5),
-              Expanded(
+              const SizedBox(width: 5),
+              const Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -158,20 +115,20 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       'Purple, 128GB',
                       style: TextStyle(
                         fontSize: 14,
-                        color: Colors.grey,
+                        color: kGreyColor,
                       ),
                     ),
                     Text(
                       'Quantity: 1',
                       style: TextStyle(
                         fontSize: 14,
-                        color: Colors.grey,
+                        color: kGreyColor,
                       ),
                     ),
                   ],
                 ),
               ),
-              Text(
+              const Text(
                 '1000 USD',
                 style: TextStyle(
                   fontSize: 15.0,
@@ -181,7 +138,68 @@ class _CheckoutPageState extends State<CheckoutPage> {
               ),
             ],
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                AppLocalizations.of(context)!.discount,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: kGreyColor,
+                ),
+              ),
+              const Text(
+                '0 USD',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: kGreyColor,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                AppLocalizations.of(context)!.deliveryfee,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: kGreyColor,
+                ),
+              ),
+              const Text(
+                '0 USD',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: kGreyColor,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                AppLocalizations.of(context)!.total,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Text(
+                '2025 USD',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: kRedColor,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
           PaymentMethod(
             paymentMethod: _paymentMethod,
             onChanged: (value) {
@@ -190,9 +208,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
               });
             },
           ),
-          SizedBox(height: 32.0),
+          const SizedBox(height: 32.0),
           Container(
-            margin: EdgeInsets.only(bottom: 16),
+            margin: const EdgeInsets.only(bottom: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -206,7 +224,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       ),
                       child: Text(
                         AppLocalizations.of(context)!.pay,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,

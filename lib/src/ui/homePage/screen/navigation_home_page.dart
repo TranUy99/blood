@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
-import 'package:mobile_store/src/ui/cartPage/cart_page.dart';
+import 'package:mobile_store/src/ui/cartPage/screen/cart_page.dart';
 import 'package:mobile_store/src/ui/homePage/screen/home_page.dart';
 import 'package:mobile_store/src/ui/login_outPage/screen/login.dart';
 import 'package:mobile_store/src/ui/login_outPage/screen/not_login.dart';

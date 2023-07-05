@@ -44,8 +44,7 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).size.height * 0.015),
+              padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.015),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -91,7 +90,7 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
                     ),
                   ),
                 ),
-                SizedBox(width: 1),
+                const SizedBox(width: 1),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -203,9 +202,7 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
                       print('Gender: $gender');
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                            content:
-                                Text('Please fill in all required fields')),
+                        SnackBar(content: Text('Please fill in all required fields')),
                       );
                     }
                     // Navigator.push(
@@ -215,8 +212,7 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
                   },
                   child: Text('Save'),
                   style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.green),
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
                   ),
                 ),
                 SizedBox(width: 10),
@@ -229,8 +225,7 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
                   },
                   child: Text('Cancel'),
                   style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.red),
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
                   ),
                 ),
               ],

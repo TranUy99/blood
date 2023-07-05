@@ -84,7 +84,7 @@ class _ConfigurationProductState extends State<ConfigurationProduct> {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Container(
               color: kWhiteGrey,
               child: Row(
@@ -107,7 +107,7 @@ class _ConfigurationProductState extends State<ConfigurationProduct> {
                 ],
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             //capacity product
             Row(
               children: [
@@ -128,7 +128,7 @@ class _ConfigurationProductState extends State<ConfigurationProduct> {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             //ram product
             Container(
               color: kWhiteGrey,
@@ -152,7 +152,7 @@ class _ConfigurationProductState extends State<ConfigurationProduct> {
                 ],
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             //camera
             Row(
               children: [
@@ -173,7 +173,7 @@ class _ConfigurationProductState extends State<ConfigurationProduct> {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             //
             Container(
               color: kWhiteGrey,
@@ -197,7 +197,7 @@ class _ConfigurationProductState extends State<ConfigurationProduct> {
                 ],
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             // more configuration product
             const MoreConfiguration(),
 

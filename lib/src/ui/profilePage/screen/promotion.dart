@@ -7,11 +7,11 @@ class Promotion extends StatefulWidget {
   State<Promotion> createState() => _PromotionState();
 }
 
-class _PromotionState extends State<Promotion> {
+class _PromotionState extends   State<Promotion> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.55,
+      height: MediaQuery.of(context).size.height * 0.5,
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: ListView.builder(
@@ -20,7 +20,8 @@ class _PromotionState extends State<Promotion> {
           itemCount: 6,
           itemBuilder: (context, index) {
             return Container(
-              padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.015),
+              padding: EdgeInsets.symmetric(
+                  vertical: MediaQuery.of(context).size.height * 0.015),
               child: ListTile(
                 leading: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -31,7 +32,8 @@ class _PromotionState extends State<Promotion> {
                     ),
                   ],
                 ),
-                title: const Text('20% discount for orders under 1500\$, for customers who bought 10000\$ '),
+                title: const Text(
+                    '20% discount for orders under 1500\$, for customers who bought 10000\$ '),
               ),
             );
           },
