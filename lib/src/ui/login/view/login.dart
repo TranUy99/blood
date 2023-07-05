@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
-import 'package:mobile_store/src/constant/widget/validate.dart';
-import 'package:mobile_store/src/ui/change_password/view/change_password.dart';
 import 'package:mobile_store/src/constant/widget/checkbox.dart';
-import 'package:mobile_store/src/ui/login/bloc_state/log_in_state.dart';
+import 'package:mobile_store/src/ui/change_password/view/change_password.dart';
 import 'package:mobile_store/src/ui/login/widget/login_form.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+
 import '../../../constant/widget/login_option.dart';
 import '../../../constant/widget/primary_button.dart';
-import '../../homePage/screen/navigation_home_page.dart';
 import '../../register/view/sign_up.dart';
 import '../bloc_state/log_in_bloc.dart';
 import '../bloc_state/log_in_event.dart';
@@ -94,29 +92,19 @@ class _LogInScreenState extends State<LogInScreen> {
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.03),
                   child: InkWell(
-                    onTap: () {
-                      if (Validate.checkInvalidateNewPassword(textPasswordController.text) == false
-                          && Validate.invalidateEmail(textEmailController.text) == false) {
-                        //Input to bloc and set state
-                        showTopSnackBar(Overlay.of(context),
-                            const CustomSnackBar.success(message: 'Login successfully'));
-                        //Login
-                        LogInEvent.loginEvent(textEmailController.text, textPasswordController.text);
-                        onLogInState = OnLogInState(true);
-                        setState(() {
-                          indexScreen = 0;
-                        });
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const NavigationHomePage(),
-                            ));
-                      } else {
-                        showTopSnackBar(
-                            Overlay.of(context),
-                            const CustomSnackBar.error(
-                                message: 'Invalid information'));
-                      }
+                    onTap: () async {
+                      // if () {
+                      //   showTopSnackBar(
+                      //       Overlay.of(context),
+                      //       const CustomSnackBar.success(
+                      //           message: 'Login successfully'));
+                      // }else{
+                      //   showTopSnackBar(Overlay.of(context),
+                      //       const CustomSnackBar.error(message: 'Wrong information'));
+                      // }
+                      await LogInEvent.checkLoginEvent(
+                          'yukatanguyen545@gmail.com', 'Candidate1');
+                      print(onLogInState.onLogin);
                     },
                     child: PrimaryButton(
                         buttonText: AppLocalizations.of(context)!.logIn),
@@ -133,7 +121,7 @@ class _LogInScreenState extends State<LogInScreen> {
                     children: [
                       Row(
                         children: [
-                          Expanded(
+                          const Expanded(
                             child: Divider(
                               color: kGreyColor,
                               height: 1.5,
