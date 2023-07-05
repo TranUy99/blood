@@ -1,8 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../constant/colors/theme.dart';
 import '../../homePage/widget/custom_app_bar.dart';
+import 'package:mobile_store/src/ui/checkoutPage/widget/delivery_address.dart';
 
 class OrderDetail extends StatefulWidget {
   const OrderDetail({super.key});
@@ -18,8 +20,11 @@ class _OrderDetailState extends State<OrderDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.15),
-        child: AppBar(backgroundColor: kSecondaryColor, flexibleSpace: const CustomAppBar()),
+        preferredSize:
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.15),
+        child: AppBar(
+            backgroundColor: kSecondaryColor,
+            flexibleSpace: const CustomAppBar()),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -33,62 +38,43 @@ class _OrderDetailState extends State<OrderDetail> {
               ),
             ),
             Container(
-              decoration: BoxDecoration(border: Border.all(width: 1)),
-              child: Column(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: kGreyColor,
+                  width: 1.0,
+                ),
+                //borderRadius: BorderRadius.circular(3),
+              ),
+              padding: const EdgeInsets.all(16.0),
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Row(
-                    children: [
-                      Icon(
-                        Icons.location_pin,
-                        color: kRedColor,
-                      ),
-                      Text(
-                        "Delivery address",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15,
-                        ),
-                      )
-                    ],
-                  ),
-                  const Row(
-                    children: [
-                      Text("Tran Ky Anh",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
-                          )),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text("0983269424",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
-                          )),
-                    ],
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 1,
-                    child: const Text("273 Ly Thuong Kiet 6 ward, district 8, Ho chi MinH city ",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15,
-                        )),
+                  DeliveryAddress(
+                    name: 'Tran Ky Anh',
+                    phone: '0583841958',
+                    address:
+                        '273 Ly Thuong Kiet, 6 ward, district 8, Ho Chi Minh city',
                   ),
                 ],
               ),
             ),
+            const SizedBox(height: 10),
             Container(
-              decoration: BoxDecoration(border: Border.all(width: 1)),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: kGreyColor,
+                  width: 1.0,
+                ),
+                //borderRadius: BorderRadius.circular(3),
+              ),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Row(
                     children: [
                       Icon(
-                        Icons.credit_card,
+                        Icons.list_outlined,
                         color: kGreenColor,
                       ),
                       Text(
@@ -114,8 +100,8 @@ class _OrderDetailState extends State<OrderDetail> {
                               enableInfiniteScroll: true,
                               initialPage: 0,
                               autoPlay: true,
-                              autoPlayInterval: Duration(seconds: 2),
-                              autoPlayAnimationDuration: Duration(milliseconds: 800),
+                              autoPlayInterval: const Duration(seconds: 2),
+                              autoPlayAnimationDuration: const Duration(milliseconds: 800),
                               autoPlayCurve: Curves.fastOutSlowIn,
                               scrollDirection: Axis.vertical,
                             ),
@@ -142,27 +128,98 @@ class _OrderDetailState extends State<OrderDetail> {
                         const SizedBox(
                           width: 10,
                         ),
-                       const  Column(
+                        const Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                             Text(
-                              "Samsung  Galaxy",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15,
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Samsung Galaxy",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                SizedBox(width: 70),
+                                Text(
+                                  "Rating",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    color: kYellow,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Blue, 128Gb",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    color: kGreyColor,
+                                  ),
+                                ),
+                                Text(
+                                  "x1",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    color: kGreyColor,
+                                  ),
+                                ),
+                              ],
                             ),
                             Text(
-                              "Blue, 128Gb",
+                              "699 USD",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                color: kGreenColor,
+                              ),
+                            ),
+                            SizedBox(height: 16),
+                            Text(
+                              "iPhone X",
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 15,
                               ),
                             ),
-                             Text(
-                              "X1",
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Black, 64Gb",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    color: kGreyColor,
+                                  ),
+                                ),
+                                Text(
+                                  "x1",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    color: kGreyColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              "1025 USD",
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                fontSize: 15,
+                                fontSize: 14,
+                                color: kGreenColor,
                               ),
                             ),
                           ],
@@ -170,17 +227,219 @@ class _OrderDetailState extends State<OrderDetail> {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 1,
-                    child: const Text("273 Ly Thuong Kiet 6 ward, district 8, Ho chi MinH city ",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15,
-                        )),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            '${AppLocalizations.of(context)!.total}:',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15,
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 72),
+                            child: Text(
+                              "1724 USD",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                color: kRedColor,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Handle the Pay button press
+                        },
+                        child: Text(
+                          AppLocalizations.of(context)!.paid,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            color: Colors.white,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: kGreyColor,
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            )
+            ),
+            const SizedBox(height: 10),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: kGreyColor,
+                  width: 1.0,
+                ),
+              ),
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Icon(
+                        Icons.wallet,
+                        color: Colors.pink,
+                      ),
+                      const SizedBox(width: 10),
+                      Text(
+                        AppLocalizations.of(context)!.paymentMethod,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Text(
+                    "Payment with a bank account",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: kGreyColor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: kGreyColor,
+                  width: 1.0,
+                ),
+              ),
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)!.orderNumber,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const Expanded(
+                        child: Text(
+                          "48998",
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)!.orderTime,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          color: kGreyColor,
+                        ),
+                      ),
+                      const Expanded(
+                        child: Text(
+                          "30-06-2023 13:30",
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: kGreyColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)!.paymentTime,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          color: kGreyColor,
+                        ),
+                      ),
+                      const Expanded(
+                        child: Text(
+                          "30-06-2023 13:30",
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: kGreyColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)!.estimatedPickuptime,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          color: kGreyColor,
+                        ),
+                      ),
+                      const Expanded(
+                        child: Text(
+                          "03-07-2023 16:00",
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: kGreyColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Handle the Buy again button press
+                      },
+                      child: Text(
+                        AppLocalizations.of(context)!.buyAgain,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: kGreenColor,
+                        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

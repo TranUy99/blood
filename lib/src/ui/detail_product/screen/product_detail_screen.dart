@@ -54,7 +54,7 @@ class ProductDetailScreen extends StatelessWidget {
                   ),
                   child: Text(
                     AppLocalizations.of(context)!.buynow.toUpperCase(),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: kWhiteColor,
                       fontWeight: FontWeight.bold,
                     ),

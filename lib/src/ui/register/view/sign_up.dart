@@ -165,10 +165,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     bottom: MediaQuery.of(context).size.height * 0.03,
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment
-                        .center, 
-                    mainAxisAlignment: MainAxisAlignment
-                        .center, 
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Row(
                         children: [
@@ -198,7 +196,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ],
                       ),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01), 
+                          height: MediaQuery.of(context).size.height * 0.01),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -209,19 +207,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ],
                       ),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01), 
+                          height: MediaQuery.of(context).size.height * 0.01),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.8,
                         height: MediaQuery.of(context).size.height * 0.1,
                         child: LoginOption(),
                       ),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01), 
+                          height: MediaQuery.of(context).size.height * 0.01),
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment
-                            .center, 
-                        mainAxisAlignment: MainAxisAlignment
-                            .center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             '${AppLocalizations.of(context)!.alreadyHaveAnAccount}?',

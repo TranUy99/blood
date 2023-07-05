@@ -23,11 +23,11 @@ class AddressInfo extends StatelessWidget {
           padding: const EdgeInsets.only(left: 8.0),
           child: Text(
               AppLocalizations.of(context)!.address.toUpperCase(),
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
         ),
         ListView.builder(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: addresses.length,
           itemBuilder: (context, index) {
             return RadioListTile(
@@ -42,7 +42,7 @@ class AddressInfo extends StatelessWidget {
                   children: [
                     TextSpan(
                       text: addresses[index].split('|')[0].trim(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.bold,
                         color: Colors.black87,
@@ -50,7 +50,7 @@ class AddressInfo extends StatelessWidget {
                     ),
                     TextSpan(
                       text: ' | ${addresses[index].split('|')[1].trim()}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.bold,
                         color: Colors.black54,
@@ -63,7 +63,7 @@ class AddressInfo extends StatelessWidget {
           },
         ),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: TextButton(
             onPressed: () {
               // Xử lý sự kiện khi người dùng nhấn vào nút "Thêm địa chỉ khác"
@@ -71,7 +71,7 @@ class AddressInfo extends StatelessWidget {
             child: Text(
               //'Add another address',
               AppLocalizations.of(context)!.anotheraddress,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 14,
                 color: kGreenColor,
                 fontWeight: FontWeight.bold,

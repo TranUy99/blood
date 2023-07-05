@@ -3,6 +3,7 @@ import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/ui/detail_product/widget/more_product_information.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import '../../../constant/colors/theme.dart';
 
 class Review extends StatefulWidget {
   const Review({super.key});
@@ -47,7 +48,7 @@ class _ReviewState extends State<Review> {
               children: [
                 Row(
                   children: [
-                    Text(
+                    const Text(
                       "Messi",
                       style: TextStyle(
                         color: kBlackColor,
@@ -65,7 +66,7 @@ class _ReviewState extends State<Review> {
                       itemSize: 20,
                       itemBuilder: (context, _) => const Icon(
                         Icons.star,
-                        color: Colors.amber,
+                        color: kYellow,
                       ),
                       onRatingUpdate: (rating) {
 // log('$rating');
@@ -74,7 +75,7 @@ class _ReviewState extends State<Review> {
                   ],
                 ),
                 const SizedBox(height: 10),
-                Text(
+                const Text(
                   "Màu tím ok nha, chưa thấy lỗi lầm hay bong tróc gì",
                   style: TextStyle(
                     color: kBlackColor,
@@ -90,7 +91,7 @@ class _ReviewState extends State<Review> {
               children: [
                 Row(
                   children: [
-                    Text(
+                    const Text(
                       "Uy",
                       style: TextStyle(
                         color: kBlackColor,
@@ -108,7 +109,7 @@ class _ReviewState extends State<Review> {
                       itemSize: 20,
                       itemBuilder: (context, _) => const Icon(
                         Icons.star,
-                        color: Colors.amber,
+                        color: kYellow,
                       ),
                       onRatingUpdate: (rating) {
 // log('$rating');
@@ -117,7 +118,7 @@ class _ReviewState extends State<Review> {
                   ],
                 ),
                 const SizedBox(height: 10),
-                Text(
+                const Text(
                   "Giá cạnh tranh, nhân viên quá là ok.",
                   style: TextStyle(
                     color: kBlackColor,

@@ -24,12 +24,12 @@ class _PaymentMethodState extends State<PaymentMethod> {
       children: [
         Text(
           AppLocalizations.of(context)!.selectPay,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
         RadioListTile<String>(
           title: Row(
             children: [
@@ -38,7 +38,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 width: 24,
                 height: 24,
               ),
-              SizedBox(width: 5),
+              const SizedBox(width: 5),
               Text(AppLocalizations.of(context)!.momo),
             ],
           ),
@@ -55,7 +55,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 width: 24,
                 height: 24,
               ),
-              SizedBox(width: 5),
+              const SizedBox(width: 5),
               Text(AppLocalizations.of(context)!.payAfter),
             ],
           ),
@@ -72,7 +72,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 width: 24,
                 height: 24,
               ),
-              SizedBox(width: 5),
+              const SizedBox(width: 5),
               Text(AppLocalizations.of(context)!.banking),
             ],
           ),

@@ -1,10 +1,6 @@
-// ignore_for_file: unused_local_variable
-
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/ui/change_password/view/change_password.dart';
 import 'package:mobile_store/src/ui/profilePage/widget/edit_address.dart';
-import 'package:mobile_store/src/ui/profilePage/widget/edit_information_form.dart';
-
 import '../../../constant/colors/theme.dart';
 
 class YourInformation extends StatefulWidget {
@@ -32,7 +28,7 @@ class _YourInformationState extends State<YourInformation> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: MediaQuery.of(context).size.height * 0.55,  
+      height: MediaQuery.of(context).size.height * 0.5,
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -50,7 +46,8 @@ class _YourInformationState extends State<YourInformation> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('INFORMATION', style: TextStyle(fontSize: 18)),
+                          const Text('INFORMATION',
+                              style: TextStyle(fontSize: 18)),
                           InkWell(
                             onTap: () {
                               showDialog(
@@ -74,10 +71,12 @@ class _YourInformationState extends State<YourInformation> {
                                           children: [
                                             Expanded(
                                                 child: Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                  horizontal: 2.0),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 2.0),
                                               child: TextFormField(
-                                                controller: _phoneNumberController,
+                                                controller:
+                                                    _phoneNumberController,
                                                 decoration: InputDecoration(
                                                   labelText: 'Number phone',
                                                   contentPadding:
@@ -109,8 +108,9 @@ class _YourInformationState extends State<YourInformation> {
                                           children: [
                                             Expanded(
                                               child: Padding(
-                                                padding: const EdgeInsets.symmetric(
-                                                    horizontal: 2.0),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 2.0),
                                                 child: TextFormField(
                                                   controller: _nameController,
                                                   decoration: InputDecoration(
@@ -119,7 +119,8 @@ class _YourInformationState extends State<YourInformation> {
                                                         EdgeInsets.symmetric(
                                                             vertical: 15,
                                                             horizontal: 10),
-                                                    border: OutlineInputBorder(),
+                                                    border:
+                                                        OutlineInputBorder(),
                                                   ),
                                                   validator: (value) {
                                                     if (value!.isEmpty) {
@@ -137,8 +138,9 @@ class _YourInformationState extends State<YourInformation> {
                                           children: [
                                             Expanded(
                                               child: Padding(
-                                                padding: const EdgeInsets.symmetric(
-                                                    horizontal: 2.0),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 2.0),
                                                 child: TextFormField(
                                                   decoration: InputDecoration(
                                                     labelText: 'Email',
@@ -146,14 +148,15 @@ class _YourInformationState extends State<YourInformation> {
                                                         EdgeInsets.symmetric(
                                                             vertical: 15,
                                                             horizontal: 10),
-                                                    border: OutlineInputBorder(),
+                                                    border:
+                                                        OutlineInputBorder(),
                                                   ),
                                                   validator: (value) {
                                                     if (value!.isEmpty) {
                                                       return 'Please enter email';
                                                     }
-                                                    if (!value
-                                                        .contains('@gmail.com')) {
+                                                    if (!value.contains(
+                                                        '@gmail.com')) {
                                                       return 'Email address is not valid';
                                                     }
                                                     return null;
@@ -168,8 +171,9 @@ class _YourInformationState extends State<YourInformation> {
                                           children: [
                                             Expanded(
                                               child: Padding(
-                                                padding: const EdgeInsets.symmetric(
-                                                    horizontal: 2.0),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 2.0),
                                                 child: TextFormField(
                                                   controller: TextEditingController(
                                                       // ignore: unnecessary_null_comparison
@@ -180,7 +184,8 @@ class _YourInformationState extends State<YourInformation> {
                                                         EdgeInsets.symmetric(
                                                             vertical: 15,
                                                             horizontal: 10),
-                                                    border: OutlineInputBorder(),
+                                                    border:
+                                                        OutlineInputBorder(),
                                                   ),
                                                   onTap: () async {
                                                     await _selectedDate!;
@@ -197,21 +202,24 @@ class _YourInformationState extends State<YourInformation> {
                                             ),
                                             Expanded(
                                               child: Padding(
-                                                padding: const EdgeInsets.symmetric(
-                                                    horizontal: 2.0),
-                                                child:
-                                                    DropdownButtonFormField<String>(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 2.0),
+                                                child: DropdownButtonFormField<
+                                                    String>(
                                                   value: _selectedGender,
-                                                  onChanged: (value) => setState(
-                                                      () =>
-                                                          _selectedGender = value),
+                                                  onChanged: (value) =>
+                                                      setState(() =>
+                                                          _selectedGender =
+                                                              value),
                                                   decoration: InputDecoration(
                                                     hintText: 'Gender',
                                                     contentPadding:
                                                         EdgeInsets.symmetric(
                                                             vertical: 13,
                                                             horizontal: 10),
-                                                    border: OutlineInputBorder(),
+                                                    border:
+                                                        OutlineInputBorder(),
                                                   ),
                                                   items: [
                                                     DropdownMenuItem(
@@ -246,18 +254,21 @@ class _YourInformationState extends State<YourInformation> {
                                           child: Text('Save'),
                                           style: ButtonStyle(
                                             backgroundColor:
-                                                MaterialStateProperty.all<Color>(
-                                                    Colors.green),
+                                                MaterialStateProperty.all<
+                                                    Color>(Colors.green),
                                           ),
                                           onPressed: () {
-                                            if (_formKey.currentState!.validate()) {
+                                            if (_formKey.currentState!
+                                                .validate()) {
                                               final name = _nameController.text;
-                                              final email = _emailController.text;
+                                              final email =
+                                                  _emailController.text;
                                               final dateOfBirth =
                                                   _dateOfbirthController.text;
                                               // '${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}';
                                               final gender =
-                                                  _selectedGenderController.text;
+                                                  _selectedGenderController
+                                                      .text;
                                               final phoneNumber =
                                                   _phoneNumberController.text;
                                               print('$name');
@@ -278,8 +289,8 @@ class _YourInformationState extends State<YourInformation> {
                                             style:
                                             ButtonStyle(
                                               backgroundColor:
-                                                  MaterialStateProperty.all<Color>(
-                                                      Colors.green),
+                                                  MaterialStateProperty.all<
+                                                      Color>(Colors.green),
                                             );
                                           }),
                                       ElevatedButton(
@@ -316,7 +327,8 @@ class _YourInformationState extends State<YourInformation> {
                               children: [
                                 Image.asset(
                                   'images/phone.png',
-                                  height: MediaQuery.of(context).size.height * 0.03,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.03,
                                 ),
                                 SizedBox(
                                   width: 6,
@@ -329,7 +341,8 @@ class _YourInformationState extends State<YourInformation> {
                               children: [
                                 Image.asset(
                                   'images/account_icon.jpg',
-                                  height: MediaQuery.of(context).size.height * 0.03,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.03,
                                 ),
                                 SizedBox(
                                   width: 6,
@@ -342,8 +355,8 @@ class _YourInformationState extends State<YourInformation> {
                               children: [
                                 Image.asset(
                                   'images/calendar.png',
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.025,
+                                  height: MediaQuery.of(context).size.height *
+                                      0.025,
                                 ),
                                 SizedBox(
                                   width: 10,
@@ -362,8 +375,8 @@ class _YourInformationState extends State<YourInformation> {
                               children: [
                                 Image.asset(
                                   'images/male.png',
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.028,
+                                  height: MediaQuery.of(context).size.height *
+                                      0.028,
                                 ),
                                 const SizedBox(
                                   width: 8,
@@ -376,14 +389,15 @@ class _YourInformationState extends State<YourInformation> {
                               children: [
                                 Image.asset(
                                   'images/gmail_icon.png',
-                                  height: MediaQuery.of(context).size.height * 0.02,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.02,
                                 ),
                                 const SizedBox(
                                   width: 5,
                                 ),
-                                const SizedBox(
-                                  width: 115,
-                                  child: Text('trkyanh@gmail.com')),
+                                SizedBox(
+                                    width: 115,
+                                    child: Text('trkyanh@gmail.com')),
                               ],
                             ),
                           ],
@@ -420,7 +434,8 @@ class _YourInformationState extends State<YourInformation> {
                       padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).size.height * 0.015),
                       width: MediaQuery.of(context).size.width * 1,
-                      child: const Text('ADDRESS', style: TextStyle(fontSize: 18))),
+                      child: const Text('ADDRESS',
+                          style: TextStyle(fontSize: 18))),
                   addressInformation(),
                   Row(
                     children: [
@@ -596,4 +611,3 @@ class _YourInformationState extends State<YourInformation> {
     super.dispose();
   }
 }
-

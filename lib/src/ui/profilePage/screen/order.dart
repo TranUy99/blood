@@ -13,7 +13,7 @@ class _OrderState extends State<Order> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.55,
+      height: MediaQuery.of(context).size.height * 0.5,
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: ListView.builder(
@@ -23,12 +23,16 @@ class _OrderState extends State<Order> {
           itemCount: 6,
           itemBuilder: (context, index) {
             return Container(
-              padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.015),
+              padding: EdgeInsets.symmetric(
+                  vertical: MediaQuery.of(context).size.height * 0.015),
               child: Row(
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: kDarkGreyColor, width: 2.0, style: BorderStyle.solid),
+                      border: Border.all(
+                          color: kDarkGreyColor,
+                          width: 2.0,
+                          style: BorderStyle.solid),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     height: MediaQuery.of(context).size.height * 0.15,
@@ -38,17 +42,20 @@ class _OrderState extends State<Order> {
                     ),
                   ),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.64,
+                    width: MediaQuery.of(context).size.width * 0.6,
                     child: Padding(
                       padding: const EdgeInsets.only(left: 20),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            "Iphone X and 2 another product ",
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold,
+                          SizedBox(
+                            width: 150,
+                            child: Text(
+                              "Iphone X and 2 another product ",
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                           const SizedBox(
@@ -108,21 +115,20 @@ class _OrderState extends State<Order> {
                                 width: 90,
                                 child: Text(
                                   '1199 USD ',
-                                
                                   style: TextStyle(
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: kGreenColor
-                                  ),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: kGreenColor),
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 20),
                                 child: Container(
                                   color: kGreenColor,
-                                  width: MediaQuery.of(context).size.width * 0.2,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.2,
                                   child: InkWell(
-                                       onTap: () {
+                                    onTap: () {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(

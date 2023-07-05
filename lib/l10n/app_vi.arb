@@ -5,6 +5,7 @@
   "clearCart": "Xóa giỏ hàng",
   "temporaryprice": "Giá tạm tính",
   "discount": "Giảm giá",
+  "deliveryfee": "Phí giao hàng",
   "enterDiscountCode": "Nhập mã giảm giá",
   "apply": "Áp dụng",
   "total": "Tổng cộng",
@@ -14,7 +15,14 @@
   "checkout": "Thanh toán",
   "deliveryAdress": "Địa chỉ giao hàng",
   "paymentDetails": "Chi tiết thanh toán",
+  "paymentMethod": "Phương thức thanh toán",
+  "orderNumber": "Mã đơn hàng",
+  "orderTime": "Thời gian đặt hàng",
+  "paymentTime": "Thanh toán lúc",
+  "estimatedPickuptime": "Thời gian nhận hàng dự kiến",
+  "buyAgain": "Mua lại",
   "pay": "Thanh toán",
+  "paid": "Đã thanh toán",
   "selectPay": "Lựa chọn hình thức thanh toán",
   "momo": "Ví MoMo",
   "payAfter": "Thanh toán khi nhận hàng",
@@ -64,5 +72,4 @@
   "dontAccount": "Không có tài khoản",
   "alreadyHaveAnAccount": "Đã có tài khoản",
   "logout": "Đăng xuất"
-  
 }
