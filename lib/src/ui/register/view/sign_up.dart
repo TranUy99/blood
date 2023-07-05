@@ -25,7 +25,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController textPasswordController = TextEditingController();
   TextEditingController textConfirmPasswordController = TextEditingController();
   SignUpBloc signUpBloc = SignUpBloc();
-  SharedTextPasswordBloc sharedTextBloc = SharedTextPasswordBloc();
+  SignUpSharedTextPasswordBloc signUpSharedTextPasswordBloc = SignUpSharedTextPasswordBloc();
   bool obscure = true;
   bool isCheck = false;
 
@@ -48,7 +48,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    sharedTextBloc.dispose();
+    signUpSharedTextPasswordBloc.dispose();
   }
 
   @override
@@ -87,20 +87,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       textController: textEmailController,
                       validationType: 2,
                     ),
-                    BuildInputFormPassword(
+                    BuildInputSignUpFormPassword(
                       hint: AppLocalizations.of(context)!.password,
                       obscure: obscure,
                       textController: textPasswordController,
                       function: obscureChange(),
-                      sharedTextPasswordBloc: sharedTextBloc,
+                      sharedTextPasswordBloc: signUpSharedTextPasswordBloc,
                       isConfirm: false,
                     ),
-                    BuildInputFormPassword(
+                    BuildInputSignUpFormPassword(
                       hint: AppLocalizations.of(context)!.confirmPassword,
                       obscure: obscure,
                       textController: textConfirmPasswordController,
                       function: obscureChange(),
-                      sharedTextPasswordBloc: sharedTextBloc,
+                      sharedTextPasswordBloc: signUpSharedTextPasswordBloc,
                       isConfirm: true,
                     ),
                   ]),
