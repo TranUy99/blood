@@ -35,14 +35,12 @@ Widget build(BuildContext context) {
     builder: (context, snapshot) {
       if (snapshot.hasData) {
         products = snapshot.data!;
-
         WidgetsBinding.instance.addPostFrameCallback((_) {
           setState(() {});
         });
       } else if (snapshot.hasError) {
         return Text('Error: ${snapshot.error}');
       }
-
       return buildUI(context);
     },
   );

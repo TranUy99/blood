@@ -366,13 +366,13 @@ class _YourInformationState extends State<YourInformation> {
                                   height:
                                       MediaQuery.of(context).size.height * 0.028,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 8,
                                 ),
                                 Text('Male'),
                               ],
                             ),
-                            SizedBox(height: 4),
+                            const SizedBox(height: 4),
                             Row(
                               children: [
                                 Image.asset(
@@ -382,7 +382,7 @@ class _YourInformationState extends State<YourInformation> {
                                 const SizedBox(
                                   width: 5,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 115,
                                   child: Text('trkyanh@gmail.com')),
                               ],
