@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
-import 'package:mobile_store/src/ui/homePage/screen/navigation_home_page.dart';
 import 'package:mobile_store/src/ui/change_password/view/change_password.dart';
-import 'package:mobile_store/src/constant/widget/validate.dart';
 import 'package:mobile_store/src/constant/widget/checkbox.dart';
 import 'package:mobile_store/src/ui/login/widget/login_form.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import '../../../constant/widget/login_option.dart';
 import '../../../constant/widget/primary_button.dart';
 import '../../register/view/sign_up.dart';

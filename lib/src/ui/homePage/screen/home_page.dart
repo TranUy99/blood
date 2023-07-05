@@ -3,7 +3,7 @@ import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/homePage/bloc/product_bloc.dart';
 import 'package:mobile_store/src/ui/homePage/screen/product_screen.dart';
 import 'package:mobile_store/src/ui/homePage/widget/custom_app_bar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'carousel_slider.dart';
 
 class HomePage extends StatefulWidget {

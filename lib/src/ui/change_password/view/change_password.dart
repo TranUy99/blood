@@ -7,8 +7,6 @@ import 'package:mobile_store/src/ui/profilePage/screen/profile_page.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-import '../../../constant/widget/primary_button.dart';
-
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({Key? key}) : super(key: key);
   @override

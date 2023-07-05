@@ -3,8 +3,6 @@ import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/detail_product/widget/more_configuration.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'more_product_information.dart';
-
 class ConfigurationProduct extends StatefulWidget {
   const ConfigurationProduct({super.key});
 

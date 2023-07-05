@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/homePage/widget/custom_app_bar.dart';
-
-import '../../cartPage/screen/cart_page.dart';
-
 import '../widget/payment.dart';
 import '../widget/delivery_address.dart';
 

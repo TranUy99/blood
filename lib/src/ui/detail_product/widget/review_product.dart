@@ -3,7 +3,6 @@ import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/ui/detail_product/widget/more_product_information.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import '../../../constant/colors/theme.dart';
 
 class Review extends StatefulWidget {
   const Review({super.key});
