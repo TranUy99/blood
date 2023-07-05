@@ -3,7 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/homePage/screen/navigation_home_page.dart';
 import 'package:mobile_store/src/ui/login_outPage/screen/change_password.dart';
-import 'package:mobile_store/src/ui/login_outPage/screen/sign_up.dart';
+import 'package:mobile_store/src/ui/login_outPage/register/views/sign_up.dart';
 import 'package:mobile_store/src/ui/login_outPage/validate.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/checkbox.dart';
 import 'package:mobile_store/src/ui/login_outPage/widget/login_form.dart';

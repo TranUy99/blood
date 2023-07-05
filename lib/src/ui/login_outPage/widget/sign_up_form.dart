@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/ui/login_outPage/bloc/sign_up_bloc.dart';
+import 'package:mobile_store/src/ui/login_outPage/register/bloc/sign_up_bloc.dart';
 import 'package:mobile_store/src/ui/login_outPage/validate.dart';
 
 import '../../../constant/colors/theme.dart';
