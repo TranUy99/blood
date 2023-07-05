@@ -65,7 +65,7 @@ class _NavigationHomePageState extends State<NavigationHomePage> {
           NavigationDestination(
               icon: Icon(Icons.account_circle_outlined, size: 35),
               label: 'Me',
-              selectedIcon: Icon(Icons.account_circle_outlined, size: 35,))
+              selectedIcon: Icon(Icons.account_circle, size: 35,color: kGreyColor))
         ],
       ),
     );

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/widget/validate.dart';
 
 import '../../../constant/colors/theme.dart';
-import '../../change_password/bloc_state/change_password_bloc.dart';
 import '../bloc_state/sign_up_bloc.dart';
 
 class BuildInputFormSignIn extends StatefulWidget {
@@ -59,8 +58,8 @@ class _BuildInputFormSignInState extends State<BuildInputFormSignIn> {
   }
 }
 
-class BuildInputFormPassword extends StatefulWidget {
-  BuildInputFormPassword(
+class BuildInputSignUpFormPassword extends StatefulWidget {
+  BuildInputSignUpFormPassword(
       {Key? key,
       required this.hint,
       required this.obscure,
@@ -73,13 +72,13 @@ class BuildInputFormPassword extends StatefulWidget {
   final String hint;
   late final bool obscure;
   final Widget function;
-  final SignUpTexPasswordBloc sharedTextPasswordBloc;
+  final SignUpTextPasswordBloc sharedTextPasswordBloc;
   final bool isConfirm;
   @override
-  State<BuildInputFormPassword> createState() => _BuildInputFormPasswordState();
+  State<BuildInputSignUpFormPassword> createState() => _BuildInputFormPasswordState();
 }
 
-class _BuildInputFormPasswordState extends State<BuildInputFormPassword> {
+class _BuildInputFormPasswordState extends State<BuildInputSignUpFormPassword> {
   bool error = false;
   String errorText = '';
 

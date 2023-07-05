@@ -15,7 +15,7 @@ class SignUpBloc {
   }
 }
 
-class SignUpTexPasswordBloc extends ChangeNotifier {
+class SignUpTextPasswordBloc extends ChangeNotifier {
   final _textFieldController = BehaviorSubject<String>();
   Stream<String> get textFieldStream => _textFieldController.stream;
   void updateTextField(String value) {

@@ -26,7 +26,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController textPasswordController = TextEditingController();
   TextEditingController textConfirmPasswordController = TextEditingController();
   SignUpBloc signUpBloc = SignUpBloc();
-  SignUpTexPasswordBloc sharedTextBloc = SignUpTexPasswordBloc();
+  SignUpTextPasswordBloc sharedTextBloc = SignUpTextPasswordBloc();
   bool obscure = true;
   bool isCheck = false;
 
@@ -88,7 +88,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       textController: textEmailController,
                       validationType: 2,
                     ),
-                    BuildInputFormPassword(
+                    BuildInputSignUpFormPassword(
                       hint: AppLocalizations.of(context)!.password,
                       obscure: obscure,
                       textController: textPasswordController,
@@ -96,7 +96,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       sharedTextPasswordBloc: sharedTextBloc,
                       isConfirm: false,
                     ),
-                    BuildInputFormPassword(
+                    BuildInputSignUpFormPassword(
                       hint: AppLocalizations.of(context)!.confirmPassword,
                       obscure: obscure,
                       textController: textConfirmPasswordController,
