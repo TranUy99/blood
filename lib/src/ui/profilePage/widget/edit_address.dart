@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/ui/login_outPage/widget/checkbox.dart';
+import 'package:mobile_store/src/constant/widget/checkbox.dart';
+
 import 'package:mobile_store/src/ui/profilePage/screen/profile_page.dart';
 
 class EditAddressScreen extends StatefulWidget {

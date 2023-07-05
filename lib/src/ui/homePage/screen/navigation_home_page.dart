@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/cartPage/cart_page.dart';
 import 'package:mobile_store/src/ui/homePage/screen/home_page.dart';
-import 'package:mobile_store/src/ui/login_outPage/screen/login.dart';
-import 'package:mobile_store/src/ui/login_outPage/screen/not_login.dart';
 import 'package:mobile_store/src/ui/profilePage/screen/profile_page.dart';
-import 'package:get/get.dart';
-import '../../../core/network/network_manager.dart';
-import '../../login_outPage/bloc/log_in_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../login/bloc_state/log_in_bloc.dart';
+import '../../login/view/login.dart';
+import '../../login/view/not_login.dart';
+
 
 
 class NavigationHomePage extends StatefulWidget {
@@ -43,9 +42,9 @@ class _NavigationHomePageState extends State<NavigationHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: loginBloc.checkLogin()
+      body: onLogInState.onLogin
           ? navigationLoginScreen()[indexScreen]
-          : navigationLogoutScreen()[indexScreen],
+           : navigationLogoutScreen()[indexScreen],
       bottomNavigationBar: NavigationBar(
         height: MediaQuery.of(context).size.height * 0.07,
         onDestinationSelected: (value) => setState(() {

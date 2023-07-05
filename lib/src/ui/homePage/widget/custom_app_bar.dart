@@ -10,7 +10,6 @@ class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.5,
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           begin: Alignment.topCenter,
@@ -35,7 +34,17 @@ class CustomAppBar extends StatelessWidget {
               ],
             ),
           ),
+          // Padding(
+          //   padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     children: [
+          //       Text('data')
+          //     ],
+          //   ),
+          // ),
         ],
+
       ),
     );
   }

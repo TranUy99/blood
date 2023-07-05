@@ -1,8 +1,7 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:mobile_store/src/ui/login_outPage/screen/change_password.dart';
+import 'package:mobile_store/src/ui/change_password/view/change_password.dart';
 import 'package:mobile_store/src/ui/profilePage/widget/edit_address.dart';
 import 'package:mobile_store/src/ui/profilePage/widget/edit_information_form.dart';
 
