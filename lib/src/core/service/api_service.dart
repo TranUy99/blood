@@ -3,17 +3,21 @@ import 'package:mobile_store/src/core/model/user.dart';
 import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../../ui/login/view_model/login_request.dart';
+import '../../ui/login/view_model/login_response.dart';
+
 part 'api_service.g.dart';
 
- @RestApi(baseUrl: 'http://192.168.1.35:8085')
+ // @RestApi(baseUrl: 'http://192.168.1.35:8085')
+ @RestApi(baseUrl: 'http://45.117.170.206:8085')
 
 abstract class ApiService {
   factory ApiService(Dio dio) {
     dio.options = BaseOptions(
         validateStatus: (status) => true,
-        sendTimeout: const Duration(microseconds: 5000),
-        receiveTimeout:const Duration(microseconds: 5000),
-        connectTimeout: const Duration(microseconds: 5000),
+        sendTimeout: const Duration(milliseconds: 5000),
+        receiveTimeout:const Duration(milliseconds: 5000),
+        connectTimeout: const Duration(milliseconds: 5000),
         receiveDataWhenStatusError: true,
         contentType: 'application/json',
         headers: {'Content-Type': 'application/json'});
@@ -22,5 +26,8 @@ abstract class ApiService {
 
   @GET('/api/user/{username}')
   Future<UserDTO> getUser(@Path('username') String username);
+
+  @POST('/api/login')
+  Future<LoginResponse> login(@Body() LoginRequest login);
 }
 

@@ -1,45 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/ui/login_outPage/bloc/sign_up_bloc.dart';
-import 'package:mobile_store/src/ui/login_outPage/validate.dart';
+import 'package:mobile_store/src/ui/change_password/bloc_state/change_password_bloc.dart';
+import 'package:mobile_store/src/constant/widget/validate.dart';
 
 import '../../../constant/colors/theme.dart';
 
-class BuildInputFormSignIn extends StatefulWidget {
-  const BuildInputFormSignIn(
+class BuildInputFormChangePassword extends StatefulWidget {
+  const BuildInputFormChangePassword(
       {Key? key,
       required this.textController,
-      required this.hint,
-      required this.validationType})
+      required this.hint})
       : super(key: key);
   final TextEditingController textController;
   final String hint;
-  final int validationType;
+
+  get sharedTextPasswordBloc => null;
 
   @override
-  State<BuildInputFormSignIn> createState() => _BuildInputFormSignInState();
+  State<BuildInputFormChangePassword> createState() =>
+      _BuildInputFormChangePasswordState();
 }
 
-class _BuildInputFormSignInState extends State<BuildInputFormSignIn> {
+class _BuildInputFormChangePasswordState
+    extends State<BuildInputFormChangePassword> {
   bool error = false;
   String errorText = '';
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01),
+      padding: const EdgeInsets.symmetric(vertical: 5),
       child: TextField(
         onChanged: (value) {
           setState(() {
-            if (widget.validationType == 0 && Validate.validFullName(value)) {
+            if (Validate.checkInvalidateOldPassword(value)) {
               error = true;
-              errorText = 'Invalid name';
-            } else if (widget.validationType == 1 &&
-                Validate.invalidateMobile(value)) {
-              error = true;
-              errorText = 'Invalid phone number';
-            } else if (widget.validationType == 2 &&
-                Validate.invalidateEmail(value)) {
-              error = true;
-              errorText = 'Invalid email';
+              errorText = 'Invalid old password';
             } else {
               error = false;
             }
@@ -85,17 +80,18 @@ class _BuildInputFormPasswordState extends State<BuildInputFormPassword> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01),
+      padding: EdgeInsets.symmetric(vertical: 6),
       child: StreamBuilder<String>(
           stream: widget.sharedTextPasswordBloc.textFieldStream,
           builder: (context, snapshot) {
             return TextField(
+              onTap: () => print(snapshot.data),
               onChanged: (value) {
                 setState(() {
                   if (widget.isConfirm == false) {
                     if (Validate.checkInvalidateNewPassword(value)) {
                       error = true;
-                      errorText = 'Invalid password';
+                      errorText = 'Invalid new password';
                     } else {
                       error = false;
                       widget.sharedTextPasswordBloc.updateTextField(value);
@@ -122,30 +118,6 @@ class _BuildInputFormPasswordState extends State<BuildInputFormPassword> {
                   suffixIcon: widget.function),
             );
           }),
-    );
-  }
-}
-
-class CheckBoxSignIn extends StatefulWidget {
-  final String text;
-  final Widget isCheck;
-  const CheckBoxSignIn({super.key, required this.text, required this.isCheck});
-
-  @override
-  _CheckBoxSignInState createState() => _CheckBoxSignInState();
-}
-
-class _CheckBoxSignInState extends State<CheckBoxSignIn> {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        widget.isCheck,
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.02,
-        ),
-        Text(widget.text),
-      ],
     );
   }
 }

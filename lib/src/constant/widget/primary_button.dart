@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../constant/colors/theme.dart';
+import '../colors/theme.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String buttonText;

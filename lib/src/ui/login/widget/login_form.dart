@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/ui/login_outPage/bloc/log_in_bloc.dart';
-import 'package:mobile_store/src/ui/login_outPage/validate.dart';
+import 'package:mobile_store/src/constant/widget/validate.dart';
 
 import '../../../constant/colors/theme.dart';
 
@@ -29,9 +28,9 @@ class _BuildInputFormLogInState extends State<BuildInputFormLogIn> {
       child: TextField(
         onChanged: (value) {
           setState(() {
-            if (Validate.invalidateMobile(value)) {
+            if (Validate.invalidateEmail(value)) {
               error = true;
-              errorText = 'Invalid phone number';
+              errorText = 'Invalid email';
             } else {
               error = false;
             }
@@ -79,7 +78,7 @@ class _BuildInputFormPasswordState extends State<BuildInputFormPassword> {
           setState(() {
             if (Validate.checkInvalidateNewPassword(value)) {
               error = true;
-              errorText = 'Invalid information';
+              errorText = 'Invalid password';
             } else {
               error = false;
             }

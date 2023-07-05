@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/ui/login_outPage/bloc/log_in_bloc.dart';
-import 'package:mobile_store/src/ui/login_outPage/screen/login.dart';
-import 'package:mobile_store/src/ui/login_outPage/widget/primary_button.dart';
+
+import '../../../constant/widget/primary_button.dart';
+import '../bloc_state/log_in_bloc.dart';
+import 'login.dart';
 
 class NotLogin extends StatefulWidget {
   const NotLogin({Key? key}) : super(key: key);
@@ -34,7 +35,7 @@ class _NotLoginState extends State<NotLogin> {
                       builder: (context) => const LogInScreen(),
                     ));
               },
-              child: PrimaryButton(buttonText: 'Login')),
+              child: const PrimaryButton(buttonText: 'Login')),
         ],
       ),
     );

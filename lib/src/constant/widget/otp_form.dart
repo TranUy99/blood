@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../constant/colors/theme.dart';
+import '../colors/theme.dart';
 
-class ForgotPasswordForm extends StatelessWidget {
-  const ForgotPasswordForm({super.key});
+
+class OtpForm extends StatelessWidget {
+  const OtpForm({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +12,7 @@ class ForgotPasswordForm extends StatelessWidget {
       padding: const EdgeInsets.only(top: 20),
       child: TextFormField(
         decoration: const InputDecoration(
-            hintText: 'Phone Number',
+            hintText: 'OTP',
             hintStyle: TextStyle(color: kTextFieldColor),
             focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: kGreenColor))),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../constant/colors/theme.dart';
+import '../colors/theme.dart';
+
 
 class ResetPasswordForm extends StatefulWidget {
   const ResetPasswordForm({super.key});

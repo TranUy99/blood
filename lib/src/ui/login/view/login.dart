@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/homePage/screen/navigation_home_page.dart';
-import 'package:mobile_store/src/ui/login_outPage/screen/change_password.dart';
-import 'package:mobile_store/src/ui/login_outPage/screen/sign_up.dart';
-import 'package:mobile_store/src/ui/login_outPage/validate.dart';
-import 'package:mobile_store/src/ui/login_outPage/widget/checkbox.dart';
-import 'package:mobile_store/src/ui/login_outPage/widget/login_form.dart';
-import 'package:mobile_store/src/ui/login_outPage/widget/login_option.dart';
-import 'package:mobile_store/src/ui/login_outPage/widget/primary_button.dart';
+import 'package:mobile_store/src/ui/change_password/view/change_password.dart';
+import 'package:mobile_store/src/constant/widget/validate.dart';
+import 'package:mobile_store/src/constant/widget/checkbox.dart';
+import 'package:mobile_store/src/ui/login/widget/login_form.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
-
-import '../bloc/log_in_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../../constant/widget/login_option.dart';
+import '../../../constant/widget/primary_button.dart';
+import '../../register/view/sign_up.dart';
+import '../bloc_state/log_in_bloc.dart';
+import '../bloc_state/log_in_event.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
@@ -23,19 +24,11 @@ class LogInScreen extends StatefulWidget {
 }
 
 class _LogInScreenState extends State<LogInScreen> {
-  TextEditingController textPhoneController = TextEditingController();
+  TextEditingController textEmailController = TextEditingController();
   TextEditingController textPasswordController = TextEditingController();
   LogInBloc logInBloc = LogInBloc();
-  SharedTextPasswordBloc sharedTextBloc = SharedTextPasswordBloc();
   bool obscure = true;
   bool isCheck = false;
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    sharedTextBloc.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +49,8 @@ class _LogInScreenState extends State<LogInScreen> {
                       top: MediaQuery.of(context).size.height * 0.03),
                   child: Column(children: [
                     BuildInputFormLogIn(
-                      hint: AppLocalizations.of(context)!.phoneNumber,
-                      textController: textPhoneController,
+                      hint: 'Email',
+                      textController: textEmailController,
                     ),
                     BuildInputFormPassword(
                       hint: 'Password',
@@ -102,28 +95,27 @@ class _LogInScreenState extends State<LogInScreen> {
                       top: MediaQuery.of(context).size.height * 0.03),
                   child: InkWell(
                     onTap: () {
-                      if (Validate.checkInvalidateNewPassword(textPasswordController.text) == false
-                          && Validate.invalidateMobile(textPhoneController.text) == false) {
-                        //Input to bloc and set state
-                        logInBloc.updateInformation(textPhoneController.text, textPasswordController.text);
-                        logInBloc.logIn();
-                        showTopSnackBar(Overlay.of(context),
-                            const CustomSnackBar.success(message: 'Login successfully'));
-                        //Login
-                        setState(() {
-                          indexScreen = 0;
-                        });
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const NavigationHomePage(),
-                            ));
-                      } else {
-                        showTopSnackBar(
-                            Overlay.of(context),
-                            const CustomSnackBar.error(
-                                message: 'Invalid information'));
-                      }
+                      // if (Validate.checkInvalidateNewPassword(textPasswordController.text) == false
+                      //     && Validate.invalidateEmail(textEmailController.text) == false) {
+                      //   //Input to bloc and set state
+                      //   showTopSnackBar(Overlay.of(context),
+                      //       const CustomSnackBar.success(message: 'Login successfully'));
+                      //   //Login
+                      //   setState(() {
+                      //     indexScreen = 0;
+                      //   });
+                      //   Navigator.pushReplacement(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //         builder: (context) => const NavigationHomePage(),
+                      //       ));
+                      // } else {
+                      //   showTopSnackBar(
+                      //       Overlay.of(context),
+                      //       const CustomSnackBar.error(
+                      //           message: 'Invalid information'));
+                      // }
+                      LogInEvent.loginEvent('yukatanguyen545@gmail.com', 'Candidate123');
                     },
                     child: const PrimaryButton(
                       buttonText: 'Log in'

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
-import 'package:mobile_store/src/ui/login_outPage/bloc/change_password_bloc.dart';
-import 'package:mobile_store/src/ui/login_outPage/validate.dart';
-import 'package:mobile_store/src/ui/login_outPage/widget/change_password_form.dart';
-import 'package:mobile_store/src/ui/login_outPage/widget/primary_button.dart';
+import 'package:mobile_store/src/ui/change_password/bloc_state/change_password_bloc.dart';
+import 'package:mobile_store/src/constant/widget/validate.dart';
+import 'package:mobile_store/src/ui/change_password/widget/change_password_form.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+
+import '../../../constant/widget/primary_button.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({Key? key}) : super(key: key);

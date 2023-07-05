@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'login.dart';
+import '../../login/view/login.dart';
+
 
 void main() {
   runApp(const SplashScreen());
