@@ -34,6 +34,9 @@ class ProductBloc {
     _productListController.close();
   }
 }
+
+
+
 // class ProductBloc {
 //   final _productListController = StreamController<List<ProductDTO>>.broadcast();
 //   Stream<List<ProductDTO>> get productListStream => _productListController.stream;

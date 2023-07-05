@@ -35,14 +35,12 @@ Widget build(BuildContext context) {
     builder: (context, snapshot) {
       if (snapshot.hasData) {
         products = snapshot.data!;
-
         WidgetsBinding.instance.addPostFrameCallback((_) {
           setState(() {});
         });
       } else if (snapshot.hasError) {
         return Text('Error: ${snapshot.error}');
       }
-
       return buildUI(context);
     },
   );
@@ -98,7 +96,7 @@ Widget build(BuildContext context) {
                   ),
                 ),
                 child: Container(
-                  decoration: BoxDecoration(border: Border.all()),
+                  // decoration: BoxDecoration(border: Border.all()),
                   child: Column(
                     children: [
                       SizedBox(

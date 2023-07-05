@@ -72,7 +72,7 @@ class BuildInputSignUpFormPassword extends StatefulWidget {
   final String hint;
   late final bool obscure;
   final Widget function;
-  final SignUpSharedTextPasswordBloc sharedTextPasswordBloc;
+  final SignUpTextPasswordBloc sharedTextPasswordBloc;
   final bool isConfirm;
   @override
   State<BuildInputSignUpFormPassword> createState() => _BuildInputFormPasswordState();

@@ -5,14 +5,15 @@ import 'package:mobile_store/src/constant/widget/validate.dart';
 import '../../../constant/colors/theme.dart';
 
 class BuildInputFormChangePassword extends StatefulWidget {
-  const BuildInputFormChangePassword(
-      {Key? key,
-      required this.textController,
-      required this.hint})
-      : super(key: key);
+  const BuildInputFormChangePassword({
+    Key? key,
+    required this.textController,
+    required this.hint,
+    required this.color,
+  }) : super(key: key);
   final TextEditingController textController;
   final String hint;
-
+  final Color color;
   get sharedTextPasswordBloc => null;
 
   @override
@@ -60,6 +61,7 @@ class BuildInputFormPassword extends StatefulWidget {
       required this.obscure,
       required this.textController,
       required this.function,
+      required this.color,
       required this.sharedTextPasswordBloc,
       required this.isConfirm})
       : super(key: key);
@@ -69,6 +71,8 @@ class BuildInputFormPassword extends StatefulWidget {
   final Widget function;
   final SharedTextPasswordBloc sharedTextPasswordBloc;
   final bool isConfirm;
+  final Color color;
+
   @override
   State<BuildInputFormPassword> createState() => _BuildInputFormPasswordState();
 }

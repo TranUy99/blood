@@ -177,4 +177,16 @@ class _CategoryScreenState extends State<CategoryScreen> {
       ),
     );
   }
+
+  String getMenuItemLabel(int itemIndex) {
+    // Define your logic to determine the label for each MenuItemButton based on the itemIndex
+    if (itemIndex == 0) {
+      return 'Item 1';
+    } else if (itemIndex == 1) {
+      return 'Item 2';
+    } else if (itemIndex == 2) {
+      return 'Item 3';
+    }
+    return '';
+  }
 }

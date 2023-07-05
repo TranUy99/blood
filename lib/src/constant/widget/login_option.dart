@@ -1,28 +1,34 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:mobile_store/src/constant/colors/theme.dart';
 
 class LoginOption extends StatelessWidget {
-  const LoginOption({super.key});
+  const LoginOption({Key? key});
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         BuildButton(
-          iconImage: Image(
-            height: MediaQuery.of(context).devicePixelRatio * 8,
-            image: AssetImage('images/facebook.png'),
+          icon: Icon(
+            Icons.facebook,
+            size: 50,
           ),
-          textButton: 'Facebook',
+          backgroundColor: kWhiteColor,
+          borderRadius: BorderRadius.circular(50),
         ),
+        SizedBox(width: 30),
         BuildButton(
-          iconImage: Image(
-            height: MediaQuery.of(context).devicePixelRatio * 8,
-            image: AssetImage('images/google.png'),
+          icon: Image.asset(
+            'images/google.jpg',
+            height: 40,
+            width: 40,
           ),
-          textButton: 'Google',
+          backgroundColor: kWhiteColor,
+          borderRadius: BorderRadius.circular(50),
         )
       ],
     );
@@ -30,28 +36,23 @@ class LoginOption extends StatelessWidget {
 }
 
 class BuildButton extends StatelessWidget {
-  final Image iconImage;
-  final String textButton;
+  final Widget icon;
+  final Color backgroundColor;
+  final BorderRadius borderRadius;
 
-  const BuildButton({required this.iconImage, required this.textButton});
+  const BuildButton({
+    required this.icon,
+    required this.backgroundColor,
+    required this.borderRadius,
+  });
 
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
-    return Container(
-      height: mediaQuery.height * 0.06,
-      width: mediaQuery.width * 0.36,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.grey),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          iconImage,
-          Text(textButton),
-        ],
-      ),
+    return CircleAvatar(
+      radius: mediaQuery.height * 0.03,
+      backgroundColor: backgroundColor,
+      child: icon,
     );
   }
 }

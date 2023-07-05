@@ -3,6 +3,7 @@ import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/ui/change_password/bloc_state/change_password_bloc.dart';
 import 'package:mobile_store/src/constant/widget/validate.dart';
 import 'package:mobile_store/src/ui/change_password/widget/change_password_form.dart';
+import 'package:mobile_store/src/ui/profilePage/screen/profile_page.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -44,8 +45,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
+    // var action;
+    return AlertDialog(
+      icon: SingleChildScrollView(
         child: SafeArea(
           child: Container(
             padding: EdgeInsets.symmetric(
@@ -54,37 +56,44 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               children: [
                 Padding(
                   padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.04),
-                  child: Text(
-                    'Change Password',
-                    style: titleText,
-                  ),
+                      top: MediaQuery.of(context).size.height * 0.01),
+                  child: Text('CHANGE PASSWORD',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      )),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width * 0.04),
-                  child: Column(children: [
-                    BuildInputFormChangePassword(
-                      hint: 'Old password',
-                      textController: textOldPasswordController,
-                    ),
-                    BuildInputFormPassword(
-                      hint: 'New password',
-                      obscure: obscure,
-                      textController: textNewPasswordController,
-                      function: obscureChange(),
-                      sharedTextPasswordBloc: sharedTextBloc,
-                      isConfirm: false,
-                    ),
-                    BuildInputFormPassword(
-                      hint: 'Confirm password',
-                      obscure: obscure,
-                      textController: textConfirmPasswordController,
-                      function: obscureChange(),
-                      sharedTextPasswordBloc: sharedTextBloc,
-                      isConfirm: true,
-                    ),
-                  ]),
+                  child: Column(
+                    children: <Widget>[
+                      BuildInputFormChangePassword(
+                        hint: 'Old password',
+                        color: kGreenColor,
+                        textController: textOldPasswordController,
+                      ),
+                      BuildInputFormPassword(
+                        hint: 'New password',
+                        color: kGreenColor,
+                        obscure: obscure,
+                        textController: textNewPasswordController,
+                        function: obscureChange(),
+                        sharedTextPasswordBloc: sharedTextBloc,
+                        isConfirm: false,
+                      ),
+                      BuildInputFormPassword(
+                        hint: 'Repeat new password',
+                        color: kGreenColor,
+                        obscure: obscure,
+                        textController: textConfirmPasswordController,
+                        function: obscureChange(),
+                        sharedTextPasswordBloc: sharedTextBloc,
+                        isConfirm: true,
+                      ),
+                    ],
+                  ),
                 ),
                 GestureDetector(
                   onTap: () {
@@ -95,14 +104,15 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       showTopSnackBar(
                           Overlay.of(context),
                           const CustomSnackBar.error(
-                              message: 'The old and new passwords must be different'));
-                    }else{
+                              message:
+                                  'The old and new passwords must be different'));
+                    } else {
                       {
                         if (Validate.checkInvalidateNewPassword(
-                            textNewPasswordController.text) ==
-                            false &&
+                                    textNewPasswordController.text) ==
+                                false &&
                             Validate.checkNotEqualNewPassword(
-                                passwordList()[0], passwordList()[0]) ==
+                                    passwordList()[0], passwordList()[0]) ==
                                 false) {
                           changePasswordBloc.updatePassword(
                               textOldPasswordController.text,
@@ -125,8 +135,41 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   child: Padding(
                     padding: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * 0.02),
-                    child: const PrimaryButton(
-                      buttonText: 'Save',
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            // Navigator.pushReplacement(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => YourInformation(),
+                            //   ),
+                            // );
+                          },
+                          child: Text('Save'),
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.green),
+                          ),
+                        ),
+                        SizedBox(width: 40),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ProfilePage(),
+                              ),
+                            );
+                          },
+                          child: Text('Close'),
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.red),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -148,11 +191,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         icon: obscure
             ? const Icon(
                 Icons.visibility_off,
-                color: kGreyColor,
+                color: kGreenColor,
               )
             : const Icon(
                 Icons.visibility,
-                color: kGreyColor,
+                color: kGreenColor,
               ));
   }
 }

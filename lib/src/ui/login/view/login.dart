@@ -5,6 +5,7 @@ import 'package:mobile_store/src/ui/homePage/screen/navigation_home_page.dart';
 import 'package:mobile_store/src/ui/change_password/view/change_password.dart';
 import 'package:mobile_store/src/constant/widget/validate.dart';
 import 'package:mobile_store/src/constant/widget/checkbox.dart';
+import 'package:mobile_store/src/ui/login/bloc_state/log_in_state.dart';
 import 'package:mobile_store/src/ui/login/widget/login_form.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -43,7 +44,9 @@ class _LogInScreenState extends State<LogInScreen> {
                 Padding(
                     padding: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * 0.04),
-                    child: Text(AppLocalizations.of(context)!.logIn.toUpperCase(), style: titleText)),
+                    child: Text(
+                        AppLocalizations.of(context)!.logIn.toUpperCase(),
+                        style: titleText)),
                 Padding(
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.03),
@@ -53,7 +56,7 @@ class _LogInScreenState extends State<LogInScreen> {
                       textController: textEmailController,
                     ),
                     BuildInputFormPassword(
-                      hint: 'Password',
+                      hint: AppLocalizations.of(context)!.password,
                       obscure: obscure,
                       textController: textPasswordController,
                       function: obscureChange(),
@@ -66,7 +69,7 @@ class _LogInScreenState extends State<LogInScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const CheckBox(text: 'Save account'),
+                      CheckBox(text: AppLocalizations.of(context)!.rememberMe),
                       InkWell(
                         onTap: () {
                           Navigator.push(
@@ -75,10 +78,10 @@ class _LogInScreenState extends State<LogInScreen> {
                                   builder: (context) =>
                                       const ChangePasswordScreen()));
                         },
-                        child: const Text(
-                          'Forgot password?',
+                        child: Text(
+                          '${AppLocalizations.of(context)!.forgotPassword}?',
                           style: TextStyle(
-                            color: kZambeziColor,
+                            color: kBlackColor,
                             fontSize: 14,
                             decoration: TextDecoration.underline,
                             decorationThickness: 1,
@@ -89,80 +92,123 @@ class _LogInScreenState extends State<LogInScreen> {
                     ],
                   ),
                 ),
-
                 Padding(
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.03),
                   child: InkWell(
                     onTap: () {
-                      // if (Validate.checkInvalidateNewPassword(textPasswordController.text) == false
-                      //     && Validate.invalidateEmail(textEmailController.text) == false) {
-                      //   //Input to bloc and set state
-                      //   showTopSnackBar(Overlay.of(context),
-                      //       const CustomSnackBar.success(message: 'Login successfully'));
-                      //   //Login
-                      //   setState(() {
-                      //     indexScreen = 0;
-                      //   });
-                      //   Navigator.pushReplacement(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //         builder: (context) => const NavigationHomePage(),
-                      //       ));
-                      // } else {
-                      //   showTopSnackBar(
-                      //       Overlay.of(context),
-                      //       const CustomSnackBar.error(
-                      //           message: 'Invalid information'));
-                      // }
-                      LogInEvent.loginEvent('yukatanguyen545@gmail.com', 'Candidate123');
+                      if (Validate.checkInvalidateNewPassword(textPasswordController.text) == false
+                          && Validate.invalidateEmail(textEmailController.text) == false) {
+                        //Input to bloc and set state
+                        showTopSnackBar(Overlay.of(context),
+                            const CustomSnackBar.success(message: 'Login successfully'));
+                        //Login
+                        LogInEvent.loginEvent(textEmailController.text, textPasswordController.text);
+                        onLogInState = OnLogInState(true);
+                        setState(() {
+                          indexScreen = 0;
+                        });
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const NavigationHomePage(),
+                            ));
+                      } else {
+                        showTopSnackBar(
+                            Overlay.of(context),
+                            const CustomSnackBar.error(
+                                message: 'Invalid information'));
+                      }
                     },
-                    child: const PrimaryButton(
-                      buttonText: 'Log in'
-                    ),
+                    child: PrimaryButton(
+                        buttonText: AppLocalizations.of(context)!.logIn),
                   ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.03),
-                  child: Text(
-                    'Or Log in with:',
-                    style: subtitle.copyWith(color: kBlackColor),
+                    top: MediaQuery.of(context).size.height * 0.03,
+                    bottom: MediaQuery.of(context).size.height * 0.03,
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.03),
-                  child: LoginOption(),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.03),
-                  child: Row(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'Don\'t have an account?',
-                        style: subtitle,
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const SignUpScreen()));
-                        },
-                        child: Text(
-                          AppLocalizations.of(context)!.signUp,
-                          style: textButton.copyWith(
-                            decoration: TextDecoration.underline,
-                            decorationThickness: 1,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Divider(
+                              color: kGreyColor,
+                              height: 1.5,
+                            ),
                           ),
-                        ),
-                      )
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(
+                              AppLocalizations.of(context)!.or,
+                              style: subtitle.copyWith(
+                                color: kGreyColor,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Divider(
+                              color: kGreyColor,
+                              height: 1.5,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            AppLocalizations.of(context)!.logInwith,
+                            style: subtitle.copyWith(color: kGreyColor),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        child: LoginOption(),
+                      ),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            AppLocalizations.of(context)!.dontAccount,
+                            style: subtitle,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SignUpScreen()));
+                            },
+                            child: Text(
+                              AppLocalizations.of(context)!.signUp,
+                              style: textButton.copyWith(
+                                decoration: TextDecoration.underline,
+                                decorationThickness: 1,
+                                
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ],
                   ),
                 ),
