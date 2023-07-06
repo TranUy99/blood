@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/features/component/checkbox.dart';
 
-import 'package:mobile_store/src/features/profile_page/screen/profile_page.dart';
+import 'package:mobile_store/src/features/profile/screen/profile_page.dart';
 
 class EditAddressScreen extends StatefulWidget {
+  const EditAddressScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _EditAddressScreenState createState() => _EditAddressScreenState();
 }
 
@@ -12,7 +15,6 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
   late String _selectedProvince;
   late String _selectedDistrict;
   late String _selectedWard;
-  late String _addressDetails;
 
   final List<String> _provinces = ['Ho Chi Minh', 'Can Tho', 'Ha Noi'];
   final Map<String, List<String>> _districtsByProvince = {
@@ -88,7 +90,6 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
     _selectedProvince = _provinces[0];
     _selectedDistrict = _districtsByProvince[_selectedProvince]![0];
     _selectedWard = _wardsByDistrict[_selectedDistrict]![0];
-    _addressDetails = '';
   }
 
   @override
@@ -201,7 +202,6 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
               TextField(
                 onChanged: (value) {
                   setState(() {
-                    _addressDetails = value;
                   });
                 },
                 decoration: const InputDecoration(

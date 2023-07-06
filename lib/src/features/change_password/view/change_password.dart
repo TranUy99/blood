@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
-import 'package:mobile_store/src/features/change_password/bloc_state/change_password_bloc.dart';
+import 'package:mobile_store/src/features/change_password/bloc/change_password_bloc.dart';
 import 'package:mobile_store/src/features/change_password/widget/change_password_form.dart';
-import 'package:mobile_store/src/features/profile_page/screen/profile_page.dart';
+import 'package:mobile_store/src/features/profile/screen/profile_page.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:mobile_store/src/constant/utils/validate.dart';
@@ -54,7 +54,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 Padding(
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.01),
-                  child: Text('CHANGE PASSWORD',
+                  child: const Text('CHANGE PASSWORD',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 18,
@@ -144,27 +144,27 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             //   ),
                             // );
                           },
-                          child: Text('Save'),
                           style: ButtonStyle(
                             backgroundColor:
                                 MaterialStateProperty.all<Color>(Colors.green),
                           ),
+                          child:const Text('Save'),
                         ),
-                        SizedBox(width: 40),
+                        const SizedBox(width: 40),
                         ElevatedButton(
                           onPressed: () {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ProfilePage(),
+                                builder: (context) => const ProfilePage(),
                               ),
                             );
                           },
-                          child: Text('Close'),
                           style: ButtonStyle(
                             backgroundColor:
                                 MaterialStateProperty.all<Color>(Colors.red),
                           ),
+                          child: const Text('Close'),
                         ),
                       ],
                     ),

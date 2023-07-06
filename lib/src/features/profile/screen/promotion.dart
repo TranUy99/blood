@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/features/profile_page/widget/hexagon_discount.dart';
+import 'package:mobile_store/src/features/profile/widget/hexagon_discount.dart';
 
 class Promotion extends StatefulWidget {
   const Promotion({Key? key}) : super(key: key);

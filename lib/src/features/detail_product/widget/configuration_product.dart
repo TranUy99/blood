@@ -54,14 +54,14 @@ class _ConfigurationProductState extends State<ConfigurationProduct> {
                     ),
                   ),
                   const Text(
-                    "OLED6.7 Super Retina XDR",
+                    "OLED 6.7 Super Retina XDR",
                     style: TextStyle(
                         color: kBlackColor, fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             //chip product
             Row(
               children: [

@@ -35,40 +35,38 @@ class ProductDetailScreen extends StatelessWidget {
             flexibleSpace: const CustomAppBar()),
       ),
       body: SingleChildScrollView(
-          child: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const ImageProduct(),
-            NameProduct(productDTO: productDTO),
-            Container(
-              width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Add your code to handle the button press here.
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: kGreenColor,
-                  ),
-                  child: Text(
-                    AppLocalizations.of(context)!.buynow.toUpperCase(),
-                    style: const TextStyle(
-                      color: kWhiteColor,
-                      fontWeight: FontWeight.bold,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const ImageProduct(),
+              NameProduct(productDTO: productDTO),
+              SizedBox(
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Add your code to handle the button press here.
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: kGreenColor,
+                    ),
+                    child: Text(
+                      AppLocalizations.of(context)!.buyNow.toUpperCase(),
+                      style: const TextStyle(
+                        color: kWhiteColor,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            const ConfigurationProduct(),
-            const ProductInformation(),
-            const Review(),
-            AnotherProduct(),
-          ],
-        ),
-      )),
+              const ConfigurationProduct(),
+              const ProductInformation(),
+              const Review(),
+              const AnotherProduct(),
+            ],
+          )),
     );
   }
 }

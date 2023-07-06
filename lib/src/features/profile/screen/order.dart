@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
-import 'package:mobile_store/src/features/profile_page/screen/order_detail.dart';
+import 'package:mobile_store/src/features/profile/screen/order_detail.dart';
 
 class Order extends StatefulWidget {
   const Order({Key? key}) : super(key: key);

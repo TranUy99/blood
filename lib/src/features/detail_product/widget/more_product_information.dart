@@ -25,9 +25,9 @@ class _MoreProductInformationState extends State<MoreProductInformation> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text(
+              title: const Text(
                 'iPhone 14 Pro Max',
-                style: const TextStyle(
+                style:  TextStyle(
                   color: kGreenColor,
                   fontWeight: FontWeight.bold,
                 ),
@@ -37,25 +37,25 @@ class _MoreProductInformationState extends State<MoreProductInformation> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
+                    const Text(
                       'Một siêu phẩm trong giới smartphone được nhà Táo tung ra thị trường vào tháng 09/2022. Máy trang bị con chip Apple A16 Bionic vô cùng mạnh mẽ, đi kèm theo đó là thiết kế hình màn hình mới, hứa hẹn mang lại những trải nghiệm đầy mới mẻ cho người dùng iPhone.',
-                      style: const TextStyle(
+                      style:  TextStyle(
                         color: kBlackColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Text(
+                    const Text(
                       'Thiết kế cao cấp bền bỉ',
-                      style: const TextStyle(
+                      style:  TextStyle(
                         color: kBlackColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Text(
+                    const Text(
                       'iPhone năm nay sẽ được thừa hưởng nét đặc trưng từ người anh iPhone 13 Pro Max, vẫn sẽ là khung thép không gỉ và mặt lưng kính cường lực kết hợp với tạo hình vuông vức hiện đại thông qua cách tạo hình phẳng ở các cạnh và phần mặt lưng. Thiết kế này nhằm giúp cho iPhone 14 Pro Max trông sang trọng và đẳng cấp hơn.',
-                      style: const TextStyle(
+                      style:  TextStyle(
                         color: kBlackColor,
                       ),
                     ),
@@ -64,9 +64,9 @@ class _MoreProductInformationState extends State<MoreProductInformation> {
                       width: MediaQuery.of(context).size.width * 0.8,
                     ),
                     const SizedBox(height: 10),
-                    Text(
+                    const Text(
                       'Dòng Pro năm nay được ra mắt với nhiều tùy chọn màu sắc và trong đó nổi bật nhất có lẽ là phiên bản Deep Purple (tím), bởi vì đây là một màu mới nên mang lại độ nhận diện khá cao.',
-                      style: const TextStyle(
+                      style:  TextStyle(
                         color: kBlackColor,
                       ),
                     ),
@@ -76,17 +76,17 @@ class _MoreProductInformationState extends State<MoreProductInformation> {
                       width: MediaQuery.of(context).size.width * 0.8,
                     ),
                     const SizedBox(height: 15),
-                    Text(
+                    const Text(
                       'Nổi bật với thiết kế màn hình mới',
-                      style: const TextStyle(
+                      style:  TextStyle(
                         color: kBlackColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Text(
+                    const Text(
                       'Điểm ấn tượng nhất trên điện thoại iPhone năm nay nằm ở thiết kế màn hình, có thể dễ dàng nhận thấy được là hãng cũng đã loại bỏ cụm tai thỏ truyền thống qua bao đời iPhone bằng một hình dáng mới vô cùng lạ mắt.',
-                      style: const TextStyle(
+                      style:  TextStyle(
                         color: kBlackColor,
                       ),
                     ),
@@ -96,9 +96,9 @@ class _MoreProductInformationState extends State<MoreProductInformation> {
                       width: MediaQuery.of(context).size.width * 0.8,
                     ),
                     const SizedBox(height: 10),
-                    Text(
+                    const Text(
                       'So với cụm tai thỏ hình notch năm nay đã có phần tiết kiệm diện tích tương đối tốt, nhưng khi so với các kiểu màn hình dạng “nốt ruồi” thì đây vẫn chưa thực sự là một điều quá tối ưu cho phần màn hình. Thế nhưng Apple lại rất biết cách tận dụng những nhược điểm để biến chúng trở thành ưu điểm một cách ngoạn mục bằng cách phát minh nhiều hiệu ứng thú vị.',
-                      style: const TextStyle(
+                      style:  TextStyle(
                         color: kBlackColor,
                       ),
                     ),
@@ -108,9 +108,9 @@ class _MoreProductInformationState extends State<MoreProductInformation> {
                       width: MediaQuery.of(context).size.width * 0.8,
                     ),
                     const SizedBox(height: 10),
-                    Text(
+                    const Text(
                       'Để làm cho chúng trở nên bắt mắt hơn Apple cũng đã giới thiệu nhiều hiệu ứng chuyển động nhằm làm tăng sự thích thú cho người dùng, điều này được kích hoạt trong lúc mình ấn giữ phần hình notch khi đang dùng các phần mềm hỗ trợ như: Nghe nhạc, đồng hồ hẹn giờ, ghi âm,...',
-                      style: const TextStyle(
+                      style:  TextStyle(
                         color: kBlackColor,
                       ),
                     ),
@@ -119,17 +119,17 @@ class _MoreProductInformationState extends State<MoreProductInformation> {
                       'images/ghiam.jpg',
                       width: MediaQuery.of(context).size.width * 0.8,
                     ),
-                    Text(
+                    const Text(
                       'Hiển thị nội dung chân thực hơn thông qua màn hình chất lượng',
-                      style: const TextStyle(
+                      style:  TextStyle(
                         color: kBlackColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Text(
+                    const Text(
                       'Từ trước đến nay, tấm nền OLED luôn được cộng đồng người dùng đánh giá rất cao khi xuất hiện trên các dòng sản phẩm của Apple, với chiếc iPhone 14 Pro Max điều này cũng không là ngoại lệ khi hình ảnh mà máy mang lại hết sức chân thực.',
-                      style: const TextStyle(
+                      style:  TextStyle(
                         color: kBlackColor,
                       ),
                     ),
@@ -139,16 +139,16 @@ class _MoreProductInformationState extends State<MoreProductInformation> {
                       width: MediaQuery.of(context).size.width * 0.8,
                     ),
                     const SizedBox(height: 10),
-                    Text(
+                    const Text(
                       'Nhìn vào màn hình ta sẽ thấy được một độ trong trẻo vô cùng thích mắt, nội dung hiển thị có chiều sâu, cảm giác khi xem phim hay chơi game cũng trở nên sống động hơn.',
-                      style: const TextStyle(
+                      style:  TextStyle(
                         color: kBlackColor,
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Text(
+                    const Text(
                       'Điểm vượt trội nhất mà các loại tấm nền khác khó mà đạt được là độ chuẩn các về màu sắc cao, mình cũng đã sử dụng iPhone 14 Pro Max để thiết kế một vài ấn phẩm như poster hay sticker đơn giản và thành quả lúc in ra sau khi đối chiếu lại với ảnh trên điện thoại thì gần như là bằng nhau, độ sai lệch không quá đáng kể giúp mình an tâm hơn trong việc thiết kế hình ảnh.',
-                      style: const TextStyle(
+                      style:  TextStyle(
                         color: kBlackColor,
                       ),
                     ),
@@ -158,9 +158,9 @@ class _MoreProductInformationState extends State<MoreProductInformation> {
                       width: MediaQuery.of(context).size.width * 0.8,
                     ),
                     const SizedBox(height: 10),
-                    Text(
+                    const Text(
                       'Độ phân giải màn hình đạt mức 2796 x 1290 Pixels nên việc tái tạo hình ảnh có độ chi tiết cao là điều hết sức dễ dàng, hiện tượng như rỗ màn hình là điều mà mình chưa từng thấy xuất hiện trên điện thoại trong 2 tuần trải nghiệm.',
-                      style: const TextStyle(
+                      style:  TextStyle(
                         color: kBlackColor,
                       ),
                     ),
@@ -170,32 +170,32 @@ class _MoreProductInformationState extends State<MoreProductInformation> {
                       width: MediaQuery.of(context).size.width * 0.8,
                     ),
                     const SizedBox(height: 10),
-                    Text(
+                    const Text(
                       'Hỗ trợ tính năng Always On Display',
-                      style: const TextStyle(
+                      style:  TextStyle(
                         color: kBlackColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Text(
+                    const Text(
                       'Tuy nhiên màn hình lúc này khá tối nên dùng ngoài trời sẽ hơi khó nhìn đôi chút. Bên cạnh đó, tính năng này cũng sẽ giảm tuổi thọ pin hơn so với thông thường, để điện thoại qua đêm khoảng 7 tiếng ở chế độ Always On Display thì máy mất khoảng 3 - 4% dung lượng pin.',
-                      style: const TextStyle(
+                      style:  TextStyle(
                         color: kBlackColor,
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Text(
+                    const Text(
                       'Tần số quét 120 Hz',
-                      style: const TextStyle(
+                      style:  TextStyle(
                         color: kBlackColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Text(
+                    const Text(
                       'iPhone 14 Pro Max có tần số quét rất cao vậy nên mọi thao tác hằng ngày của mình đều được phản hồi nhanh chóng, cảm giác vuốt chạm cũng trở nên thích hơn, hiện tượng khựng hay độ trễ trong lúc vuốt đã được cải thiện đáng kể so với những chuẩn màn hình 60 Hz.',
-                      style: const TextStyle(
+                      style:  TextStyle(
                         color: kBlackColor,
                       ),
                     ),
@@ -204,24 +204,24 @@ class _MoreProductInformationState extends State<MoreProductInformation> {
                       width: MediaQuery.of(context).size.width * 0.8,
                     ),
                     const SizedBox(height: 10),
-                    Text(
+                    const Text(
                       'Ngoài ra, Apple còn bổ sung tùy chọn để giúp bạn có thể dễ dàng điều chỉnh tần số quét lên 120 Hz hay xuống 60 Hz tùy vào nhu cầu sử dụng, phù hợp để dùng trong những tình huống khẩn cấp như đang muốn tiết kiệm pin nhằm đảm bảo thiết bị có thể duy trì sử dụng dài lâu.',
-                      style: const TextStyle(
+                      style:  TextStyle(
                         color: kBlackColor,
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Text(
+                    const Text(
                       'Độ sáng 2000 nits',
-                      style: const TextStyle(
+                      style:  TextStyle(
                         color: kBlackColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Text(
+                    const Text(
                       'So với những đối thủ khác trong phân khúc thì độ sáng 2000 nits được xem là ưu điểm vượt trội mà ít có hãng nào có thể sánh kịp, thế liệu nó giúp ích được gì và có thực sự hiệu quả hay không chắc hẳn là điều được rất nhiều người thắc mắc.',
-                      style: const TextStyle(
+                      style:  TextStyle(
                         color: kBlackColor,
                       ),
                     ),
@@ -231,9 +231,9 @@ class _MoreProductInformationState extends State<MoreProductInformation> {
                       width: MediaQuery.of(context).size.width * 0.8,
                     ),
                     const SizedBox(height: 10),
-                    Text(
+                    const Text(
                       'Cụ thể là màn hình có độ sáng cao đã giúp ích cho mình rất nhiều trong mọi nhu cầu sử dụng hằng ngày của mình, kể từ khi sử dụng iPhone 14 Pro Max việc xem bản đồ khi đang ở ngoài đường lúc trời nắng gắt cũng trở nên dễ dàng, màn hình lúc này không quá sập tối hay lóa, các thông báo chỉ dẫn đường đi cũng đều được thể hiện rõ ràng.',
-                      style: const TextStyle(
+                      style:  TextStyle(
                         color: kBlackColor,
                       ),
                     ),
@@ -243,9 +243,9 @@ class _MoreProductInformationState extends State<MoreProductInformation> {
                       width: MediaQuery.of(context).size.width * 0.8,
                     ),
                     const SizedBox(height: 10),
-                    Text(
+                    const Text(
                       'Bên cạnh đó, khi chụp ảnh ở ngoài trời nắng độ sáng màn hình cao cũng sẽ là một lợi thế, nó hữu ích trong lúc mình căn chỉnh góc chụp khi mọi đường lưới đều được hiển thị rõ, chủ thể đã được lấy nét hay chưa thì mình cũng có thể dễ dàng quan sát trực tiếp ngay trên màn hình mà không cần dùng tay để che chắn ánh sáng chiếu vào như phần lớn các dòng điện thoại khác.',
-                      style: const TextStyle(
+                      style:  TextStyle(
                         color: kBlackColor,
                       ),
                     ),
