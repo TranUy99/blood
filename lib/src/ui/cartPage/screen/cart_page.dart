@@ -6,8 +6,6 @@ import '../../checkoutPage/widget/address.dart';
 import '../../homePage/screen/navigation_home_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../bloc/address_bloc.dart';
-
 class CartPage extends StatefulWidget {
   const CartPage({Key? key}) : super(key: key);
 
