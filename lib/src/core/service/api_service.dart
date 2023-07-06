@@ -3,8 +3,8 @@ import 'package:mobile_store/src/core/model/user.dart';
 import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
 
-import '../../ui/login/view_model/login_request.dart';
-import '../../ui/login/view_model/login_response.dart';
+import '../../features/login/view_model/login_request.dart';
+import '../../features/login/view_model/login_response.dart';
 
 part 'api_service.g.dart';
 
