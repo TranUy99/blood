@@ -1,21 +1,27 @@
-import 'package:shared_preferences/shared_preferences.dart';
-
+import '../../../constant/widget/validate.dart';
 import '../service/service.dart';
 import 'log_in_state.dart';
 
 OnLogInState onLogInState = OnLogInState(false);
 
 class LogInBloc {
-  List<String?>? information ;
   LoginService loginService = LoginService();
 
-  void login(String email, String password) async {
-    information = await loginService.loginService(email, password);
-    SaveLoginState.saveLoginInformation(
-        information?[0], int.parse(information![1]!), information?[2]);
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    print('${preferences.getString('email')} - ${preferences.getInt('id')} - ${preferences.getString('token')}');
+
+
+  Future<void> checkLogin(String email, String password) async {
+
+    await LoginService.loginService(email, password).then((value) {
+      if (Validate.checkInvalidateNewPassword(password) == false &&
+          Validate.invalidateEmail(email) == false &&
+          value.message == null) {
+        onLogInState = OnLogInState(true);
+      }else{
+        onLogInState = OnLogInState(false);
+      }
+    });
   }
+
 
 }
 
