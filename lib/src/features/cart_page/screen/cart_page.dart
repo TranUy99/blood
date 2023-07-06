@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/constant/theme/theme.dart';
+import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
 import '../../checkout/screen/checkout_screen.dart';
 import '../../checkout/widget/address.dart';

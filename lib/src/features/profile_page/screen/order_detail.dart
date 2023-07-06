@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../../constant/theme/theme.dart';
+import '../../../constant/color/color.dart';
 import '../../component/custom_app_bar.dart';
 import 'package:mobile_store/src/features/checkout/widget/delivery_address.dart';
 

@@ -4,7 +4,7 @@ import 'package:mobile_store/src/features/profile_page/screen/order.dart';
 import 'package:mobile_store/src/features/profile_page/screen/promotion.dart';
 import 'package:mobile_store/src/features/profile_page/screen/your_information.dart';
 
-import '../../../constant/theme/theme.dart';
+import '../../../constant/color/color.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);

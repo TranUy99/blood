@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/constant/theme/theme.dart';
+import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/change_password/bloc_state/change_password_bloc.dart';
 import 'package:mobile_store/src/features/change_password/widget/change_password_form.dart';
 import 'package:mobile_store/src/features/profile_page/screen/profile_page.dart';

@@ -3,7 +3,6 @@ import 'package:mobile_store/languages/language_contanst.dart';
 import 'package:mobile_store/src/features/home_page/screen/navigation_home_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
-
 import 'src/core/network/network_binding.dart';
 
 void main() {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/features/profile_page/widget/edit_address.dart';
 import 'package:mobile_store/src/features/profile_page/widget/edit_information_form.dart';
-import '../../../constant/theme/theme.dart';
+import '../../../constant/color/color.dart';
 import '../../change_password/view/change_password.dart';
 
 class YourInformation extends StatefulWidget {

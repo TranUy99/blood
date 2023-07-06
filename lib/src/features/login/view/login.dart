@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:mobile_store/src/constant/theme/theme.dart';
+import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/component/checkbox.dart';
 import 'package:mobile_store/src/features/change_password/view/change_password.dart';
 import 'package:mobile_store/src/features/home_page/screen/navigation_home_page.dart';

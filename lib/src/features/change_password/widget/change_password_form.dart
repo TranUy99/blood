@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/src/features/change_password/bloc_state/change_password_bloc.dart';
 import 'package:mobile_store/src/constant/utils/validate.dart';
 
-import '../../../constant/theme/theme.dart';
+import '../../../constant/color/color.dart';
 
 class BuildInputFormChangePassword extends StatefulWidget {
   const BuildInputFormChangePassword({

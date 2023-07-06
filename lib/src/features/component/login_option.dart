@@ -1,7 +1,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/constant/theme/theme.dart';
+import 'package:mobile_store/src/constant/color/color.dart';
 
 class LoginOption extends StatelessWidget {
   const LoginOption({Key? key});

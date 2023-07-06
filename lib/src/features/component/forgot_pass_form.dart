@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../constant/theme/theme.dart';
+import '../../constant/color/color.dart';
 
 class ForgotPasswordForm extends StatelessWidget {
   const ForgotPasswordForm({super.key});

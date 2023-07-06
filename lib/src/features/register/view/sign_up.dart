@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:mobile_store/src/constant/theme/theme.dart';
+import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/constant/utils/validate.dart';
 import 'package:mobile_store/src/features/component/login_option.dart';
 import 'package:mobile_store/src/features/component/primary_button.dart';

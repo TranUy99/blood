@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../../constant/theme/theme.dart';
+import '../../../constant/color/color.dart';
 
 class DeliveryAddress extends StatelessWidget {
   final String name;

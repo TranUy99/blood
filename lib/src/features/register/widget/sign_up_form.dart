@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/utils/validate.dart';
 
-import '../../../constant/theme/theme.dart';
+import '../../../constant/color/color.dart';
 import '../bloc_state/sign_up_bloc.dart';
 
 class BuildInputFormSignIn extends StatefulWidget {
