@@ -3,8 +3,8 @@ import 'log_in_bloc.dart';
 
 class LogInEvent {
 
-  static  checkLoginEvent(String email, String password) async {
+  static Future<void>  checkLoginEvent(String email, String password) async {
     LogInBloc logInBloc = LogInBloc();
-    logInBloc.checkLogin(email, password);
+    await logInBloc.checkLogin(email, password);
   }
 }

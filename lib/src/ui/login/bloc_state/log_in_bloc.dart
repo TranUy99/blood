@@ -9,19 +9,17 @@ class LogInBloc {
 
 
 
-  void checkLogin(String email, String password) {
-    String? message;
-    LoginService.loginService(email, password).then((value) {
+  Future<void> checkLogin(String email, String password) async {
+
+    await LoginService.loginService(email, password).then((value) {
       if (Validate.checkInvalidateNewPassword(password) == false &&
           Validate.invalidateEmail(email) == false &&
           value.message == null) {
-        message = value.message;
-      } else {
-        message = value.message;
+        onLogInState = OnLogInState(true);
+      }else{
+        onLogInState = OnLogInState(false);
       }
-      // print(message);
     });
-    print(message);
   }
 
 

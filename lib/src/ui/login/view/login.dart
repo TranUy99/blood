@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/colors/theme.dart';
 import 'package:mobile_store/src/constant/widget/checkbox.dart';
 import 'package:mobile_store/src/ui/change_password/view/change_password.dart';
+import 'package:mobile_store/src/ui/homePage/screen/navigation_home_page.dart';
 import 'package:mobile_store/src/ui/login/widget/login_form.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -11,7 +12,6 @@ import '../../../constant/widget/login_option.dart';
 import '../../../constant/widget/primary_button.dart';
 import '../../register/view/sign_up.dart';
 import '../bloc_state/log_in_bloc.dart';
-import '../bloc_state/log_in_event.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
@@ -93,18 +93,26 @@ class _LogInScreenState extends State<LogInScreen> {
                       top: MediaQuery.of(context).size.height * 0.03),
                   child: InkWell(
                     onTap: () async {
-                      // if () {
-                      //   showTopSnackBar(
-                      //       Overlay.of(context),
-                      //       const CustomSnackBar.success(
-                      //           message: 'Login successfully'));
-                      // }else{
-                      //   showTopSnackBar(Overlay.of(context),
-                      //       const CustomSnackBar.error(message: 'Wrong information'));
-                      // }
-                      await LogInEvent.checkLoginEvent(
-                          'yukatanguyen545@gmail.com', 'Candidate1');
-                      print(onLogInState.onLogin);
+                      await logInBloc.checkLogin(textEmailController.text, textPasswordController.text);
+                      if (onLogInState.onLogin) {
+                        showTopSnackBar(
+                            Overlay.of(context),
+                            CustomSnackBar.success(
+                                message: 'Login successfully'));
+                        setState(() {
+                          indexScreen = 0;
+                        });
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => NavigationHomePage(),
+                            ));
+                      } else {
+                        showTopSnackBar(
+                            Overlay.of(context),
+                            const CustomSnackBar.error(
+                                message: 'Wrong information'));
+                      }
                     },
                     child: PrimaryButton(
                         buttonText: AppLocalizations.of(context)!.logIn),
