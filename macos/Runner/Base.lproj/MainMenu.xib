@@ -251,7 +251,7 @@
                                         <menuItem title="Make Lower Case" id="d9M-CD-aMd">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <action selector="lowercaseWord:" target="-1" id="iUZ-b5-hil"/>
+                                                <action selector="lowercaseWord:" target="-1" id="componentZ-b5-hil"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Capitalize" id="UEZ-Bs-lqG">

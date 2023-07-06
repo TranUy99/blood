@@ -18,7 +18,7 @@ class LoginOption extends StatelessWidget {
             size: 50,
           ),
           backgroundColor: kWhiteColor,
-          borderRadius: BorderRadius.circular(50),
+          borderRadcomponents: BorderRadius.circular(50),
         ),
         SizedBox(width: 30),
         BuildButton(
@@ -28,7 +28,7 @@ class LoginOption extends StatelessWidget {
             width: 40,
           ),
           backgroundColor: kWhiteColor,
-          borderRadius: BorderRadius.circular(50),
+          borderRadcomponents: BorderRadius.circular(50),
         )
       ],
     );
@@ -38,12 +38,12 @@ class LoginOption extends StatelessWidget {
 class BuildButton extends StatelessWidget {
   final Widget icon;
   final Color backgroundColor;
-  final BorderRadius borderRadius;
+  final BorderRadius borderRadcomponents;
 
   const BuildButton({
     required this.icon,
     required this.backgroundColor,
-    required this.borderRadius,
+    required this.borderRadcomponents,
   });
 
   @override
