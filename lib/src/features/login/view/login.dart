@@ -76,7 +76,7 @@ class _LogInScreenState extends State<LogInScreen> {
                         },
                         child: Text(
                           '${AppLocalizations.of(context)!.forgotPassword}?',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: kBlackColor,
                             fontSize: 14,
                             decoration: TextDecoration.underline,
