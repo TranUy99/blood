@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/languages/language_contanst.dart';
-import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
+import 'package:mobile_store/src/ui/homePage/screen/navigation_home_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
-import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
+import 'package:mobile_store/src/ui/login/bloc_state/log_in_bloc.dart';
+import 'package:mobile_store/src/ui/login/bloc_state/log_in_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'src/core/network/network_binding.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await _saveLogin();
+  await _autoLogin();
   runApp(const MyApp());
 }
 
-_saveLogin() async {
+_autoLogin() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   String? _email = preferences.getString('email');
   int? _id = preferences.getInt('id');
@@ -21,9 +23,9 @@ _saveLogin() async {
   String? _password = preferences.getString('password');
   print('$_email - $_id - $_password - $_token');
   if(_password != null){
-    successLoginState.onLoginState = true;
+    onLogInState = OnLogInState(true);
   }else{
-    successLoginState.onLoginState = false;
+    onLogInState = OnLogInState(false);
   }
 }
 
@@ -56,13 +58,16 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-    
+       initialBinding: NetworkBinding(),
         debugShowCheckedModeBanner: false,
         title: "Mobile Store",
         theme: ThemeData(fontFamily: 'Poppins'),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         locale: _locale,
-        home: const NavigationHomePage());
+        // home: ChangePasswordScreen());
+        //home: LogInScreen());
+        home: NavigationHomePage());
+    // home: ProfilePage());
   }
 }
