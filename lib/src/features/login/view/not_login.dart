@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../component/primary_button.dart';
-import '../bloc/log_in_bloc.dart';
+import '../bloc/login_bloc.dart';
 import 'login.dart';
 
 class NotLogin extends StatefulWidget {
@@ -14,7 +14,7 @@ class NotLogin extends StatefulWidget {
 }
 
 class _NotLoginState extends State<NotLogin> {
-  final LogInBloc loginBloc = LogInBloc();
+  // final LogInBloc loginBloc = LogInBloc();
 
   @override
   Widget build(BuildContext context) {

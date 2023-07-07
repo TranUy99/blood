@@ -4,7 +4,7 @@ import 'package:mobile_store/src/features/cart_page/screen/cart_page.dart';
 import 'package:mobile_store/src/features/home_page/screen/home_page.dart';
 import 'package:mobile_store/src/features/profile/screen/profile_page.dart';
 
-import '../../login/bloc/log_in_bloc.dart';
+import '../../login/bloc/login_bloc.dart';
 import '../../login/view/login.dart';
 import '../../login/view/not_login.dart';
 
@@ -19,7 +19,7 @@ class NavigationHomePage extends StatefulWidget {
 int indexScreen = 0;
 class _NavigationHomePageState extends State<NavigationHomePage> {
 
-  final LogInBloc loginBloc = LogInBloc();
+  final LoginBloc loginBloc = LoginBloc();
 
   List appScreens = [const HomePage(), const LogInScreen(), const LogInScreen()];
 
