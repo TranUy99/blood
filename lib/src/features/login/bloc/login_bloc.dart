@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'package:mobile_store/src/constant/utils/validate.dart';
 import 'package:mobile_store/src/features/login/bloc/login_event.dart';
 import '../service/service.dart';
 import 'login_state.dart';
@@ -11,16 +12,30 @@ class LoginBloc {
 
   Stream<LoginState> get loginStateStream => _loginStateController.stream;
 
-  void addEvent(LoginEvent event) {
+  void addEvent(LoginEvent event) async {
     final email = event.email;
     final password = event.password;
+    String? mess;
     // log("bloc $email");
     final loginResult = LoginService.loginService(email, password);
 
-    if (loginResult == true) {
+    try{
+      await loginResult.then((value) {
+        mess = value.message;
+        // print(value.message);
+      });
+    }catch(e){
+      mess = 'failed to get data';
+    }
+    print(mess);
+
+    if (mess == null) {
       _loginStateController.add(LoginSuccessState());
+      print('success');
+
     } else {
       _loginStateController.add(LoginFailureState("error"));
+      print('fail');
     }
   }
 

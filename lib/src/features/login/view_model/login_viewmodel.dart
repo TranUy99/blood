@@ -6,7 +6,7 @@ class LoginViewModel {
 
   void login(String email, String password) {
     final loginEvent = LoginEvent(email, password);
-    // log("view model ${email}");
+    // print("view model ${email}");
     _loginBloc.addEvent(loginEvent);
   }
 

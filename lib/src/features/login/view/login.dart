@@ -100,15 +100,16 @@ class _LogInScreenState extends State<LogInScreen> {
                   padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
                   child: InkWell(
                     onTap: () async {
-                      String email = textEmailController.text;
-                      String password = textPasswordController.text;
+                      String email = 'yukatanguyen545@gmail.com';
+                      String password = 'Candidate123';
 
                       _loginViewModel.login(email, password);
 
                       _loginBloc.loginStateStream.listen((state) {
+
                         if (state is LoginSuccessState) {
                           // Handle successful login
-                          showTopSnackBar(Overlay.of(context), CustomSnackBar.success(message: 'Login successfully'));
+                          showTopSnackBar(Overlay.of(context), const CustomSnackBar.success(message: 'Login successfully'));
                           setState(() {
                             indexScreen = 0;
                           });
@@ -120,6 +121,7 @@ class _LogInScreenState extends State<LogInScreen> {
                           // Handle failed login
                           showTopSnackBar(Overlay.of(context), const CustomSnackBar.error(message: 'Wrong information'));
                         }
+
                       });
                     },
                     child: PrimaryButton(buttonText: AppLocalizations.of(context)!.logIn),
@@ -152,7 +154,7 @@ class _LogInScreenState extends State<LogInScreen> {
                               ),
                             ),
                           ),
-                          Expanded(
+                          const Expanded(
                             child: Divider(
                               color: kGreyColor,
                               height: 1.5,
