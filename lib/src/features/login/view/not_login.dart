@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import '../../component/primary_button.dart';
-import '../bloc/login_bloc.dart';
 import 'login.dart';
 
 class NotLogin extends StatefulWidget {
@@ -25,7 +23,7 @@ class _NotLoginState extends State<NotLogin> {
         children: [
           const Text('Not login yet', style: TextStyle(fontSize: 60),),
           Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05)
-            ,child: Image.asset('images/not_login.png'),),
+            ,child: Image.asset('assets/images/not_login.png'),),
           SizedBox(height: MediaQuery.of(context).size.height * 0.05,),
           InkWell(
               onTap: () {

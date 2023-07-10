@@ -23,19 +23,19 @@ class _MenuButtonState extends State<MenuButton> {
       itemBuilder: (context) => [
         PopupMenuItem(
           value: 0,
-          child: menuItems('Mobile', 'images/mobile_menu_item.png'),
+          child: menuItems('Mobile', 'assets/icon/mobile_menu_item_icon.png'),
         ),
         PopupMenuItem(
           value: 1,
-          child: menuItems('Laptop', 'images/laptop_menu_item.png'),
+          child: menuItems('Laptop', 'assets/icon/laptop_menu_item_icon.png'),
         ),
         PopupMenuItem(
           value: 2,
-          child: menuItems('Tablet', 'images/tablet_menu_item.png'),
+          child: menuItems('Tablet', 'assets/icon/tablet_menu_item.png'),
         ),
         PopupMenuItem(
           value: 3,
-          child: menuItems('PC', 'images/pc_menu_item.png'),
+          child: menuItems('PC', 'assets/icon/pc_menu_item_icon.png'),
         ),
       ],
     );

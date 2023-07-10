@@ -12,19 +12,19 @@ class ProductBloc {
         id: 1,
         name: 'IPhone 14 Pro Max',
         price: '1099 USD',
-        image: 'images/iphone14.jpg',
+        image: 'assets/images/iphone14.jpg',
       ),
       ProductDTO(
         id: 2,
         name: 'IPhone 14 Pro ',
         price: '1000 USD',
-        image: 'images/iphone14.jpg',
+        image: 'assets/images/iphone14.jpg',
       ),
       ProductDTO(
         id: 3,
         name: 'IPhone 14 Pro1',
         price: '2000 USD',
-        image: 'images/iphone.png',
+        image: 'assets/images/iphone.png',
       )
     ];
     _productListController.add(products);

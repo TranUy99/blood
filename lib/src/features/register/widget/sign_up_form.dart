@@ -5,12 +5,7 @@ import '../../../constant/color/color.dart';
 import '../bloc_state/sign_up_bloc.dart';
 
 class BuildInputFormSignIn extends StatefulWidget {
-  const BuildInputFormSignIn(
-      {Key? key,
-      required this.textController,
-      required this.hint,
-      required this.validationType})
-      : super(key: key);
+  const BuildInputFormSignIn({Key? key, required this.textController, required this.hint, required this.validationType}) : super(key: key);
   final TextEditingController textController;
   final String hint;
   final int validationType;
@@ -29,17 +24,25 @@ class _BuildInputFormSignInState extends State<BuildInputFormSignIn> {
       child: TextField(
         onChanged: (value) {
           setState(() {
-            if (widget.validationType == 0 && Validate.validFullName(value)) {
+            if (widget.validationType == 0 && !Validate.validName(value)) {
               error = true;
-              errorText = 'Invalid name';
-            } else if (widget.validationType == 1 &&
-                Validate.invalidateMobile(value)) {
+              errorText = value.isEmpty
+                  ? 'Tên không được để trống'
+                  : value.startsWith(' ')
+                      ? 'Không có dấu cách ở đầu'
+                      : value.endsWith(' ')
+                          ? 'Không có dấu cách cuối'
+                          : 'Không được nhập số hoặc ký tự đặc biệt';
+            } else if (widget.validationType == 1 && Validate.invalidateMobile(value)) {
               error = true;
-              errorText = 'Invalid phone number';
-            } else if (widget.validationType == 2 &&
-                Validate.invalidateEmail(value)) {
+              errorText = value.isEmpty
+                  ? 'Tên không được để trống'
+                  : value.contains(RegExp(r'[a-zA-Z!@#$%^&*()\-_=+[{\]}\\|;:,<.>/?\"]'))
+                      ? 'Không được nhập chữ hoặc ký tự đặc biệt'
+                      : 'Số điện thoại phải có đúng 10 chữ số';
+            } else if (widget.validationType == 2 && Validate.invalidateEmail(value)) {
               error = true;
-              errorText = 'Invalid email';
+              errorText = value.isEmpty ? 'Email không được để trống' : 'Invalid email';
             } else {
               error = false;
             }
@@ -50,8 +53,7 @@ class _BuildInputFormSignInState extends State<BuildInputFormSignIn> {
           errorText: error ? errorText : null,
           hintText: widget.hint,
           hintStyle: const TextStyle(color: kTextFieldColor),
-          focusedBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: kGreenColor)),
+          focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
         ),
       ),
     );
@@ -59,20 +61,13 @@ class _BuildInputFormSignInState extends State<BuildInputFormSignIn> {
 }
 
 class BuildInputSignUpFormPassword extends StatefulWidget {
-  BuildInputSignUpFormPassword(
-      {Key? key,
-      required this.hint,
-      required this.obscure,
-      required this.textController,
-      required this.function,
-      required this.sharedTextPasswordBloc,
-      required this.isConfirm})
+  BuildInputSignUpFormPassword({Key? key, required this.hint, required this.obscure, required this.textController, required this.function, required this.isConfirm,required this.validationType})
       : super(key: key);
   final TextEditingController textController;
   final String hint;
   late final bool obscure;
   final Widget function;
-  final SignUpTextPasswordBloc sharedTextPasswordBloc;
+final int validationType;
   final bool isConfirm;
   @override
   State<BuildInputSignUpFormPassword> createState() => _BuildInputFormPasswordState();
@@ -81,51 +76,75 @@ class BuildInputSignUpFormPassword extends StatefulWidget {
 class _BuildInputFormPasswordState extends State<BuildInputSignUpFormPassword> {
   bool error = false;
   String errorText = '';
+  late TextEditingController confirmTextController;
+
+  @override
+  void initState() {
+    super.initState();
+    confirmTextController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    confirmTextController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01),
-      child: StreamBuilder<String>(
-          stream: widget.sharedTextPasswordBloc.textFieldStream,
-          builder: (context, snapshot) {
-            return TextField(
-              onChanged: (value) {
-                setState(() {
-                  if (widget.isConfirm == false) {
-                    if (Validate.checkInvalidateNewPassword(value)) {
-                      error = true;
-                      errorText = 'Invalid password';
-                    } else {
-                      error = false;
-                      widget.sharedTextPasswordBloc.updateTextField(value);
-                    }
-                  } else {
-                    if (Validate.checkNotEqualNewPassword(
-                        snapshot.data ?? '', value)) {
-                      error = true;
-                      errorText = 'Invalid confirm password';
-                    } else {
-                      error = false;
-                    }
-                  }
-                });
-              },
-              controller: widget.textController,
-              obscureText: widget.obscure,
-              decoration: InputDecoration(
-                  errorText: error ? errorText : null,
-                  hintText: widget.hint,
-                  hintStyle: const TextStyle(color: kTextFieldColor),
-                  focusedBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: kGreenColor)),
-                  suffixIcon: widget.function),
-            );
-          }),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextField(
+            onChanged: (value) {
+              setState(() {
+                if (Validate.checkInvalidateNewPassword(value)) {
+                  error = true;
+                  errorText = value.isEmpty ? 'Password không được để trống' : 'Invalid password';
+                } else {
+                  error = false;
+                  widget.textController.text = value;
+                }
+              });
+            },
+            controller: widget.textController,
+            obscureText: true,
+            decoration: InputDecoration(
+              hintText: widget.hint,
+              hintStyle: const TextStyle(color: kTextFieldColor),
+              focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
+              suffixIcon: widget.function,
+              errorText: error ? errorText : null,
+            ),
+          ),
+          const SizedBox(height: 10),
+          TextField(
+            onChanged: (value) {
+              setState(() {
+                if (Validate.checkNotEqualNewPassword(widget.textController.text, value)) {
+                  error = true;
+                  errorText = value.isEmpty ? 'Password không được để trống' : 'Invalid confirm password';
+                } else {
+                  error = false;
+                }
+              });
+            },
+          controller: widget.textController,
+          obscureText: widget.obscure,
+          decoration: InputDecoration(
+              errorText: error ? errorText : null,
+              hintText: widget.hint,
+              hintStyle: const TextStyle(color: kTextFieldColor),
+              focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
+              suffixIcon: widget.function    ),
+          ),
+        ],
+      ),
     );
   }
 }
-
 class CheckBoxSignIn extends StatefulWidget {
   final String text;
   final Widget isCheck;
