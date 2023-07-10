@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
-import 'package:mobile_store/src/constant/utils/validate.dart';
-import 'package:mobile_store/src/features/component/login_option.dart';
+import 'package:mobile_store/src/features/login/view/login_option.dart';
 import 'package:mobile_store/src/features/component/primary_button.dart';
 import 'package:mobile_store/src/features/register/widget/sign_up_form.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 import '../bloc_state/sign_up_bloc.dart';
-
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -26,7 +22,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController textPasswordController = TextEditingController();
   TextEditingController textConfirmPasswordController = TextEditingController();
   SignUpBloc signUpBloc = SignUpBloc();
-  SignUpTextPasswordBloc sharedTextBloc = SignUpTextPasswordBloc();
+  // SignUpTextPasswordBloc sharedTextBloc = SignUpTextPasswordBloc();
   bool obscure = true;
   bool isCheck = false;
 
@@ -49,7 +45,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    sharedTextBloc.dispose();
+    // sharedTextBloc.dispose();
   }
 
   @override
@@ -58,21 +54,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * 0.05),
+            padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.04),
+                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.04),
                   child: Text(
                     AppLocalizations.of(context)!.signUp.toUpperCase(),
                     style: titleText,
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.03),
+                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
                   child: Column(children: [
                     BuildInputFormSignIn(
                       hint: AppLocalizations.of(context)!.fullName,
@@ -80,9 +73,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       validationType: 0,
                     ),
                     BuildInputFormSignIn(
-                        hint: AppLocalizations.of(context)!.phoneNumber,
-                        textController: textPhoneController,
-                        validationType: 1),
+                      hint: AppLocalizations.of(context)!.phoneNumber, 
+                      textController: textPhoneController, 
+                      validationType: 1
+                    ),
                     BuildInputFormSignIn(
                       hint: 'Email',
                       textController: textEmailController,
@@ -93,67 +87,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       obscure: obscure,
                       textController: textPasswordController,
                       function: obscureChange(),
-                      sharedTextPasswordBloc: sharedTextBloc,
                       isConfirm: false,
+                     validationType: 3 
                     ),
                     BuildInputSignUpFormPassword(
                       hint: AppLocalizations.of(context)!.confirmPassword,
                       obscure: obscure,
                       textController: textConfirmPasswordController,
                       function: obscureChange(),
-                      sharedTextPasswordBloc: sharedTextBloc,
                       isConfirm: true,
+                      validationType:4
                     ),
                   ]),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.02),
-                  child: CheckBoxSignIn(
-                      text: AppLocalizations.of(context)!
-                          .agreeToTermAndConditions,
-                      isCheck: isCheckCheckbox()),
+                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
+                  child: CheckBoxSignIn(text: AppLocalizations.of(context)!.agreeToTermAndConditions, isCheck: isCheckCheckbox()),
                 ),
                 GestureDetector(
                   onTap: () {
-                    if (isCheck) {
-                      if (Validate.validFullName(registerList()[0]) == false &&
-                          Validate.invalidateMobile(registerList()[1]) ==
-                              false &&
-                          Validate.invalidateEmail(registerList()[2]) ==
-                              false &&
-                          Validate.checkInvalidateNewPassword(
-                                  registerList()[3]) ==
-                              false &&
-                          Validate.checkNotEqualNewPassword(
-                                  registerList()[3], registerList()[4]) ==
-                              false) {
-                        signUpBloc.updateInformation(registerList());
-                        signUpBloc.signUp();
-                        Navigator.pop(context);
-                        showTopSnackBar(
-                            Overlay.of(context),
-                            CustomSnackBar.success(
-                                message: AppLocalizations.of(context)!
-                                    .signUpsuccessfully));
-                      } else {
-                        showTopSnackBar(
-                            Overlay.of(context),
-                            CustomSnackBar.error(
-                                message: AppLocalizations.of(context)!
-                                    .invalidInformation));
-                      }
-                    } else {
-                      showTopSnackBar(
-                          Overlay.of(context),
-                          CustomSnackBar.error(
-                              message: AppLocalizations.of(context)!
-                                  .agreeToTermAndConditions));
-                    }
+                    // if (isCheck) {
+                    //   if (Validate.validName(registerList()[0]) == false &&
+                    //       Validate.invalidateMobile(registerList()[1]) == false &&
+                    //       Validate.invalidateEmail(registerList()[2]) == false &&
+                    //       Validate.checkInvalidateNewPassword(registerList()[3]) == false &&
+                    //       Validate.checkNotEqualNewPassword(registerList()[3], registerList()[4]) == false) {
+                    //     signUpBloc.updateInformation(registerList());
+                    //     signUpBloc.signUp();
+                    //     Navigator.pop(context);
+                    //     showTopSnackBar(Overlay.of(context), CustomSnackBar.success(message: AppLocalizations.of(context)!.signUpsuccessfully));
+                    //   } else {
+                    //     showTopSnackBar(Overlay.of(context), CustomSnackBar.error(message: AppLocalizations.of(context)!.invalidInformation));
+                    //   }
+                    // } else {
+                    //   showTopSnackBar(Overlay.of(context), CustomSnackBar.error(message: AppLocalizations.of(context)!.agreeToTermAndConditions));
+                    // }
                   },
                   child: Padding(
-                    padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 0.02),
+                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
                     child: PrimaryButton(
                       buttonText: AppLocalizations.of(context)!.signUp,
                     ),
@@ -170,15 +141,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     children: [
                       Row(
                         children: [
-                          Expanded(
+                          const Expanded(
                             child: Divider(
                               color: kGreyColor,
                               height: 1.5,
                             ),
                           ),
                           Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Text(
                               AppLocalizations.of(context)!.or,
                               style: subtitle.copyWith(
@@ -187,7 +157,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                             ),
                           ),
-                          Expanded(
+                          const Expanded(
                             child: Divider(
                               color: kGreyColor,
                               height: 1.5,
@@ -195,8 +165,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ],
                       ),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -206,15 +175,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ],
                       ),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.8,
                         height: MediaQuery.of(context).size.height * 0.1,
-                        child: LoginOption(),
+                        child: const LoginOption(),
                       ),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -279,12 +246,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       child: Container(
         width: MediaQuery.of(context).devicePixelRatio * 7,
         height: MediaQuery.of(context).devicePixelRatio * 7,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            border: Border.all(color: kDarkGreyColor)),
-        child: isCheck
-            ? const Icon(Icons.check, size: 17, color: Colors.green)
-            : null,
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), border: Border.all(color: kDarkGreyColor)),
+        child: isCheck ? const Icon(Icons.check, size: 17, color: Colors.green) : null,
       ),
     );
   }

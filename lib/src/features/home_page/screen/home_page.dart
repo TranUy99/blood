@@ -21,17 +21,15 @@ class _HomePageState extends State<HomePage> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.15),
         child: AppBar(
-          backgroundColor: kSecondaryColor,
-          leading: Image(
-            image: const AssetImage('images/banner0.jpg'),
-            height: MediaQuery.of(context).size.height * 0.06,
-          ),
-          flexibleSpace: const CustomAppBar()
-        ),
+            backgroundColor: kSecondaryColor,
+            leading: Image(
+              image: const AssetImage('assets/images/banner0.jpg'),
+              height: MediaQuery.of(context).size.height * 0.06,
+            ),
+            flexibleSpace: const CustomAppBar()),
       ),
-      body:  SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(children: [
-
           const CarouselSliderBanner(),
           ProductScreen(productBloc: productBloc),
         ]),

@@ -62,7 +62,7 @@ Widget build(BuildContext context) {
                 ),
               ),
               const Image(
-                image: AssetImage('images/fire.png'),
+                image: AssetImage('assets/icon/fire_icon.png'),
                 height: 20,
               ),
             ],

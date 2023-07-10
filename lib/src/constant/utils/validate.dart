@@ -17,8 +17,7 @@ class Validate {
     }
   }
 
-  static bool checkNotEqualNewPassword(
-      String newPassword, String reNewPassword) {
+  static bool checkNotEqualNewPassword(String newPassword, String reNewPassword) {
     if (newPassword != reNewPassword) {
       return true;
     }
@@ -26,8 +25,7 @@ class Validate {
   }
 
   static bool invalidateEmail(String? value) {
-    String pattern =
-        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+    String pattern = r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
         r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
         r"{0,253}[a-zA-Z0-9])?)*$";
 
@@ -59,36 +57,41 @@ class Validate {
     return false;
   }
 
-  static bool validName1(String? value) {
-    RegExp rex = RegExp(r'^[a-zA-Z]+(?: )+$');
+  static bool validName(String? value) {
+    RegExp rex = RegExp(r'^[^\s\d][\p{L}\p{M}\s]*(?:[\p{L}\p{M}]+[\s-]*)*$', unicode: true);
     if (value == null) {
       return false;
     }
-    if (rex.hasMatch(value)) {
-      return false;
+    if (!rex.hasMatch(value)) {
+      return false; // Invalid name format
     }
-    return true;
+    if (value.endsWith(' ')) {
+      return false; // Trailing space detected
+    }
+    if (value.contains(RegExp(r'\d'))) {
+      return false; // Numbers detected
+    }
+    return true; // Valid name
   }
+  // static bool validName2(String? value) {
+  //   RegExp rex = RegExp(r'^[a-zA-Z]$');
+  //   if (value == null) {
+  //     return false;
+  //   }
+  //   if (rex.hasMatch(value)) {
+  //     return false;
+  //   }
+  //   return true;
+  // }
 
-  static bool validName2(String? value) {
-    RegExp rex = RegExp(r'^[a-zA-Z]$');
-    if (value == null) {
-      return false;
-    }
-    if (rex.hasMatch(value)) {
-      return false;
-    }
-    return true;
-  }
-
-  static bool validFullName(String? value) {
-    RegExp rex = RegExp(r'^[A-Za-z\s-]{1,}$');
-    if (value == null) {
-      return false;
-    }
-    if (rex.hasMatch(value)) {
-      return false;
-    }
-    return true;
-  }
+  // static bool validFullName(String? value) {
+  //   RegExp rex = RegExp(r'^[A-Za-z\s-]{1,}$');
+  //   if (value == null) {
+  //     return false;
+  //   }
+  //   if (rex.hasMatch(value)) {
+  //     return false;
+  //   }
+  //   return true;
+  // }
 }

@@ -23,7 +23,7 @@ class LoginOption extends StatelessWidget {
         SizedBox(width: 30),
         BuildButton(
           icon: Image.asset(
-            'images/google.jpg',
+            'assets/icon/google_icon.jpg',
             height: 40,
             width: 40,
           ),

@@ -5,12 +5,12 @@ import 'package:mobile_store/src/features/component/checkbox.dart';
 import 'package:mobile_store/src/features/change_password/view/change_password.dart';
 import 'package:mobile_store/src/features/home_page/screen/navigation_home_page.dart';
 import 'package:mobile_store/src/features/login/bloc/login_state.dart';
-import 'package:mobile_store/src/features/login/view_model/login_viewmodel.dart';
+import 'package:mobile_store/src/features/login/view_model/login_view_model.dart';
 import 'package:mobile_store/src/features/login/widget/login_form.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-import '../../component/login_option.dart';
+import 'login_option.dart';
 import '../../component/primary_button.dart';
 import '../../register/view/sign_up.dart';
 import '../bloc/login_bloc.dart';
@@ -152,7 +152,7 @@ class _LogInScreenState extends State<LogInScreen> {
                               ),
                             ),
                           ),
-                          Expanded(
+                          const Expanded(
                             child: Divider(
                               color: kGreyColor,
                               height: 1.5,

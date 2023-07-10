@@ -1,31 +1,30 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:mobile_store/src/features/register/bloc_state/sign_up_event.dart';
+import 'package:mobile_store/src/features/register/bloc_state/sign_up_state.dart';
+import 'package:mobile_store/src/features/register/service/servie.dart';
+
 class SignUpBloc {
-  late List<String> _registerList;
-  void updateInformation(List<String> registerList) {
-    _registerList = registerList;
+
+   final _loginStateController = StreamController<SignUpState>.broadcast();
+
+  Stream<SignUpState> get loginStateStream => _loginStateController.stream;
+
+  void addEvent(SignUpEvent event) {
+    final email = event.email;
+    final password = event.password;
+    // log("bloc $email");
+    // final loginResult = SignUpService.signUpService(email, password);
+
+    // if (loginResult == true) {
+    //   _loginStateController.add(LoginSuccessState());
+    // } else {
+    //   _loginStateController.add(LoginFailureState("error"));
+    // }
   }
 
-  void signUp() {
-    // Perform registration logic here
-    // You can use the _email and _password variables to submit the registration data
-    print(_registerList.join(', '));
-  }
-}
-
-class SignUpTextPasswordBloc extends ChangeNotifier {
-  final _textFieldController = BehaviorSubject<String>();
-  Stream<String> get textFieldStream => _textFieldController.stream;
-  void updateTextField(String value) {
-    _textFieldController.add(value);
-  }
-
-  @override
   void dispose() {
-    super.dispose();
-    _textFieldController.close();
+    _loginStateController.close();
   }
 }
 
