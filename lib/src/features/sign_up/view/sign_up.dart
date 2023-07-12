@@ -1,12 +1,19 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/login/view/login_option.dart';
 import 'package:mobile_store/src/features/component/primary_button.dart';
-import 'package:mobile_store/src/features/register/widget/sign_up_form.dart';
+import 'package:mobile_store/src/features/sign_up/bloc_state/sign_up_bloc.dart';
+import 'package:mobile_store/src/features/sign_up/bloc_state/sign_up_state.dart';
+import 'package:mobile_store/src/features/sign_up/widget/sign_up_form.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-
-import '../bloc_state/sign_up_bloc.dart';
+import '../../../constant/utils/validate.dart';
+import '../view_model/sign_up_view_model.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -21,31 +28,56 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController textNameController = TextEditingController();
   TextEditingController textPasswordController = TextEditingController();
   TextEditingController textConfirmPasswordController = TextEditingController();
-  SignUpBloc signUpBloc = SignUpBloc();
-  // SignUpTextPasswordBloc sharedTextBloc = SignUpTextPasswordBloc();
+  SignUpViewModel _signUpViewModel = SignUpViewModel();
+  SignUpBloc _signUpBloc = SignUpBloc();
   bool obscure = true;
   bool isCheck = false;
+  bool error = false;
+  String errorText = '';
 
-  List<String> registerList() {
-    List<TextEditingController> textEditingControllerList = [
-      textNameController,
-      textPhoneController,
-      textEmailController,
-      textPasswordController,
-      textConfirmPasswordController,
-    ];
-    List<String> listOfRegister = [];
-    for (TextEditingController controllers in textEditingControllerList) {
-      listOfRegister.add(controllers.text);
-    }
-    return listOfRegister;
+  final PublishSubject<SignUpState> _signUpStateSubject = PublishSubject<SignUpState>();
+  late Stream<SignUpState> _signUpStateStream;
+
+  @override
+  void initState() {
+    super.initState();
+    _signUpStateStream = _signUpStateSubject.stream;
+    _signUpBloc = SignUpBloc();
+    _signUpViewModel = SignUpViewModel();
+    _signUpStateStream = _signUpBloc.signUpStateStream;
+    _signUpStateStream.listen((state) {
+      if (state is SignUpSuccessState) {
+        log("object");
+      } else if (state is SignUpFailureState) {
+        log("message");
+      }
+    });
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
-    // sharedTextBloc.dispose();
+    textPasswordController.dispose();
+    textConfirmPasswordController.dispose();
+    _signUpStateSubject.close();
+    super.dispose();
+  }
+
+  void _signUp() {
+    String email = textEmailController.text;
+    String password = textPasswordController.text;
+    String fullName = textNameController.text;
+    _signUpViewModel.signUp(email, password, fullName);
+    // Thực hiện quá trình đăng ký và cập nhật trạng thái
+    _signUpBloc.signUpStateStream.listen((state) {
+      // Xử lý các trạng thái từ signUpStateStream
+      if (state is SignUpSuccessState) {
+        print("object");
+      } else if (state is SignUpFailureState) {
+        print("message");
+        showTopSnackBar(Overlay.of(context), const CustomSnackBar.error(message: 'Wrong information'));
+      }
+    });
   }
 
   @override
@@ -73,30 +105,55 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       validationType: 0,
                     ),
                     BuildInputFormSignIn(
-                      hint: AppLocalizations.of(context)!.phoneNumber, 
-                      textController: textPhoneController, 
-                      validationType: 1
-                    ),
-                    BuildInputFormSignIn(
                       hint: 'Email',
                       textController: textEmailController,
                       validationType: 2,
                     ),
-                    BuildInputSignUpFormPassword(
-                      hint: AppLocalizations.of(context)!.password,
-                      obscure: obscure,
-                      textController: textPasswordController,
-                      function: obscureChange(),
-                      isConfirm: false,
-                     validationType: 3 
+                    TextFormField(
+                      controller: textPasswordController,
+                      keyboardType: TextInputType.text,
+                      obscureText: obscure,
+                      decoration: InputDecoration(
+                          errorText: error ? errorText : null,
+                          hintText: AppLocalizations.of(context)!.password,
+                          hintStyle: const TextStyle(color: kTextFieldColor),
+                          focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
+                          suffixIcon: obscureChange()),
+                      onChanged: (value) {
+                        setState(() {
+                          // Check password
+                          if (value.isEmpty || Validate.checkInvalidateNewPassword(value)) {
+                            error = true;
+                            errorText = value.isEmpty ? 'Mật khẩu không được để trống' : 'Mật khẩu nên có chữ cái in hoa và kí tự đặc biệt';
+                          } else {
+                            error = false;
+                            errorText = '';
+                          }
+                        });
+                      },
                     ),
-                    BuildInputSignUpFormPassword(
-                      hint: AppLocalizations.of(context)!.confirmPassword,
-                      obscure: obscure,
-                      textController: textConfirmPasswordController,
-                      function: obscureChange(),
-                      isConfirm: true,
-                      validationType:4
+                    TextFormField(
+                      controller: textConfirmPasswordController,
+                      obscureText: obscure,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                          errorText: error ? errorText : null,
+                          hintText: AppLocalizations.of(context)!.password,
+                          hintStyle: const TextStyle(color: kTextFieldColor),
+                          focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
+                          suffixIcon: obscureChange()),
+                      onChanged: (value) {
+                        setState(() {
+                          // Check password
+                          if (textPasswordController.text != textConfirmPasswordController.text) {
+                            error = true;
+                            errorText = 'Mật khẩu không trùng khớp';
+                          } else {
+                            error = false;
+                            errorText = '';
+                          }
+                        });
+                      },
                     ),
                   ]),
                 ),
@@ -104,24 +161,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
                   child: CheckBoxSignIn(text: AppLocalizations.of(context)!.agreeToTermAndConditions, isCheck: isCheckCheckbox()),
                 ),
+              
                 GestureDetector(
                   onTap: () {
-                    // if (isCheck) {
-                    //   if (Validate.validName(registerList()[0]) == false &&
-                    //       Validate.invalidateMobile(registerList()[1]) == false &&
-                    //       Validate.invalidateEmail(registerList()[2]) == false &&
-                    //       Validate.checkInvalidateNewPassword(registerList()[3]) == false &&
-                    //       Validate.checkNotEqualNewPassword(registerList()[3], registerList()[4]) == false) {
-                    //     signUpBloc.updateInformation(registerList());
-                    //     signUpBloc.signUp();
-                    //     Navigator.pop(context);
-                    //     showTopSnackBar(Overlay.of(context), CustomSnackBar.success(message: AppLocalizations.of(context)!.signUpsuccessfully));
-                    //   } else {
-                    //     showTopSnackBar(Overlay.of(context), CustomSnackBar.error(message: AppLocalizations.of(context)!.invalidInformation));
-                    //   }
-                    // } else {
-                    //   showTopSnackBar(Overlay.of(context), CustomSnackBar.error(message: AppLocalizations.of(context)!.agreeToTermAndConditions));
-                    // }
+                    _signUp();
                   },
                   child: Padding(
                     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),

@@ -8,12 +8,15 @@ import 'package:mobile_store/src/core/remote/response/login_response.dart';
 import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../core/remote/request/sign_up_request.dart';
+import '../core/remote/response/sign_up_response.dart';
+
 
 
 part 'api_service.g.dart';
 
  // @RestApi(baseUrl: 'http://192.168.1.35:8085')
- @RestApi(baseUrl: 'http://45.117.170.206:8085')
+ @RestApi(baseUrl: 'http://192.168.1.30:8086')
 
 abstract class ApiService {
   factory ApiService(Dio dio) {
@@ -33,5 +36,8 @@ abstract class ApiService {
 
   @POST('/api/login')
   Future<LoginResponse> login(@Body() LoginRequest login);
+
+  @POST('/api/user/')
+  Future<SignUpResponse> register(@Body()  SignUpRequest register);
 }
 

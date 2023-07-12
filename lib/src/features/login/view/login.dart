@@ -12,7 +12,7 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import 'login_option.dart';
 import '../../component/primary_button.dart';
-import '../../register/view/sign_up.dart';
+import '../../sign_up/view/sign_up.dart';
 import '../bloc/login_bloc.dart';
 
 class LogInScreen extends StatefulWidget {

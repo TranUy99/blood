@@ -30,7 +30,6 @@ class UserDTO {
     this.gender,
     this.phone,
     this.email,
- 
     this.firstName,
     this.lastName,
     this.avatar,
