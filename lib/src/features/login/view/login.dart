@@ -118,7 +118,7 @@ class _LogInScreenState extends State<LogInScreen> {
                             //     MaterialPageRoute(
                             //       builder: (context) => NavigationHomePage(),
                             //     ));
-                            print('welcome to my app');
+                            print('welcome');
                           } else if (loginState is ErrorLoginState) {
                             print('Error: ${loginState.errorMessage}');
                           }
