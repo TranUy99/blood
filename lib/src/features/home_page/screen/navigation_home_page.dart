@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/cart_page/screen/cart_page.dart';
 import 'package:mobile_store/src/features/home_page/screen/home_page.dart';
+import 'package:mobile_store/src/features/login/bloc/login_state.dart';
 import 'package:mobile_store/src/features/profile/screen/profile_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../login/bloc/login_bloc.dart';
 import '../../login/view/login.dart';
 import '../../login/view/not_login.dart';
-
 
 
 class NavigationHomePage extends StatefulWidget {
@@ -42,9 +43,10 @@ class _NavigationHomePageState extends State<NavigationHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: onLogInState.onLogin
+      body: loginStatusState.onLoginState
           ? navigationLoginScreen()[indexScreen]
-           : navigationLogoutScreen()[indexScreen],
+          : navigationLogoutScreen()[indexScreen],
+      // body: navigationLogoutScreen()[indexScreen],
       bottomNavigationBar: NavigationBar(
         height: MediaQuery.of(context).size.height * 0.07,
         onDestinationSelected: (value) => setState(() {

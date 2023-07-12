@@ -5,9 +5,10 @@ class LoginViewModel {
   final _loginBloc = LoginBloc();
 
   void login(String email, String password) {
-    final loginEvent = LoginEvent(email, password);
-    // print("view model ${email}");
-    _loginBloc.addEvent(loginEvent);
+    // final loginEvent = LoginEvent(email, password);
+    // // print("view model ${email}");
+    // _loginBloc.addEvent(loginEvent);
+    _loginBloc.addEvent(LoginEvent(email, password));
   }
 
   void dispose() {}
