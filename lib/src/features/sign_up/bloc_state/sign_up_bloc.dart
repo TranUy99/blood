@@ -7,6 +7,7 @@ import 'package:mobile_store/src/features/sign_up/service/servie.dart';
 import 'package:rxdart/rxdart.dart';
 
 class SignUpBloc {
+  
   final BehaviorSubject<SignUpState> _signUpStateSubject = BehaviorSubject<SignUpState>();
 
   Stream<SignUpState> get signUpStateStream => _signUpStateSubject.stream;
