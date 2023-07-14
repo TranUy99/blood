@@ -9,6 +9,8 @@ import 'package:mobile_store/src/features/sign_up/bloc_state/sign_up_bloc.dart';
 import 'package:mobile_store/src/features/sign_up/bloc_state/sign_up_state.dart';
 import 'package:mobile_store/src/features/sign_up/widget/sign_up_form.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../constant/utils/validate.dart';
 import '../view_model/sign_up_view_model.dart';
@@ -33,26 +35,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool error = false;
   String errorText = '';
 
-  final PublishSubject<SignUpState> _signUpStateSubject = PublishSubject<SignUpState>();
-  late Stream<SignUpState> _signUpStateStream;
-
   @override
   void initState() {
     super.initState();
-    _signUpStateStream = _signUpStateSubject.stream;
     _signUpBloc = SignUpBloc();
     _signUpViewModel = SignUpViewModel();
-    _signUpStateStream = _signUpBloc.signUpStateStream;
   }
 
   @override
   void dispose() {
     super.dispose();
+    textPhoneController.dispose();
+    textEmailController.dispose();
+    textNameController.dispose();
     textPasswordController.dispose();
     textConfirmPasswordController.dispose();
-    _signUpStateSubject.close();
-    super.dispose();
+    _signUpBloc.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,28 +134,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
                   child: CheckBoxSignIn(text: AppLocalizations.of(context)!.agreeToTermAndConditions, isCheck: isCheckCheckbox()),
                 ),
-                StreamBuilder<SignUpState>(
-                  stream: _signUpViewModel.signUpStateStream,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      if (snapshot.data is SuccessSignUpState) {
-                        // Xử lý trạng thái thành công
-                        log("success");
-                      } else if (snapshot.data is ErrorSignUpState) {
-                        // Xử lý trạng thái thất bại
-                        log("Wrong information");
-                      }
+                InkWell(
+                  onTap: () {
+                    if (_signUpBloc.isSignUpButtonPressed == false) {
+                      String email = textEmailController.text;
+                      String password = textPasswordController.text;
+                      String fullName = textNameController.text;
+                      _signUpViewModel.signUp(email, password, fullName);
+                      _signUpViewModel.signUpStateStream.firstWhere((state) => state is SignUpState).then((state) {
+                        if (state is SuccessSignUpState) {
+                          // Xử lý trạng thái thành công
+                          showTopSnackBar(
+                            Overlay.of(context),
+                            const CustomSnackBar.error(
+                              message: 'Success',
+                              backgroundColor: Color.fromARGB(255, 3, 165, 81), // Đổi màu nền thành màu đỏ
+                            ),
+                          );
+                        } else if (state is ErrorSignUpState) {
+                          // Xử lý trạng thái thất bại
+                          showTopSnackBar(
+                            Overlay.of(context),
+                            const CustomSnackBar.error(
+                              message: 'Wrong information',
+                              backgroundColor: Colors.red, // Đổi màu nền thành màu đỏ
+                            ),
+                          );
+                        }
+                      });
                     }
-                    return InkWell(
-                      onTap: () {
-                        String email = textEmailController.text;
-                        String password = textPasswordController.text;
-                        String fullName = textNameController.text;
-                        _signUpViewModel.signUp(email, password, fullName);
-                      },
-                      child: PrimaryButton(buttonText: AppLocalizations.of(context)!.signUp),
-                    );
                   },
+                  child: PrimaryButton(
+                    buttonText: AppLocalizations.of(context)!.signUp,
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(
