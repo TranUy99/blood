@@ -45,13 +45,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _signUpBloc = SignUpBloc();
     _signUpViewModel = SignUpViewModel();
     _signUpStateStream = _signUpBloc.signUpStateStream;
-    _signUpStateStream.listen((state) {
-      if (state is SignUpSuccessState) {
-        log("object");
-      } else if (state is SignUpFailureState) {
-        log("message");
-      }
-    });
   }
 
   @override
@@ -69,15 +62,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
     String fullName = textNameController.text;
     _signUpViewModel.signUp(email, password, fullName);
     // Thực hiện quá trình đăng ký và cập nhật trạng thái
-    _signUpBloc.signUpStateStream.listen((state) {
-      // Xử lý các trạng thái từ signUpStateStream
-      if (state is SignUpSuccessState) {
-        print("object");
-      } else if (state is SignUpFailureState) {
-        print("message");
-        showTopSnackBar(Overlay.of(context), const CustomSnackBar.error(message: 'Wrong information'));
-      }
-    });
+    // _signUpBloc.signUpStateStream.listen((state) {
+    //   // Xử lý các trạng thái từ signUpStateStream
+    //   if (state is SignUpSuccessState) {
+    //     print("object");
+    //   } else if (state is SignUpFailureState) {
+    //     print("message");
+    //     showTopSnackBar(Overlay.of(context), const CustomSnackBar.error(message: 'Wrong information'));
+    //   }
+    // });
   }
 
   @override
@@ -161,17 +154,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
                   child: CheckBoxSignIn(text: AppLocalizations.of(context)!.agreeToTermAndConditions, isCheck: isCheckCheckbox()),
                 ),
-              
-                GestureDetector(
-                  onTap: () {
-                    _signUp();
+                // GestureDetector(
+                //   onTap: () {
+                //     _signUp();
+                //   },
+                //   child: Padding(
+                //     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
+                //     child: PrimaryButton(
+                //       buttonText: AppLocalizations.of(context)!.signUp,
+                //     ),
+                //   ),
+                // ),
+                StreamBuilder(
+                  stream: _signUpBloc.signUpStateStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      log("Da");
+                      if (snapshot.data is SuccessSignUpState) {
+                        // Xử lý trạng thái thành công
+                        print('Welcome');
+                      } else if (snapshot.data is ErrorSignUpState) {
+                        // Xử lý trạng thái thất bại
+                        print('Error');
+                      }
+                    }
+
+                    return Padding(
+                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
+                      child: InkWell(
+                        onTap: () {
+                          String email = textEmailController.text;
+                          String password = textPasswordController.text;
+                          String fullName = textNameController.text;
+                          _signUpViewModel.signUp(email, password, fullName);
+                        },
+                        child: PrimaryButton(buttonText: AppLocalizations.of(context)!.signUp),
+                      ),
+                    );
                   },
-                  child: Padding(
-                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
-                    child: PrimaryButton(
-                      buttonText: AppLocalizations.of(context)!.signUp,
-                    ),
-                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(
