@@ -3,11 +3,12 @@ import 'dart:developer';
 
 import 'package:mobile_store/src/features/login/bloc/login_event.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../service/service.dart';
 import 'login_state.dart';
 
-LoginStatusState loginStatusState = LoginStatusState(false);
+SuccessLoginState successLoginState = SuccessLoginState(false);
 
 class LoginBloc{
   // final _loginStateController = StreamController<LoginState>.broadcast();
@@ -39,7 +40,7 @@ class LoginBloc{
 
     if(mess == null){
       // _loginStreamController.add(SuccessLoginState(true));
-      SuccessLoginState.saveLoginState(email, password, token, id);
+      // SuccessLoginState.saveLoginState(email, password, token, id);
     }else{
       // _loginStreamController.add(ErrorLoginState(mess!));
     }
@@ -53,16 +54,13 @@ class LoginBloc{
 class RxLoginBloc {
   final _stateController = BehaviorSubject<LoginState>();
   String? mess;
-
-  // Outputs
+  int? id;
+  String? token;
   Stream<LoginState> get state => _stateController.stream;
 
-  LoginBloc() {
-    _stateController.add(InitialState());
-  }
 
-  void handleEvent(LoginEvent event) {
-    _login(event.email, event.password);
+  Future <void> handleEvent(LoginEvent event) async {
+    await _login(event.email, event.password);
   }
 
   Future <void> _login(String email, String password) async {
@@ -70,17 +68,25 @@ class RxLoginBloc {
     try{
       await loginResult.then((value) {
         mess = value.message;
-        // print(value.message);
+        id = value.idUser;
+        token = value.token;
+        // print('$id - $token');
       });
     }catch(e){
       mess = 'failed to get data';
     }
+    print('bloc mess: ${mess}');
 
     if (mess == null) {
-      _stateController.add(SuccessLoginState(true));
+      _stateController.add(successLoginState = SuccessLoginState(true));
+      successLoginState.saveLoginState(email, password, token, id);
+      print('bloc susscess');
     } else {
-      _stateController.add(ErrorLoginState('BLoc Error'));
+      _stateController.add(ErrorLoginState(mess!));
+      print('bloc fail');
     }
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    print('bloc: ${preferences.getString('token')}');
   }
 
   void dispose() {

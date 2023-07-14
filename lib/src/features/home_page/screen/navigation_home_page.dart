@@ -21,6 +21,10 @@ int indexScreen = 0;
 class _NavigationHomePageState extends State<NavigationHomePage> {
 
   final LoginBloc loginBloc = LoginBloc();
+  final RxLoginBloc rxLoginBloc = RxLoginBloc();
+  String? email;
+  int? id;
+  String? token;
 
   List appScreens = [const HomePage(), const LogInScreen(), const LogInScreen()];
 
@@ -40,10 +44,31 @@ class _NavigationHomePageState extends State<NavigationHomePage> {
         ));
   }
 
+  _loadData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    email = preferences.getString('email');
+    token = preferences.getString('token');
+    id = preferences.getInt('id');
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loadData();
+    print('Navigation Home Page: email - id - token: $email - $id - $token');
+    if(token != null){
+      successLoginState.onLoginState = true;
+    }else{
+      successLoginState.onLoginState = false;
+    }
+    print('Navigation Home Page: login status ${successLoginState.onLoginState}');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: loginStatusState.onLoginState
+      body: successLoginState.onLoginState
           ? navigationLoginScreen()[indexScreen]
           : navigationLogoutScreen()[indexScreen],
       // body: navigationLogoutScreen()[indexScreen],

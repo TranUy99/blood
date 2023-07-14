@@ -46,7 +46,7 @@ class _MyAppState extends State<MyApp> {
         locale: _locale,
         // home: ChangePasswordScreen());
         //home: LogInScreen());
-        home: NavigationHomePage());
+        home: const NavigationHomePage());
     // home: ProfilePage());
   }
 }

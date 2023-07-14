@@ -7,21 +7,28 @@ class LoginViewModel {
   final _loginBloc = LoginBloc();
   RxLoginBloc _rxLoginBloc = RxLoginBloc();
 
-  Future <void> login(String email, String password) async {
+  Future <bool> login(String email, String password) async {
     // final loginEvent = LoginEvent(email, password);
     // // print("view model ${email}");
     // _loginBloc.addEvent(loginEvent);
     // await _loginBloc.addEvent(LoginEvent(email, password));
-    final subscription = _rxLoginBloc.state.listen((state) {
-      if (state is SuccessLoginState) {
-        print('Login successful');
-      } else if (state is ErrorLoginState) {
-        print('Login failed: ${state.errorMessage}');
-      }
-    });
+    await _rxLoginBloc.handleEvent(LoginEvent(email, password));
+    bool isLogin = false;
 
-    _rxLoginBloc.handleEvent(LoginEvent(email, password));
+    await _rxLoginBloc.state.listen((state) {
+      if (state is SuccessLoginState) {
+        print('Login viewmodel: ${state.onLoginState}');
+        isLogin = true;
+      } else if (state is ErrorLoginState) {
+        print('Login viewmodel: ${state.errorMessage}');
+        isLogin = false;
+      }
+    },);
+
+    return isLogin;
   }
 
-  void dispose() {}
+  void dispose() {
+    _rxLoginBloc.dispose();
+  }
 }

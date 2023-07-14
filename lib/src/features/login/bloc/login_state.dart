@@ -7,10 +7,10 @@ class InitialState extends LoginState {
 }
 
 class SuccessLoginState extends LoginState {
-  final bool onLoginState;
+  bool onLoginState = false;
   SuccessLoginState(this.onLoginState);
 
-  static void saveLoginState(String? email, String? password, String? token, int? id) async {
+  void saveLoginState(String? email, String? password, String? token, int? id) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString('email', email!);
     preferences.setString('password', password!);
@@ -36,14 +36,3 @@ class LoginStatusState extends LoginState {
     preferences.setString('password', password!);
   }
 }
-
-
-
-// class LoginState {
-//   static void saveLoginInformation(String? email, int? id, String? token) async {
-//     SharedPreferences preferences = await SharedPreferences.getInstance();
-//     preferences.setString('email', email!);
-//     preferences.setInt('id', id!);
-//     preferences.setString('token', token!);
-//   }
-//}

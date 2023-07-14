@@ -1,19 +1,17 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/change_password/view/change_password.dart';
 import 'package:mobile_store/src/features/component/checkbox.dart';
 import 'package:mobile_store/src/features/home_page/screen/navigation_home_page.dart';
-import 'package:mobile_store/src/features/login/bloc/login_state.dart';
 import 'package:mobile_store/src/features/login/view_model/login_view_model.dart';
 import 'package:mobile_store/src/features/login/widget/login_form.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../component/primary_button.dart';
 import '../../register/view/sign_up.dart';
 import '../bloc/login_bloc.dart';
-import '../bloc/login_event.dart';
 import 'login_option.dart';
 
 class LogInScreen extends StatefulWidget {
@@ -98,44 +96,44 @@ class _LogInScreenState extends State<LogInScreen> {
                   ),
                 ),
 
-                StreamBuilder(
-                  stream: _loginBloc.loginStream,
-                  builder: (context, snapshot) {
-                    return Padding(
-                      padding: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height * 0.03),
-                      child: InkWell(
-                        onTap: () async {
-                          String email = 'yukatanguyen545@gmail.com';
-                          String password = 'Candidate123';
-                          final loginState = await snapshot.data;
+                // StreamBuilder(
+                //   stream: _loginBloc.loginStream,
+                //   builder: (context, snapshot) {
+                //     return ;
+                //   },
+                // ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.03),
+                  child: InkWell(
+                    onTap: () async {
+                      String email = 'yukatanguyen545@gmail.com';
+                      String password = 'Candidate123';
+                      final bool loginStatus = await _loginViewModel.login(email, password);
 
+                     print('view: $loginStatus');
 
-                          // await _loginViewModel.login(email, password);
-                          //
-                          // print(loginStatusState.onLoginState);
-                          // await _loginBloc.addEvent(LoginEvent(email, password));
-
-
-                          // if (loginState is SuccessLoginState) {
-                          //   // Navigator.pushReplacement(
-                          //   //     context,
-                          //   //     MaterialPageRoute(
-                          //   //       builder: (context) => NavigationHomePage(),
-                          //   //     ));
-                          //
-                          //   print('welcome: ${loginState.onLoginState}');
-                          // } else if (loginState is ErrorLoginState) {
-                          //   print('Error: ${loginState.errorMessage}');
-                          // }
-
-                          _loginViewModel.login(email, password);
-                        },
-                        child: PrimaryButton(
-                            buttonText: AppLocalizations.of(context)!.logIn),
-                      ),
-                    );
-                  },
+                      if (loginStatus) {
+                        showTopSnackBar(
+                            Overlay.of(context),
+                            const CustomSnackBar.success(
+                                message: 'Login success'));
+                        indexScreen = 0;
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => NavigationHomePage(),
+                            ));
+                      } else {
+                        showTopSnackBar(
+                            Overlay.of(context),
+                            const CustomSnackBar.error(
+                                message: 'Error'));
+                      }
+                    },
+                    child: PrimaryButton(
+                        buttonText: AppLocalizations.of(context)!.logIn),
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(
