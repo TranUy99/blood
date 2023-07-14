@@ -10,24 +10,28 @@ class SignUpBloc {
   final BehaviorSubject<SignUpState> _signUpStateSubject = BehaviorSubject<SignUpState>();
 
   Stream<SignUpState> get signUpStateStream => _signUpStateSubject.stream;
+  bool isSignUpButtonPressed = false;
 
   Future<void> addEvent(SignUpEvent event) async {
-    final email = event.email;
-    final password = event.password;
-    final fullName = event.fullName;
+    if (event is SignUpButtonPressedEvent) {
+      isSignUpButtonPressed = true;
+      final email = event.email;
+      final password = event.password;
+      final fullName = event.fullName;
 
-    try {
-      final signUpResult = await SignUpService.signUpService(email, password, fullName);
+      try {
+        final signUpResult = await SignUpService.signUpService(email, password, fullName);
 
-      if (signUpResult.message == null) {
-        _signUpStateSubject.sink.add(SuccessSignUpState(true));
-        log("success");
-      } else {
-        _signUpStateSubject.sink.add(ErrorSignUpState("error"));
-        log("failure");
+        if (signUpResult.message == null) {
+          _signUpStateSubject.sink.add(SuccessSignUpState(true));
+          log("success");
+        } else {
+          _signUpStateSubject.sink.add(ErrorSignUpState("error"));
+          log("failure");
+        }
+      } catch (e) {
+        _signUpStateSubject.add(ErrorSignUpState("error"));
       }
-    } catch (e) {
-      _signUpStateSubject.add(ErrorSignUpState("error"));
     }
   }
 
@@ -35,4 +39,3 @@ class SignUpBloc {
     _signUpStateSubject.close();
   }
 }
-

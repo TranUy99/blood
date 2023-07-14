@@ -9,8 +9,6 @@ import 'package:mobile_store/src/features/sign_up/bloc_state/sign_up_bloc.dart';
 import 'package:mobile_store/src/features/sign_up/bloc_state/sign_up_state.dart';
 import 'package:mobile_store/src/features/sign_up/widget/sign_up_form.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../constant/utils/validate.dart';
 import '../view_model/sign_up_view_model.dart';
@@ -55,24 +53,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _signUpStateSubject.close();
     super.dispose();
   }
-
-  void _signUp() {
-    String email = textEmailController.text;
-    String password = textPasswordController.text;
-    String fullName = textNameController.text;
-    _signUpViewModel.signUp(email, password, fullName);
-    // Thực hiện quá trình đăng ký và cập nhật trạng thái
-    // _signUpBloc.signUpStateStream.listen((state) {
-    //   // Xử lý các trạng thái từ signUpStateStream
-    //   if (state is SignUpSuccessState) {
-    //     print("object");
-    //   } else if (state is SignUpFailureState) {
-    //     print("message");
-    //     showTopSnackBar(Overlay.of(context), const CustomSnackBar.error(message: 'Wrong information'));
-    //   }
-    // });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -154,42 +134,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
                   child: CheckBoxSignIn(text: AppLocalizations.of(context)!.agreeToTermAndConditions, isCheck: isCheckCheckbox()),
                 ),
-                // GestureDetector(
-                //   onTap: () {
-                //     _signUp();
-                //   },
-                //   child: Padding(
-                //     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
-                //     child: PrimaryButton(
-                //       buttonText: AppLocalizations.of(context)!.signUp,
-                //     ),
-                //   ),
-                // ),
-                StreamBuilder(
-                  stream: _signUpBloc.signUpStateStream,
+                StreamBuilder<SignUpState>(
+                  stream: _signUpViewModel.signUpStateStream,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      log("Da");
                       if (snapshot.data is SuccessSignUpState) {
                         // Xử lý trạng thái thành công
-                        print('Welcome');
+                        log("success");
                       } else if (snapshot.data is ErrorSignUpState) {
                         // Xử lý trạng thái thất bại
-                        print('Error');
+                        log("Wrong information");
                       }
                     }
-
-                    return Padding(
-                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
-                      child: InkWell(
-                        onTap: () {
-                          String email = textEmailController.text;
-                          String password = textPasswordController.text;
-                          String fullName = textNameController.text;
-                          _signUpViewModel.signUp(email, password, fullName);
-                        },
-                        child: PrimaryButton(buttonText: AppLocalizations.of(context)!.signUp),
-                      ),
+                    return InkWell(
+                      onTap: () {
+                        String email = textEmailController.text;
+                        String password = textPasswordController.text;
+                        String fullName = textNameController.text;
+                        _signUpViewModel.signUp(email, password, fullName);
+                      },
+                      child: PrimaryButton(buttonText: AppLocalizations.of(context)!.signUp),
                     );
                   },
                 ),
