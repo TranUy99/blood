@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
@@ -27,6 +29,7 @@ class _LogInScreenState extends State<LogInScreen> {
 
   late final LoginBloc _loginBloc;
   late final LoginViewModel _loginViewModel;
+  final RxLoginBloc _rxLoginBloc = RxLoginBloc();
   bool obscure = true;
   bool isCheck = false;
 
@@ -105,26 +108,28 @@ class _LogInScreenState extends State<LogInScreen> {
                         onTap: () async {
                           String email = 'yukatanguyen545@gmail.com';
                           String password = 'Candidate123';
+                          final loginState = await snapshot.data;
 
-                          // _loginViewModel.login(email, password);
+
+                          // await _loginViewModel.login(email, password);
                           //
                           // print(loginStatusState.onLoginState);
-                          await _loginBloc.addEvent(LoginEvent(email, password));
+                          // await _loginBloc.addEvent(LoginEvent(email, password));
 
-                          final loginState = snapshot.data;
-                          if (loginState is SuccessLoginState) {
-                            // Navigator.pushReplacement(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //       builder: (context) => NavigationHomePage(),
-                            //     ));
-                            print('welcome');
-                          } else if (loginState is ErrorLoginState) {
-                            print('Error: ${loginState.errorMessage}');
-                          }
-                          setState(() {
 
-                          });
+                          // if (loginState is SuccessLoginState) {
+                          //   // Navigator.pushReplacement(
+                          //   //     context,
+                          //   //     MaterialPageRoute(
+                          //   //       builder: (context) => NavigationHomePage(),
+                          //   //     ));
+                          //
+                          //   print('welcome: ${loginState.onLoginState}');
+                          // } else if (loginState is ErrorLoginState) {
+                          //   print('Error: ${loginState.errorMessage}');
+                          // }
+
+                          _loginViewModel.login(email, password);
                         },
                         child: PrimaryButton(
                             buttonText: AppLocalizations.of(context)!.logIn),
