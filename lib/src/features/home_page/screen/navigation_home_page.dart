@@ -44,25 +44,12 @@ class _NavigationHomePageState extends State<NavigationHomePage> {
         ));
   }
 
-  _loadData() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    email = preferences.getString('email');
-    token = preferences.getString('token');
-    id = preferences.getInt('id');
-  }
+
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _loadData();
-    print('Navigation Home Page: email - id - token: $email - $id - $token');
-    if(token != null){
-      successLoginState.onLoginState = true;
-    }else{
-      successLoginState.onLoginState = false;
-    }
-    print('Navigation Home Page: login status ${successLoginState.onLoginState}');
   }
 
   @override
@@ -71,7 +58,6 @@ class _NavigationHomePageState extends State<NavigationHomePage> {
       body: successLoginState.onLoginState
           ? navigationLoginScreen()[indexScreen]
           : navigationLogoutScreen()[indexScreen],
-      // body: navigationLogoutScreen()[indexScreen],
       bottomNavigationBar: NavigationBar(
         height: MediaQuery.of(context).size.height * 0.07,
         onDestinationSelected: (value) => setState(() {

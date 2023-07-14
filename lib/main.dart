@@ -3,11 +3,30 @@ import 'package:mobile_store/languages/language_contanst.dart';
 import 'package:mobile_store/src/features/home_page/screen/navigation_home_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
+import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await _autoLogin();
   runApp(const MyApp());
 }
+
+_autoLogin() async {
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  String? _email = preferences.getString('email');
+  int? _id = preferences.getInt('id');
+  String? _token = preferences.getString('token');
+  String? _password = preferences.getString('password');
+  print('$_email - $_id - $_password - $_token');
+  if(_password != null){
+    successLoginState.onLoginState = true;
+  }else{
+    successLoginState.onLoginState = false;
+  }
+}
+
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
