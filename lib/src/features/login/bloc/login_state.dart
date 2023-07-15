@@ -3,7 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class LoginState {}
 
 class InitialState extends LoginState {
-  // Trạng thái khởi tạo
 }
 
 class SuccessLoginState extends LoginState {
@@ -25,14 +24,3 @@ class ErrorLoginState extends LoginState {
   ErrorLoginState(this.errorMessage);
 }
 
-class LoginStatusState extends LoginState {
-  bool onLoginState = false;
-  LoginStatusState(this.onLoginState);
-
-  // Trạng thái đăng nhập thành công
-  void saveLoginState(String? email, String? password) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString('email', email!);
-    preferences.setString('password', password!);
-  }
-}

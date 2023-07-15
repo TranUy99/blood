@@ -18,16 +18,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.15),
-        child: AppBar(
-            backgroundColor: kSecondaryColor,
-            leading: Image(
-              image: const AssetImage('assets/images/banner0.jpg'),
-              height: MediaQuery.of(context).size.height * 0.06,
-            ),
-            flexibleSpace: const CustomAppBar()),
-      ),
+      appBar: appBarWidget(context, false),
       body: SingleChildScrollView(
         child: Column(children: [
           const CarouselSliderBanner(),

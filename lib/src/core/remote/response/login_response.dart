@@ -7,6 +7,7 @@ part 'login_response.g.dart';
 class LoginResponse {
   @JsonKey(name: 'token')
   final String? token;
+
   @JsonKey(name: 'idUser')
   final int? idUser;
 
@@ -16,8 +17,8 @@ class LoginResponse {
   @JsonKey(name: 'message')
   final String? message;
 
-  @JsonKey(name: 'email')
-  final String? email;
+  @JsonKey(name: 'emailOrPhoneNumber')
+  final String? emailOrPhoneNumber;
 
   @JsonKey(name: 'role')
   final String? role;
@@ -27,7 +28,7 @@ class LoginResponse {
     this.message,
     this.token,
     this.type,
-    this.email,
+    this.emailOrPhoneNumber,
     this.idUser,
   });
 

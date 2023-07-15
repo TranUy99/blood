@@ -25,17 +25,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize:
-            Size.fromHeight(MediaQuery.of(context).size.height * 0.15),
-        child: AppBar(
-            backgroundColor: kSecondaryColor,
-            leading: Image(
-              image: const AssetImage('images/banner0.jpg'),
-              height: MediaQuery.of(context).size.height * 0.06,
-            ),
-            flexibleSpace: const CustomAppBar()),
-      ),
+      appBar: appBarWidget(context, false),
       body: Stack(
         children: [
           Container(
