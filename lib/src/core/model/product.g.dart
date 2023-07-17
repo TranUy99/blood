@@ -9,30 +9,31 @@ part of 'product.dart';
 ProductDTO _$ProductDTOFromJson(Map<String, dynamic> json) => ProductDTO(
       id: json['id'] as int?,
       name: json['name'] as String?,
-      price: json['price'] as int?,
-      imageDTOs: json['imageDTOs'] == null
-          ? null
-          : ImageDTOs.fromJson(json['imageDTOs'] as Map<String, dynamic>),
+      price: (json['price'] as num?)?.toDouble(),
+      imageDTOs: (json['imageDTOs'] as List<dynamic>?)
+          ?.map((e) => ImageDTOs.fromJson(e as Map<String, dynamic>))
+          .toList(),
       categoriesDTO: json['categoriesDTO'] == null
           ? null
           : CategoriesDTO.fromJson(
               json['categoriesDTO'] as Map<String, dynamic>),
-      colorDTOs: json['colorDTOs'] == null
-          ? null
-          : ColorDTOs.fromJson(json['colorDTOs'] as Map<String, dynamic>),
+      colorDTOs: (json['colorDTOs'] as List<dynamic>?)
+          ?.map((e) => ColorDTOs.fromJson(e as Map<String, dynamic>))
+          .toList(),
       description: json['description'] as String?,
       manufacturerDTO: json['manufacturerDTO'] == null
           ? null
           : ManufacturerDTO.fromJson(
               json['manufacturerDTO'] as Map<String, dynamic>),
-      productTechDTOs: json['productTechDTOs'] == null
-          ? null
-          : ProductTechDTOs.fromJson(
-              json['productTechDTOs'] as Map<String, dynamic>),
-      reviewDTOs: json['reviewDTOs'] as String?,
-      seriDTOs: json['seriDTOs'] == null
-          ? null
-          : SeriDTOs.fromJson(json['seriDTOs'] as Map<String, dynamic>),
+      productTechDTOs: (json['productTechDTOs'] as List<dynamic>?)
+          ?.map((e) => ProductTechDTOs.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      memoryDTOs: (json['memoryDTOs'] as List<dynamic>?)
+          ?.map((e) => MemoryDTOs.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      seriDTOs: (json['seriDTOs'] as List<dynamic>?)
+          ?.map((e) => SeriDTOs.fromJson(e as Map<String, dynamic>))
+          .toList(),
       status: json['status'] as bool?,
       stocks: json['stocks'] as int?,
       views: json['views'] as int?,
@@ -52,6 +53,6 @@ Map<String, dynamic> _$ProductDTOToJson(ProductDTO instance) =>
       'productTechDTOs': instance.productTechDTOs,
       'seriDTOs': instance.seriDTOs,
       'colorDTOs': instance.colorDTOs,
-      'reviewDTOs': instance.reviewDTOs,
+      'memoryDTOs': instance.memoryDTOs,
       'imageDTOs': instance.imageDTOs,
     };

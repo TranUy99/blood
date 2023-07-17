@@ -136,7 +136,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     String password = textPasswordController.text;
                     String fullName = textNameController.text;
 
-                    if (email.isEmpty || password.isEmpty || fullName.isEmpty||textConfirmPasswordController.text.isEmpty) {
+                    if (email.isEmpty || password.isEmpty || fullName.isEmpty || textConfirmPasswordController.text.isEmpty) {
                       showTopSnackBar(
                         Overlay.of(context),
                         const CustomSnackBar.error(

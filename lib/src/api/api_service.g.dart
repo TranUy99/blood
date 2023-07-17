@@ -13,7 +13,7 @@ class _ApiService implements ApiService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.1.36:8086';
+    baseUrl ??= 'http://192.168.1.36:8085';
   }
 
   final Dio _dio;
@@ -88,6 +88,31 @@ class _ApiService implements ApiService {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = SignUpResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<List<ProductDTO>> getProductNew() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<List<dynamic>>(_setStreamType<List<ProductDTO>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/product',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    var value = _result.data!
+        .map((dynamic i) => ProductDTO.fromJson(i as Map<String, dynamic>))
+        .toList();
     return value;
   }
 

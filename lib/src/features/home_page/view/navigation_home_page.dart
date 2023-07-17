@@ -10,16 +10,16 @@ import '../../login/bloc/login_bloc.dart';
 import '../../login/view/login.dart';
 import '../../login/view/not_login.dart';
 
-
 class NavigationHomePage extends StatefulWidget {
   const NavigationHomePage({Key? key}) : super(key: key);
 
   @override
   State<NavigationHomePage> createState() => _NavigationHomePageState();
 }
-int indexScreen = 0;
-class _NavigationHomePageState extends State<NavigationHomePage> {
 
+int indexScreen = 0;
+
+class _NavigationHomePageState extends State<NavigationHomePage> {
   final LoginBloc loginBloc = LoginBloc();
   final RxLoginBloc rxLoginBloc = RxLoginBloc();
   String? email;
@@ -32,19 +32,17 @@ class _NavigationHomePageState extends State<NavigationHomePage> {
     return appScreens = [const HomePage(), const CartPage(), const ProfilePage()];
   }
 
-  List navigationLogoutScreen(){
+  List navigationLogoutScreen() {
     return appScreens = [const HomePage(), const NotLogin(), const NotLogin()];
   }
 
-  navi(){
+  navi() {
     Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => const LogInScreen(),
         ));
   }
-
-
 
   @override
   void initState() {
@@ -55,9 +53,7 @@ class _NavigationHomePageState extends State<NavigationHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: successLoginState.onLoginState
-          ? navigationLoginScreen()[indexScreen]
-          : navigationLogoutScreen()[indexScreen],
+      body: successLoginState.onLoginState ? navigationLoginScreen()[indexScreen] : navigationLogoutScreen()[indexScreen],
       bottomNavigationBar: NavigationBar(
         height: MediaQuery.of(context).size.height * 0.07,
         onDestinationSelected: (value) => setState(() {
@@ -70,18 +66,15 @@ class _NavigationHomePageState extends State<NavigationHomePage> {
           NavigationDestination(
               icon: Icon(Icons.home_outlined, size: 35),
               label: 'Home',
-              selectedIcon: Icon(Icons.home, size: 35,color: kGreyColor,)),
-          NavigationDestination(
-              icon: Icon(Icons.shopping_cart_outlined, size: 35),
-              label: 'Cart',
-              selectedIcon: Icon(Icons.shopping_cart, size: 35,color: kGreyColor)),
-          NavigationDestination(
-              icon: Icon(Icons.account_circle_outlined, size: 35),
-              label: 'Me',
-              selectedIcon: Icon(Icons.account_circle, size: 35,color: kGreyColor))
+              selectedIcon: Icon(
+                Icons.home,
+                size: 35,
+                color: kGreyColor,
+              )),
+          NavigationDestination(icon: Icon(Icons.shopping_cart_outlined, size: 35), label: 'Cart', selectedIcon: Icon(Icons.shopping_cart, size: 35, color: kGreyColor)),
+          NavigationDestination(icon: Icon(Icons.account_circle_outlined, size: 35), label: 'Me', selectedIcon: Icon(Icons.account_circle, size: 35, color: kGreyColor))
         ],
       ),
     );
   }
 }
-

@@ -1,39 +1,35 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:mobile_store/src/core/model/product.dart';
+import 'package:mobile_store/src/features/home_page/bloc/product_event.dart';
+import 'package:mobile_store/src/features/home_page/bloc/product_state.dart';
+import 'package:mobile_store/src/features/home_page/service/product_service.dart';
+import 'package:rxdart/rxdart.dart';
 
 class ProductBloc {
-  final _productListController = StreamController<List<ProductDTO>>();
-  Stream<List<ProductDTO>> get productListStream => _productListController.stream;
+  final BehaviorSubject<ProductState> _productStateSubject = BehaviorSubject<ProductState>();
 
-  void fetchProducts() {
-    final List<ProductDTO> products = [
-      ProductDTO(
-        id: 1,
-        name: 'IPhone 14 Pro Max',
-        price: 1099,
-      
-      ),
-      ProductDTO(
-        id: 2,
-        name: 'IPhone 14 Pro ',
-        price: 1000,
-       
-      ),
-      ProductDTO(
-        id: 3,
-        name: 'IPhone 14 Pro1',
-        price: 2000 ,
-      
-      )
-    ];
-    _productListController.add(products);
-  }
+  Stream<ProductState> get productListStream => _productStateSubject.stream;
 
-  void dispose() {
-    _productListController.close();
+//Get product and add state
+  Future<void> fetchProducts(FetchProductEvent event) async {
+  _productStateSubject.sink.add(ProductLoadingState());
+
+  try {
+    final List<ProductDTO> products = await ProductService.getProductService();
+
+    if (products.isNotEmpty) {
+      _productStateSubject.sink.add(ProductLoadedState(products));
+      
+    } else {
+      _productStateSubject.sink.add(ProductErrorState("No products available"));
+    }
+  } catch (e) {
+    _productStateSubject.sink.add(ProductErrorState("Error fetching products"));
   }
 }
 
 
-
+  void dispose() {}
+}

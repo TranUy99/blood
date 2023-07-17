@@ -3,6 +3,7 @@ import 'package:mobile_store/src/core/model/categories_dto.dart';
 import 'package:mobile_store/src/core/model/color_dtos.dart';
 import 'package:mobile_store/src/core/model/image_dtos.dart';
 import 'package:mobile_store/src/core/model/manufacturer_dto.dart';
+import 'package:mobile_store/src/core/model/memory_dtos.dart';
 import 'package:mobile_store/src/core/model/product_tech_dtos.dart';
 import 'package:mobile_store/src/core/model/seri_dtos.dart';
 
@@ -26,7 +27,7 @@ class ProductDTO {
   final String? description;
 
   @JsonKey(name: 'price')
-  final int? price;
+  final double? price;
 
   @JsonKey(name: 'stocks')
   final int? stocks;
@@ -38,19 +39,19 @@ class ProductDTO {
   final int? views;
 
   @JsonKey(name: 'productTechDTOs')
-  final ProductTechDTOs? productTechDTOs;
+  final List<ProductTechDTOs>? productTechDTOs;
 
   @JsonKey(name: 'seriDTOs')
-  final SeriDTOs? seriDTOs;
+  final List<SeriDTOs>? seriDTOs;
 
   @JsonKey(name: 'colorDTOs')
-  final ColorDTOs? colorDTOs;
+  final List<ColorDTOs>? colorDTOs;
 
-  @JsonKey(name: 'reviewDTOs')
-  final String? reviewDTOs;
+  @JsonKey(name: 'memoryDTOs')
+  final List<MemoryDTOs>? memoryDTOs;
 
   @JsonKey(name: 'imageDTOs')
-  final ImageDTOs? imageDTOs;
+  final List<ImageDTOs>? imageDTOs;
 
   ProductDTO(
       {this.id,
@@ -62,7 +63,7 @@ class ProductDTO {
       this.description,
       this.manufacturerDTO,
       this.productTechDTOs,
-      this.reviewDTOs,
+      this.memoryDTOs,
       this.seriDTOs,
       this.status,
       this.stocks,

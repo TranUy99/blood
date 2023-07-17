@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/core/model/user.dart';
@@ -12,7 +14,7 @@ import '../core/remote/response/sign_up_response.dart';
 
 part 'api_service.g.dart';
 
- @RestApi(baseUrl: 'http://192.168.1.36:8086')
+ @RestApi(baseUrl: 'http://192.168.1.36:8085')
  // @RestApi(baseUrl: 'http://45.117.170.206:8085')
 
 abstract class ApiService {
@@ -39,5 +41,6 @@ abstract class ApiService {
   
   @GET('/api/product')
   Future<List<ProductDTO>> getProductNew();
+  
 }
 
