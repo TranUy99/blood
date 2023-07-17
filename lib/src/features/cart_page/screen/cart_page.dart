@@ -3,7 +3,7 @@ import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
 import '../../checkout/screen/checkout_screen.dart';
 import '../../checkout/widget/address.dart';
-import '../../home_page/screen/navigation_home_page.dart';
+import '../../home_page/view/navigation_home_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CartPage extends StatefulWidget {

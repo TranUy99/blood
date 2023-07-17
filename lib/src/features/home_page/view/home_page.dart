@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/home_page/bloc/product_bloc.dart';
-import 'package:mobile_store/src/features/home_page/screen/product_screen.dart';
+import 'package:mobile_store/src/features/home_page/view/product_screen.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
 import 'carousel_slider.dart';
 

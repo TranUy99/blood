@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/cart_page/screen/cart_page.dart';
-import 'package:mobile_store/src/features/home_page/screen/home_page.dart';
+import 'package:mobile_store/src/features/home_page/view/home_page.dart';
 import 'package:mobile_store/src/features/login/bloc/login_state.dart';
 import 'package:mobile_store/src/features/profile/screen/profile_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';

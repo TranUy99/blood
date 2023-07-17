@@ -4,7 +4,7 @@ import 'package:mobile_store/src/features/sign_up/bloc_state/sign_up_state.dart'
 
 class SignUpViewModel {
   final SignUpBloc _signUpBloc = SignUpBloc();
-  Stream<SignUpState> get signUpStateStream => _signUpBloc.signUpStateStream;
+  // Stream<SignUpState> get signUpStateStream => _signUpBloc.signUpStateStream;
 
   Future<bool> signUp(String email, String password, String fullName) async {
     final signUpEvent = SignUpButtonPressedEvent(email: email, password: password, fullName: fullName);

@@ -110,7 +110,7 @@ class _AnotherProductState extends State<AnotherProduct> {
                             SizedBox(
                               height: MediaQuery.of(context).size.height * 0.25,
                               child: Image(
-                                image: AssetImage(product.image!),
+                                image: AssetImage(product.imageDTOs!.name!),
                                 height: 20,
                               ),
                             ),

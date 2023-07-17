@@ -1,7 +1,5 @@
-
-
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/features/category/screen/category_screen.dart';
+import 'package:mobile_store/src/features/category/view/category_screen.dart';
 
 class MenuButton extends StatefulWidget {
   const MenuButton({super.key});
