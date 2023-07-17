@@ -23,7 +23,7 @@ class LoginBloc{
     String? mess;
     String? token;
     int? id;
-    log("bloc $email");
+  
     final loginResult = LoginService.loginService(email, password);
     try{
       await loginResult.then((value) {

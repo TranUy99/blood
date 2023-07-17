@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:mobile_store/src/features/sign_up/bloc_state/sign_up_event.dart';
 import 'package:mobile_store/src/features/sign_up/bloc_state/sign_up_state.dart';
-import 'package:mobile_store/src/features/sign_up/service/servie.dart';
+import 'package:mobile_store/src/features/sign_up/service/sign_up_servie.dart';
 import 'package:rxdart/rxdart.dart';
 
 class SignUpBloc {

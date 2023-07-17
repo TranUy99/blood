@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart' as dio;
 import 'package:mobile_store/src/core/model/product.dart';
 import '../../../api/api_service.dart';
