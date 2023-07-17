@@ -10,7 +10,7 @@ import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../component/primary_button.dart';
-import '../../register/view/sign_up.dart';
+import '../../sign_up/view/sign_up.dart';
 import '../bloc/login_bloc.dart';
 import 'login_option.dart';
 
@@ -199,7 +199,7 @@ class _LogInScreenState extends State<LogInScreen> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUpScreen()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) =>  SignUpScreen()));
                             },
                             child: Text(
                               AppLocalizations.of(context)!.signUp,
