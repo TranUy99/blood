@@ -7,6 +7,7 @@ class ProductInitialState extends ProductState {}
 class ProductLoadingState extends ProductState {}
 
 class ProductLoadedState extends ProductState {
+  
   final List<ProductDTO> products;
   ProductLoadedState(this.products);
 }

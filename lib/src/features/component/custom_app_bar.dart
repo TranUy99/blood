@@ -3,7 +3,7 @@ import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constant/color/color.dart';
-import '../home_page/screen/navigation_home_page.dart';
+import '../home_page/view/navigation_home_page.dart';
 import '../home_page/widget/menu_button.dart';
 import '../search/view/search.dart';
 
@@ -53,16 +53,20 @@ class CustomAppBar extends StatelessWidget {
                   preferences.remove('password');
                   successLoginState.onLoginState = false;
                   indexScreen = 0;
-                  Navigator.pushReplacement(
+                   // ignore: use_build_context_synchronously
+                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              NavigationHomePage()));
-                }, child: const Text('Log out'))
+                              const NavigationHomePage()));
+                }, child: const Text('Log out', style:  TextStyle(
+                        color: kRedColor,
+                        fontSize: 15,
+                      ),))
               ],
             ),
           )
-              : SizedBox.shrink(),
+              : const SizedBox.shrink(),
         ],
       ),
     );

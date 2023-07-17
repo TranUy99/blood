@@ -1,16 +1,14 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/login/view/login_option.dart';
 import 'package:mobile_store/src/features/component/primary_button.dart';
 import 'package:mobile_store/src/features/sign_up/bloc_state/sign_up_bloc.dart';
-import 'package:mobile_store/src/features/sign_up/bloc_state/sign_up_state.dart';
 import 'package:mobile_store/src/features/sign_up/widget/sign_up_form.dart';
-import 'package:rxdart/rxdart.dart';
-
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../constant/utils/validate.dart';
+import '../../login/view/login.dart';
 import '../view_model/sign_up_view_model.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -33,26 +31,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool error = false;
   String errorText = '';
 
-  final PublishSubject<SignUpState> _signUpStateSubject = PublishSubject<SignUpState>();
-  late Stream<SignUpState> _signUpStateStream;
-
   @override
   void initState() {
     super.initState();
-    _signUpStateStream = _signUpStateSubject.stream;
     _signUpBloc = SignUpBloc();
     _signUpViewModel = SignUpViewModel();
-    _signUpStateStream = _signUpBloc.signUpStateStream;
   }
 
   @override
   void dispose() {
     super.dispose();
+    textPhoneController.dispose();
+    textEmailController.dispose();
+    textNameController.dispose();
     textPasswordController.dispose();
     textConfirmPasswordController.dispose();
-    _signUpStateSubject.close();
-    super.dispose();
+    _signUpBloc.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,28 +130,53 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
                   child: CheckBoxSignIn(text: AppLocalizations.of(context)!.agreeToTermAndConditions, isCheck: isCheckCheckbox()),
                 ),
-                StreamBuilder<SignUpState>(
-                  stream: _signUpViewModel.signUpStateStream,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      if (snapshot.data is SuccessSignUpState) {
-                        // Xử lý trạng thái thành công
-                        log("success");
-                      } else if (snapshot.data is ErrorSignUpState) {
-                        // Xử lý trạng thái thất bại
-                        log("Wrong information");
-                      }
+                InkWell(
+                  onTap: () async {
+                    String email = textEmailController.text;
+                    String password = textPasswordController.text;
+                    String fullName = textNameController.text;
+
+                    if (email.isEmpty || password.isEmpty || fullName.isEmpty||textConfirmPasswordController.text.isEmpty) {
+                      showTopSnackBar(
+                        Overlay.of(context),
+                        const CustomSnackBar.error(
+                          message: 'Please fill in all fields',
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                      return;
                     }
-                    return InkWell(
-                      onTap: () {
-                        String email = textEmailController.text;
-                        String password = textPasswordController.text;
-                        String fullName = textNameController.text;
-                        _signUpViewModel.signUp(email, password, fullName);
-                      },
-                      child: PrimaryButton(buttonText: AppLocalizations.of(context)!.signUp),
-                    );
+
+                    final bool signUpStatus = await _signUpViewModel.signUp(email, password, fullName);
+
+                    if (signUpStatus) {
+                      showTopSnackBar(
+                        Overlay.of(context),
+                        const CustomSnackBar.error(
+                          message: 'Wrong information',
+                          backgroundColor: Colors.green,
+                        ),
+                      );
+                      // ignore: use_build_context_synchronously
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LogInScreen(),
+                        ),
+                      );
+                    } else {
+                      showTopSnackBar(
+                        Overlay.of(context),
+                        CustomSnackBar.error(
+                          message: 'Email already exists',
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
                   },
+                  child: PrimaryButton(
+                    buttonText: AppLocalizations.of(context)!.signUp,
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(
