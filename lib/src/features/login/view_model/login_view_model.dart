@@ -4,18 +4,13 @@ import 'package:mobile_store/src/features/login/bloc/login_event.dart';
 import '../bloc/login_state.dart';
 
 class LoginViewModel {
-  final _loginBloc = LoginBloc();
-  RxLoginBloc _rxLoginBloc = RxLoginBloc();
+  final LoginBloc _loginBloc = LoginBloc();
 
   Future <bool> login(String email, String password) async {
-    // final loginEvent = LoginEvent(email, password);
-    // // print("view model ${email}");
-    // _loginBloc.addEvent(loginEvent);
-    // await _loginBloc.addEvent(LoginEvent(email, password));
-    await _rxLoginBloc.handleEvent(LoginEvent(email, password));
+    await _loginBloc.handleEvent(LoginEvent(email, password));
     bool isLogin = false;
 
-    await _rxLoginBloc.state.listen((state) {
+    await _loginBloc.state.listen((state) {
       if (state is SuccessLoginState) {
         print('Login viewmodel: ${state.onLoginState}');
         isLogin = true;
@@ -29,6 +24,6 @@ class LoginViewModel {
   }
 
   void dispose() {
-    _rxLoginBloc.dispose();
+    _loginBloc.dispose();
   }
 }

@@ -9,11 +9,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await _autoLogin();
+  await _saveLogin();
   runApp(const MyApp());
 }
 
-_autoLogin() async {
+_saveLogin() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   String? _email = preferences.getString('email');
   int? _id = preferences.getInt('id');

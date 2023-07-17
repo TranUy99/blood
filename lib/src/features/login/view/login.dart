@@ -25,16 +25,18 @@ class _LogInScreenState extends State<LogInScreen> {
   TextEditingController textEmailController = TextEditingController();
   TextEditingController textPasswordController = TextEditingController();
 
-  late final LoginBloc _loginBloc;
+  final LoginBloc _loginBloc = LoginBloc();
   late final LoginViewModel _loginViewModel;
-  final RxLoginBloc _rxLoginBloc = RxLoginBloc();
   bool obscure = true;
   bool isCheck = false;
+
+  navigation(){
+
+  }
 
   @override
   void initState() {
     super.initState();
-    _loginBloc = LoginBloc();
     _loginViewModel = LoginViewModel();
   }
 
@@ -95,13 +97,6 @@ class _LogInScreenState extends State<LogInScreen> {
                     ],
                   ),
                 ),
-
-                // StreamBuilder(
-                //   stream: _loginBloc.loginStream,
-                //   builder: (context, snapshot) {
-                //     return ;
-                //   },
-                // ),
                 Padding(
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.03),
@@ -119,10 +114,11 @@ class _LogInScreenState extends State<LogInScreen> {
                             const CustomSnackBar.success(
                                 message: 'Login success'));
                         indexScreen = 0;
+                        navigation();
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => NavigationHomePage(),
+                              builder: (context) => const NavigationHomePage(),
                             ));
                       } else {
                         showTopSnackBar(

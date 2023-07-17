@@ -11,7 +11,7 @@ import '../core/remote/response/sign_up_response.dart';
 
 part 'api_service.g.dart';
 
- @RestApi(baseUrl: 'http://192.168.1.34:8086')
+ @RestApi(baseUrl: 'http://192.168.1.34:8085')
  // @RestApi(baseUrl: 'http://45.117.170.206:8085')
 
 abstract class ApiService {
@@ -27,13 +27,14 @@ abstract class ApiService {
     return _ApiService(dio);
   }
 
-  @GET('/api/user/{username}')
-  Future<UserDTO> getUser(@Path('username') String username);
+  @GET('/api/user/{id}')
+  Future<UserDTO> getUser(
+      {@Header("Authorization") required String auth, @Path('id') required int id});
 
   @POST('/api/login')
   Future<LoginResponse> login(@Body() LoginRequest login);
 
   @POST('/api/user/')
-  Future<SignUpResponse> register(@Body()  SignUpRequest register);
+  Future<SignUpResponse> register(@Body() SignUpRequest register);
 }
 

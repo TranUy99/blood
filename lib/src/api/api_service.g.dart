@@ -13,7 +13,7 @@ class _ApiService implements ApiService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.1.34:8086';
+    baseUrl ??= 'http://192.168.1.34:8085';
   }
 
   final Dio _dio;
@@ -21,10 +21,14 @@ class _ApiService implements ApiService {
   String? baseUrl;
 
   @override
-  Future<UserDTO> getUser(String username) async {
+  Future<UserDTO> getUser({
+    required String auth,
+    required int id,
+  }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': auth};
+    _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<Map<String, dynamic>>(_setStreamType<UserDTO>(Options(
@@ -34,7 +38,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/user/${username}',
+              '/api/user/${id}',
               queryParameters: queryParameters,
               data: _data,
             )

@@ -9,48 +9,9 @@ import 'login_state.dart';
 
 SuccessLoginState successLoginState = SuccessLoginState(false);
 
-class LoginBloc{
-  // final _loginStateController = StreamController<LoginState>.broadcast();
-  //
-  // Stream<LoginState> get loginStream => _loginStateController.stream;
+String? nameUser;
 
-  final StreamController<LoginState> _loginStreamController = StreamController<LoginState>();
-  Stream<LoginState> get loginStream => _loginStreamController.stream;
-
-  Future<void> addEvent(LoginEvent event) async {
-    final email = event.email;
-    final password = event.password;
-    String? mess;
-    String? token;
-    int? id;
-    log("bloc $email");
-    final loginResult = LoginService.loginService(email, password);
-    try{
-      await loginResult.then((value) {
-        mess = value.message;
-        token = value.token;
-        id = value.idUser;
-        // print(value.message);
-      });
-    }catch(e){
-      mess = 'failed to get data';
-    }
-    print( 'message in bloc: $mess');
-
-    if(mess == null){
-      // _loginStreamController.add(SuccessLoginState(true));
-      // SuccessLoginState.saveLoginState(email, password, token, id);
-    }else{
-      // _loginStreamController.add(ErrorLoginState(mess!));
-    }
-  }
-
-  void dispose() {
-    _loginStreamController.close();
-  }
-}
-
-class RxLoginBloc {
+class LoginBloc {
   final _stateController = BehaviorSubject<LoginState>();
   String? mess;
   int? id;
@@ -84,8 +45,11 @@ class RxLoginBloc {
       _stateController.add(ErrorLoginState(mess!));
       print('bloc fail');
     }
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    print('bloc: ${preferences.getString('token')}');
+
+    final userResult = UserService.userService(id!, token!);
+    await userResult.then((value) {
+      nameUser = value.fullName;
+    });
   }
 
   void dispose() {
