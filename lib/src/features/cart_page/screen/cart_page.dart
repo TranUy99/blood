@@ -25,17 +25,7 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize:
-            Size.fromHeight(MediaQuery.of(context).size.height * 0.15),
-        child: AppBar(
-            backgroundColor: kSecondaryColor,
-            leading: Image(
-              image: const AssetImage('images/banner0.jpg'),
-              height: MediaQuery.of(context).size.height * 0.04,
-            ),
-            flexibleSpace: const CustomAppBar()),
-      ),
+      appBar: appBarWidget(context, false),
       body: SingleChildScrollView(
         child: Column(
           children: [

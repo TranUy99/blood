@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:mobile_store/src/core/model/user.dart';
 import 'package:mobile_store/src/core/remote/request/login_request.dart';
@@ -11,12 +9,10 @@ import 'package:retrofit/retrofit.dart';
 import '../core/remote/request/sign_up_request.dart';
 import '../core/remote/response/sign_up_response.dart';
 
-
-
 part 'api_service.g.dart';
 
- // @RestApi(baseUrl: 'http://192.168.1.35:8085')
- @RestApi(baseUrl: 'http://192.168.1.32:8086')
+ @RestApi(baseUrl: 'http://192.168.1.34:8086')
+ // @RestApi(baseUrl: 'http://45.117.170.206:8085')
 
 abstract class ApiService {
   factory ApiService(Dio dio) {

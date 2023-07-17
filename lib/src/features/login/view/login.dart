@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
-import 'package:mobile_store/src/features/component/checkbox.dart';
 import 'package:mobile_store/src/features/change_password/view/change_password.dart';
+import 'package:mobile_store/src/features/component/checkbox.dart';
 import 'package:mobile_store/src/features/home_page/screen/navigation_home_page.dart';
-import 'package:mobile_store/src/features/login/bloc/login_state.dart';
 import 'package:mobile_store/src/features/login/view_model/login_view_model.dart';
 import 'package:mobile_store/src/features/login/widget/login_form.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-import 'login_option.dart';
 import '../../component/primary_button.dart';
 import '../../sign_up/view/sign_up.dart';
 import '../bloc/login_bloc.dart';
+import 'login_option.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
@@ -28,6 +27,7 @@ class _LogInScreenState extends State<LogInScreen> {
 
   late final LoginBloc _loginBloc;
   late final LoginViewModel _loginViewModel;
+  final RxLoginBloc _rxLoginBloc = RxLoginBloc();
   bool obscure = true;
   bool isCheck = false;
 
@@ -92,37 +92,47 @@ class _LogInScreenState extends State<LogInScreen> {
                           ),
                         ),
                       ),
-                      // )
                     ],
                   ),
                 ),
+
+                // StreamBuilder(
+                //   stream: _loginBloc.loginStream,
+                //   builder: (context, snapshot) {
+                //     return ;
+                //   },
+                // ),
                 Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.03),
                   child: InkWell(
                     onTap: () async {
-                      String email = textEmailController.text;
-                      String password = textPasswordController.text;
+                      String email = 'vanhau27062001@gmail.com';
+                      String password = '1234567Hau';
+                      final bool loginStatus = await _loginViewModel.login(email, password);
 
-                      _loginViewModel.login(email, password);
+                     print('view: $loginStatus');
 
-                      _loginBloc.loginStateStream.listen((state) {
-                        if (state is LoginSuccessState) {
-                          // Handle successful login
-                          showTopSnackBar(Overlay.of(context), CustomSnackBar.success(message: 'Login successfully'));
-                          setState(() {
-                            indexScreen = 0;
-                          });
-                          Navigator.pushReplacement(
+                      if (loginStatus) {
+                        showTopSnackBar(
+                            Overlay.of(context),
+                            const CustomSnackBar.success(
+                                message: 'Login success'));
+                        indexScreen = 0;
+                        Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (context) => NavigationHomePage()),
-                          );
-                        } else if (state is LoginFailureState) {
-                          // Handle failed login
-                          showTopSnackBar(Overlay.of(context), const CustomSnackBar.error(message: 'Wrong information'));
-                        }
-                      });
+                            MaterialPageRoute(
+                              builder: (context) => NavigationHomePage(),
+                            ));
+                      } else {
+                        showTopSnackBar(
+                            Overlay.of(context),
+                            const CustomSnackBar.error(
+                                message: 'Error'));
+                      }
                     },
-                    child: PrimaryButton(buttonText: AppLocalizations.of(context)!.logIn),
+                    child: PrimaryButton(
+                        buttonText: AppLocalizations.of(context)!.logIn),
                   ),
                 ),
                 Padding(

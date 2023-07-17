@@ -18,13 +18,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize:
-            Size.fromHeight(MediaQuery.of(context).size.height * 0.15),
-        child: AppBar(
-            backgroundColor: kSecondaryColor,
-            flexibleSpace: const CustomAppBar()),
-      ),
+      appBar: appBarWidget(context, true),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

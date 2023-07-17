@@ -49,13 +49,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize:
-            Size.fromHeight(MediaQuery.of(context).size.height * 0.15),
-        child: AppBar(
-            backgroundColor: kSecondaryColor,
-            flexibleSpace: const CustomAppBar()),
-      ),
+      appBar: appBarWidget(context, true),
       body: SingleChildScrollView(
         child: Column(
           children: [

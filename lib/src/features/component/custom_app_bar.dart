@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/constant/color/color.dart';
-import 'package:mobile_store/src/features/home_page/widget/menu_button.dart';
+import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../constant/color/color.dart';
+import '../home_page/screen/navigation_home_page.dart';
+import '../home_page/widget/menu_button.dart';
 import '../search/view/search.dart';
 
 class CustomAppBar extends StatelessWidget {
-  const CustomAppBar({super.key});
+  CustomAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +23,11 @@ class CustomAppBar extends StatelessWidget {
         boxShadow: const [BoxShadow(blurRadius: 50.0)],
         borderRadius: BorderRadius.vertical(bottom: Radius.elliptical(MediaQuery.of(context).size.width, 20)),
       ),
-      child: const Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -34,18 +37,54 @@ class CustomAppBar extends StatelessWidget {
               ],
             ),
           ),
-          // Padding(
-          //   padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //     children: [
-          //       Text('data')
-          //     ],
-          //   ),
-          // ),
+          successLoginState.onLoginState
+              ?
+          Padding (
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Name'),
+                TextButton(onPressed: () async {
+                  SharedPreferences preferences = await SharedPreferences.getInstance();
+                  preferences.remove('email');
+                  preferences.remove('id');
+                  preferences.remove('token');
+                  preferences.remove('password');
+                  successLoginState.onLoginState = false;
+                  indexScreen = 0;
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              NavigationHomePage()));
+                }, child: const Text('Log out'))
+              ],
+            ),
+          )
+              : SizedBox.shrink(),
         ],
-
       ),
     );
   }
+}
+
+PreferredSizeWidget? appBarWidget(BuildContext context, bool backButton) {
+  return PreferredSize(
+    preferredSize: successLoginState.onLoginState
+        ? Size.fromHeight(MediaQuery.of(context).size.height * 0.2)
+        : Size.fromHeight(MediaQuery.of(context).size.height * 0.15),
+    child: AppBar(
+        backgroundColor: kSecondaryColor,
+        leading: backButton
+            ? IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back_ios_new_sharp))
+            : Image(
+            image: const AssetImage('assets/images/banner0.jpg'),
+            height: MediaQuery.of(context).size.height * 0.06),
+        flexibleSpace: CustomAppBar()),
+  );
 }
