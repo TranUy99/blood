@@ -1,18 +1,14 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/login/view/login_option.dart';
 import 'package:mobile_store/src/features/component/primary_button.dart';
 import 'package:mobile_store/src/features/sign_up/bloc_state/sign_up_bloc.dart';
-import 'package:mobile_store/src/features/sign_up/bloc_state/sign_up_state.dart';
 import 'package:mobile_store/src/features/sign_up/widget/sign_up_form.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
-
 import '../../../constant/utils/validate.dart';
+import '../../login/view/login.dart';
 import '../view_model/sign_up_view_model.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -135,33 +131,47 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: CheckBoxSignIn(text: AppLocalizations.of(context)!.agreeToTermAndConditions, isCheck: isCheckCheckbox()),
                 ),
                 InkWell(
-                  onTap: () {
-                    if (_signUpBloc.isSignUpButtonPressed == false) {
-                      String email = textEmailController.text;
-                      String password = textPasswordController.text;
-                      String fullName = textNameController.text;
-                      _signUpViewModel.signUp(email, password, fullName);
-                      _signUpViewModel.signUpStateStream.firstWhere((state) => state is SignUpState).then((state) {
-                        if (state is SuccessSignUpState) {
-                          // Xử lý trạng thái thành công
-                          showTopSnackBar(
-                            Overlay.of(context),
-                            const CustomSnackBar.error(
-                              message: 'Success',
-                              backgroundColor: Color.fromARGB(255, 3, 165, 81), // Đổi màu nền thành màu đỏ
-                            ),
-                          );
-                        } else if (state is ErrorSignUpState) {
-                          // Xử lý trạng thái thất bại
-                          showTopSnackBar(
-                            Overlay.of(context),
-                            const CustomSnackBar.error(
-                              message: 'Wrong information',
-                              backgroundColor: Colors.red, // Đổi màu nền thành màu đỏ
-                            ),
-                          );
-                        }
-                      });
+                  onTap: () async {
+                    String email = textEmailController.text;
+                    String password = textPasswordController.text;
+                    String fullName = textNameController.text;
+
+                    if (email.isEmpty || password.isEmpty || fullName.isEmpty||textConfirmPasswordController.text.isEmpty) {
+                      showTopSnackBar(
+                        Overlay.of(context),
+                        const CustomSnackBar.error(
+                          message: 'Please fill in all fields',
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                      return;
+                    }
+
+                    final bool signUpStatus = await _signUpViewModel.signUp(email, password, fullName);
+
+                    if (signUpStatus) {
+                      showTopSnackBar(
+                        Overlay.of(context),
+                        const CustomSnackBar.error(
+                          message: 'Wrong information',
+                          backgroundColor: Colors.green,
+                        ),
+                      );
+                      // ignore: use_build_context_synchronously
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LogInScreen(),
+                        ),
+                      );
+                    } else {
+                      showTopSnackBar(
+                        Overlay.of(context),
+                        CustomSnackBar.error(
+                          message: 'Email already exists',
+                          backgroundColor: Colors.red,
+                        ),
+                      );
                     }
                   },
                   child: PrimaryButton(

@@ -6,12 +6,23 @@ class SignUpViewModel {
   final SignUpBloc _signUpBloc = SignUpBloc();
   Stream<SignUpState> get signUpStateStream => _signUpBloc.signUpStateStream;
 
-
-  void signUp(String email, String password, String fullName) {
+  Future<bool> signUp(String email, String password, String fullName) async {
     final signUpEvent = SignUpButtonPressedEvent(email: email, password: password, fullName: fullName);
-    _signUpBloc.addEvent(signUpEvent);
-   
+    await _signUpBloc.addEvent(signUpEvent);
     
+    bool isLogin = false;
+    
+    await _signUpBloc.signUpStateStream.listen(
+      (state) {
+        if (state is SuccessSignUpState) {
+          isLogin = true;
+        } else if (state is ErrorSignUpState) {
+          isLogin = false;
+        }
+      },
+    );
+
+    return isLogin;
   }
 
   void dispose() {
