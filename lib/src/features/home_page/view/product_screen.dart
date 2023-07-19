@@ -1,11 +1,10 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/api_image/api_image.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/features/home_page/bloc/product_bloc.dart';
-import 'package:mobile_store/src/features/detail_product/view/product_detail_screen.dart';
+import 'package:mobile_store/src/features/detail_product/view/detail_product_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/features/home_page/view_model/product_viewmodel.dart';
 
@@ -92,6 +91,7 @@ class _ProductScreenState extends State<ProductScreen> {
           itemBuilder: (context, index) {
             final product = products[index];
             String logo = '${product.imageDTOs![0].name}';
+            
             return Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -104,11 +104,11 @@ class _ProductScreenState extends State<ProductScreen> {
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProductDetailScreen(productDTO: product),
+                    builder: (context) => ProductDetailScreen(idProduct: product.id!),
                   ),
                 ),
                 child: Container(
-                  // decoration: BoxDecoration(border: Border.all()),
+                  
                   child: Column(
                     children: [
                       SizedBox(
@@ -116,7 +116,6 @@ class _ProductScreenState extends State<ProductScreen> {
                         child: CachedNetworkImage(
                           imageUrl: ApiImage().generateImageUrl('$logo'),
                           height: 20,
-                         
                         ),
                       ),
                       Column(

@@ -4,7 +4,7 @@ import 'package:mobile_store/src/features/login/bloc/login_event.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../service/service.dart';
+import '../service/login_service.dart';
 import 'login_state.dart';
 
 SuccessLoginState successLoginState = SuccessLoginState(false);
