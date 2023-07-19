@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/model/product.dart';
+import 'package:mobile_store/src/features/cart_page/screen/cart_page.dart';
+
 import 'package:mobile_store/src/features/detail_product/view_model/detail_product_view_model.dart';
 import 'package:mobile_store/src/features/detail_product/widget/another_product.dart';
 import 'package:mobile_store/src/features/detail_product/widget/configuration_product.dart';
@@ -44,7 +46,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         } else {
           if (snapshot.hasData) {
             product = snapshot.data!;
-            // Build UI using the retrieved products
+            
             return buildUI(context);
           } else {
             return Text('No products available');
@@ -61,7 +63,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-           ImageProduct(productDTO: product),
+          ImageProduct(productDTO: product),
           NameProduct(productDTO: product),
           SizedBox(
             width: double.infinity,
@@ -69,7 +71,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
                 onPressed: () {
-                  // Add your code to handle the button press here.
+                 Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const CartPage(),
+                      ),
+                    );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: kGreenColor,
