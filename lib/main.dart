@@ -38,6 +38,10 @@ _getUser() async {
     final userResult = UserService.userService(id!, token!);
     await userResult.then((value) {
       nameUser = value.fullName;
+      if(value.statusDTO == false){
+        successLoginState.onLoginState = false;
+        preferences.remove('password');
+      }
     });
   }
 }

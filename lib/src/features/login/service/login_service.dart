@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart' as dio;
 import 'package:mobile_store/src/api/api_service.dart';
-import 'package:mobile_store/src/core/remote/request/login_request.dart';
+import 'package:mobile_store/src/core/remote/request/login_request/login_request.dart';
 import '../../../core/model/user.dart';
-import '../../../core/remote/response/login_response.dart';
+import '../../../core/remote/response/login_response/login_response.dart';
 
 class LoginService {
   static Future<LoginResponse> loginService(String? email, String? password) async {

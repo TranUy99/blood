@@ -37,11 +37,15 @@ class LoginBloc {
       mess = 'failed to get data';
     }
 
-    final userResult = UserService.userService(id!, token!);
-    await userResult.then((value) {
-      nameUser = value.fullName;
-      verifiedStatus = value.statusDTO!;
-    });
+    try{
+      final userResult = UserService.userService(id!, token!);
+      await userResult.then((value) {
+        nameUser = value.fullName;
+        verifiedStatus = value.statusDTO!;
+      });
+    }catch(e){
+      print(e);
+    }
 
     if (mess == null) {
       if(verifiedStatus){
@@ -49,7 +53,6 @@ class LoginBloc {
       }else{
         _stateController.add(successLoginState = SuccessLoginState(true, false));
       }
-
       successLoginState.saveLoginState(email, password, token, id, isRemember);
     } else {
       _stateController.add(ErrorLoginState(mess!));
