@@ -7,14 +7,19 @@ class InitialState extends LoginState {
 
 class SuccessLoginState extends LoginState {
   bool onLoginState = false;
-  SuccessLoginState(this.onLoginState);
+  bool isVerified = false;
+  SuccessLoginState(this.onLoginState, this.isVerified);
 
-  void saveLoginState(String? email, String? password, String? token, int? id) async {
+  void saveLoginState(String? email, String? password, String? token, int? id, bool isRemember) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString('email', email!);
-    preferences.setString('password', password!);
     preferences.setString('token', token!);
     preferences.setInt('id', id!);
+    if(isRemember && isVerified){
+      preferences.setString('password', password!);
+    }else{
+      preferences.remove('password');
+    }
   }
 }
 

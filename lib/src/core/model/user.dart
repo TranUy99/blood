@@ -40,9 +40,6 @@ class UserDTO {
     this.statusDTO,
   });
 
-  // @JsonKey(name: 'fileAvatar')
-  // final String? fileAvatar;
-
   factory UserDTO.fromJson(Map<String, dynamic> json) => _$UserDTOFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserDTOToJson(this);

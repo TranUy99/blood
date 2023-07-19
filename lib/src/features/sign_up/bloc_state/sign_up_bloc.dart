@@ -3,19 +3,17 @@ import 'dart:developer';
 
 import 'package:mobile_store/src/features/sign_up/bloc_state/sign_up_event.dart';
 import 'package:mobile_store/src/features/sign_up/bloc_state/sign_up_state.dart';
-import 'package:mobile_store/src/features/sign_up/service/servie.dart';
+import 'package:mobile_store/src/features/sign_up/service/sign_up_servie.dart';
 import 'package:rxdart/rxdart.dart';
 
 class SignUpBloc {
   final BehaviorSubject<SignUpState> _signUpStateSubject = BehaviorSubject<SignUpState>();
 
-  Stream<SignUpState> get signUpStateStream => _signUpStateSubject.stream.distinct();
+  Stream<SignUpState> get signUpStateStream => _signUpStateSubject.stream;
   bool isSignUpButtonPressed = false;
-  bool _isProcessing = false;
+  
   Future<void> addEvent(SignUpEvent event) async {
-    if (_isProcessing) return;
 
-    _isProcessing = true;
     if (event is SignUpButtonPressedEvent) {
       isSignUpButtonPressed = true;
       final email = event.email;
@@ -36,7 +34,7 @@ class SignUpBloc {
         _signUpStateSubject.add(ErrorSignUpState("error"));
       }
     }
-    _isProcessing = false;
+   
   }
 
   void dispose() {

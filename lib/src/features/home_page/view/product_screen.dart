@@ -1,9 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_store/src/constant/api_image/api_image.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/features/home_page/bloc/product_bloc.dart';
-import 'package:mobile_store/src/features/detail_product/view/product_detail_screen.dart';
+import 'package:mobile_store/src/features/detail_product/view/detail_product_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mobile_store/src/features/home_page/view_model/product_viewmodel.dart';
 
 class ProductScreen extends StatefulWidget {
   final ProductBloc productBloc;
@@ -16,10 +19,11 @@ class ProductScreen extends StatefulWidget {
 
 class _ProductScreenState extends State<ProductScreen> {
   List<ProductDTO> products = [];
+  ProductViewModel _productViewModel = ProductViewModel();
+
   @override
   void initState() {
     super.initState();
-    widget.productBloc.fetchProducts();
   }
 
   @override
@@ -28,23 +32,29 @@ class _ProductScreenState extends State<ProductScreen> {
     super.dispose();
   }
 
-@override
-Widget build(BuildContext context) {
-  return StreamBuilder<List<ProductDTO>>(
-    stream: widget.productBloc.productListStream,
-    builder: (context, snapshot) {
-      if (snapshot.hasData) {
-        products = snapshot.data!;
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          setState(() {});
-        });
-      } else if (snapshot.hasError) {
-        return Text('Error: ${snapshot.error}');
-      }
-      return buildUI(context);
-    },
-  );
-}
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<ProductDTO>>(
+      future: _productViewModel.getProducts(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          if (snapshot.hasData) {
+            products = snapshot.data!;
+            // Build UI using the retrieved products
+            return buildUI(context);
+          } else {
+            return Text('No products available');
+          }
+        }
+      },
+    );
+  }
 
   Widget buildUI(BuildContext context) {
     return Column(
@@ -68,59 +78,60 @@ Widget build(BuildContext context) {
             ],
           ),
         ),
-        // GridView.builder(
-        //   physics: const NeverScrollableScrollPhysics(),
-        //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        //     childAspectRatio: 0.75,
-        //     crossAxisCount: 2,
-        //     crossAxisSpacing: 5.0,
-        //     mainAxisSpacing: 5.0,
-        //   ),
-        //   shrinkWrap: true,
-        //   itemCount: products.length,
-        //   itemBuilder: (context, index) {
-        //     final product = products[index];
-        //     return Container(
-        //       decoration: BoxDecoration(
-        //         borderRadius: BorderRadius.circular(10),
-        //         border: Border.all(
-        //           color: kZambeziColor,
-        //           width: 2.0,
-        //         ),
-        //       ),
-        //       child: InkWell(
-        //         onTap: () => Navigator.push(
-        //           context,
-        //           MaterialPageRoute(
-        //             builder: (context) => ProductDetailScreen(productDTO: product),
-        //           ),
-        //         ),
-        //         child: Container(
-        //           // decoration: BoxDecoration(border: Border.all()),
-        //           child: Column(
-        //             children: [
-        //               SizedBox(
-        //                 height: MediaQuery.of(context).size.height * 0.25,
-        //                 child: Image(
-        //                   image: AssetImage(product.imageDTOs!.name!),
-        //                   height: 20,
-        //                 ),
-        //               ),
-        //               Column(
-        //                 children: [
-        //                   Text('${product.name}', style: const TextStyle(fontSize: 20, color: kRedColor, fontFamily: 'sans-serif')),
-        //                   Text('${product.price}', style: const TextStyle(fontSize: 20, color: kGreenColor, fontFamily: 'sans-serif')),
-        //                 ],
-        //               ),
-        //             ],
-        //           ),
-        //         ),
-        //       ),
-        //     );
-        //   },
-        // ),
+        GridView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            childAspectRatio: 0.75,
+            crossAxisCount: 2,
+            crossAxisSpacing: 5.0,
+            mainAxisSpacing: 5.0,
+          ),
+          shrinkWrap: true,
+          itemCount: products.length,
+          itemBuilder: (context, index) {
+            final product = products[index];
+            String logo = '${product.imageDTOs![0].name}';
+            
+            return Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: kZambeziColor,
+                  width: 2.0,
+                ),
+              ),
+              child: InkWell(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProductDetailScreen(idProduct: product.id!),
+                  ),
+                ),
+                child: Container(
+                  
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.25,
+                        child: CachedNetworkImage(
+                          imageUrl: ApiImage().generateImageUrl('$logo'),
+                          height: 20,
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          Text('${product.name}', style: const TextStyle(fontSize: 20, color: kRedColor, fontFamily: 'sans-serif')),
+                          Text('${product.price}', style: const TextStyle(fontSize: 20, color: kGreenColor, fontFamily: 'sans-serif')),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
       ],
     );
   }
 }
-

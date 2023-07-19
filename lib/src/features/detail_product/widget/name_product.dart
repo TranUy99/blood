@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -14,6 +16,13 @@ class NameProduct extends StatefulWidget {
 class _NameProductState extends State<NameProduct> {
   String selectedOption = '';
   String selectedColor = '';
+  Map<String, Color> colorMap = {
+    'red': Colors.red,
+    'green': Colors.green,
+    'blue': Colors.blue,
+    'white': Colors.white,
+    // Thêm các màu khác vào đây
+  };
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -25,10 +34,10 @@ class _NameProductState extends State<NameProduct> {
           padding: const EdgeInsets.only(left: 8),
           child: Text(
             '${widget.productDTO.name}',
-            style: const TextStyle(
-                fontSize: 16, color: kBlackColor, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 16, color: kBlackColor, fontWeight: FontWeight.bold),
           ),
         ),
+
         //rating product
         RatingBar.builder(
           initialRating: 3,
@@ -44,205 +53,95 @@ class _NameProductState extends State<NameProduct> {
               color: Colors.amber,
             ),
           ),
-          onRatingUpdate: (rating) {
-            // log('$rating');
-          },
+          onRatingUpdate: (rating) {},
         ),
+
         //memory product
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: 65,
-              child: InkWell(
-                onTap: () {
-                  setState(() {
-                    selectedOption = '64GB';
-                  });
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5.0),
-                    border: Border.all(
-                      color:
-                          selectedOption == '64GB' ? Colors.green : Colors.grey,
+        SizedBox(
+          height: 40,
+          width: MediaQuery.of(context).size.width * 0.9,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: widget.productDTO.memoryDTOs?.length,
+            itemBuilder: (context, index) {
+              final memoryOption = widget.productDTO.memoryDTOs?[index];
+              final memoryName = memoryOption!.name;
+
+              return Padding(
+                padding: const EdgeInsets.only(right: 10, left: 10),
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      selectedOption = memoryName;
+                    });
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5.0),
+                      border: Border.all(
+                        color: selectedOption == memoryName ? Colors.green : Colors.grey,
+                      ),
                     ),
-                  ),
-                  child: Text(
-                    '64GB',
-                    style: TextStyle(
-                      color:
-                          selectedOption == '64GB' ? Colors.green : Colors.grey,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            SizedBox(
-              width: 65,
-              child: InkWell(
-                onTap: () {
-                  setState(() {
-                    selectedOption = '128GB';
-                  });
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5.0),
-                    border: Border.all(
-                      color: selectedOption == '128GB'
-                          ? Colors.green
-                          : Colors.grey,
-                    ),
-                  ),
-                  child: Text(
-                    '128GB',
-                    style: TextStyle(
-                      color: selectedOption == '128GB'
-                          ? Colors.green
-                          : Colors.grey,
+                    child: Text(
+                      memoryName!,
+                      style: TextStyle(
+                        color: selectedOption == memoryName ? Colors.green : Colors.grey,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            SizedBox(
-              width: 65,
-              child: InkWell(
-                onTap: () {
-                  setState(() {
-                    selectedOption = '256GB';
-                  });
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5.0),
-                    border: Border.all(
-                      color: selectedOption == '256GB'
-                          ? Colors.green
-                          : Colors.grey,
-                    ),
-                  ),
-                  child: Text(
-                    '256GB',
-                    style: TextStyle(
-                      color: selectedOption == '256GB'
-                          ? Colors.green
-                          : Colors.grey,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
+              );
+            },
+          ),
         ),
+
         const SizedBox(
-          height: 5,
+          height: 10,
         ),
+
         //color product
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: 65,
-              child: InkWell(
-                onTap: () {
-                  setState(() {
-                    selectedColor = 'Blue';
-                  });
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5.0),
-                    border: Border.all(
-                      color: selectedColor == 'Blue' ? kBlueColor : kGreyColor,
+        SizedBox(
+          height: 40,
+          width: MediaQuery.of(context).size.width * 0.9,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: widget.productDTO.colorDTOs?.length,
+            itemBuilder: (context, index) {
+              final colorOption = widget.productDTO.colorDTOs?[index];
+              final colorName = colorOption!.name;
+
+              return Padding(
+                padding: const EdgeInsets.only(right: 10, left: 10),
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      selectedColor = colorName;
+                    });
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      color: selectedColor == colorName ? colorMap[colorName] : Colors.white,
+                      borderRadius: BorderRadius.circular(5.0),
+                      border: Border.all(),
                     ),
-                  ),
-                  child: Text(
-                    'Blue',
-                    style: TextStyle(
-                      color: selectedColor == 'Blue' ? kBlueColor : kGreyColor,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            SizedBox(
-              width: 65,
-              child: InkWell(
-                onTap: () {
-                  setState(() {
-                    selectedColor = 'Red';
-                  });
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5.0),
-                    border: Border.all(
-                      color: selectedColor == 'Red' ? kRedColor : kGreyColor,
-                    ),
-                  ),
-                  child: Text(
-                    'Red',
-                    style: TextStyle(
-                      color: selectedColor == 'Red' ? kRedColor : kGreyColor,
+                    child: Text(
+                      colorName!,
                     ),
                   ),
                 ),
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            SizedBox(
-              width: 65,
-              child: InkWell(
-                onTap: () {
-                  setState(() {
-                    selectedColor = 'Black';
-                  });
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5.0),
-                    border: Border.all(
-                      color:
-                          selectedColor == 'Black' ? kBlackColor : Colors.grey,
-                    ),
-                  ),
-                  child: Text(
-                    'Black',
-                    style: TextStyle(
-                      color:
-                          selectedColor == 'Black' ? kBlackColor : Colors.grey,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
+              );
+            },
+          ),
         ),
+
         const SizedBox(height: 10),
         //price product
         Padding(
           padding: const EdgeInsets.only(left: 12),
           child: Text(
-            '${widget.productDTO.price}',
+            '${widget.productDTO.price} USD',
             style: const TextStyle(
               fontSize: 16,
               color: kRedColor,

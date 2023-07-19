@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/model/product.dart';
-import 'package:mobile_store/src/features/detail_product/view/product_detail_screen.dart';
+import 'package:mobile_store/src/features/detail_product/view/detail_product_screen.dart';
 import 'package:mobile_store/src/features/home_page/bloc/product_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -21,34 +21,34 @@ class _AnotherProductState extends State<AnotherProduct> {
   @override
   void initState() {
     super.initState();
-    productBloc = ProductBloc(); // Khởi tạo đối tượng ProductBloc
-    productBloc.fetchProducts(); // Gọi phương thức fetchProducts() để lấy dữ liệu sản phẩm
+    productBloc = ProductBloc();
   }
 
   @override
   void dispose() {
-    productBloc.dispose(); // Hủy bỏ đối tượng ProductBloc khi widget bị hủy
+    productBloc.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<ProductDTO>>(
-      stream: productBloc.productListStream,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          products = snapshot.data!;
+    // return StreamBuilder<List<ProductDTO>>(
+    //   stream: productBloc.productListStream,
+    //   builder: (context, snapshot) {
+    //     if (snapshot.hasData) {
+    //       products = snapshot.data!;
 
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            setState(() {});
-          });
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        }
+    //       WidgetsBinding.instance.addPostFrameCallback((_) {
+    //         setState(() {});
+    //       });
+    //     } else if (snapshot.hasError) {
+    //       return Text('Error: ${snapshot.error}');
+    //     }
 
-        return buildUI(context);
-      },
-    );
+    //     return buildUI(context);
+    //   },
+    // );
+    return buildUI(context);
   }
 
   Widget buildUI(BuildContext context) {
@@ -77,7 +77,7 @@ class _AnotherProductState extends State<AnotherProduct> {
           height: MediaQuery.of(context).size.height * 0.4,
           child: Scrollbar(
             thickness: 8.0,
-            radius: const  Radius.circular(20.0),
+            radius: const Radius.circular(20.0),
             child: ListView.builder(
               scrollDirection: Axis.horizontal, // Hướng cuộn ngang
               itemCount: products.length,
@@ -99,7 +99,7 @@ class _AnotherProductState extends State<AnotherProduct> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ProductDetailScreen(
-                            productDTO: product,
+                            idProduct: product.id!,
                           ),
                         ),
                       ),
@@ -107,13 +107,13 @@ class _AnotherProductState extends State<AnotherProduct> {
                         decoration: BoxDecoration(border: Border.all()),
                         child: Column(
                           children: [
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.25,
-                              child: Image(
-                                image: AssetImage(product.imageDTOs!.name!),
-                                height: 20,
-                              ),
-                            ),
+                            // SizedBox(
+                            //   height: MediaQuery.of(context).size.height * 0.25,
+                            //   child: Image(
+                            //     image: AssetImage(product.imageDTOs!.name!),
+                            //     height: 20,
+                            //   ),
+                            // ),
                             Column(
                               children: [
                                 Text('${product.name}', style: const TextStyle(fontSize: 20, color: kRedColor, fontFamily: 'sans-serif')),

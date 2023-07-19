@@ -1,4 +1,5 @@
-abstract class SignUpEvent{}
+abstract class SignUpEvent {}
+
 class SignUpButtonPressedEvent extends SignUpEvent {
   final String email;
   final String password;
@@ -9,12 +10,4 @@ class SignUpButtonPressedEvent extends SignUpEvent {
     required this.password,
     required this.fullName,
   });
-
-  @override
-  List<Object> get props => [email, password, fullName];
-
-  @override
-  String toString() {
-    return 'SignUpButtonPressedEvent(email: $email, password: $password, fullName: $fullName)';
-  }
 }

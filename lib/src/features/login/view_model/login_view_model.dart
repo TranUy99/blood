@@ -3,22 +3,28 @@ import 'package:mobile_store/src/features/login/bloc/login_event.dart';
 
 import '../bloc/login_state.dart';
 
+enum LoginStatusEnum { successLogin, successLoginWithoutVerified, errorLogin }
+
 class LoginViewModel {
   final LoginBloc _loginBloc = LoginBloc();
 
-  Future <bool> login(String email, String password) async {
-    await _loginBloc.handleEvent(LoginEvent(email, password));
-    bool isLogin = false;
+  Future<int?> login(String email, String password, bool isRemember) async {
+    await _loginBloc.handleEvent(LoginEvent(email, password, isRemember));
+    int? isLogin;
 
-    await _loginBloc.state.listen((state) {
-      if (state is SuccessLoginState) {
-        print('Login viewmodel: ${state.onLoginState}');
-        isLogin = true;
-      } else if (state is ErrorLoginState) {
-        print('Login viewmodel: ${state.errorMessage}');
-        isLogin = false;
-      }
-    },);
+    await _loginBloc.state.listen(
+      (state) {
+        if (state is SuccessLoginState) {
+          if (successLoginState.isVerified) {
+            isLogin = LoginStatusEnum.successLogin.index;
+          } else {
+            isLogin = LoginStatusEnum.successLoginWithoutVerified.index;
+          }
+        } else if (state is ErrorLoginState) {
+          isLogin = LoginStatusEnum.errorLogin.index;
+        }
+      },
+    );
 
     return isLogin;
   }

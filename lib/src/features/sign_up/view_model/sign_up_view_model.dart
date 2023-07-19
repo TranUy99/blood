@@ -10,19 +10,19 @@ class SignUpViewModel {
     final signUpEvent = SignUpButtonPressedEvent(email: email, password: password, fullName: fullName);
     await _signUpBloc.addEvent(signUpEvent);
     
-    bool isLogin = false;
+    bool isSignUP = false;
     
-    await _signUpBloc.signUpStateStream.listen(
+     _signUpBloc.signUpStateStream.listen(
       (state) {
         if (state is SuccessSignUpState) {
-          isLogin = true;
+          isSignUP = true;
         } else if (state is ErrorSignUpState) {
-          isLogin = false;
+          isSignUP = false;
         }
       },
     );
 
-    return isLogin;
+    return isSignUP;
   }
 
   void dispose() {

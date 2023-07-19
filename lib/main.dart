@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/languages/language_contanst.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
+import 'package:mobile_store/languages/language_contanst.dart';
+import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
+import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
+import 'package:mobile_store/src/features/login/service/login_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'src/core/network/network_binding.dart';
@@ -9,6 +12,7 @@ import 'src/core/network/network_binding.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await _autoLogin();
+  await _getUser();
   runApp(const MyApp());
 }
 
@@ -20,12 +24,23 @@ _autoLogin() async {
   String? _password = preferences.getString('password');
   print('$_email - $_id - $_password - $_token');
   if(_password != null){
-    onLogInState = OnLogInState(true);
+    successLoginState.onLoginState = true;
   }else{
-    onLogInState = OnLogInState(false);
+    successLoginState.onLoginState = false;
   }
 }
 
+_getUser() async {
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  int? id = preferences.getInt('id');
+  String? token = preferences.getString('token');
+  if (successLoginState.onLoginState) {
+    final userResult = UserService.userService(id!, token!);
+    await userResult.then((value) {
+      nameUser = value.fullName;
+    });
+  }
+}
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -62,9 +77,6 @@ class _MyAppState extends State<MyApp> {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         locale: _locale,
-        // home: ChangePasswordScreen());
-        //home: LogInScreen());
-        home: NavigationHomePage());
-    // home: ProfilePage());
+        home: const NavigationHomePage());
   }
 }

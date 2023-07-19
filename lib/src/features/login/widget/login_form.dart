@@ -97,3 +97,27 @@ class _BuildInputFormPasswordState extends State<BuildInputFormPassword> {
     );
   }
 }
+
+class CheckBoxLogIn extends StatefulWidget {
+  final String text;
+  final Widget isRemember;
+  const CheckBoxLogIn({super.key, required this.text, required this.isRemember});
+
+  @override
+  _CheckBoxLogInState createState() => _CheckBoxLogInState();
+}
+
+class _CheckBoxLogInState extends State<CheckBoxLogIn> {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        widget.isRemember,
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.02,
+        ),
+        Text(widget.text),
+      ],
+    );
+  }
+}
