@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/change_password/bloc/change_password_bloc.dart';
 import 'package:mobile_store/src/features/change_password/widget/change_password_form.dart';
-import 'package:mobile_store/src/features/profile/screen/profile_page.dart';
+import 'package:mobile_store/src/features/profile/view/profile_page.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:mobile_store/src/constant/utils/validate.dart';

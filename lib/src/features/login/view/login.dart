@@ -50,7 +50,6 @@ class _LogInScreenState extends State<LogInScreen> {
     _loginViewModel.dispose();
     _loginBloc.dispose();
     textEmailController.dispose();
-    textEmailController.dispose();
     super.dispose();
   }
 

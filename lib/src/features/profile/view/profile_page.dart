@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
-import 'package:mobile_store/src/features/profile/screen/order.dart';
-import 'package:mobile_store/src/features/profile/screen/promotion.dart';
-import 'package:mobile_store/src/features/profile/screen/your_information.dart';
+import 'package:mobile_store/src/features/profile/view/order.dart';
+import 'package:mobile_store/src/features/profile/view/promotion.dart';
+import 'package:mobile_store/src/features/profile/view/your_information.dart';
 
 import '../../../constant/color/color.dart';
 

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:mobile_store/src/features/sign_up/bloc_state/sign_up_bloc.dart';
 import 'package:mobile_store/src/features/sign_up/bloc_state/sign_up_event.dart';

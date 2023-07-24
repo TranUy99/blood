@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/features/component/checkbox.dart';
 
-import 'package:mobile_store/src/features/profile/screen/profile_page.dart';
+import 'package:mobile_store/src/features/profile/view/profile_page.dart';
 
 class EditAddressScreen extends StatefulWidget {
   const EditAddressScreen({super.key});
@@ -118,7 +118,7 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
                   Row(
                     children: [
                       Image.asset(
-                        'images/home_icon.png',
+                        'assets/icon/home_icon.png',
                         height: MediaQuery.of(context).size.height * 0.02,
                       ),
                       const SizedBox(
@@ -131,7 +131,7 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
                   Row(
                     children: [
                       Image.asset(
-                        'images/office.png',
+                        'assets/icon/office_icon.png',
                         height: MediaQuery.of(context).size.height * 0.02,
                       ),
                       SizedBox(

@@ -26,7 +26,7 @@ class _OrderDetailState extends State<OrderDetail> {
             SizedBox(
               height: 100,
               child: Image(
-                image: const AssetImage('images/deliveries.png'),
+                image: const AssetImage('assets/icon/delivery_truck_icon.png'),
                 height: MediaQuery.of(context).size.height * 1,
                 width: MediaQuery.of(context).size.width * 1,
               ),
@@ -101,17 +101,17 @@ class _OrderDetailState extends State<OrderDetail> {
                             ),
                             items: [
                               Image.asset(
-                                'images/iphone.png',
+                                'assets/images/anh1.jpg',
                                 height: 150,
                                 width: 80,
                               ),
                               Image.asset(
-                                'images/huawei.png',
+                                 'assets/images/anh1.jpg',
                                 height: 150,
                                 width: 80,
                               ),
                               Image.asset(
-                                'images/iphone14.jpg',
+                               'assets/images/anh1.jpg',
                                 height: 150,
                                 width: 80,
                               ),
