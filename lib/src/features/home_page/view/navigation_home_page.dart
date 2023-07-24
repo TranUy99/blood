@@ -19,7 +19,6 @@ int indexScreen = 0;
 
 class _NavigationHomePageState extends State<NavigationHomePage> {
   final LoginBloc loginBloc = LoginBloc();
-  final RxLoginBloc rxLoginBloc = RxLoginBloc();
   String? email;
   int? id;
   String? token;

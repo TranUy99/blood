@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart' as dio;
 import 'package:mobile_store/src/api/api_service.dart';
-import 'package:mobile_store/src/core/remote/request/login_request.dart';
-import '../../../core/remote/response/login_response.dart';
+import 'package:mobile_store/src/core/remote/request/login_request/login_request.dart';
+import '../../../core/model/user.dart';
+import '../../../core/remote/response/login_response/login_response.dart';
 
 class LoginService {
   static Future<LoginResponse> loginService(String? email, String? password) async {
@@ -12,5 +13,14 @@ class LoginService {
     ));
     
     return loginResponse;
+  }
+}
+
+class UserService {
+  static Future<UserDTO> userService(int id, String token) async {
+    UserDTO userDTO =
+    await ApiService(dio.Dio()).getUser(id: id, auth: 'Bearer $token');
+
+    return userDTO;
   }
 }

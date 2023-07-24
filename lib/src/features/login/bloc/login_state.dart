@@ -2,19 +2,25 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class LoginState {}
 
-class InitialState extends LoginState {
-}
+class InitialState extends LoginState {}
 
 class SuccessLoginState extends LoginState {
   bool onLoginState = false;
-  SuccessLoginState(this.onLoginState);
+  bool isVerified = false;
 
-  void saveLoginState(String? email, String? password, String? token, int? id) async {
+  SuccessLoginState(this.onLoginState, this.isVerified);
+
+  void saveLoginState(String? email, String? password, String? token, int? id,
+      bool isRemember) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString('email', email!);
-    preferences.setString('password', password!);
     preferences.setString('token', token!);
     preferences.setInt('id', id!);
+    if (isRemember) {
+      preferences.setString('password', password!);
+    } else {
+      preferences.remove('password');
+    }
   }
 }
 
@@ -23,4 +29,3 @@ class ErrorLoginState extends LoginState {
 
   ErrorLoginState(this.errorMessage);
 }
-

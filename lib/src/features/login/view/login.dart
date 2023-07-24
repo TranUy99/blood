@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/change_password/view/change_password.dart';
-import 'package:mobile_store/src/features/component/checkbox.dart';
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import 'package:mobile_store/src/features/login/view_model/login_view_model.dart';
 import 'package:mobile_store/src/features/login/widget/login_form.dart';
+import 'package:mobile_store/src/features/verified_email/view/verified_email.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -25,16 +26,22 @@ class _LogInScreenState extends State<LogInScreen> {
   TextEditingController textEmailController = TextEditingController();
   TextEditingController textPasswordController = TextEditingController();
 
-  late final LoginBloc _loginBloc;
+  final LoginBloc _loginBloc = LoginBloc();
   late final LoginViewModel _loginViewModel;
-  final RxLoginBloc _rxLoginBloc = RxLoginBloc();
   bool obscure = true;
-  bool isCheck = false;
+  bool isRemember = false;
+
+  navigationHomePage() {
+    Get.offAll(const NavigationHomePage());
+  }
+
+  navigationVerifiedPage(){
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const VerifiedEmail(),));
+  }
 
   @override
   void initState() {
     super.initState();
-    _loginBloc = LoginBloc();
     _loginViewModel = LoginViewModel();
   }
 
@@ -53,12 +60,19 @@ class _LogInScreenState extends State<LogInScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.05),
             child: Column(
               children: [
-                Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.04), child: Text(AppLocalizations.of(context)!.logIn.toUpperCase(), style: titleText)),
                 Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.04),
+                    child: Text(
+                        AppLocalizations.of(context)!.logIn.toUpperCase(),
+                        style: titleText)),
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.03),
                   child: Column(children: [
                     BuildInputFormLogIn(
                       hint: 'Email',
@@ -73,14 +87,22 @@ class _LogInScreenState extends State<LogInScreen> {
                   ]),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.02),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CheckBox(text: AppLocalizations.of(context)!.rememberMe),
+                      CheckBoxLogIn(
+                        text: AppLocalizations.of(context)!.rememberMe,
+                        isRemember: isCheckCheckbox(),
+                      ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const ChangePasswordScreen()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ChangePasswordScreen()));
                         },
                         child: Text(
                           '${AppLocalizations.of(context)!.forgotPassword}?',
@@ -95,40 +117,37 @@ class _LogInScreenState extends State<LogInScreen> {
                     ],
                   ),
                 ),
-
-                // StreamBuilder(
-                //   stream: _loginBloc.loginStream,
-                //   builder: (context, snapshot) {
-                //     return ;
-                //   },
-                // ),
                 Padding(
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.03),
                   child: InkWell(
                     onTap: () async {
+                      // String email = 'vanhau27062001@gmail.com';
+                      // String password = '1234567Hau';
                       String email = textEmailController.text;
                       String password = textPasswordController.text;
-                      final bool loginStatus = await _loginViewModel.login(email, password);
+                      final int? loginStatus = await _loginViewModel.login(
+                          email, password, isRemember);
 
-                     print('view: $loginStatus');
-
-                      if (loginStatus) {
+                      if (loginStatus == LoginStatusEnum.successLogin.index) {
                         showTopSnackBar(
                             Overlay.of(context),
                             const CustomSnackBar.success(
                                 message: 'Login success'));
                         indexScreen = 0;
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => NavigationHomePage(),
-                            ));
-                      } else {
+                        navigationHomePage();
+                      } else if (loginStatus ==
+                          LoginStatusEnum.successLoginWithoutVerified.index) {
                         showTopSnackBar(
                             Overlay.of(context),
-                            const CustomSnackBar.error(
-                                message: 'Error'));
+                            const CustomSnackBar.info(
+                                message:
+                                    'Please enter your otp number that was sent via email'));
+                        indexScreen = 0;
+                        navigationVerifiedPage();
+                      } else {
+                        showTopSnackBar(Overlay.of(context),
+                            const CustomSnackBar.error(message: 'Error'));
                       }
                     },
                     child: PrimaryButton(
@@ -153,7 +172,8 @@ class _LogInScreenState extends State<LogInScreen> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Text(
                               AppLocalizations.of(context)!.or,
                               style: subtitle.copyWith(
@@ -170,7 +190,8 @@ class _LogInScreenState extends State<LogInScreen> {
                           ),
                         ],
                       ),
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -180,13 +201,15 @@ class _LogInScreenState extends State<LogInScreen> {
                           ),
                         ],
                       ),
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.8,
                         height: MediaQuery.of(context).size.height * 0.1,
                         child: LoginOption(),
                       ),
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -199,7 +222,10 @@ class _LogInScreenState extends State<LogInScreen> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) =>  SignUpScreen()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SignUpScreen()));
                             },
                             child: Text(
                               AppLocalizations.of(context)!.signUp,
@@ -229,6 +255,28 @@ class _LogInScreenState extends State<LogInScreen> {
             obscure = !obscure;
           });
         },
-        icon: obscure ? const Icon(Icons.visibility_off, color: kGreenColor) : const Icon(Icons.visibility, color: kGreenColor));
+        icon: obscure
+            ? const Icon(Icons.visibility_off, color: kGreenColor)
+            : const Icon(Icons.visibility, color: kGreenColor));
+  }
+
+  Widget isCheckCheckbox() {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          isRemember = !isRemember;
+        });
+      },
+      child: Container(
+        width: MediaQuery.of(context).devicePixelRatio * 7,
+        height: MediaQuery.of(context).devicePixelRatio * 7,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(4),
+            border: Border.all(color: kDarkGreyColor)),
+        child: isRemember
+            ? const Icon(Icons.check, size: 17, color: Colors.green)
+            : null,
+      ),
+    );
   }
 }

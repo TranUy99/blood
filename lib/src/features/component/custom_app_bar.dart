@@ -44,7 +44,7 @@ class CustomAppBar extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Name'),
+                Text(nameUser ?? 'null'),
                 TextButton(onPressed: () async {
                   SharedPreferences preferences = await SharedPreferences.getInstance();
                   preferences.remove('email');

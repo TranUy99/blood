@@ -1,4 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mobile_store/src/core/model/role.dart';
+
 part 'user.g.dart';
 
 @JsonSerializable()
@@ -9,35 +11,34 @@ class UserDTO {
   @JsonKey(name: 'gender')
   final int? gender;
 
-  @JsonKey(name: 'phone')
-  final String? phone;
-
   @JsonKey(name: 'email')
   final String? email;
 
-  @JsonKey(name: 'firstName')
-  final String? firstName;
+  @JsonKey(name: 'fullName')
+  final String? fullName;
 
-  @JsonKey(name: 'lastName')
-  final String? lastName;
   @JsonKey(name: 'birthDay')
   final String? birthday;
-  @JsonKey(name: 'avatar')
-  final String? avatar;
+
+  @JsonKey(name: 'authProvider')
+  final bool? authProvider;
+
+  @JsonKey(name: 'roleDTO')
+  final RoleDTO? roleDTO;
+
+  @JsonKey(name: 'statusDTO')
+  final bool? statusDTO;
 
   UserDTO({
+    this.roleDTO,
     this.id,
     this.gender,
-    this.phone,
     this.email,
-    this.firstName,
-    this.lastName,
-    this.avatar,
+    this.fullName,
     this.birthday,
+    this.authProvider,
+    this.statusDTO,
   });
-
-  // @JsonKey(name: 'fileAvatar')
-  // final String? fileAvatar;
 
   factory UserDTO.fromJson(Map<String, dynamic> json) => _$UserDTOFromJson(json);
 

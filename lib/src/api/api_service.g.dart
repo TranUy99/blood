@@ -21,10 +21,14 @@ class _ApiService implements ApiService {
   String? baseUrl;
 
   @override
-  Future<UserDTO> getUser(String username) async {
+  Future<UserDTO> getUser({
+    required String auth,
+    required int id,
+  }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': auth};
+    _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<Map<String, dynamic>>(_setStreamType<UserDTO>(Options(
@@ -34,7 +38,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/user/${username}',
+              '/api/user/${id}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -136,6 +140,52 @@ class _ApiService implements ApiService {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = ProductDTO.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<SendEmailResponse> sendEmail(String email) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'email': email};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<SendEmailResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/mail/active-user',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = SendEmailResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<ActiveOTPResponse> activeOTP(String activeOTP) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'activeOTP': activeOTP};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<ActiveOTPResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/user/active-otp',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = ActiveOTPResponse.fromJson(_result.data!);
     return value;
   }
 
