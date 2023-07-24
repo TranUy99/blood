@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
@@ -10,8 +9,12 @@ import 'package:mobile_store/src/features/detail_product/widget/configuration_pr
 import 'package:mobile_store/src/features/detail_product/widget/product_information.dart';
 import 'package:mobile_store/src/features/detail_product/widget/review_product.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
+import 'package:mobile_store/src/features/detail_product/view_model/detail_product_view_model.dart';
+import 'package:mobile_store/src/features/detail_product/widget/configuration_product.dart';
 import 'package:mobile_store/src/features/detail_product/widget/image_product.dart';
 import 'package:mobile_store/src/features/detail_product/widget/name_product.dart';
+import 'package:mobile_store/src/features/detail_product/widget/product_information.dart';
+import 'package:mobile_store/src/features/detail_product/widget/review_product.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final int idProduct;
@@ -44,7 +47,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         } else {
           if (snapshot.hasData) {
             product = snapshot.data!;
-            
+
             return buildUI(context);
           } else {
             return Text('No products available');
@@ -69,12 +72,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
                 onPressed: () {
-                 Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const CartPage(),
-                      ),
-                    );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CartPage(),
+                    ),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: kGreenColor,

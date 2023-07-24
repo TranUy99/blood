@@ -1,11 +1,15 @@
-abstract class VerifiedEmailEvent{}
+abstract class VerifiedEmailEvent {}
 
-class SendEmailEvent extends VerifiedEmailEvent{
+//Event for send email
+class SendEmailEvent extends VerifiedEmailEvent {
   final String email;
+
   SendEmailEvent(this.email);
 }
 
-class ActivateOTPEvent extends VerifiedEmailEvent{
+//Event for activate otp
+class ActivateOTPEvent extends VerifiedEmailEvent {
   final String activeOTP;
+
   ActivateOTPEvent(this.activeOTP);
 }

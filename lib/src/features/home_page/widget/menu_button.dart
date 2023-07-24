@@ -39,16 +39,16 @@ class _MenuButtonState extends State<MenuButton> {
     );
   }
 
-  navigatorPage(BuildContext context) {
+  navigatorPage(BuildContext context, int value) {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const CategoryScreen(),
+          builder: (context) => CategoryScreen(manufactureID: value),
         ));
   }
 
   onSelected(BuildContext context, int value) {
-    navigatorPage(context);
+    navigatorPage(context, value);
   }
 
   Widget menuItems(String title, String src){

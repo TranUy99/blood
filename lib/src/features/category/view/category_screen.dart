@@ -1,5 +1,7 @@
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_store/src/features/category/service/category_service.dart';
+import 'package:mobile_store/src/features/category/view_model/category_view_model.dart';
 
 import '../../../constant/color/color.dart';
 import '../../home_page/bloc/product_bloc.dart';
@@ -7,7 +9,9 @@ import '../../home_page/view/product_screen.dart';
 import '../../component/custom_app_bar.dart';
 
 class CategoryScreen extends StatefulWidget {
-  const CategoryScreen({Key? key}) : super(key: key);
+  const CategoryScreen({Key? key, required this.manufactureID}) : super(key: key);
+
+  final int manufactureID;
 
   @override
   State<CategoryScreen> createState() => _CategoryScreenState();
@@ -15,6 +19,7 @@ class CategoryScreen extends StatefulWidget {
 
 class _CategoryScreenState extends State<CategoryScreen> {
   final ProductBloc productBloc = ProductBloc();
+  CategoryViewModel categoryViewModel = CategoryViewModel();
   List<String> brandName = [
     'Apple',
     'Samsung',
@@ -45,6 +50,17 @@ class _CategoryScreenState extends State<CategoryScreen> {
     '2000 - 2500 USD',
     '2500 - 3000 USD'
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('manufactureID: ${widget.manufactureID}');
+  }
+
+  _getData() async {
+
+  }
 
   @override
   Widget build(BuildContext context) {

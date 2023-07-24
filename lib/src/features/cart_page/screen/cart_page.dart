@@ -89,7 +89,7 @@ class _CartPageState extends State<CartPage> {
                             ),
                           ),
                           child: Image.asset(
-                            'images/iphone.png',
+                            'assets/icon/iphone.png',
                             height: 150,
                             width: 80,
                           ),

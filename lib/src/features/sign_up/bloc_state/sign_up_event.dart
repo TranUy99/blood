@@ -1,5 +1,6 @@
 abstract class SignUpEvent {}
 
+//Create sign up event
 class SignUpButtonPressedEvent extends SignUpEvent {
   final String email;
   final String password;

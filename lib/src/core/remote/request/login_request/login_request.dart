@@ -2,12 +2,14 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'login_request.g.dart';
 
+//Send email, password to api
 @JsonSerializable()
 class LoginRequest {
   LoginRequest({
     this.email,
     this.password,
   });
+
   @JsonKey(name: 'email')
   final String? email;
 

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
+import 'package:mobile_store/src/constant/utils/validate.dart';
 import 'package:mobile_store/src/features/change_password/bloc/change_password_bloc.dart';
 import 'package:mobile_store/src/features/change_password/widget/change_password_form.dart';
-import 'package:mobile_store/src/features/profile/view/profile_page.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
-import 'package:mobile_store/src/constant/utils/validate.dart';
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({Key? key}) : super(key: key);
   @override
@@ -70,6 +69,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         hint: 'Old password',
                         color: kGreenColor,
                         textController: textOldPasswordController,
+                        suffixIcon: obscureChange(),
+                        obscure: obscure,
                       ),
                       BuildInputFormPassword(
                         hint: 'New password',
@@ -153,12 +154,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         const SizedBox(width: 40),
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const ProfilePage(),
-                              ),
-                            );
+                            Navigator.pop(context);
                           },
                           style: ButtonStyle(
                             backgroundColor:

@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'send_email_response.g.dart';
 
+//Receive message, errors from api
 @JsonSerializable()
 class SendEmailResponse {
   @JsonKey(name: 'message')

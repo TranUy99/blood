@@ -1,8 +1,10 @@
-abstract class VerifiedEmailState{}
+abstract class VerifiedEmailState {}
 
-class SuccessVerifiedEmailState extends VerifiedEmailState{}
+// State for success verified
+class SuccessVerifiedEmailState extends VerifiedEmailState {}
 
-class ErrorVerifiedEmailState extends VerifiedEmailState{
+// State for failed verified
+class ErrorVerifiedEmailState extends VerifiedEmailState {
   final String errorMessage;
 
   ErrorVerifiedEmailState(this.errorMessage);

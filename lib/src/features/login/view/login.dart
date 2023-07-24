@@ -35,8 +35,12 @@ class _LogInScreenState extends State<LogInScreen> {
     Get.offAll(const NavigationHomePage());
   }
 
-  navigationVerifiedPage(){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const VerifiedEmail(),));
+  navigationVerifiedPage() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const VerifiedEmail(),
+        ));
   }
 
   @override
@@ -128,25 +132,34 @@ class _LogInScreenState extends State<LogInScreen> {
                       final int? loginStatus = await _loginViewModel.login(
                           email, password, isRemember);
 
-                      if (loginStatus == LoginStatusEnum.successLogin.index) {
-                        showTopSnackBar(
-                            Overlay.of(context),
-                            const CustomSnackBar.success(
-                                message: 'Login success'));
-                        indexScreen = 0;
-                        navigationHomePage();
-                      } else if (loginStatus ==
-                          LoginStatusEnum.successLoginWithoutVerified.index) {
-                        showTopSnackBar(
-                            Overlay.of(context),
-                            const CustomSnackBar.info(
-                                message:
-                                    'Please enter your otp number that was sent via email'));
-                        indexScreen = 0;
-                        navigationVerifiedPage();
+                      if (email.isNotEmpty || password.isNotEmpty) {
+                        if (loginStatus == LoginStatusEnum.successLogin.index) {
+                          showTopSnackBar(
+                              Overlay.of(context),
+                              const CustomSnackBar.success(
+                                  message: 'Login success'));
+                          indexScreen = 0;
+                          navigationHomePage();
+                        } else if (loginStatus ==
+                            LoginStatusEnum.successLoginWithoutVerified.index) {
+                          showTopSnackBar(
+                              Overlay.of(context),
+                              const CustomSnackBar.info(
+                                  message:
+                                      'Please enter your otp number that was sent via email'));
+                          indexScreen = 0;
+                          navigationVerifiedPage();
+                        } else {
+                          showTopSnackBar(
+                              Overlay.of(context),
+                              const CustomSnackBar.error(
+                                  message: 'Login failed'));
+                        }
                       } else {
-                        showTopSnackBar(Overlay.of(context),
-                            const CustomSnackBar.error(message: 'Error'));
+                        showTopSnackBar(
+                            Overlay.of(context),
+                            const CustomSnackBar.error(
+                                message: 'Please fill in all fields'));
                       }
                     },
                     child: PrimaryButton(

@@ -8,10 +8,12 @@ enum LoginStatusEnum { successLogin, successLoginWithoutVerified, errorLogin }
 class LoginViewModel {
   final LoginBloc _loginBloc = LoginBloc();
 
+  //Add event
   Future<int?> login(String email, String password, bool isRemember) async {
     await _loginBloc.handleEvent(LoginEvent(email, password, isRemember));
     int? isLogin;
 
+    //Listen from state
     await _loginBloc.state.listen(
       (state) {
         if (state is SuccessLoginState) {
