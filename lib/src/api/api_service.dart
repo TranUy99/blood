@@ -14,7 +14,7 @@ import '../core/remote/response/sign_up_response.dart';
 
 part 'api_service.g.dart';
 
-@RestApi(baseUrl: 'http://192.168.1.33:8085')
+@RestApi(baseUrl: 'http://192.168.1.38:8085')
 // @RestApi(baseUrl: 'http://45.117.170.206:8085')
 
 abstract class ApiService {
@@ -30,7 +30,7 @@ abstract class ApiService {
     return _ApiService(dio);
   }
 
-  @GET('/api/user/{username}')
+  @GET('/api/user/{id}')
   Future<UserDTO> getUser(@Path('username') String username);
 
   @POST('/api/login')

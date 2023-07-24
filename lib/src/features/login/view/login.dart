@@ -107,8 +107,8 @@ class _LogInScreenState extends State<LogInScreen> {
                       top: MediaQuery.of(context).size.height * 0.03),
                   child: InkWell(
                     onTap: () async {
-                      String email = 'vanhau27062001@gmail.com';
-                      String password = '1234567Hau';
+                      String email = textEmailController.text;
+                      String password = textPasswordController.text;
                       final bool loginStatus = await _loginViewModel.login(email, password);
 
                      print('view: $loginStatus');

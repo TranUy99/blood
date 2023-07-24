@@ -47,11 +47,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      iconOfInformation('images/your_information_icon.png',
+                      iconOfInformation('assets/icon/your_information_icon.png',
                           'Your information', 0),
-                      iconOfInformation('images/order_icon.png', 'Order', 1),
+                      iconOfInformation('assets/icon/order_icon.png', 'Order', 1),
                       iconOfInformation(
-                          'images/promotion_icon.png', 'Promotion', 2),
+                          'assets/icon/promotion_icon.png', 'Promotion', 2),
                     ],
                   ),
                 ),

@@ -62,7 +62,7 @@ class _YourInformationState extends State<YourInformation> {
                             );
                           },
                           child: Image.asset(
-                            'images/edit.png',
+                            'assets/icon/edit_icon.png',
                             height: MediaQuery.of(context).size.height * 0.03,
                           ),
                         )
@@ -78,40 +78,40 @@ class _YourInformationState extends State<YourInformation> {
                           Row(
                             children: [
                               Image.asset(
-                                'images/phone.png',
+                                'assets/icon/phone_icon.png',
                                 height:
                                     MediaQuery.of(context).size.height * 0.03,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 6,
                               ),
                               Text(
                                   'Phone number ${_phoneNumberController.text}'),
                             ],
                           ),
-                          SizedBox(height: 2),
+                          const SizedBox(height: 2),
                           Row(
                             children: [
                               Image.asset(
-                                'images/account_icon.jpg',
+                                'assets/icon/account_icon.jpg',
                                 height:
                                     MediaQuery.of(context).size.height * 0.03,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 6,
                               ),
                               Text('Full name ${_nameController.text}'),
                             ],
                           ),
-                          SizedBox(height: 2),
+                          const SizedBox(height: 2),
                           Row(
                             children: [
                               Image.asset(
-                                'images/calendar.png',
+                                'assets/icon/calendar_icon.png',
                                 height:
                                     MediaQuery.of(context).size.height * 0.025,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
                               Text('01/01/2001 '),
