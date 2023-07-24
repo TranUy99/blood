@@ -1,9 +1,23 @@
 import 'package:mobile_store/src/core/model/user.dart';
 
 class GetUser {
-  int? _idUser = 0;
-  String? _token = '';
+  int? _idUser;
+  String? _token;
+  String? _password;
+  String? _email;
   UserDTO _userDTO = UserDTO();
+
+  String? get email => _email;
+
+  set email(String? value) {
+    _email = value;
+  }
+
+  String? get password => _password;
+
+  set password(String? value) {
+    _password = value;
+  }
 
   UserDTO get userDTO => _userDTO;
 

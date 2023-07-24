@@ -19,14 +19,15 @@ void main() async {
 
 _autoLogin() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
-  String? _email = preferences.getString('email');
-  int? _id = preferences.getInt('id');
-  String? _token = preferences.getString('token');
-  String? _password = preferences.getString('password');
-  print('$_email - $_id - $_password - $_token');
-  if(_password != null){
+  getUser.email = preferences.getString('email');
+  getUser.idUser = preferences.getInt('id');
+  getUser.token = preferences.getString('token');
+  getUser.password = preferences.getString('password');
+  print(
+      '${getUser.email} - ${getUser.idUser} - ${getUser.password} - ${getUser.token}');
+  if (getUser.password != null) {
     successLoginState.onLoginState = true;
-  }else{
+  } else {
     successLoginState.onLoginState = false;
   }
 }
@@ -38,7 +39,8 @@ _getUser() async {
   getUser.idUser = preferences.getInt('idUser');
   getUser.token = preferences.getString('token');
   if (successLoginState.onLoginState) {
-    getUser.userDTO = await UserService.userService(getUser.idUser!, getUser.token!);
+    getUser.userDTO =
+        await UserService.userService(getUser.idUser!, getUser.token!);
     print('main ${getUser.userDTO.fullName}');
   }
 }
@@ -48,6 +50,7 @@ class MyApp extends StatefulWidget {
 
   @override
   State<MyApp> createState() => _MyAppState();
+
   static void setLocale(BuildContext context, Locale newLocale) {
     _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
     state?.setLocale(newLocale);
@@ -56,6 +59,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Locale? _locale;
+
   setLocale(Locale locale) {
     setState(() {
       _locale = locale;
@@ -71,7 +75,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-       initialBinding: NetworkBinding(),
+        initialBinding: NetworkBinding(),
         debugShowCheckedModeBanner: false,
         title: "Mobile Store",
         theme: ThemeData(fontFamily: 'Poppins'),

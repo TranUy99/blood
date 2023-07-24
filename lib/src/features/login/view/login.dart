@@ -135,7 +135,7 @@ class _LogInScreenState extends State<LogInScreen> {
                       final int? loginStatus = await _loginViewModel.login(
                           email, password, isRemember);
 
-                      if(email.isNotEmpty || password.isNotEmpty){
+                      if (email.isNotEmpty || password.isNotEmpty) {
                         if (loginStatus == LoginStatusEnum.successLogin.index) {
                           showTopSnackBar(
                               Overlay.of(context),
@@ -158,7 +158,7 @@ class _LogInScreenState extends State<LogInScreen> {
                               const CustomSnackBar.error(
                                   message: 'Login failed'));
                         }
-                      }else{
+                      } else {
                         showTopSnackBar(
                             Overlay.of(context),
                             const CustomSnackBar.error(

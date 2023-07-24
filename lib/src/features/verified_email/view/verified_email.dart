@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import 'package:mobile_store/src/features/verified_email/verified_email_view_model/verified_email_viewmodel.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../../../main.dart';
 import '../../../constant/color/color.dart';
 import '../../../constant/utils/validate.dart';
 import '../../component/primary_button.dart';
@@ -24,8 +24,7 @@ class _VerifiedEmailState extends State<VerifiedEmail> {
   VerifiedEmailViewModel verifiedEmailViewModel = VerifiedEmailViewModel();
 
   _sendEmail() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    String? email = preferences.getString('email');
+    String? email = getUser.email;
     verifiedEmailViewModel.sendEmail(email!);
   }
 

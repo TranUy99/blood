@@ -22,7 +22,8 @@ class CustomAppBar extends StatelessWidget {
         ),
         color: kDarkGreyColor,
         boxShadow: const [BoxShadow(blurRadius: 50.0)],
-        borderRadius: BorderRadius.vertical(bottom: Radius.elliptical(MediaQuery.of(context).size.width, 20)),
+        borderRadius: BorderRadius.vertical(
+            bottom: Radius.elliptical(MediaQuery.of(context).size.width, 20)),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -38,35 +39,40 @@ class CustomAppBar extends StatelessWidget {
               ],
             ),
           ),
-          (successLoginState.onLoginState )
-              ?
-          Padding (
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(getUser.userDTO.fullName ?? 'null'),
-                TextButton(onPressed: () async {
-                  SharedPreferences preferences = await SharedPreferences.getInstance();
-                  preferences.remove('email');
-                  preferences.remove('id');
-                  preferences.remove('token');
-                  preferences.remove('password');
-                  successLoginState.onLoginState = false;
-                  indexScreen = 0;
-                   // ignore: use_build_context_synchronously
-                   Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const NavigationHomePage()));
-                }, child: const Text('Log out', style:  TextStyle(
-                        color: kRedColor,
-                        fontSize: 15,
-                      ),))
-              ],
-            ),
-          )
+          (successLoginState.onLoginState)
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(getUser.userDTO.fullName ?? 'null'),
+                      TextButton(
+                          onPressed: () async {
+                            SharedPreferences preferences =
+                                await SharedPreferences.getInstance();
+                            preferences.remove('email');
+                            preferences.remove('id');
+                            preferences.remove('token');
+                            preferences.remove('password');
+                            successLoginState.onLoginState = false;
+                            indexScreen = 0;
+                            // ignore: use_build_context_synchronously
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const NavigationHomePage()));
+                          },
+                          child: const Text(
+                            'Log out',
+                            style: TextStyle(
+                              color: kRedColor,
+                              fontSize: 15,
+                            ),
+                          ))
+                    ],
+                  ),
+                )
               : const SizedBox.shrink(),
         ],
       ),
@@ -83,13 +89,13 @@ PreferredSizeWidget? appBarWidget(BuildContext context, bool backButton) {
         backgroundColor: kSecondaryColor,
         leading: backButton
             ? IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.arrow_back_ios_new_sharp))
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.arrow_back_ios_new_sharp))
             : Image(
-            image: const AssetImage('assets/images/banner0.jpg'),
-            height: MediaQuery.of(context).size.height * 0.06),
+                image: const AssetImage('assets/images/banner0.jpg'),
+                height: MediaQuery.of(context).size.height * 0.06),
         flexibleSpace: CustomAppBar()),
   );
 }
