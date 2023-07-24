@@ -25,10 +25,10 @@ class SignUpBloc {
 
         if (signUpResult.message == null) {
           _signUpStateSubject.sink.add(SuccessSignUpState(true));
-          log("success");
+        
         } else {
           _signUpStateSubject.sink.add(ErrorSignUpState("error"));
-          log("failure");
+        
         }
       } catch (e) {
         _signUpStateSubject.add(ErrorSignUpState("error"));

@@ -147,14 +147,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return;
                     }
 
-                    final bool signUpStatus = await _signUpViewModel.signUp(email, password, fullName);
+                    final bool? signUpStatus = await _signUpViewModel.signUp(email, password, fullName);
 
-                    if (signUpStatus) {
+                    if (signUpStatus==true) {
                       showTopSnackBar(
                         Overlay.of(context),
                         const CustomSnackBar.error(
-                          message: 'Wrong information',
-                          backgroundColor: Colors.green,
+                          message: 'Register success',
+                          backgroundColor: Color.fromARGB(255, 32, 186, 38),
                         ),
                       );
                       // ignore: use_build_context_synchronously
