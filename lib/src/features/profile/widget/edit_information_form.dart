@@ -108,7 +108,7 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
                 ),
               ],
             ),
-            SizedBox(height: 6),
+            const SizedBox(height: 6),
             Row(
               children: [
                 Expanded(
