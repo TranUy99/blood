@@ -26,9 +26,9 @@ class VerifiedEmailBloc {
     }
 
     if (message == 'SEND MAIL') {
-      _stateController.add(SuccessVerifiedEmailState());
+      _stateController.sink.add(SuccessVerifiedEmailState());
     } else {
-      _stateController.add(ErrorVerifiedEmailState('Failed to send email'));
+      _stateController.sink.add(ErrorVerifiedEmailState('Failed to send email'));
     }
   }
 
@@ -37,7 +37,7 @@ class VerifiedEmailBloc {
     await _activeOTP(event.activeOTP);
   }
 
-  //Call api activeOTP
+  //Call api activeOTP and check state
   Future<void> _activeOTP(String activeOTP) async {
     String? message;
     final activeOTPResult = VerifiedEmailService.activeOTPService(activeOTP);
@@ -50,9 +50,9 @@ class VerifiedEmailBloc {
     }
 
     if (message != 'UNEXPECTED ERROR OCCURRED') {
-      _stateController.add(SuccessVerifiedEmailState());
+      _stateController.sink.add(SuccessVerifiedEmailState());
     } else {
-      _stateController.add(ErrorVerifiedEmailState('Failed to active OTP'));
+      _stateController.sink.add(ErrorVerifiedEmailState('Failed to active OTP'));
     }
   }
 

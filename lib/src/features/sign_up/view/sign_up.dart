@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
-import 'package:mobile_store/src/features/login/view/login_option.dart';
 import 'package:mobile_store/src/features/component/primary_button.dart';
+import 'package:mobile_store/src/features/login/view/login_option.dart';
 import 'package:mobile_store/src/features/sign_up/bloc_state/sign_up_bloc.dart';
 import 'package:mobile_store/src/features/sign_up/widget/sign_up_form.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+
 import '../../../constant/utils/validate.dart';
 import '../../login/view/login.dart';
 import '../view_model/sign_up_view_model.dart';
@@ -55,18 +56,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.05),
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.04),
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.04),
                   child: Text(
                     AppLocalizations.of(context)!.signUp.toUpperCase(),
                     style: titleText,
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.03),
                   child: Column(children: [
                     BuildInputFormSignIn(
                       hint: AppLocalizations.of(context)!.fullName,
@@ -86,14 +90,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           errorText: error ? errorText : null,
                           hintText: AppLocalizations.of(context)!.password,
                           hintStyle: const TextStyle(color: kTextFieldColor),
-                          focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
+                          focusedBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: kGreenColor)),
                           suffixIcon: obscureChange()),
                       onChanged: (value) {
                         setState(() {
                           // Check password
-                          if (value.isEmpty || Validate.checkInvalidateNewPassword(value)) {
+                          if (value.isEmpty ||
+                              Validate.checkInvalidateNewPassword(value)) {
                             error = true;
-                            errorText = value.isEmpty ? 'Mật khẩu không được để trống' : 'Mật khẩu nên có chữ cái in hoa và kí tự đặc biệt';
+                            errorText = value.isEmpty
+                                ? 'Mật khẩu không được để trống'
+                                : 'Mật khẩu nên có chữ cái in hoa và kí tự đặc biệt';
                           } else {
                             error = false;
                             errorText = '';
@@ -109,12 +117,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           errorText: error ? errorText : null,
                           hintText: AppLocalizations.of(context)!.password,
                           hintStyle: const TextStyle(color: kTextFieldColor),
-                          focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
+                          focusedBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: kGreenColor)),
                           suffixIcon: obscureChange()),
                       onChanged: (value) {
                         setState(() {
                           // Check password
-                          if (textPasswordController.text != textConfirmPasswordController.text) {
+                          if (textPasswordController.text !=
+                              textConfirmPasswordController.text) {
                             error = true;
                             errorText = 'Mật khẩu không trùng khớp';
                           } else {
@@ -127,8 +137,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ]),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
-                  child: CheckBoxSignIn(text: AppLocalizations.of(context)!.agreeToTermAndConditions, isCheck: isCheckCheckbox()),
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.02),
+                  child: CheckBoxSignIn(
+                      text: AppLocalizations.of(context)!
+                          .agreeToTermAndConditions,
+                      isCheck: isCheckCheckbox()),
                 ),
                 InkWell(
                   onTap: () async {
@@ -136,7 +150,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     String password = textPasswordController.text;
                     String fullName = textNameController.text;
 
-                    if (email.isEmpty || password.isEmpty || fullName.isEmpty || textConfirmPasswordController.text.isEmpty) {
+                    if (email.isEmpty ||
+                        password.isEmpty ||
+                        fullName.isEmpty ||
+                        textConfirmPasswordController.text.isEmpty) {
                       showTopSnackBar(
                         Overlay.of(context),
                         const CustomSnackBar.error(
@@ -147,13 +164,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return;
                     }
 
-                    final bool signUpStatus = await _signUpViewModel.signUp(email, password, fullName);
+                    final bool signUpStatus = await _signUpViewModel.signUp(
+                        email, password, fullName);
 
                     if (signUpStatus) {
                       showTopSnackBar(
                         Overlay.of(context),
                         const CustomSnackBar.error(
-                          message: 'Wrong information',
+                          message: 'Success Register',
                           backgroundColor: Colors.green,
                         ),
                       );
@@ -167,7 +185,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     } else {
                       showTopSnackBar(
                         Overlay.of(context),
-                        CustomSnackBar.error(
+                        const CustomSnackBar.error(
                           message: 'Email already exists',
                           backgroundColor: Colors.red,
                         ),
@@ -196,7 +214,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Text(
                               AppLocalizations.of(context)!.or,
                               style: subtitle.copyWith(
@@ -213,7 +232,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ],
                       ),
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -223,13 +243,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ],
                       ),
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.8,
                         height: MediaQuery.of(context).size.height * 0.1,
                         child: const LoginOption(),
                       ),
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -294,8 +316,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
       child: Container(
         width: MediaQuery.of(context).devicePixelRatio * 7,
         height: MediaQuery.of(context).devicePixelRatio * 7,
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), border: Border.all(color: kDarkGreyColor)),
-        child: isCheck ? const Icon(Icons.check, size: 17, color: Colors.green) : null,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(4),
+            border: Border.all(color: kDarkGreyColor)),
+        child: isCheck
+            ? const Icon(Icons.check, size: 17, color: Colors.green)
+            : null,
       ),
     );
   }

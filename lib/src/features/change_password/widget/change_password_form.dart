@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/features/change_password/bloc/change_password_bloc.dart';
 import 'package:mobile_store/src/constant/utils/validate.dart';
+import 'package:mobile_store/src/features/change_password/bloc/change_password_bloc.dart';
 
 import '../../../constant/color/color.dart';
 
@@ -10,10 +10,14 @@ class BuildInputFormChangePassword extends StatefulWidget {
     required this.textController,
     required this.hint,
     required this.color,
+    required this.suffixIcon,
+    required this.obscure,
   }) : super(key: key);
   final TextEditingController textController;
   final String hint;
   final Color color;
+  final Widget suffixIcon;
+  final bool obscure;
   get sharedTextPasswordBloc => null;
 
   @override
@@ -42,12 +46,14 @@ class _BuildInputFormChangePasswordState
           });
         },
         controller: widget.textController,
+        obscureText: widget.obscure,
         decoration: InputDecoration(
           errorText: error ? errorText : null,
           hintText: widget.hint,
           hintStyle: const TextStyle(color: kTextFieldColor),
           focusedBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: kGreenColor)),
+          suffixIcon: widget.suffixIcon,
         ),
       ),
     );

@@ -3,6 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'login_response.g.dart';
 
+//Receive message, token, idUser, type, email, role from api
 @JsonSerializable()
 class LoginResponse {
   @JsonKey(name: 'token')

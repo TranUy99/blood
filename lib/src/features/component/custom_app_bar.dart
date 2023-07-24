@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../main.dart';
 import '../../constant/color/color.dart';
 import '../home_page/view/navigation_home_page.dart';
 import '../home_page/widget/menu_button.dart';
@@ -37,14 +38,14 @@ class CustomAppBar extends StatelessWidget {
               ],
             ),
           ),
-          successLoginState.onLoginState
+          (successLoginState.onLoginState )
               ?
           Padding (
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(nameUser ?? 'null'),
+                Text(getUser.userDTO.fullName ?? 'null'),
                 TextButton(onPressed: () async {
                   SharedPreferences preferences = await SharedPreferences.getInstance();
                   preferences.remove('email');

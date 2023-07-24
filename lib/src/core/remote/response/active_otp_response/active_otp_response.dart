@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'active_otp_response.g.dart';
 
+//Receive message from api
 @JsonSerializable()
 class ActiveOTPResponse {
   @JsonKey(name: 'message')

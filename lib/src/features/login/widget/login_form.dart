@@ -5,13 +5,10 @@ import '../../../constant/color/color.dart';
 
 class BuildInputFormLogIn extends StatefulWidget {
   const BuildInputFormLogIn(
-      {Key? key,
-      required this.textController,
-      required this.hint})
+      {Key? key, required this.textController, required this.hint})
       : super(key: key);
   final TextEditingController textController;
   final String hint;
-
 
   @override
   State<BuildInputFormLogIn> createState() => _BuildInputFormLogInState();
@@ -24,13 +21,16 @@ class _BuildInputFormLogInState extends State<BuildInputFormLogIn> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01),
+      padding: EdgeInsets.symmetric(
+          vertical: MediaQuery.of(context).size.height * 0.01),
       child: TextField(
         onChanged: (value) {
           setState(() {
             if (Validate.invalidateEmail(value)) {
               error = true;
-              errorText = 'Invalid email';
+              errorText = widget.textController.text.isEmpty
+                  ? 'Email cannot be empty'
+                  : 'Invalid email';
             } else {
               error = false;
             }
@@ -50,17 +50,18 @@ class _BuildInputFormLogInState extends State<BuildInputFormLogIn> {
 }
 
 class BuildInputFormPassword extends StatefulWidget {
-  BuildInputFormPassword(
-      {Key? key,
-      required this.hint,
-      required this.obscure,
-      required this.textController,
-      required this.function,})
-      : super(key: key);
+  BuildInputFormPassword({
+    Key? key,
+    required this.hint,
+    required this.obscure,
+    required this.textController,
+    required this.function,
+  }) : super(key: key);
   final TextEditingController textController;
   final String hint;
   late final bool obscure;
   final Widget function;
+
   @override
   State<BuildInputFormPassword> createState() => _BuildInputFormPasswordState();
 }
@@ -72,13 +73,16 @@ class _BuildInputFormPasswordState extends State<BuildInputFormPassword> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01),
+      padding: EdgeInsets.symmetric(
+          vertical: MediaQuery.of(context).size.height * 0.01),
       child: TextField(
         onChanged: (value) {
           setState(() {
             if (Validate.checkInvalidateNewPassword(value)) {
               error = true;
-              errorText = 'Invalid password';
+              errorText = widget.textController.text.isEmpty
+                  ? 'Password cannot be empty'
+                  : 'Invalid password';
             } else {
               error = false;
             }
@@ -101,7 +105,9 @@ class _BuildInputFormPasswordState extends State<BuildInputFormPassword> {
 class CheckBoxLogIn extends StatefulWidget {
   final String text;
   final Widget isRemember;
-  const CheckBoxLogIn({super.key, required this.text, required this.isRemember});
+
+  const CheckBoxLogIn(
+      {super.key, required this.text, required this.isRemember});
 
   @override
   _CheckBoxLogInState createState() => _CheckBoxLogInState();

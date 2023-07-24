@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 import 'package:mobile_store/languages/language_contanst.dart';
+import 'package:mobile_store/src/constant/utils/get_user.dart';
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 import 'package:mobile_store/src/features/login/service/login_service.dart';
@@ -30,19 +31,15 @@ _autoLogin() async {
   }
 }
 
+GetUser getUser = GetUser();
+
 _getUser() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
-  int? id = preferences.getInt('id');
-  String? token = preferences.getString('token');
+  getUser.idUser = preferences.getInt('idUser');
+  getUser.token = preferences.getString('token');
   if (successLoginState.onLoginState) {
-    final userResult = UserService.userService(id!, token!);
-    await userResult.then((value) {
-      nameUser = value.fullName;
-      if(value.statusDTO == false){
-        successLoginState.onLoginState = false;
-        preferences.remove('password');
-      }
-    });
+    getUser.userDTO = await UserService.userService(getUser.idUser!, getUser.token!);
+    print('main ${getUser.userDTO.fullName}');
   }
 }
 

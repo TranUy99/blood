@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import 'package:mobile_store/src/features/verified_email/verified_email_view_model/verified_email_viewmodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -50,9 +49,8 @@ class _VerifiedEmailState extends State<VerifiedEmail> {
                 Padding(
                     padding: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * 0.04),
-                    child: Text(
-                        'Verified Email'.toUpperCase(),
-                        style: titleText)),
+                    child:
+                        Text('Verified Email'.toUpperCase(), style: titleText)),
                 Padding(
                   padding: EdgeInsets.symmetric(
                       vertical: MediaQuery.of(context).size.height * 0.05,
@@ -87,20 +85,22 @@ class _VerifiedEmailState extends State<VerifiedEmail> {
                   child: InkWell(
                     onTap: () async {
                       String otpNumber = textOTPController.text;
-                      bool? isVerified = await verifiedEmailViewModel.activeOTP(otpNumber);
+                      bool? isVerified =
+                          await verifiedEmailViewModel.activeOTP(otpNumber);
                       if (isVerified) {
                         showTopSnackBar(
                             Overlay.of(context),
                             const CustomSnackBar.success(
                                 message: 'Login success'));
-                        Get.offAll(NavigationHomePage());
+                        Get.offAll(const NavigationHomePage());
                       } else {
-                        showTopSnackBar(Overlay.of(context),
-                            const CustomSnackBar.error(message: 'Error'));
+                        showTopSnackBar(
+                            Overlay.of(context),
+                            const CustomSnackBar.error(
+                                message: 'Wrong OTP number'));
                       }
                     },
-                    child: const PrimaryButton(
-                        buttonText: 'Verified Email'),
+                    child: const PrimaryButton(buttonText: 'Verified Email'),
                   ),
                 ),
               ],

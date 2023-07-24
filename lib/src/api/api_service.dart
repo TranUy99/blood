@@ -1,22 +1,23 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/core/model/user.dart';
-
+import 'package:mobile_store/src/core/remote/request/change_password_request/change_password_request.dart';
 import 'package:mobile_store/src/core/remote/request/login_request/login_request.dart';
 import 'package:mobile_store/src/core/remote/response/login_response/login_response.dart';
-
 import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
+
 import '../core/remote/request/sign_up_request/sign_up_request.dart';
 import '../core/remote/response/active_otp_response/active_otp_response.dart';
 import '../core/remote/response/active_otp_response/send_email_response.dart';
+import '../core/remote/response/change_password_response/change_password_response.dart';
+import '../core/remote/response/product_filter_response/product_filter_response.dart';
 import '../core/remote/response/sign_up_response/sign_up_response.dart';
 
 part 'api_service.g.dart';
 
-@RestApi(baseUrl: 'http://192.168.1.11:8085')
+//Base address
+@RestApi(baseUrl: 'http://192.168.1.2:8085')
 // @RestApi(baseUrl: 'http://45.117.170.206:8085')
 
 abstract class ApiService {
@@ -32,26 +33,45 @@ abstract class ApiService {
     return _ApiService(dio);
   }
 
+  //Call api getUser to get user information after login
   @GET('/api/user/{id}')
   Future<UserDTO> getUser(
-      {@Header("Authorization") required String auth, @Path('id') required int id});
+      {@Header("Authorization") required String auth,
+      @Path('id') required int id});
 
+  //Verified email and password to login
   @POST('/api/login')
   Future<LoginResponse> login(@Body() LoginRequest login);
 
+  //Register new customer
   @POST('/api/user/')
   Future<SignUpResponse> register(@Body() SignUpRequest register);
 
   @GET('/api/product')
   Future<List<ProductDTO>> getProductNew();
 
+  //Get all information about product
   @GET('/api/product/detail/{id}')
   Future<ProductDTO> getDetailProduct(@Path('id') int id);
 
+  //Call this api to send otp via email to active
   @GET('/api/mail/active-user')
   Future<SendEmailResponse> sendEmail(@Query('email') String email);
 
+  //Verify whether the OTP matches the one sent to the email
   @GET('/api/user/active-otp')
   Future<ActiveOTPResponse> activeOTP(@Query('activeOTP') String activeOTP);
-  
+
+  //Call Api to change password
+  @PUT('/api/user/change-password-by-token')
+  Future<ChangePasswordResponse> changePassword(
+      {@Body() required ChangePasswordRequest changePassword,
+      @Header('Authorization') required String auth});
+
+  //Filter product by manufactureId
+  @GET('/api/product/active-filter/{manufacturerId}')
+  Future<ProductFilterResponse> productFilter(
+      @Path('manufacturerId') int manufacturerId,
+      @Query('no') int no,
+      @Query('limit') int limit);
 }
