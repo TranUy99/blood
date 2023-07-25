@@ -37,27 +37,28 @@ class _ProfilePageState extends State<ProfilePage> {
                 horizontal: MediaQuery.of(context).size.width * 0.03),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10), color: Colors.white),
-            child: Column(
-              
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(
-                      vertical: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      iconOfInformation('assets/icon/your_information_icon.png',
-                          'Your information', 0),
-                      iconOfInformation('assets/icon/order_icon.png', 'Order', 1),
-                      iconOfInformation(
-                          'assets/icon/promotion_icon.png', 'Promotion', 2),
-                    ],
+            child: SingleChildScrollView(
+              child: Column(              
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                        vertical: MediaQuery.of(context).size.height * 0.02,
+                        ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        iconOfInformation('assets/icon/your_information_icon.png',
+                            'Your information', 0),
+                        iconOfInformation('assets/icon/order_icon.png', 'Order', 1),
+                        iconOfInformation(
+                            'assets/icon/promotion_icon.png', 'Promotion', 2),
+                      ],
+                    ),
                   ),
-                ),
-                const Divider(color: kWhiteGrey, thickness: 10),
-                profilePageList[screenIndex],
-              ],
+                  const Divider(color: kWhiteGrey, thickness: 10),
+                  profilePageList[screenIndex],
+                ],
+              ),
             ),
           ),
         ],

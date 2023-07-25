@@ -3,7 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/component/primary_button.dart';
 import 'package:mobile_store/src/features/login/view/login_option.dart';
-import 'package:mobile_store/src/features/sign_up/bloc_state/sign_up_bloc.dart';
+import 'package:mobile_store/src/features/sign_up/bloc/sign_up_bloc.dart';
 import 'package:mobile_store/src/features/sign_up/widget/sign_up_form.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -164,24 +164,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return;
                     }
 
-<<<<<<< HEAD
                     final bool? signUpStatus = await _signUpViewModel.signUp(email, password, fullName);
-=======
-                    final bool signUpStatus = await _signUpViewModel.signUp(
-                        email, password, fullName);
->>>>>>> 4df6c734f2516f62f5042b32d19efdc20035ed03
 
                     if (signUpStatus==true) {
                       showTopSnackBar(
                         Overlay.of(context),
                         const CustomSnackBar.error(
-<<<<<<< HEAD
                           message: 'Register success',
                           backgroundColor: Color.fromARGB(255, 32, 186, 38),
-=======
-                          message: 'Success Register',
-                          backgroundColor: Colors.green,
->>>>>>> 4df6c734f2516f62f5042b32d19efdc20035ed03
                         ),
                       );
                       // ignore: use_build_context_synchronously

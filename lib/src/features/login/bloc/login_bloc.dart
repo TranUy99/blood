@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:mobile_store/src/features/login/bloc/login_event.dart';
 import 'package:rxdart/rxdart.dart';
@@ -13,7 +14,7 @@ class LoginBloc {
   final _stateController = BehaviorSubject<LoginState>();
   String? mess;
   bool verifiedStatus = false;
-
+  int? id;
   Stream<LoginState> get state => _stateController.stream;
 
   //Get event login
@@ -29,32 +30,26 @@ class LoginBloc {
         mess = value.message;
         getUser.idUser = value.idUser!;
         getUser.token = value.token;
-        // print('$id - $token');
+
       });
     } catch (e) {
       mess = 'e';
     }
 
     try {
-      getUser.userDTO =
-          await UserService.userService(getUser.idUser!, getUser.token!);
+      getUser.userDTO = await UserService.userService(getUser.idUser!, getUser.token!);
       verifiedStatus = (getUser.userDTO.statusDTO)!;
     } catch (e) {
       print(e);
     }
 
-    print('username: ${getUser.userDTO.fullName}');
-    print('verified: $verifiedStatus');
-
     if (mess == null) {
       if (verifiedStatus) {
         _stateController.add(successLoginState = SuccessLoginState(true, true));
       } else {
-        _stateController
-            .add(successLoginState = SuccessLoginState(false, false));
+        _stateController.add(successLoginState = SuccessLoginState(false, false));
       }
-      successLoginState.saveLoginState(
-          email, password, getUser.token, getUser.idUser, isRemember);
+      successLoginState.saveLoginState(email, password, getUser.token, getUser.idUser, isRemember);
     } else {
       _stateController.add(ErrorLoginState(mess!));
     }

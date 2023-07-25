@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
@@ -23,8 +25,6 @@ _autoLogin() async {
   getUser.idUser = preferences.getInt('id');
   getUser.token = preferences.getString('token');
   getUser.password = preferences.getString('password');
-  print(
-      '${getUser.email} - ${getUser.idUser} - ${getUser.password} - ${getUser.token}');
   if (getUser.password != null) {
     successLoginState.onLoginState = true;
   } else {
@@ -38,10 +38,9 @@ _getUser() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   getUser.idUser = preferences.getInt('idUser');
   getUser.token = preferences.getString('token');
+  getUser.password = preferences.getString('password');
   if (successLoginState.onLoginState) {
-    getUser.userDTO =
-        await UserService.userService(getUser.idUser!, getUser.token!);
-    print('main ${getUser.userDTO.fullName}');
+    getUser.userDTO = await UserService.userService(getUser.idUser!, getUser.token!);
   }
 }
 

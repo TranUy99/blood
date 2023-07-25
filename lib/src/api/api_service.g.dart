@@ -13,11 +13,7 @@ class _ApiService implements ApiService {
     this._dio, {
     this.baseUrl,
   }) {
-<<<<<<< HEAD
-    baseUrl ??= 'http://192.168.1.38:8085';
-=======
-    baseUrl ??= 'http://192.168.1.2:8085';
->>>>>>> 4df6c734f2516f62f5042b32d19efdc20035ed03
+    baseUrl ??= 'http://192.168.1.27:8085';
   }
 
   final Dio _dio;
@@ -113,7 +109,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/product',
+              '/api/product/new',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -195,8 +191,8 @@ class _ApiService implements ApiService {
 
   @override
   Future<ChangePasswordResponse> changePassword({
-    required ChangePasswordRequest changePassword,
     required String auth,
+    required ChangePasswordRequest changePassword,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/constant/api_image/api_image.dart';
+import 'package:mobile_store/src/constant/api_outside/api_image.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/features/home_page/bloc/product_bloc.dart';

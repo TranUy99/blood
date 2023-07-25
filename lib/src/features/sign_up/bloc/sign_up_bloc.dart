@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:mobile_store/src/features/sign_up/bloc_state/sign_up_event.dart';
-import 'package:mobile_store/src/features/sign_up/bloc_state/sign_up_state.dart';
+import 'package:mobile_store/src/features/sign_up/bloc/sign_up_event.dart';
+import 'package:mobile_store/src/features/sign_up/bloc/sign_up_state.dart';
 import 'package:mobile_store/src/features/sign_up/service/sign_up_servie.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -11,12 +11,11 @@ class SignUpBloc {
       BehaviorSubject<SignUpState>();
 
   Stream<SignUpState> get signUpStateStream => _signUpStateSubject.stream;
-  bool isSignUpButtonPressed = false;
 
   //Get event and call api signUp
   Future<void> addEvent(SignUpEvent event) async {
     if (event is SignUpButtonPressedEvent) {
-      isSignUpButtonPressed = true;
+    
       final email = event.email;
       final password = event.password;
       final fullName = event.fullName;

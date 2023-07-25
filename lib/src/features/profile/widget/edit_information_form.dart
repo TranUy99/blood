@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 
 class EditInfomationForm extends StatefulWidget {
   EditInfomationForm(
-      TextEditingController phoneNumberController,
-      TextEditingController nameController,
-      TextEditingController emailController,
-      TextEditingController selectedGenderController,
+  
+      String? nameController,
+      String? emailController,
+      int? selectedGenderController,
       String? selectedDate);
 
   @override

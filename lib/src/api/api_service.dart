@@ -1,8 +1,5 @@
-<<<<<<< HEAD
+import 'dart:developer';
 
-
-=======
->>>>>>> 4df6c734f2516f62f5042b32d19efdc20035ed03
 import 'package:dio/dio.dart';
 import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/core/model/user.dart';
@@ -21,12 +18,7 @@ import '../core/remote/response/sign_up_response/sign_up_response.dart';
 
 part 'api_service.g.dart';
 
-<<<<<<< HEAD
-@RestApi(baseUrl: 'http://192.168.1.38:8085')
-=======
-//Base address
-@RestApi(baseUrl: 'http://192.168.1.2:8085')
->>>>>>> 4df6c734f2516f62f5042b32d19efdc20035ed03
+@RestApi(baseUrl: 'http://192.168.1.27:8085')
 // @RestApi(baseUrl: 'http://45.117.170.206:8085')
 
 abstract class ApiService {
@@ -45,8 +37,7 @@ abstract class ApiService {
   //Call api getUser to get user information after login
   @GET('/api/user/{id}')
   Future<UserDTO> getUser(
-      {@Header("Authorization") required String auth,
-      @Path('id') required int id});
+      {@Header("Authorization") required String auth, @Path('id') required int id});
 
   //Verified email and password to login
   @POST('/api/login')
@@ -56,7 +47,7 @@ abstract class ApiService {
   @POST('/api/user/')
   Future<SignUpResponse> register(@Body() SignUpRequest register);
 
-  @GET('/api/product')
+  @GET('/api/product/new')
   Future<List<ProductDTO>> getProductNew();
 
   //Get all information about product
@@ -73,14 +64,13 @@ abstract class ApiService {
 
   //Call Api to change password
   @PUT('/api/user/change-password-by-token')
-  Future<ChangePasswordResponse> changePassword(
-      {@Body() required ChangePasswordRequest changePassword,
-      @Header('Authorization') required String auth});
+  Future<ChangePasswordResponse> changePassword({
+    @Header("Authorization") required String auth,
+    @Body() required ChangePasswordRequest changePassword,
+  });
 
   //Filter product by manufactureId
   @GET('/api/product/active-filter/{manufacturerId}')
   Future<ProductFilterResponse> productFilter(
-      @Path('manufacturerId') int manufacturerId,
-      @Query('no') int no,
-      @Query('limit') int limit);
+      @Path('manufacturerId') int manufacturerId, @Query('no') int no, @Query('limit') int limit);
 }

@@ -1,5 +1,8 @@
+import 'dart:developer';
+
+import 'package:mobile_store/main.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/features/profile/widget/add_address.dart';
+import 'package:mobile_store/src/features/address/view/add_address.dart';
 import 'package:mobile_store/src/features/profile/widget/edit_information_form.dart';
 import '../../../constant/color/color.dart';
 import '../../change_password/view/change_password.dart';
@@ -13,15 +16,8 @@ class YourInformation extends StatefulWidget {
 
 class _YourInformationState extends State<YourInformation> {
   var home;
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-
-  final TextEditingController _selectedGenderController = TextEditingController();
-  final TextEditingController _phoneNumberController = TextEditingController();
 
   String? _selectedDate;
-
-  var _phoneNumber;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -48,7 +44,7 @@ class _YourInformationState extends State<YourInformation> {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return EditInfomationForm(_phoneNumber, _nameController, _emailController, _selectedGenderController, _selectedDate);
+                                  return EditInfomationForm( getUser.userDTO.fullName, getUser.userDTO.email, getUser.userDTO.gender, _selectedDate);
                                 },
                               );
                             },
@@ -69,26 +65,17 @@ class _YourInformationState extends State<YourInformation> {
                             Row(
                               children: [
                                 Image.asset(
-                                  'assets/icon/phone_icon.png',
-                                  height: MediaQuery.of(context).size.height * 0.03,
-                                ),
-                                const SizedBox(
-                                  width: 6,
-                                ),
-                                Text('Phone number ${_phoneNumberController.text}'),
-                              ],
-                            ),
-                            const SizedBox(height: 2),
-                            Row(
-                              children: [
-                                Image.asset(
                                   'assets/icon/account_icon.jpg',
                                   height: MediaQuery.of(context).size.height * 0.03,
                                 ),
                                 const SizedBox(
                                   width: 6,
                                 ),
-                                Text('Full name ${_nameController.text}'),
+                                Flexible(
+                                  child: Text('${getUser.userDTO.fullName}',
+                                   maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ))
                               ],
                             ),
                             const SizedBox(height: 2),
@@ -101,7 +88,7 @@ class _YourInformationState extends State<YourInformation> {
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                Text('01/01/2001 '),
+                                Text('${getUser.userDTO.birthday ?? "Chưa có"}')
                               ],
                             ),
                           ],
@@ -124,15 +111,25 @@ class _YourInformationState extends State<YourInformation> {
                               ],
                             ),
                             const SizedBox(height: 4),
-                            Row(
-                              children: [
-                                Image.asset(
-                                  'assets/icon/gmail_icon.png',
-                                  height: MediaQuery.of(context).size.height * 0.02,
-                                ),
-                                const SizedBox(width: 5),
-                                Text('Email ${_emailController.text}'),
-                              ],
+                            SizedBox(
+                              width: MediaQuery.of(context).size.height * 0.4,
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    'assets/icon/gmail_icon.png',
+                                    height: MediaQuery.of(context).size.height * 0.02,
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Flexible(
+                                    child: Text(
+                                      '${getUser.userDTO.email}',
+                                      softWrap: true,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -316,6 +313,4 @@ class _YourInformationState extends State<YourInformation> {
       itemCount: 2,
     );
   }
-
-
 }

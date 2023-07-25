@@ -11,13 +11,13 @@ ChangePasswordResponse _$ChangePasswordResponseFromJson(
     ChangePasswordResponse(
       json['message'] as String?,
       json['path'] as String?,
-      json['errors'] as String?,
+      json['error'] as String?,
     );
 
 Map<String, dynamic> _$ChangePasswordResponseToJson(
         ChangePasswordResponse instance) =>
     <String, dynamic>{
       'message': instance.message,
-      'errors': instance.errors,
+      'error': instance.error,
       'path': instance.path,
     };
