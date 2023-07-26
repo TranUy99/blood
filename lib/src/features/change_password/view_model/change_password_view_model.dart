@@ -5,6 +5,8 @@ import 'package:mobile_store/src/features/change_password/bloc/change_password_s
 class ChangePasswordViewModel {
   final ChangePasswordBloc _changePasswordBloc = ChangePasswordBloc();
 
+
+  //Add event
   Future<bool> changePassword(String oldPassword, String newPassword) async {
     final changePasswordEvent =
         ChangePasswordButtonPressedEvent(oldPassword: oldPassword, newPassword: newPassword);
@@ -12,6 +14,7 @@ class ChangePasswordViewModel {
 
     bool isSignUP = false;
 
+  //listen state 
     await _changePasswordBloc.changePasswordStateStream.listen(
       (state) {
         if (state is SuccessChangePasswordState) {
