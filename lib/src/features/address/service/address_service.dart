@@ -31,7 +31,7 @@ class AddressService {
       final List<dynamic> results = json['results'];
       final List<District> districts =
           results.map<District>((district) => District.fromJson(district)).toList();
-    
+
       return districts;
     } catch (e) {
       rethrow;
@@ -45,8 +45,9 @@ class AddressService {
 
     try {
       final List<dynamic> results = json['results'];
-      final List<Ward> districts = results.map<Ward>((ward) => Ward.fromJson(ward)).toList();
-      return districts;
+      final List<Ward> wards = results.map<Ward>((ward) => Ward.fromJson(ward)).toList();
+    
+      return wards;
     } catch (e) {
       rethrow;
     }

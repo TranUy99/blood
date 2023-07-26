@@ -53,4 +53,26 @@ class AddressViewModel {
     });
     return completer.future;
   }
+
+// call event and listen district state
+  Future<List<Ward>> getWard(String id) async {
+    final wardEvent = GetWardEvent(id);
+    List<Ward> wardList = [];
+    Completer<List<Ward>> completer = Completer<List<Ward>>();
+
+    await _addressBloc.addWardEvent(wardEvent);
+    
+    StreamSubscription<AddressState>? subscription;
+    subscription = _addressBloc.addressStateStream.listen((state) {
+      if (state is SuccessGetWardState) {
+        wardList = state.ward;
+        completer.complete(wardList);
+        subscription!.cancel();
+      } else if (state is FailedGetWardState) {
+        completer.completeError("error");
+        subscription!.cancel();
+      }
+    });
+    return completer.future;
+  }
 }
