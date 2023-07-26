@@ -4,6 +4,8 @@ import 'package:mobile_store/src/core/model/user.dart';
 import 'package:mobile_store/src/core/remote/request/change_password_request/change_password_request.dart';
 import 'package:mobile_store/src/core/remote/request/login_request/login_request.dart';
 import 'package:mobile_store/src/core/remote/response/login_response/login_response.dart';
+import 'package:mobile_store/src/core/remote/response/product_filter_response/category_filter_response.dart';
+import 'package:mobile_store/src/core/remote/response/product_filter_response/manufacturer_filter_response.dart';
 import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -11,13 +13,12 @@ import '../core/remote/request/sign_up_request/sign_up_request.dart';
 import '../core/remote/response/active_otp_response/active_otp_response.dart';
 import '../core/remote/response/active_otp_response/send_email_response.dart';
 import '../core/remote/response/change_password_response/change_password_response.dart';
-import '../core/remote/response/product_filter_response/product_filter_response.dart';
 import '../core/remote/response/sign_up_response/sign_up_response.dart';
 
 part 'api_service.g.dart';
 
 //Base address
-@RestApi(baseUrl: 'http://192.168.1.2:8085')
+@RestApi(baseUrl: 'http://192.168.1.31:8085')
 // @RestApi(baseUrl: 'http://45.117.170.206:8085')
 
 abstract class ApiService {
@@ -70,8 +71,15 @@ abstract class ApiService {
 
   //Filter product by manufactureId
   @GET('/api/product/active-filter/{manufacturerId}')
-  Future<ProductFilterResponse> productFilter(
+  Future<ManufacturerFilterResponse> productManufacturerFilter(
       @Path('manufacturerId') int manufacturerId,
+      @Query('no') int no,
+      @Query('limit') int limit);
+
+  // //Filter product by categoryId
+  @GET('/api/product/active-category/{categoryId}')
+  Future<CategoryFilterResponse> productCategoryFilter(
+      @Path('categoryId') int categoryId,
       @Query('no') int no,
       @Query('limit') int limit);
 }

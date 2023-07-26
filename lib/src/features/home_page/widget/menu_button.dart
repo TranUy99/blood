@@ -20,7 +20,7 @@ class _MenuButtonState extends State<MenuButton> {
       ),
       itemBuilder: (context) => [
         PopupMenuItem(
-          value: 0,
+          value: 1,
           child: menuItems('Mobile', 'assets/icon/mobile_menu_item_icon.png'),
         ),
         PopupMenuItem(
@@ -28,11 +28,11 @@ class _MenuButtonState extends State<MenuButton> {
           child: menuItems('Laptop', 'assets/icon/laptop_menu_item_icon.png'),
         ),
         PopupMenuItem(
-          value: 2,
+          value: 7,
           child: menuItems('Tablet', 'assets/icon/tablet_menu_item.png'),
         ),
         PopupMenuItem(
-          value: 3,
+          value: 7,
           child: menuItems('PC', 'assets/icon/pc_menu_item_icon.png'),
         ),
       ],
@@ -43,7 +43,7 @@ class _MenuButtonState extends State<MenuButton> {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => CategoryScreen(manufactureID: value),
+          builder: (context) => CategoryScreen(categoryID: value),
         ));
   }
 

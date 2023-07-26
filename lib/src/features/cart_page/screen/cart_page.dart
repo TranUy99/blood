@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
+import '../../../../main.dart';
 import '../../checkout/screen/checkout_screen.dart';
 import '../../checkout/widget/address.dart';
 import '../../home_page/view/navigation_home_page.dart';
@@ -20,6 +21,13 @@ class _CartPageState extends State<CartPage> {
     'Tran Ky Anh | 0583841958\n273 Ly Thuong Kiet, 6 ward, district 8, Ho Chi Minh city',
   ];
   int quantity = 1;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('idUser: ${getUser.idUser}');
+  }
   
 
   @override

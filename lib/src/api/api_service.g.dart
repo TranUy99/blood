@@ -13,7 +13,7 @@ class _ApiService implements ApiService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.1.2:8085';
+    baseUrl ??= 'http://192.168.1.31:8085';
   }
 
   final Dio _dio;
@@ -218,7 +218,7 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<ProductFilterResponse> productFilter(
+  Future<ManufacturerFilterResponse> productManufacturerFilter(
     int manufacturerId,
     int no,
     int limit,
@@ -231,7 +231,7 @@ class _ApiService implements ApiService {
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ProductFilterResponse>(Options(
+        _setStreamType<ManufacturerFilterResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -243,7 +243,37 @@ class _ApiService implements ApiService {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ProductFilterResponse.fromJson(_result.data!);
+    final value = ManufacturerFilterResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<CategoryFilterResponse> productCategoryFilter(
+    int categoryId,
+    int no,
+    int limit,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'no': no,
+      r'limit': limit,
+    };
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<CategoryFilterResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/product/active-category/${categoryId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = CategoryFilterResponse.fromJson(_result.data!);
     return value;
   }
 

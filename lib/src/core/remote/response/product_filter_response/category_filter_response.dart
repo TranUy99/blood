@@ -1,11 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mobile_store/src/core/model/product_filter.dart';
 
-part 'product_filter_response.g.dart';
+part 'category_filter_response.g.dart';
 
 //Receive contents, totalPages, totalItems, limit, no, first, last from api
 @JsonSerializable()
-class ProductFilterResponse {
+class CategoryFilterResponse {
   @JsonKey(name: 'contents')
   final List<ProductFilter>? contents;
 
@@ -27,11 +27,11 @@ class ProductFilterResponse {
   @JsonKey(name: 'last')
   final bool? last;
 
-  ProductFilterResponse(this.contents, this.totalPages, this.totalItems,
-      this.limit, this.no, this.first, this.last);
+  CategoryFilterResponse(this.contents, this.totalPages, this.totalItems,
+      this.limit, this.no, this.first, this.last,);
 
-  factory ProductFilterResponse.fromJson(Map<String, dynamic> json) =>
-      _$ProductFilterResponseFromJson(json);
+  factory CategoryFilterResponse.fromJson(Map<String, dynamic> json) =>
+      _$CategoryFilterResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ProductFilterResponseToJson(this);
+  Map<String, dynamic> toJson() => _$CategoryFilterResponseToJson(this);
 }
