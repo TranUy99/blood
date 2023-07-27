@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 import 'package:mobile_store/src/features/login/bloc/login_event.dart';
 
@@ -17,6 +19,7 @@ class LoginViewModel {
     await _loginBloc.state.listen(
       (state) {
         if (state is SuccessLoginState) {
+          
           if (successLoginState.isVerified) {
             isLogin = LoginStatusEnum.successLogin.index;
           } else {
@@ -27,7 +30,7 @@ class LoginViewModel {
         }
       },
     );
-
+    log("view $isLogin");
     return isLogin;
   }
 

@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
+
 import 'package:mobile_store/src/features/login/bloc/login_event.dart';
 import 'package:rxdart/rxdart.dart';
+
 import '../../../../main.dart';
 import '../service/login_service.dart';
 import 'login_state.dart';
@@ -12,7 +14,7 @@ class LoginBloc {
   final _stateController = BehaviorSubject<LoginState>();
   String? mess;
   bool verifiedStatus = false;
-  int? id;
+
   Stream<LoginState> get state => _stateController.stream;
 
   //Get event login
@@ -28,7 +30,7 @@ class LoginBloc {
         mess = value.message;
         getUser.idUser = value.idUser!;
         getUser.token = value.token;
-
+        // print('$id - $token');
       });
     } catch (e) {
       mess = 'e';
@@ -40,7 +42,7 @@ class LoginBloc {
     } catch (e) {
       print(e);
     }
-
+    log("bloc $verifiedStatus");
     if (mess == null) {
       if (verifiedStatus) {
         _stateController.add(successLoginState = SuccessLoginState(true, true));

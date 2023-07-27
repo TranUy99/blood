@@ -43,7 +43,7 @@ class _LogInScreenState extends State<LogInScreen> {
         ));
   }
 
-  @override 
+  @override
   void initState() {
     super.initState();
     _loginViewModel = LoginViewModel();
@@ -53,6 +53,7 @@ class _LogInScreenState extends State<LogInScreen> {
   void dispose() {
     _loginViewModel.dispose();
     _loginBloc.dispose();
+    textEmailController.dispose();
     textEmailController.dispose();
     super.dispose();
   }
@@ -125,9 +126,12 @@ class _LogInScreenState extends State<LogInScreen> {
                       top: MediaQuery.of(context).size.height * 0.03),
                   child: InkWell(
                     onTap: () async {
-                   
-                      String email = textEmailController.text;
-                      String password = textPasswordController.text;
+                      // String email = 'vanhau27062001@gmail.com';
+                      // String password = '1234567Hau';
+                      String email = 'tranuy0907@gmail.com';
+                      String password = 'Tranuy1.';
+                      // String email = textEmailController.text.trim();
+                      // String password = textPasswordController.text.trim();
                       final int? loginStatus = await _loginViewModel.login(
                           email, password, isRemember);
 
