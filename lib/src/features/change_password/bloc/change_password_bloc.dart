@@ -1,31 +1,34 @@
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
+import 'dart:developer';
+import 'package:mobile_store/src/features/change_password/bloc/change_password_event.dart';
+import 'package:mobile_store/src/features/change_password/bloc/change_password_state.dart';
+import 'package:mobile_store/src/features/change_password/service/change_password_service.dart';
 import 'package:rxdart/rxdart.dart';
 
-
 class ChangePasswordBloc {
-  late String _oldPassword;
-  late String _newPassword;
-  void updatePassword(String oldPassword, String newPassword) {
-    _oldPassword = oldPassword;
-    _newPassword = newPassword;
-  }
+  final BehaviorSubject<ChangePasswordState> _changePasswordStateSubject =
+      BehaviorSubject<ChangePasswordState>();
 
-  void changePassword() {
-    print('Keep: $_oldPassword - $_newPassword');
+  Stream<ChangePasswordState> get changePasswordStateStream => _changePasswordStateSubject.stream;
+
+  Future<void> addEvent(ChangePasswordEvent event) async {
+    if (event is ChangePasswordButtonPressedEvent) {
+      final newPassword = event.newPassword;
+      final oldPassword = event.oldPassword;
+      try {
+        final changePasswordResult =
+            await ChangePasswordService.changePassword(oldPassword, newPassword);
+
+        if (changePasswordResult.path == null) {
+          _changePasswordStateSubject.sink.add(SuccessChangePasswordState(true));
+        } else {
+          _changePasswordStateSubject.sink
+              .add(FailedChangePasswordState("error"));
+        }
+      } catch (e) {
+        _changePasswordStateSubject.sink.add(FailedChangePasswordState("error"));
+      }
+    }
   }
 }
 
-class SharedTextPasswordBloc extends ChangeNotifier {
-  final _textFieldController = BehaviorSubject<String>();
-  Stream<String> get textFieldStream => _textFieldController.stream;
-  void updateTextField(String value) {
-    _textFieldController.add(value);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _textFieldController.close();
-  }
-}

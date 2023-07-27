@@ -1,9 +1,19 @@
-class ChangePasswordState {
-  final List<String> onUpdated;
-  ChangePasswordState(this.onUpdated);
+abstract class ChangePasswordState {}
+
+class InitialState extends ChangePasswordState {
+  // Trạng thái khởi tạo
 }
 
-class OnChangePasswordState {
-  final String onChangePasswordState;
-  OnChangePasswordState(this.onChangePasswordState);
+//State change password  success
+class SuccessChangePasswordState extends ChangePasswordState {
+  final bool onLoginState;
+
+  SuccessChangePasswordState(this.onLoginState);
+}
+
+//State change password failed
+class FailedChangePasswordState extends ChangePasswordState {
+  final String errorMessage;
+
+  FailedChangePasswordState(this.errorMessage);
 }

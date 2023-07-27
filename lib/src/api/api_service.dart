@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/core/model/user.dart';
@@ -37,8 +39,7 @@ abstract class ApiService {
   //Call api getUser to get user information after login
   @GET('/api/user/{id}')
   Future<UserDTO> getUser(
-      {@Header("Authorization") required String auth,
-      @Path('id') required int id});
+      {@Header("Authorization") required String auth, @Path('id') required int id});
 
   //Verified email and password to login
   @POST('/api/login')
@@ -48,7 +49,7 @@ abstract class ApiService {
   @POST('/api/user/')
   Future<SignUpResponse> register(@Body() SignUpRequest register);
 
-  @GET('/api/product')
+  @GET('/api/product/new')
   Future<List<ProductDTO>> getProductNew();
 
   //Get all information about product
@@ -65,9 +66,10 @@ abstract class ApiService {
 
   //Call Api to change password
   @PUT('/api/user/change-password-by-token')
-  Future<ChangePasswordResponse> changePassword(
-      {@Body() required ChangePasswordRequest changePassword,
-      @Header('Authorization') required String auth});
+  Future<ChangePasswordResponse> changePassword({
+    @Header("Authorization") required String auth,
+    @Body() required ChangePasswordRequest changePassword,
+  });
 
   //Filter product by manufactureId
   @GET('/api/product/active-filter/{manufacturerId}')

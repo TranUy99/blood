@@ -109,7 +109,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/product',
+              '/api/product/new',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -191,8 +191,8 @@ class _ApiService implements ApiService {
 
   @override
   Future<ChangePasswordResponse> changePassword({
-    required ChangePasswordRequest changePassword,
     required String auth,
+    required ChangePasswordRequest changePassword,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

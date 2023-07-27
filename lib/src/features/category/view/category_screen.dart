@@ -4,17 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/src/core/remote/response/product_filter_response/category_filter_response.dart';
 import 'package:mobile_store/src/features/category/view_model/category_view_model.dart';
 
-import '../../../constant/api_image/api_image.dart';
+import '../../../constant/api_outside/api_image.dart';
 import '../../../constant/color/color.dart';
-import '../../../core/model/product.dart';
+import '../../../core/model/product_filter.dart';
 import '../../component/custom_app_bar.dart';
 import '../../detail_product/view/detail_product_screen.dart';
 import '../../home_page/bloc/product_bloc.dart';
-import '../../home_page/view/product_screen.dart';
 
 class CategoryScreen extends StatefulWidget {
-  const CategoryScreen({Key? key, required this.categoryID})
-      : super(key: key);
+  const CategoryScreen({Key? key, required this.categoryID}) : super(key: key);
 
   final int categoryID;
 
@@ -25,9 +23,8 @@ class CategoryScreen extends StatefulWidget {
 class _CategoryScreenState extends State<CategoryScreen> {
   final ProductBloc productBloc = ProductBloc();
   CategoryViewModel categoryViewModel = CategoryViewModel();
-  List<String> brandName = [
-
-  ];
+  late final CategoryFilterResponse? categoryFilterResponse;
+  List<String> brandName = ['Apple', 'Xiaomi', 'Samsung'];
   List<String> priceRange = [
     'Under 500 USD',
     '500 - 1000 USD',
@@ -36,13 +33,28 @@ class _CategoryScreenState extends State<CategoryScreen> {
     '2000 - 2500 USD',
     '2500 - 3000 USD'
   ];
-  List<ProductDTO> products = [];
+  List<ProductFilter> products = [];
+  int? itemCount;
+  int length = 0;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    print('categoryId: ${widget.categoryID}');
+    _getData(widget.categoryID);
+  }
+
+  _getData(int categoryId) async {
+    print('categoryId: $categoryId');
+    categoryFilterResponse = await categoryViewModel.categoryFilterViewModel(
+        widget.categoryID, 0, 10);
+    try {
+      print('view ${categoryFilterResponse!.contents?[0].categoriesDTO?.name}');
+      products = (categoryFilterResponse?.contents)!;
+      itemCount = products.length;
+    } catch (e) {
+      print('view: $e');
+    }
   }
 
   @override
@@ -64,37 +76,46 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 ],
               ),
             ),
-            // ProductScreen(productBloc: productBloc),
-            ElevatedButton(
-                onPressed: () async {
-                  CategoryFilterResponse? categoryFilterResponse =
-                      await categoryViewModel.categoryFilterViewModel(1, 0, 10);
-                  try{
-                    print(
-                        '${categoryFilterResponse?.limit}');
-                  }catch(e){
-                    print(e);
+            ElevatedButton(onPressed: () {
+              setState(() {
+                length +=1;
+              });
+            }, child: Text('+1')),
+            FutureBuilder(
+              future: categoryViewModel.categoryFilterViewModel(
+                  widget.categoryID, 0, 10),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  if (snapshot.hasData) {
+                    return productFilterDisplay(
+                        length);
+                  } else {
+                    return const Text('No product available');
                   }
-                },
-                child: Text('text')),
-            // productFilterDisplay()
+                }
+              },
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget productFilterDisplay() {
+  Widget productFilterDisplay(int length) {
     return GridView.builder(
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        childAspectRatio: 0.75,
+        childAspectRatio: 0.7,
         crossAxisCount: 2,
         crossAxisSpacing: 5.0,
         mainAxisSpacing: 5.0,
       ),
+      itemCount: length,
       shrinkWrap: true,
-      itemCount: 3,
       itemBuilder: (context, index) {
         final product = products[index];
         String logo = '${product.imageDTOs![0].name}';
@@ -115,32 +136,30 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     ProductDetailScreen(idProduct: product.id!),
               ),
             ),
-            child: Container(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.25,
-                    child: CachedNetworkImage(
-                      imageUrl: ApiImage().generateImageUrl('$logo'),
-                      height: 20,
-                    ),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.25,
+                  child: CachedNetworkImage(
+                    imageUrl: ApiImage().generateImageUrl(logo),
+                    height: 20,
                   ),
-                  Column(
-                    children: [
-                      Text('${product.name}',
-                          style: const TextStyle(
-                              fontSize: 20,
-                              color: kRedColor,
-                              fontFamily: 'sans-serif')),
-                      Text('${product.price}',
-                          style: const TextStyle(
-                              fontSize: 20,
-                              color: kGreenColor,
-                              fontFamily: 'sans-serif')),
-                    ],
-                  ),
-                ],
-              ),
+                ),
+                Column(
+                  children: [
+                    Text('${product.name}',
+                        style: const TextStyle(
+                            fontSize: 20,
+                            color: kRedColor,
+                            fontFamily: 'sans-serif')),
+                    Text('${product.price}',
+                        style: const TextStyle(
+                            fontSize: 20,
+                            color: kGreenColor,
+                            fontFamily: 'sans-serif')),
+                  ],
+                ),
+              ],
             ),
           ),
         );
@@ -246,5 +265,4 @@ class _CategoryScreenState extends State<CategoryScreen> {
       ),
     );
   }
-
 }

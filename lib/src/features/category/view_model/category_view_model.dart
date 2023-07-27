@@ -9,13 +9,15 @@ class CategoryViewModel {
   Future<CategoryFilterResponse?> categoryFilterViewModel(
       int categoryId, int no, int limit) async {
     CategoryFilterResponse? categoryFilterResponse;
-    await _categoryFilterBloc.addEvent(CategoryFilterEvent(categoryId, no, limit));
-    print('viewmodel');
+    await _categoryFilterBloc
+        .addEvent(CategoryFilterEvent(categoryId, no, limit));
 
     await _categoryFilterBloc.state.listen((state) {
       if (state is SuccessCategoryFilterState) {
         categoryFilterResponse =
             successCategoryFilterState.categoryFilterResponse!;
+        print(
+            'viewmodel: ${categoryFilterResponse!.contents?[0].categoriesDTO?.id}');
       } else if (state is ErrorCategoryFilterState) {
         print('Category filter failed');
       }

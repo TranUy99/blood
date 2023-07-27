@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/constant/api_image/api_image.dart';
+import 'package:mobile_store/src/constant/api_outside/api_image.dart';
 import 'package:mobile_store/src/core/model/product.dart';
 
 class ImageProduct extends StatefulWidget {

@@ -29,8 +29,8 @@ class _BuildInputFormLogInState extends State<BuildInputFormLogIn> {
             if (Validate.invalidateEmail(value)) {
               error = true;
               errorText = widget.textController.text.isEmpty
-                  ? 'Email cannot be empty'
-                  : 'Invalid email';
+                  ? 'Please enter email'
+                  : 'Incorrect email';
             } else {
               error = false;
             }
@@ -81,8 +81,8 @@ class _BuildInputFormPasswordState extends State<BuildInputFormPassword> {
             if (Validate.checkInvalidateNewPassword(value)) {
               error = true;
               errorText = widget.textController.text.isEmpty
-                  ? 'Password cannot be empty'
-                  : 'Invalid password';
+                  ? 'Please enter password'
+                  : 'Incorrect password';
             } else {
               error = false;
             }

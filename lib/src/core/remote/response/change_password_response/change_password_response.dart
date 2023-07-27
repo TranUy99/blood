@@ -8,13 +8,13 @@ class ChangePasswordResponse {
   @JsonKey(name: 'message')
   final String? message;
 
-  @JsonKey(name: 'errors')
-  final String? errors;
+  @JsonKey(name: 'error')
+  final String? error;
 
   @JsonKey(name: 'path')
   final String? path;
 
-  ChangePasswordResponse(this.message, this.path, this.errors);
+  ChangePasswordResponse(this.message, this.path, this.error);
 
   factory ChangePasswordResponse.fromJson(Map<String, dynamic> json) =>
       _$ChangePasswordResponseFromJson(json);

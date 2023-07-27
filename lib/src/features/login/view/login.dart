@@ -54,7 +54,6 @@ class _LogInScreenState extends State<LogInScreen> {
     _loginViewModel.dispose();
     _loginBloc.dispose();
     textEmailController.dispose();
-    textEmailController.dispose();
     super.dispose();
   }
 
@@ -130,8 +129,8 @@ class _LogInScreenState extends State<LogInScreen> {
                       // String password = '1234567Hau';
                       String email = 'yukatanguyen545@gmail.com';
                       String password = 'Candidate123';
-                      // String email = textEmailController.text.trim();
-                      // String password = textPasswordController.text.trim();
+                      // String email = textEmailController.text;
+                      // String password = textPasswordController.text;
                       final int? loginStatus = await _loginViewModel.login(
                           email, password, isRemember);
 

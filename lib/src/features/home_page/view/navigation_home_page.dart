@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/cart_page/screen/cart_page.dart';
 import 'package:mobile_store/src/features/home_page/view/home_page.dart';
-import 'package:mobile_store/src/features/profile/screen/profile_page.dart';
+import 'package:mobile_store/src/features/profile/view/profile_page.dart';
 
 import '../../login/bloc/login_bloc.dart';
 import '../../login/view/login.dart';

@@ -14,7 +14,6 @@ class ProductViewModel {
 
     Completer<List<ProductDTO>> completer = Completer<List<ProductDTO>>();
     
-
     await _productBloc.fetchProducts(productEvent);
 
     StreamSubscription<ProductState>? subscription;

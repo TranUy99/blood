@@ -3,6 +3,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/features/cart_page/screen/cart_page.dart';
+
+import 'package:mobile_store/src/features/detail_product/view_model/detail_product_view_model.dart';
+import 'package:mobile_store/src/features/detail_product/widget/configuration_product.dart';
+import 'package:mobile_store/src/features/detail_product/widget/product_information.dart';
+import 'package:mobile_store/src/features/detail_product/widget/review_product.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
 import 'package:mobile_store/src/features/detail_product/view_model/detail_product_view_model.dart';
 import 'package:mobile_store/src/features/detail_product/widget/configuration_product.dart';

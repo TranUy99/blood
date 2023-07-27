@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import 'package:mobile_store/src/features/verified_email/verified_email_view_model/verified_email_viewmodel.dart';
+import 'package:timer_count_down/timer_controller.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -22,6 +24,7 @@ class _VerifiedEmailState extends State<VerifiedEmail> {
   String? errorText;
   TextEditingController textOTPController = TextEditingController();
   VerifiedEmailViewModel verifiedEmailViewModel = VerifiedEmailViewModel();
+  bool resentEmail = false;
 
   _sendEmail() async {
     String? email = getUser.email;
@@ -35,8 +38,12 @@ class _VerifiedEmailState extends State<VerifiedEmail> {
     _sendEmail();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+    CountdownController countdownController = CountdownController(autoStart: true);
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -78,6 +85,40 @@ class _VerifiedEmailState extends State<VerifiedEmail> {
                     ),
                   ),
                 ),
+                resentEmail
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                            Text('Did not send OTP'),
+                            TextButton(
+                              onPressed: () {
+                                _sendEmail();
+                                showTopSnackBar(
+                                    Overlay.of(context),
+                                    const CustomSnackBar.info(
+                                        message:
+                                            'Please enter your otp number that was sent via email'));
+                                setState(() {
+                                  resentEmail = !resentEmail;
+                                });
+                                countdownController.restart();
+                              },
+                              child: Text('Press here'),
+                            )
+                          ])
+                    : Countdown(
+                        controller: countdownController,
+                        seconds: 120,
+                        build: (context, time) {
+                          return Text(
+                              'Sent OTP number via email: ${time.toInt()}');
+                        },
+                        onFinished: () {
+                          setState(() {
+                            resentEmail = !resentEmail;
+                          });
+                        },
+                      ),
                 Padding(
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.03),

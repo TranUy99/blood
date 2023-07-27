@@ -1,13 +1,13 @@
 // ignore_for_file: dead_code
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
 
 class EditInfomationForm extends StatefulWidget {
   EditInfomationForm(
-      TextEditingController phoneNumberController,
-      TextEditingController nameController,
-      TextEditingController emailController,
-      TextEditingController selectedGenderController,
+  
+      String? nameController,
+      String? emailController,
+      int? selectedGenderController,
       String? selectedDate);
 
   @override
@@ -108,7 +108,7 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
                 ),
               ],
             ),
-            SizedBox(height: 6),
+            const SizedBox(height: 6),
             Row(
               children: [
                 Expanded(

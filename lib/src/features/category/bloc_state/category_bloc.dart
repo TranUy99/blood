@@ -11,12 +11,12 @@ class CategoryFilterBloc {
   final _stateController = BehaviorSubject<CategoryFilterState>();
 
   Stream<CategoryFilterState> get state => _stateController.stream;
-
+  int? totalItems;
   String? message;
   List<ProductFilter>? productList = [];
 
   Future<void> addEvent(CategoryFilterEvent event) async {
-    _categoryFilter(event.categoryId, event.no, event.limit);
+    await _categoryFilter(event.categoryId, event.no, event.limit);
   }
 
   Future<void> _categoryFilter(int categoryId, int no, int limit) async {
@@ -25,17 +25,18 @@ class CategoryFilterBloc {
     try {
       await categoryFilterResult.then((value) {
         productList = value.contents;
+        totalItems = value.totalItems;
       });
     } catch (e) {
       message = e.toString();
     }
 
-    print('bloc ${productList?[0].categoriesDTO?.id}');
-
-    if (productList != []) {
+    if (totalItems != 0) {
+      print('bloc ${productList?[0].categoriesDTO?.id}');
       _stateController.add(successCategoryFilterState =
           SuccessCategoryFilterState(await categoryFilterResult));
     } else {
+      print('Bloc failed');
       _stateController.add(ErrorCategoryFilterState(
           (message == null) ? 'Empty List' : message!));
     }

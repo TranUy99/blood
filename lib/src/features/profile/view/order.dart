@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
-import 'package:mobile_store/src/features/profile/screen/order_detail.dart';
+import 'package:mobile_store/src/features/profile/view/order_detail.dart';
 
 class Order extends StatefulWidget {
   const Order({Key? key}) : super(key: key);
@@ -35,9 +35,9 @@ class _OrderState extends State<Order> {
                           style: BorderStyle.solid),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    height: MediaQuery.of(context).size.height * 0.15,
+                    height: MediaQuery.of(context).size.height * 0.11,
                     child: Image(
-                      image: const AssetImage('images/iphone14.jpg'),
+                      image: const AssetImage( 'assets/images/anh1.jpg',),
                       height: MediaQuery.of(context).size.height * 1,
                     ),
                   ),
