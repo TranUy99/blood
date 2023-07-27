@@ -74,6 +74,18 @@ abstract class ApiService {
     @Body() required ChangePasswordRequest changePassword,
   });
 
+  // Call api create address
+  @POST('/api/address')
+  Future<CreateAddressResponse> createAddress({
+    @Header("Authorization") required String auth,
+    @Body() required CreateAddressRequest createAddress,
+  });
+
+  // Call api address
+  @GET('/api/address')
+  Future<List<Address>> getAddress({
+    @Header("Authorization") required String auth,
+  });
   //Filter product by manufactureId
   @GET('/api/product/active-filter/{manufacturerId}')
   Future<ManufacturerFilterResponse> productManufacturerFilter(

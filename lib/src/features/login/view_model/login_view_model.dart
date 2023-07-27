@@ -19,7 +19,6 @@ class LoginViewModel {
     await _loginBloc.state.listen(
       (state) {
         if (state is SuccessLoginState) {
-          
           if (successLoginState.isVerified) {
             isLogin = LoginStatusEnum.successLogin.index;
           } else {
@@ -30,7 +29,7 @@ class LoginViewModel {
         }
       },
     );
-    log("view $isLogin");
+   
     return isLogin;
   }
 

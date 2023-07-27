@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart' as dio;
 import 'package:mobile_store/main.dart';
 import 'package:mobile_store/src/api/api_service.dart';
+import 'package:mobile_store/src/core/model/address.dart';
 import 'package:mobile_store/src/core/model/district.dart';
 import 'package:mobile_store/src/core/model/province.dart';
 import 'package:http/http.dart' as http;
@@ -74,5 +75,13 @@ class AddressService {
             nameReceiver: nameReceiver));
  
     return response;
+  }
+
+// call api get address
+    static Future<List<Address>> getAddressService() async {
+    List<Address> address = await ApiService(dio.Dio()).getAddress(auth: 'Bearer ${getUser.token}');
+    address.forEach((response) {});
+  
+    return address;
   }
 }

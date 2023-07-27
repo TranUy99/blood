@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 import 'package:mobile_store/src/constant/api_outside/api_image.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/model/product.dart';
@@ -125,7 +126,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                   fontSize: 20,
                                   color: kRedColor,
                                   fontFamily: 'sans-serif')),
-                          Text('${product.price}',
+                          Text( '${NumberFormat('#,###.###').format( product.price).replaceAll(',','.')} VND',
                               style: const TextStyle(
                                   fontSize: 20,
                                   color: kGreenColor,

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/features/detail_product/widget/more_product_information.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class ProductInformation extends StatefulWidget {
-  const ProductInformation({super.key});
+  final ProductDTO productDTO;
+  const ProductInformation({super.key, required this.productDTO});
 
   @override
   State<ProductInformation> createState() => _ProductInformationState();
@@ -17,8 +20,8 @@ class _ProductInformationState extends State<ProductInformation> {
       padding: const EdgeInsets.all(5),
       child: Container(
         width: MediaQuery.of(context).size.width * 1,
-        decoration: const BoxDecoration(
-            border: Border(top: BorderSide(color: kGreyColor, width: 0.8))),
+        decoration:
+            const BoxDecoration(border: Border(top: BorderSide(color: kGreyColor, width: 0.8))),
         child: Column(
           children: [
             const SizedBox(
@@ -31,11 +34,17 @@ class _ProductInformationState extends State<ProductInformation> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const Text(
-              " iPhone 14 Pro Max một siêu phẩm trong giới smartphone được nhà Táo tung ra thị trường vào tháng 09/2022. Máy trang bị con chip Apple A16 Bionic vô cùng mạnh mẽ, đi kèm theo đó là thiết kế hình màn hình mới, hứa hẹn mang lại những trải nghiệm đầy mới mẻ cho người dùng iPhone.",
-              style: TextStyle(color: kBlackColor, fontWeight: FontWeight.w500),
+            Html(
+              data: widget.productDTO.productTechDTOs![0].info ?? '',
+              style: {
+                'h1': Style(color: Colors.red),
+                'p': Style(color: Colors.black87, fontSize: FontSize.medium),
+                'ul': Style(
+                  margin: Margins.symmetric(vertical: 10.0, horizontal: 10.0)
+                )
+              },
             ),
-            const MoreProductInformation(),
+             MoreProductInformation(productDTO: widget.productDTO,),
           ],
         ),
       ),

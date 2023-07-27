@@ -10,15 +10,15 @@ import 'package:mobile_store/src/features/address/view_model/address_view_model.
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-class EditAddressScreen extends StatefulWidget {
-  const EditAddressScreen({super.key});
+class AddAddressScreen extends StatefulWidget {
+  const AddAddressScreen({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _EditAddressScreenState createState() => _EditAddressScreenState();
+  _AddAddressScreenState createState() => _AddAddressScreenState();
 }
 
-class _EditAddressScreenState extends State<EditAddressScreen> {
+class _AddAddressScreenState extends State<AddAddressScreen> {
   TextEditingController textAddressController = TextEditingController();
   TextEditingController textPhoneController = TextEditingController();
   TextEditingController textNameController = TextEditingController();

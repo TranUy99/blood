@@ -9,12 +9,9 @@ import 'package:mobile_store/src/features/detail_product/widget/configuration_pr
 import 'package:mobile_store/src/features/detail_product/widget/product_information.dart';
 import 'package:mobile_store/src/features/detail_product/widget/review_product.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
-import 'package:mobile_store/src/features/detail_product/view_model/detail_product_view_model.dart';
-import 'package:mobile_store/src/features/detail_product/widget/configuration_product.dart';
 import 'package:mobile_store/src/features/detail_product/widget/image_product.dart';
 import 'package:mobile_store/src/features/detail_product/widget/name_product.dart';
-import 'package:mobile_store/src/features/detail_product/widget/product_information.dart';
-import 'package:mobile_store/src/features/detail_product/widget/review_product.dart';
+
 
 class ProductDetailScreen extends StatefulWidget {
   final int idProduct;
@@ -93,7 +90,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
           ),
           const ConfigurationProduct(),
-          const ProductInformation(),
+           ProductInformation(productDTO: product),
           const Review(),
           // const AnotherProduct(),
         ],

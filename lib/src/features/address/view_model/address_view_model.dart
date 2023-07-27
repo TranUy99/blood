@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:mobile_store/src/core/model/address.dart';
 import 'package:mobile_store/src/core/model/district.dart';
 import 'package:mobile_store/src/core/model/province.dart';
 import 'package:mobile_store/src/core/model/ward.dart';
@@ -92,5 +93,29 @@ class AddressViewModel {
         }
     });
     return isCreateAddress;
+  }
+
+// add event and listen get address state
+    Future<List<Address>> getAddress() async {
+    final addressEvent = GetAddressEvent();
+    List<Address> addressList = [];
+
+    Completer<List<Address>> completer = Completer<List<Address>>();
+    
+    await _addressBloc.getAddressEvent(addressEvent);
+
+    StreamSubscription<AddressState>? subscription;
+    subscription = _addressBloc.addressStateStream.listen((state) {
+      if (state is SuccessGetAddressState) {
+        addressList = state.address;
+        completer.complete(addressList);
+        subscription!.cancel(); 
+      } else if (state is FailedGetAddressState) {
+        completer.completeError('Error fetching products');
+        subscription!.cancel(); 
+      }
+    });
+
+    return completer.future;
   }
 }

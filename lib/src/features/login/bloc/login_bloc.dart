@@ -42,7 +42,6 @@ class LoginBloc {
     } catch (e) {
       print(e);
     }
-    log("bloc $verifiedStatus");
     if (mess == null) {
       if (verifiedStatus) {
         _stateController.add(successLoginState = SuccessLoginState(true, true));
