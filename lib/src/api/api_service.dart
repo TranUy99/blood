@@ -1,14 +1,17 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:mobile_store/src/core/model/address.dart';
 import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/core/model/user.dart';
 import 'package:mobile_store/src/core/remote/request/change_password_request/change_password_request.dart';
 import 'package:mobile_store/src/core/remote/request/login_request/login_request.dart';
+import 'package:mobile_store/src/core/remote/response/address_response/create_address_response.dart';
 import 'package:mobile_store/src/core/remote/response/login_response/login_response.dart';
 import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../core/remote/request/address_request/create_address_request.dart';
 import '../core/remote/request/sign_up_request/sign_up_request.dart';
 import '../core/remote/response/active_otp_response/active_otp_response.dart';
 import '../core/remote/response/active_otp_response/send_email_response.dart';
@@ -18,7 +21,7 @@ import '../core/remote/response/sign_up_response/sign_up_response.dart';
 
 part 'api_service.g.dart';
 
-@RestApi(baseUrl: 'http://192.168.1.23:8085')
+@RestApi(baseUrl: 'http://192.168.1.33:8085')
 // @RestApi(baseUrl: 'http://45.117.170.206:8085')
 
 abstract class ApiService {
@@ -73,4 +76,17 @@ abstract class ApiService {
   @GET('/api/product/active-filter/{manufacturerId}')
   Future<ProductFilterResponse> productFilter(
       @Path('manufacturerId') int manufacturerId, @Query('no') int no, @Query('limit') int limit);
+
+  // Call api create address
+  @POST('/api/address')
+  Future<CreateAddressResponse> createAddress({
+    @Header("Authorization") required String auth,
+    @Body() required CreateAddressRequest createAddress,
+  });
+
+  // Call api address
+  @GET('/api/address')
+  Future<List<Address>> getAddress({
+    @Header("Authorization") required String auth,
+  });
 }

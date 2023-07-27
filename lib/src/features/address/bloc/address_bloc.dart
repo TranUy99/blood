@@ -25,7 +25,6 @@ class AddressBloc {
     if (event is GetDistrictEvent) {
       final getProvinceResult = await AddressService.getDistrict(event.id!);
       if (getProvinceResult.isNotEmpty) {
-       
         _addressStateSubject.sink.add(SuccessGetDistrictState(getProvinceResult));
       } else {
         _addressStateSubject.sink.add(FailedGetDistrictState("errorMessage"));
@@ -35,11 +34,24 @@ class AddressBloc {
 
   Future<void> addWardEvent(AddressEvent event) async {
     if (event is GetWardEvent) {
-      final getProvinceResult = await AddressService.getWard(event.id!);
+      final getProvinceResult = await AddressService.getWard(event.id);
       if (getProvinceResult.isNotEmpty) {
         _addressStateSubject.sink.add(SuccessGetWardState(getProvinceResult));
       } else {
         _addressStateSubject.sink.add(FailedGetWardState("errorMessage"));
+      }
+    }
+  }
+
+  Future<void> addCreateAddress(AddressEvent event) async {
+    if (event is CreateAddressEvent) {
+      final createAddress = await AddressService.createAddress(
+          event.location, event.type, event.phoneReceiver, event.nameReceiver);
+     
+      if (createAddress.message == null) {
+        _addressStateSubject.sink.add(SuccessAddressState(true));
+      } else {
+        _addressStateSubject.sink.add(FailedAddressState("error"));
       }
     }
   }

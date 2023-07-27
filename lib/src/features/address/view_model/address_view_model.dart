@@ -10,7 +10,7 @@ import 'package:mobile_store/src/features/address/bloc/address_state.dart';
 class AddressViewModel {
   final AddressBloc _addressBloc = AddressBloc();
 
-// call event and listen province state
+// add event and listen province state
   Future<List<Province>> getProvince() async {
     final provinceEvent = GetProvinceEvent();
     List<Province> provinceList = [];
@@ -32,14 +32,14 @@ class AddressViewModel {
     return completer.future;
   }
 
-// call event and listen district state
+// add event and listen district state
   Future<List<District>> getDistrict(String id) async {
     final districtEvent = GetDistrictEvent(id);
     List<District> districtList = [];
     Completer<List<District>> completer = Completer<List<District>>();
 
     await _addressBloc.addDistrictEvent(districtEvent);
-    
+
     StreamSubscription<AddressState>? subscription;
     subscription = _addressBloc.addressStateStream.listen((state) {
       if (state is SuccessGetDistrictState) {
@@ -54,14 +54,14 @@ class AddressViewModel {
     return completer.future;
   }
 
-// call event and listen district state
+// add event and listen district state
   Future<List<Ward>> getWard(String id) async {
     final wardEvent = GetWardEvent(id);
     List<Ward> wardList = [];
     Completer<List<Ward>> completer = Completer<List<Ward>>();
 
     await _addressBloc.addWardEvent(wardEvent);
-    
+
     StreamSubscription<AddressState>? subscription;
     subscription = _addressBloc.addressStateStream.listen((state) {
       if (state is SuccessGetWardState) {
@@ -74,5 +74,23 @@ class AddressViewModel {
       }
     });
     return completer.future;
+  }
+
+  //add event and listen post address state
+  Future<bool?> createAddress(
+      String location, String type, String phoneReceiver, String nameReceiver) async {
+    bool isCreateAddress = false;
+
+    final createAddressEvent = CreateAddressEvent(location, nameReceiver, phoneReceiver, type);
+    await _addressBloc.addCreateAddress(createAddressEvent);
+
+    await _addressBloc.addressStateStream.listen((state) {
+       if (state is SuccessAddressState) {
+          isCreateAddress = true;
+        } else if (state is FailedAddressState) {
+          isCreateAddress = false;
+        }
+    });
+    return isCreateAddress;
   }
 }

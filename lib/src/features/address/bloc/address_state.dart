@@ -50,3 +50,17 @@ class FailedGetWardState extends AddressState {
 
   FailedGetWardState(this.errorMessage);
 }
+
+//State address success
+class SuccessAddressState extends AddressState {
+  final bool onLoginState;
+
+  SuccessAddressState(this.onLoginState);
+}
+
+//State address failed
+class FailedAddressState extends AddressState {
+  final String errorMessage;
+
+  FailedAddressState(this.errorMessage);
+}

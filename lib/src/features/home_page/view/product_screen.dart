@@ -91,7 +91,7 @@ class _ProductScreenState extends State<ProductScreen> {
           itemBuilder: (context, index) {
             final product = products[index];
             String logo = '${product.imageDTOs![0].name}';
-            
+
             return Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -108,7 +108,6 @@ class _ProductScreenState extends State<ProductScreen> {
                   ),
                 ),
                 child: Container(
-                  
                   child: Column(
                     children: [
                       SizedBox(
@@ -120,8 +119,12 @@ class _ProductScreenState extends State<ProductScreen> {
                       ),
                       Column(
                         children: [
-                          Text('${product.name}', style: const TextStyle(fontSize: 20, color: kRedColor, fontFamily: 'sans-serif')),
-                          Text('${product.price}', style: const TextStyle(fontSize: 20, color: kGreenColor, fontFamily: 'sans-serif')),
+                          Text('${product.name}',
+                              style: const TextStyle(
+                                  fontSize: 20, color: kRedColor, fontFamily: 'sans-serif')),
+                          Text('${product.price}',
+                              style: const TextStyle(
+                                  fontSize: 20, color: kGreenColor, fontFamily: 'sans-serif')),
                         ],
                       ),
                     ],

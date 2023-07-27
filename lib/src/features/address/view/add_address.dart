@@ -1,13 +1,14 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_store/src/constant/color/color.dart';
+import 'package:mobile_store/src/constant/utils/validate.dart';
 import 'package:mobile_store/src/core/model/district.dart';
 import 'package:mobile_store/src/core/model/province.dart';
 import 'package:mobile_store/src/core/model/ward.dart';
 import 'package:mobile_store/src/features/address/view_model/address_view_model.dart';
-import 'package:mobile_store/src/features/component/checkbox.dart';
-
-import 'package:mobile_store/src/features/profile/view/profile_page.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class EditAddressScreen extends StatefulWidget {
   const EditAddressScreen({super.key});
@@ -18,6 +19,9 @@ class EditAddressScreen extends StatefulWidget {
 }
 
 class _EditAddressScreenState extends State<EditAddressScreen> {
+  TextEditingController textAddressController = TextEditingController();
+  TextEditingController textPhoneController = TextEditingController();
+  TextEditingController textNameController = TextEditingController();
   List<Province> provinceList = [];
   String? newProvince;
   Province? selectedProvince;
@@ -29,8 +33,14 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
   List<Ward> wardList = [];
   String? newWard;
   Ward? selectedWard;
+  bool errorAddress = false;
+  String errorAddressText = '';
+  bool errorPhone = false;
+  String errorPhoneText = '';
+  bool errorName = false;
+  String errorNameText = '';
 
-  AddressViewModel addressViewModel = AddressViewModel();
+  final AddressViewModel _addressViewModel = AddressViewModel();
 
   @override
   void initState() {
@@ -43,7 +53,7 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
     return AlertDialog(
       contentPadding: EdgeInsets.zero,
       content: Builder(builder: (BuildContext context) {
-        final double maxHeight = MediaQuery.of(context).size.height * 0.6;
+        final double maxHeight = MediaQuery.of(context).size.height * 0.7;
         final viewInsets = MediaQuery.of(context).viewInsets;
         final double availableHeight = MediaQuery.of(context).size.height - viewInsets.bottom;
         final double contentHeight = availableHeight < maxHeight ? availableHeight : maxHeight;
@@ -87,10 +97,10 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
                             'assets/icon/office_icon.png',
                             height: MediaQuery.of(context).size.height * 0.02,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 6,
                           ),
-                          Text('OFFICE'),
+                          const Text('OFFICE'),
                         ],
                       )
                     ],
@@ -99,7 +109,7 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
 
                   //get province
                   FutureBuilder<List<Province>>(
-                    future: addressViewModel.getProvince(),
+                    future: _addressViewModel.getProvince(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         final List<Province> provinces = snapshot.data!;
@@ -144,10 +154,11 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
                   ),
                   const SizedBox(height: 16.0),
 
+                  //get district
                   provinceId == ""
                       ? Text("Ban phai chon thanh pho")
                       : FutureBuilder<List<District>>(
-                          future: addressViewModel.getDistrict("$provinceId"),
+                          future: _addressViewModel.getDistrict("$provinceId"),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               final List<District> districts = snapshot.data!;
@@ -189,33 +200,30 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
 
                   const SizedBox(height: 16.0),
 
+                  //get ward
                   districtId == ""
                       ? Text("Ban phai chon quan")
                       : FutureBuilder<List<Ward>>(
-                          future: addressViewModel.getWard("$districtId"),
+                          future: _addressViewModel.getWard("$districtId"),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               final List<Ward> wards = snapshot.data!;
                               final List<String> wardNames =
                                   wards.map((ward) => ward.ward_name ?? "").toList();
 
-                              // Store the selected district name instead of province name
-                              String? selectedWardName = selectedWard?.ward_name ?? wardNames.first;
-
                               return DropdownButton<String>(
                                 menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
-                                hint: Text("District"),
-                                value: selectedWardName,
+                                hint: Text("Ward"),
+                                value: selectedWard?.ward_name,
                                 onChanged: (name) {
                                   setState(() {
                                     selectedWard =
                                         wards.firstWhere((ward) => ward.ward_name == name);
                                   });
 
-                                  if (selectedDistrict != null && selectedDistrict is District) {
+                                  if (selectedWard != null && selectedWard is Ward) {
                                     setState(() {
-                                      newDistrict = selectedDistrict?.district_name ?? "";
-                                      districtId = selectedDistrict?.district_id;
+                                      newWard = selectedWard?.ward_name ?? "";
                                     });
                                   }
                                 },
@@ -234,47 +242,153 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
                           },
                         ),
                   const SizedBox(height: 16.0),
-                  TextField(
+
+                  TextFormField(
+                    controller: textAddressController,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      errorText: errorAddress ? errorAddressText : null,
+                      hintText: "Nhan dia chi cua ban",
+                      hintStyle: const TextStyle(color: kTextFieldColor),
+                      focusedBorder:
+                          const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
+                    ),
                     onChanged: (value) {
-                      setState(() {});
+                      setState(() {
+                        if (value.isEmpty) {
+                          errorAddress = true;
+                          errorAddressText = 'Địa chỉ không được để trống';
+                        } else if (value.startsWith(' ')) {
+                          errorAddress = true;
+                          errorAddressText = 'Không có dấu cách ở đầu';
+                        } else if (value.endsWith(' ')) {
+                          errorAddress = true;
+                          errorAddressText = 'Không có dấu cách cuối';
+                        } else {
+                          errorAddress = false;
+                          errorAddressText = '';
+                        }
+                      });
                     },
-                    decoration: const InputDecoration(
-                      hintText: 'Enter Address Details',
-                      contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                      border: OutlineInputBorder(),
-                    ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CheckBox(text: 'Set default address'),
-                      ],
+                  TextFormField(
+                    controller: textNameController,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      errorText: errorName ? errorNameText : null,
+                      hintText: "Nhan tên người nhận",
+                      hintStyle: const TextStyle(color: kTextFieldColor),
+                      focusedBorder:
+                          const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
                     ),
+                    onChanged: (value) {
+                      setState(() {
+                        if (value.isEmpty || Validate.validName(value)) {
+                          errorName = true;
+                          errorNameText = value.isEmpty
+                              ? 'Tên không được để trống'
+                              : value.startsWith(' ')
+                                  ? 'Không có dấu cách ở đầu'
+                                  : value.endsWith(' ')
+                                      ? 'Không có dấu cách cuối'
+                                      : 'Không được nhập số hoặc ký tự đặc biệt';
+                        } else {
+                          errorName = false;
+                          errorNameText = '';
+                        }
+                      });
+                    },
                   ),
-                  SizedBox(height: 16.0),
+                  TextFormField(
+                    controller: textPhoneController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      errorText: errorPhone ? errorPhoneText : null,
+                      hintText: "Nhan so dien thoai cua ban",
+                      hintStyle: const TextStyle(color: kTextFieldColor),
+                      focusedBorder:
+                          const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        if (value.isEmpty || Validate.invalidateMobile(value)) {
+                          errorPhone = true;
+                          errorPhoneText = value.isEmpty
+                              ? 'Số điện thoại không được để trống'
+                              : value.startsWith(' ')
+                                  ? 'Không có dấu cách ở đầu'
+                                  : value.endsWith(' ')
+                                      ? 'Không có dấu cách cuối'
+                                      : 'Số điện thoại phải 10 số';
+                        } else {
+                          errorPhone = false;
+                          errorPhoneText = '';
+                        }
+                      });
+                    },
+                  ),
+
+                  const SizedBox(height: 16.0),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     ElevatedButton(
-                      onPressed: () {},
-                      child: Text('Save'),
+                      onPressed: () async {
+                        String addressHome = textAddressController.text;
+                        String address = ('$addressHome,$newWard ,$newDistrict ,$newProvince');
+                        String phone = textPhoneController.text;
+                        String name = textNameController.text;
+                        log("$address");
+
+                        if (
+                          addressHome.isNotEmpty &&
+                            newProvince!.isNotEmpty &&
+                            newWard!.isNotEmpty &&
+                            newDistrict!.isNotEmpty &&
+                            phone.isNotEmpty &&
+                            name.isNotEmpty) {
+                          final createAddress =
+                              await _addressViewModel.createAddress(address, "type", phone, name);
+                          if (createAddress == true) {
+                            Navigator.pop(context);
+                            showTopSnackBar(
+                              Overlay.of(context),
+                              const CustomSnackBar.error(
+                                  message: 'Thêm địa chỉ thành công ', backgroundColor: kGreenColor),
+                            );
+                            // Navigator.pop(context);
+                            // ignore: use_build_context_synchronously
+                          } else {
+                            showTopSnackBar(
+                              Overlay.of(context),
+                              const CustomSnackBar.error(
+                                message: 'Thêm địa chỉ thất bại',
+                                backgroundColor: kRedColor,
+                              ),
+                            );
+                            // Navigator.pop(context);
+                          }
+                        } else {
+                          showTopSnackBar(
+                            Overlay.of(context),
+                            const CustomSnackBar.error(
+                              message: 'Vui long nhap dau tu thong tin',
+                              backgroundColor: kRedColor,
+                            ),
+                          );
+                        }
+                      },
+                      child: const Text('Save'),
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+                        backgroundColor: MaterialStateProperty.all<Color>(kGreenColor),
                       ),
                     ),
-                    SizedBox(width: 40),
+                    const SizedBox(width: 40),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ProfilePage(),
-                          ),
-                        );
+                        Navigator.pop(context);
                       },
                       child: Text('Close'),
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                        backgroundColor: MaterialStateProperty.all<Color>(kRedColor),
                       ),
                     ),
                   ]),

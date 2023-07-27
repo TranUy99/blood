@@ -8,6 +8,8 @@ import 'package:mobile_store/src/core/remote/response/change_password_response/c
 import '../../../core/remote/request/change_password_request/change_password_request.dart';
 
 class ChangePasswordService {
+
+  //call api change password
   static Future<ChangePasswordResponse> changePassword(
       String oldPassword, String newPassword) async {
     ChangePasswordResponse response = await ApiService(dio.Dio()).changePassword(
