@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/api_outside/api_image.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/model/product.dart';
-import 'package:mobile_store/src/features/home_page/bloc/product_bloc.dart';
 import 'package:mobile_store/src/features/detail_product/view/detail_product_screen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mobile_store/src/features/home_page/bloc/product_bloc.dart';
 import 'package:mobile_store/src/features/home_page/view_model/product_viewmodel.dart';
 
 class ProductScreen extends StatefulWidget {
@@ -81,7 +81,7 @@ class _ProductScreenState extends State<ProductScreen> {
         GridView.builder(
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            childAspectRatio: 0.75,
+            childAspectRatio: 0.7,
             crossAxisCount: 2,
             crossAxisSpacing: 5.0,
             mainAxisSpacing: 5.0,
@@ -104,7 +104,8 @@ class _ProductScreenState extends State<ProductScreen> {
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProductDetailScreen(idProduct: product.id!),
+                    builder: (context) =>
+                        ProductDetailScreen(idProduct: product.id!),
                   ),
                 ),
                 child: Container(
@@ -121,10 +122,14 @@ class _ProductScreenState extends State<ProductScreen> {
                         children: [
                           Text('${product.name}',
                               style: const TextStyle(
-                                  fontSize: 20, color: kRedColor, fontFamily: 'sans-serif')),
+                                  fontSize: 20,
+                                  color: kRedColor,
+                                  fontFamily: 'sans-serif')),
                           Text('${product.price}',
                               style: const TextStyle(
-                                  fontSize: 20, color: kGreenColor, fontFamily: 'sans-serif')),
+                                  fontSize: 20,
+                                  color: kGreenColor,
+                                  fontFamily: 'sans-serif')),
                         ],
                       ),
                     ],

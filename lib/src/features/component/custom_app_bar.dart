@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -90,7 +92,7 @@ PreferredSizeWidget? appBarWidget(BuildContext context, bool backButton) {
         leading: backButton
             ? IconButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  Get.offAll(NavigationHomePage());
                 },
                 icon: Icon(Icons.arrow_back_ios_new_sharp))
             : Image(

@@ -1,14 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'product_filter_response.dart';
+part of 'category_filter_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ProductFilterResponse _$ProductFilterResponseFromJson(
+CategoryFilterResponse _$CategoryFilterResponseFromJson(
         Map<String, dynamic> json) =>
-    ProductFilterResponse(
+    CategoryFilterResponse(
       (json['contents'] as List<dynamic>?)
           ?.map((e) => ProductFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -20,8 +20,8 @@ ProductFilterResponse _$ProductFilterResponseFromJson(
       json['last'] as bool?,
     );
 
-Map<String, dynamic> _$ProductFilterResponseToJson(
-        ProductFilterResponse instance) =>
+Map<String, dynamic> _$CategoryFilterResponseToJson(
+        CategoryFilterResponse instance) =>
     <String, dynamic>{
       'contents': instance.contents,
       'totalPages': instance.totalPages,

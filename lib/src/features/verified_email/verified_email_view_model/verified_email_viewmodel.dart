@@ -19,7 +19,7 @@ class VerifiedEmailViewModel {
     bool isVerified = false;
 
     await _verifiedEmailBloc.state.listen(
-      (state) {
+          (state) {
         if (state is SuccessVerifiedEmailState) {
           successLoginState = SuccessLoginState(true, true);
           isVerified = true;

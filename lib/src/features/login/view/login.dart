@@ -128,10 +128,10 @@ class _LogInScreenState extends State<LogInScreen> {
                     onTap: () async {
                       // String email = 'vanhau27062001@gmail.com';
                       // String password = '1234567Hau';
-                      String email = 'tranuy0907@gmail.com';
-                      String password = 'Tranuy1.';
-                      // String email = textEmailController.text.trim();
-                      // String password = textPasswordController.text.trim();
+                      String email = 'yukatanguyen545@gmail.com';
+                      String password = 'Candidate123';
+                      // String email = textEmailController.text;
+                      // String password = textPasswordController.text;
                       final int? loginStatus = await _loginViewModel.login(
                           email, password, isRemember);
 

@@ -1,10 +1,28 @@
-import 'package:mobile_store/src/features/category/service/category_service.dart';
+import 'package:mobile_store/src/core/remote/response/product_filter_response/category_filter_response.dart';
+import 'package:mobile_store/src/features/category/bloc_state/category_bloc.dart';
+import 'package:mobile_store/src/features/category/bloc_state/category_event.dart';
+import 'package:mobile_store/src/features/category/bloc_state/category_state.dart';
 
 class CategoryViewModel {
-  CategoryService categoryService = CategoryService();
-  Future<void> categoryFilter (int manufacturerId, int no, int limit) async {
-    categoryService.categoryService(manufacturerId, no, limit).then((value) {
-      print(value.contents?[1].categoriesDTO?.name);
+  final CategoryFilterBloc _categoryFilterBloc = CategoryFilterBloc();
+
+  Future<CategoryFilterResponse?> categoryFilterViewModel(
+      int categoryId, int no, int limit) async {
+    CategoryFilterResponse? categoryFilterResponse;
+    await _categoryFilterBloc
+        .addEvent(CategoryFilterEvent(categoryId, no, limit));
+
+    await _categoryFilterBloc.state.listen((state) {
+      if (state is SuccessCategoryFilterState) {
+        categoryFilterResponse =
+            successCategoryFilterState.categoryFilterResponse!;
+        print(
+            'viewmodel: ${categoryFilterResponse!.contents?[0].categoriesDTO?.id}');
+      } else if (state is ErrorCategoryFilterState) {
+        print('Category filter failed');
+      }
     });
+
+    return categoryFilterResponse;
   }
 }
