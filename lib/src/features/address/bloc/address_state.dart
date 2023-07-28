@@ -66,16 +66,27 @@ class FailedAddressState extends AddressState {
   FailedAddressState(this.errorMessage);
 }
 
-
-
 //get address state success
 class SuccessGetAddressState extends AddressState {
     final List<Address> address;
   SuccessGetAddressState(this.address);
 }
 
-//get add state failed
+//get address state failed
 class FailedGetAddressState extends AddressState {
   final String errorMessage;
   FailedGetAddressState(this.errorMessage);
+}
+
+
+//change address state success
+class SuccessChangeAddressState extends AddressState {
+    final List<Address> address;
+  SuccessChangeAddressState(this.address);
+}
+
+//change address state failed
+class FailedChangeAddressState extends AddressState {
+  final String errorMessage;
+  FailedChangeAddressState(this.errorMessage);
 }

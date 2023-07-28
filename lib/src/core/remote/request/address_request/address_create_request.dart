@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'create_address_request.g.dart';
+part 'address_create_request.g.dart';
 
 @JsonSerializable()
-class CreateAddressRequest {
+class AddressCreateRequest {
   @JsonKey(name: 'location')
   final String? location;
 
@@ -15,15 +15,15 @@ class CreateAddressRequest {
 
   @JsonKey(name: 'nameReceiver')
   final String? nameReceiver;
-  CreateAddressRequest({
+  AddressCreateRequest({
     this.location,
     this.type,
     this.nameReceiver,
     this.phoneReceiver,
   });
 
-  factory CreateAddressRequest.fromJson(Map<String, dynamic> json) =>
-      _$CreateAddressRequestFromJson(json);
+  factory AddressCreateRequest.fromJson(Map<String, dynamic> json) =>
+      _$AddressCreateRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CreateAddressRequestToJson(this);
+  Map<String, dynamic> toJson() => _$AddressCreateRequestToJson(this);
 }

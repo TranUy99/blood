@@ -1,22 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'create_address_request.dart';
+part of 'address_create_request.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-CreateAddressRequest _$CreateAddressRequestFromJson(
+AddressCreateRequest _$AddressCreateRequestFromJson(
         Map<String, dynamic> json) =>
-    CreateAddressRequest(
+    AddressCreateRequest(
       location: json['location'] as String?,
       type: json['type'] as String?,
       nameReceiver: json['nameReceiver'] as String?,
       phoneReceiver: json['phoneReceiver'] as String?,
     );
 
-Map<String, dynamic> _$CreateAddressRequestToJson(
-        CreateAddressRequest instance) =>
+Map<String, dynamic> _$AddressCreateRequestToJson(
+        AddressCreateRequest instance) =>
     <String, dynamic>{
       'location': instance.location,
       'type': instance.type,

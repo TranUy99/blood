@@ -83,7 +83,7 @@ class AddressViewModel {
     bool isCreateAddress = false;
 
     final createAddressEvent = CreateAddressEvent(location, nameReceiver, phoneReceiver, type);
-    await _addressBloc.addCreateAddress(createAddressEvent);
+    await _addressBloc.addCreateAddressEvent(createAddressEvent);
 
     await _addressBloc.addressStateStream.listen((state) {
        if (state is SuccessAddressState) {

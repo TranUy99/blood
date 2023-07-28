@@ -59,9 +59,10 @@ class AddressBloc {
       _addressStateSubject.sink.add(FailedGetAddressState("No address available"));
     }
     }
-  } 
+  }
 
-  Future<void> addCreateAddress(AddressEvent event) async {
+// create address
+  Future<void> addCreateAddressEvent(AddressEvent event) async {
     if (event is CreateAddressEvent) {
       final createAddress = await AddressService.createAddress(
           event.location, event.type, event.phoneReceiver, event.nameReceiver);
@@ -73,4 +74,19 @@ class AddressBloc {
       }
     }
   }
+
+//change address
+    Future<void> changeAddressEvent(AddressEvent event) async {
+    if (event is ChangeAddressEvent) {
+      final changeAddress = await AddressService.changeAddress(
+          event.location, event.type, event.phoneReceiver, event.nameReceiver, event.defaults);
+     
+      if (changeAddress.message == null) {
+        _addressStateSubject.sink.add(SuccessAddressState(true));
+      } else {
+        _addressStateSubject.sink.add(FailedAddressState("error"));
+      }
+    }
+  }
+
 }

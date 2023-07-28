@@ -18,6 +18,7 @@ class GetWardEvent extends AddressEvent {
   GetWardEvent(this.id);
 }
 
+//create add event
 class CreateAddressEvent extends AddressEvent {
   final String? location;
   final String? type;
@@ -25,4 +26,14 @@ class CreateAddressEvent extends AddressEvent {
   final String? nameReceiver;
 
   CreateAddressEvent(this.location, this.nameReceiver, this.phoneReceiver, this.type);
+}
+
+class ChangeAddressEvent extends AddressEvent {
+  final String? location;
+  final String? type;
+  final String? phoneReceiver;
+  final String? nameReceiver;
+  final bool? defaults;
+
+  ChangeAddressEvent(this.location, this.nameReceiver, this.phoneReceiver, this.type, this.defaults);
 }

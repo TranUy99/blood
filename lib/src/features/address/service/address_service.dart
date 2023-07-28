@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:dio/dio.dart' as dio;
 import 'package:mobile_store/main.dart';
 import 'package:mobile_store/src/api/api_service.dart';
@@ -9,12 +7,12 @@ import 'package:mobile_store/src/core/model/district.dart';
 import 'package:mobile_store/src/core/model/province.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_store/src/core/model/ward.dart';
-import 'package:mobile_store/src/core/remote/request/address_request/create_address_request.dart';
-
-import '../../../core/remote/response/address_response/create_address_response.dart';
+import 'package:mobile_store/src/core/remote/request/address_request/address_change_request.dart';
+import 'package:mobile_store/src/core/remote/request/address_request/address_create_request.dart';
+import 'package:mobile_store/src/core/remote/response/address_response/address_response.dart';
 
 class AddressService {
-  //api get province
+//api get province
   static Future<List<Province>> getProvinces() async {
     const String url = 'https://vapi.vnappmob.com/api/province';
     final response = await http.get(Uri.parse(url));
@@ -26,11 +24,11 @@ class AddressService {
 
       return provinces;
     } catch (e) {
-      return []; // Return an empty list or handle the error accordingly
+      return [];
     }
   }
 
-  // api get district
+// api get district
   static Future<List<District>> getDistrict(String? provinceId) async {
     String url = 'https://vapi.vnappmob.com/api/province/district/$provinceId';
     final response = await http.get(Uri.parse(url));
@@ -47,7 +45,7 @@ class AddressService {
     }
   }
 
-  // api get ward
+// api get ward
   static Future<List<Ward>> getWard(String? districtId) async {
     String url = 'https://vapi.vnappmob.com/api/province/ward/$districtId';
     final response = await http.get(Uri.parse(url));
@@ -63,25 +61,49 @@ class AddressService {
     }
   }
 
-  // call api create address
-  static Future<CreateAddressResponse> createAddress(
+// call api create address
+  static Future<AddressResponse> createAddress(
       String? location, String? type, String? phoneReceiver, String? nameReceiver) async {
-    CreateAddressResponse response = await ApiService(dio.Dio()).createAddress(
+    AddressResponse response = await ApiService(dio.Dio()).createAddress(
         auth: "Bearer ${getUser.token!}",
-        createAddress: CreateAddressRequest(
+        createAddress: AddressCreateRequest(
             location: location,
             type: type,
             phoneReceiver: phoneReceiver,
             nameReceiver: nameReceiver));
- 
+
     return response;
   }
 
 // call api get address
-    static Future<List<Address>> getAddressService() async {
+  static Future<List<Address>> getAddressService() async {
     List<Address> address = await ApiService(dio.Dio()).getAddress(auth: 'Bearer ${getUser.token}');
     address.forEach((response) {});
-  
+
     return address;
+  }
+
+// call api change address
+  static Future<AddressResponse> changeAddress(String? location, String? type,
+      String? phoneReceiver, String? nameReceiver, bool? defaults) async {
+    AddressResponse response = await ApiService(dio.Dio()).changeAddress(
+        auth: "Bearer ${getUser.token!}",
+        createAddress: AddressChangeRequest(
+            location: location,
+            type: type,
+            phoneReceiver: phoneReceiver,
+            nameReceiver: nameReceiver,
+            defaults: defaults));
+
+    return response;
+  }
+// call api delete address
+  static Future<AddressResponse> deleteAddress(
+    int? id,
+  ) async {
+    AddressResponse response =
+        await ApiService(dio.Dio()).deleteAddress(auth: "Bearer ${getUser.token!}", id: id!);
+
+    return response;
   }
 }

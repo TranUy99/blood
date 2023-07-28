@@ -13,7 +13,7 @@ class _ApiService implements ApiService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.1.33:8085';
+    baseUrl ??= 'http://192.168.1.30:8085';
   }
 
   final Dio _dio;
@@ -218,9 +218,9 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<CreateAddressResponse> createAddress({
+  Future<AddressResponse> createAddress({
     required String auth,
-    required CreateAddressRequest createAddress,
+    required AddressCreateRequest createAddress,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -228,8 +228,8 @@ class _ApiService implements ApiService {
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(createAddress.toJson());
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<CreateAddressResponse>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<AddressResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -241,7 +241,7 @@ class _ApiService implements ApiService {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = CreateAddressResponse.fromJson(_result.data!);
+    final value = AddressResponse.fromJson(_result.data!);
     return value;
   }
 
@@ -268,6 +268,61 @@ class _ApiService implements ApiService {
     var value = _result.data!
         .map((dynamic i) => Address.fromJson(i as Map<String, dynamic>))
         .toList();
+    return value;
+  }
+
+  @override
+  Future<AddressResponse> changeAddress({
+    required String auth,
+    required AddressChangeRequest createAddress,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': auth};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(createAddress.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<AddressResponse>(Options(
+      method: 'PUT',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/address',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = AddressResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<AddressResponse> deleteAddress({
+    required String auth,
+    required int id,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': auth};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<AddressResponse>(Options(
+      method: 'PUT',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/address/${id}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = AddressResponse.fromJson(_result.data!);
     return value;
   }
 
