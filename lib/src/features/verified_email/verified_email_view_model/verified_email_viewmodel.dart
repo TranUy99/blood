@@ -9,8 +9,18 @@ class VerifiedEmailViewModel {
   final VerifiedEmailBloc _verifiedEmailBloc = VerifiedEmailBloc();
 
   //Call email event
-  Future<void> sendEmail(String email) async {
+  Future<bool> sendEmail(String email) async {
     await _verifiedEmailBloc.sendEmailEvent(SendEmailEvent(email));
+    bool isVerified = false;
+
+    await _verifiedEmailBloc.stateSendEmail.listen((state) {
+      if(state is SuccessSendEmailState){
+        isVerified = true;
+      }else if(state is ErrorSendEmailState){
+        isVerified = false;
+      }
+    });
+    return isVerified;
   }
 
   //Call event active OTP and return state of activeOTP
@@ -18,12 +28,12 @@ class VerifiedEmailViewModel {
     await _verifiedEmailBloc.activeOTPEvent(ActivateOTPEvent(otpNumber));
     bool isVerified = false;
 
-    await _verifiedEmailBloc.state.listen(
+    await _verifiedEmailBloc.stateVerifiedEmail.listen(
           (state) {
         if (state is SuccessVerifiedEmailState) {
           successLoginState = SuccessLoginState(true, true);
           isVerified = true;
-        } else {
+        } else if(state is ErrorVerifiedEmailState){
           isVerified = false;
         }
       },

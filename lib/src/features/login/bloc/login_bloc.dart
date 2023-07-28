@@ -12,9 +12,10 @@ SuccessLoginState successLoginState = SuccessLoginState(false, false);
 
 class LoginBloc {
   final _stateController = BehaviorSubject<LoginState>();
-  String? mess;
+  String? message;
   bool verifiedStatus = false;
-
+  int? id;
+  String? error;
   Stream<LoginState> get state => _stateController.stream;
 
   //Get event login
@@ -27,22 +28,24 @@ class LoginBloc {
     final loginResult = LoginService.loginService(email, password);
     try {
       await loginResult.then((value) {
-        mess = value.message;
+        message = value.message;
+        error = value.error;
         getUser.idUser = value.idUser!;
         getUser.token = value.token;
-        // print('$id - $token');
+        getUser.email = email;
       });
     } catch (e) {
-      mess = 'e';
+      error = '$e';
     }
 
     try {
       getUser.userDTO = await UserService.userService(getUser.idUser!, getUser.token!);
       verifiedStatus = (getUser.userDTO.statusDTO)!;
     } catch (e) {
-      print(e);
+      error = '$e';
     }
-    if (mess == null) {
+
+    if (error == null) {
       if (verifiedStatus) {
         _stateController.add(successLoginState = SuccessLoginState(true, true));
       } else {
@@ -50,7 +53,7 @@ class LoginBloc {
       }
       successLoginState.saveLoginState(email, password, getUser.token, getUser.idUser, isRemember);
     } else {
-      _stateController.add(ErrorLoginState(mess!));
+      _stateController.add(ErrorLoginState(error!));
     }
   }
 
