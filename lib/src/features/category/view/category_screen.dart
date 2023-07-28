@@ -23,7 +23,8 @@ class CategoryScreen extends StatefulWidget {
 class _CategoryScreenState extends State<CategoryScreen> {
   final ProductBloc productBloc = ProductBloc();
   CategoryViewModel categoryViewModel = CategoryViewModel();
-  late final CategoryFilterResponse? categoryFilterResponse;
+  final ScrollController _scrollController = ScrollController();
+  CategoryFilterResponse? categoryFilterResponse;
   List<String> brandName = ['Apple', 'Xiaomi', 'Samsung'];
   List<String> priceRange = [
     'Under 500 USD',
@@ -34,24 +35,46 @@ class _CategoryScreenState extends State<CategoryScreen> {
     '2500 - 3000 USD'
   ];
   List<ProductFilter> products = [];
-  int? itemCount;
-  int length = 0;
+  int currentPage = 0;
+  int limit = 2;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _getData(widget.categoryID);
+    _getData(widget.categoryID, currentPage);
+    _scrollController.addListener(() {
+      if (_scrollController.offset ==
+          _scrollController.position.maxScrollExtent) {
+        fetch();
+      }
+    });
   }
 
-  _getData(int categoryId) async {
+  Future<void> fetch() async {
+    print('End gridview');
+    if(currentPage < (categoryFilterResponse!.totalPages! - 1)){
+      try{
+        setState(() {
+          currentPage++;
+          _getData(widget.categoryID, currentPage);
+        });
+      }catch(e){
+        print(e);
+      }
+      print('next page $currentPage');
+    }
+  }
+
+  _getData(int categoryId, int page) async {
     print('categoryId: $categoryId');
     categoryFilterResponse = await categoryViewModel.categoryFilterViewModel(
-        widget.categoryID, 0, 10);
+        widget.categoryID, page, limit);
     try {
       print('view ${categoryFilterResponse!.contents?[0].categoriesDTO?.name}');
-      products = (categoryFilterResponse?.contents)!;
-      itemCount = products.length;
+      setState(() {
+        products += (categoryFilterResponse?.contents)!;
+      });
     } catch (e) {
       print('view: $e');
     }
@@ -61,109 +84,109 @@ class _CategoryScreenState extends State<CategoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarWidget(context, true),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: MediaQuery.of(context).size.height * 0.02,
-                  horizontal: MediaQuery.of(context).size.width * 0.02),
-              child: Row(
-                children: [
-                  productFilter('Manufacturer', 0.35, manufacturerMenuItems),
-                  SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                  productFilter('Price', 0.25, priceMenuItems)
-                ],
-              ),
+      body: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(
+                vertical: MediaQuery.of(context).size.height * 0.02,
+                horizontal: MediaQuery.of(context).size.width * 0.02),
+            child: Row(
+              children: [
+                productFilter('Manufacturer', 0.35, manufacturerMenuItems),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+                productFilter('Price', 0.25, priceMenuItems)
+              ],
             ),
-            ElevatedButton(onPressed: () {
-              setState(() {
-                length +=1;
-              });
-            }, child: Text('+1')),
-            FutureBuilder(
-              future: categoryViewModel.categoryFilterViewModel(
-                  widget.categoryID, 0, 10),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
+          ),
+          FutureBuilder(
+            future: categoryViewModel.categoryFilterViewModel(
+                widget.categoryID, 0, 10),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                if (snapshot.hasData) {
+                  return productFilterDisplay(
+                      );
                 } else {
-                  if (snapshot.hasData) {
-                    return productFilterDisplay(
-                        length);
-                  } else {
-                    return const Text('No product available');
-                  }
+                  return const Text('No product available');
                 }
-              },
-            ),
-          ],
-        ),
+              }
+            },
+          ),
+        ],
       ),
     );
   }
 
-  Widget productFilterDisplay(int length) {
-    return GridView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        childAspectRatio: 0.7,
-        crossAxisCount: 2,
-        crossAxisSpacing: 5.0,
-        mainAxisSpacing: 5.0,
-      ),
-      itemCount: length,
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        final product = products[index];
-        String logo = '${product.imageDTOs![0].name}';
-
-        return Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(
-              color: kZambeziColor,
-              width: 2.0,
-            ),
-          ),
-          child: InkWell(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    ProductDetailScreen(idProduct: product.id!),
+  Widget productFilterDisplay() {
+    return Expanded(
+      child: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          childAspectRatio: 0.6,
+          crossAxisCount: 2,
+          crossAxisSpacing: 5.0,
+          mainAxisSpacing: 5.0,
+        ),
+        controller: _scrollController,
+        itemCount:  products.length + 1 ,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          if (index < products.length) {
+            final product = products[index];
+            String logo = '${product.imageDTOs![0].name}';
+            return Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: kZambeziColor,
+                  width: 2.0,
+                ),
               ),
-            ),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.25,
-                  child: CachedNetworkImage(
-                    imageUrl: ApiImage().generateImageUrl(logo),
-                    height: 20,
+              child: InkWell(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ProductDetailScreen(idProduct: product.id!),
                   ),
                 ),
-                Column(
+                child: Column(
                   children: [
-                    Text('${product.name}',
-                        style: const TextStyle(
-                            fontSize: 20,
-                            color: kRedColor,
-                            fontFamily: 'sans-serif')),
-                    Text('${product.price}',
-                        style: const TextStyle(
-                            fontSize: 20,
-                            color: kGreenColor,
-                            fontFamily: 'sans-serif')),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      child: CachedNetworkImage(
+                        imageUrl: ApiImage().generateImageUrl(logo),
+                        height: 20,
+                      ),
+                    ),
+                    Column(
+                      children: [
+                        Text('${product.name}',
+                            style: const TextStyle(
+                                fontSize: 20,
+                                color: kRedColor,
+                                fontFamily: 'sans-serif')),
+                        Text('${product.price}',
+                            style: const TextStyle(
+                                fontSize: 20,
+                                color: kGreenColor,
+                                fontFamily: 'sans-serif')),
+                      ],
+                    ),
                   ],
                 ),
-              ],
-            ),
-          ),
-        );
-      },
+              ),
+            );
+          } else if (index == products.length &&
+              currentPage < (categoryFilterResponse!.totalPages! - 1) &&
+              index > 3) {
+            return const Center(child: CircularProgressIndicator(),);
+          }else{
+            return const SizedBox.shrink();
+          }
+        },
+      ),
     );
   }
 

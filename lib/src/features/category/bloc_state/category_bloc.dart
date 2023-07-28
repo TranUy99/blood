@@ -32,7 +32,7 @@ class CategoryFilterBloc {
     }
 
     if (totalItems != 0) {
-      print('bloc ${productList?[0].categoriesDTO?.id}');
+      print('bloc ${productList![0].categoriesDTO?.id}');
       _stateController.add(successCategoryFilterState =
           SuccessCategoryFilterState(await categoryFilterResult));
     } else {

@@ -18,13 +18,16 @@ class LoginResponse {
   @JsonKey(name: 'message')
   final String? message;
 
+  @JsonKey(name: 'error')
+  final String? error;
+
   @JsonKey(name: 'emailOrPhoneNumber')
   final String? emailOrPhoneNumber;
 
   @JsonKey(name: 'role')
   final String? role;
 
-  LoginResponse({
+  LoginResponse(this.error, {
     this.role,
     this.message,
     this.token,

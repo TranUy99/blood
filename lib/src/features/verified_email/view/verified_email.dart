@@ -27,8 +27,20 @@ class _VerifiedEmailState extends State<VerifiedEmail> {
   bool resentEmail = false;
 
   _sendEmail() async {
-    String? email = getUser.email;
-    verifiedEmailViewModel.sendEmail(email!);
+    try{
+      String? email = getUser.email;
+      print(email);
+      bool isSend = await verifiedEmailViewModel.sendEmail(email!);
+     if( isSend  == false){
+       showTopSnackBar(
+           Overlay.of(context),
+           const CustomSnackBar.error(
+               message: 'Can not send OTP'));
+     }
+
+    }catch(e){
+      print('Send email error: $e');
+    }
   }
 
   @override
@@ -37,8 +49,6 @@ class _VerifiedEmailState extends State<VerifiedEmail> {
     super.initState();
     _sendEmail();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +99,7 @@ class _VerifiedEmailState extends State<VerifiedEmail> {
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                            Text('Did not send OTP'),
+                            const Text('Did not send OTP'),
                             TextButton(
                               onPressed: () {
                                 _sendEmail();
@@ -127,6 +137,7 @@ class _VerifiedEmailState extends State<VerifiedEmail> {
                       String otpNumber = textOTPController.text;
                       bool? isVerified =
                           await verifiedEmailViewModel.activeOTP(otpNumber);
+                      print('isVerified: $isVerified');
                       if (isVerified) {
                         showTopSnackBar(
                             Overlay.of(context),

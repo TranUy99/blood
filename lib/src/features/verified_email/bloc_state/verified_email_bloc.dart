@@ -4,9 +4,11 @@ import 'package:mobile_store/src/features/verified_email/service/verified_email_
 import 'package:rxdart/rxdart.dart';
 
 class VerifiedEmailBloc {
-  final _stateController = BehaviorSubject<VerifiedEmailState>();
+  final _sendEmailStateController = BehaviorSubject<SendEmailState>();
+  final _verifiedEmailStateController = BehaviorSubject<VerifiedEmailState>();
 
-  Stream<VerifiedEmailState> get state => _stateController.stream;
+  Stream<SendEmailState> get stateSendEmail => _sendEmailStateController.stream;
+  Stream<VerifiedEmailState> get stateVerifiedEmail => _verifiedEmailStateController.stream;
 
   //Listen from SendEmailEvent
   Future<void> sendEmailEvent(SendEmailEvent event) async {
@@ -16,19 +18,21 @@ class VerifiedEmailBloc {
   //Call api sendEmail
   Future<void> _sendEmail(String email) async {
     String? message;
+    String? errors;
     final sendEmailResult = VerifiedEmailService.sendEmailService(email);
     try {
       await sendEmailResult.then((value) {
+        errors = value.errors;
         message = value.message;
       });
     } catch (e) {
-      message = 'Failed to get data';
+      errors = '$e';
     }
 
-    if (message == 'SEND MAIL') {
-      _stateController.sink.add(SuccessVerifiedEmailState());
+    if (errors == null) {
+      _sendEmailStateController.sink.add(SuccessSendEmailState());
     } else {
-      _stateController.sink.add(ErrorVerifiedEmailState('Failed to send email'));
+      _sendEmailStateController.sink.add(ErrorSendEmailState(errors!));
     }
   }
 
@@ -50,13 +54,14 @@ class VerifiedEmailBloc {
     }
 
     if (message != 'UNEXPECTED ERROR OCCURRED') {
-      _stateController.sink.add(SuccessVerifiedEmailState());
+      _verifiedEmailStateController.sink.add(SuccessVerifiedEmailState());
     } else {
-      _stateController.sink.add(ErrorVerifiedEmailState('Failed to active OTP'));
+      _verifiedEmailStateController.sink.add(ErrorVerifiedEmailState('Failed to active OTP'));
     }
   }
 
   void dispose() {
-    _stateController.close();
+    _sendEmailStateController.close();
+    _verifiedEmailStateController.close();
   }
 }
