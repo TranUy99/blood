@@ -24,6 +24,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
   final ProductBloc productBloc = ProductBloc();
   CategoryViewModel categoryViewModel = CategoryViewModel();
   final ScrollController _scrollController = ScrollController();
+  final CustomPopupMenuController _manufacturerCustomPopupMenuController =
+      CustomPopupMenuController();
+  final CustomPopupMenuController _priceCustomPopupMenuController =
+      CustomPopupMenuController();
   CategoryFilterResponse? categoryFilterResponse;
   List<String> brandName = ['Apple', 'Xiaomi', 'Samsung'];
   List<String> priceRange = [
@@ -35,8 +39,11 @@ class _CategoryScreenState extends State<CategoryScreen> {
     '2500 - 3000 USD'
   ];
   List<ProductFilter> products = [];
+  List<ProductFilter> productFilterList = [];
   int currentPage = 0;
-  int limit = 2;
+  int limit = 4;
+  String? manufacturerName;
+  int? manufacturerIndex;
 
   @override
   void initState() {
@@ -53,13 +60,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   Future<void> fetch() async {
     print('End gridview');
-    if(currentPage < (categoryFilterResponse!.totalPages! - 1)){
-      try{
+    if (currentPage < (categoryFilterResponse!.totalPages! - 1)) {
+      try {
         setState(() {
           currentPage++;
           _getData(widget.categoryID, currentPage);
         });
-      }catch(e){
+      } catch (e) {
         print(e);
       }
       print('next page $currentPage');
@@ -92,9 +99,14 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 horizontal: MediaQuery.of(context).size.width * 0.02),
             child: Row(
               children: [
-                productFilter('Manufacturer', 0.35, manufacturerMenuItems),
+                productFilter(
+                    manufacturerName ?? 'Manufacturer',
+                    0.35,
+                    manufacturerMenuItems,
+                    _manufacturerCustomPopupMenuController),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                productFilter('Price', 0.25, priceMenuItems)
+                productFilter('Price', 0.25, priceMenuItems,
+                    _priceCustomPopupMenuController)
               ],
             ),
           ),
@@ -106,8 +118,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 return Text('Error: ${snapshot.error}');
               } else {
                 if (snapshot.hasData) {
-                  return productFilterDisplay(
-                      );
+                  return productFilterDisplay();
                 } else {
                   return const Text('No product available');
                 }
@@ -122,14 +133,14 @@ class _CategoryScreenState extends State<CategoryScreen> {
   Widget productFilterDisplay() {
     return Expanded(
       child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          childAspectRatio: 0.6,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          childAspectRatio: MediaQuery.of(context).size.aspectRatio * 1.4,
           crossAxisCount: 2,
           crossAxisSpacing: 5.0,
           mainAxisSpacing: 5.0,
         ),
         controller: _scrollController,
-        itemCount:  products.length + 1 ,
+        itemCount: products.length + 1,
         shrinkWrap: true,
         itemBuilder: (context, index) {
           if (index < products.length) {
@@ -181,8 +192,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
           } else if (index == products.length &&
               currentPage < (categoryFilterResponse!.totalPages! - 1) &&
               index > 3) {
-            return const Center(child: CircularProgressIndicator(),);
-          }else{
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
             return const SizedBox.shrink();
           }
         },
@@ -191,8 +204,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
   }
 
   Widget productFilter(
-      String title, double sizeWidth, Widget Function() menuItem) {
+      String title,
+      double sizeWidth,
+      Widget Function() menuItem,
+      CustomPopupMenuController customPopupMenuController) {
     return CustomPopupMenu(
+        controller: customPopupMenuController,
         position: PreferredPosition.bottom,
         arrowColor: kWhiteColor,
         barrierColor: Colors.black45,
@@ -234,11 +251,25 @@ class _CategoryScreenState extends State<CategoryScreen> {
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
-              print(brandName[index]);
+              setState(() {
+                if (manufacturerIndex != index) {
+                  manufacturerName = brandName[index];
+                  manufacturerIndex = index;
+                  products;
+                } else {
+                  manufacturerName = null;
+                  manufacturerIndex = null;
+                }
+              });
+              _manufacturerCustomPopupMenuController.hideMenu();
             },
             child: Container(
               decoration: BoxDecoration(
-                border: Border.all(),
+                border: Border.all(
+                    color:
+                        (manufacturerName != null && manufacturerIndex == index)
+                            ? Colors.redAccent
+                            : kZambeziColor),
                 borderRadius: BorderRadius.circular(5),
               ),
               child: Center(

@@ -9,7 +9,7 @@ class SendEmailEvent extends VerifiedEmailEvent {
 
 //Event for activate otp
 class ActivateOTPEvent extends VerifiedEmailEvent {
-  final String activeOTP;
+  final int activeOTP;
 
   ActivateOTPEvent(this.activeOTP);
 }

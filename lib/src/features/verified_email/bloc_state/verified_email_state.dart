@@ -10,14 +10,14 @@ class ErrorSendEmailState extends SendEmailState {
   ErrorSendEmailState(this.errorMessage);
 }
 
-abstract class VerifiedEmailState {}
+abstract class ActiveOTPState {}
 
 // State for success verified
-class SuccessVerifiedEmailState extends VerifiedEmailState {}
+class SuccessActiveOTPState extends ActiveOTPState {}
 
 // State for failed verified
-class ErrorVerifiedEmailState extends VerifiedEmailState {
+class ErrorActiveOTPState extends ActiveOTPState {
   final String? errorMessage;
 
-  ErrorVerifiedEmailState(this.errorMessage);
+  ErrorActiveOTPState(this.errorMessage);
 }

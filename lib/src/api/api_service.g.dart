@@ -13,7 +13,7 @@ class _ApiService implements ApiService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.1.21:8085';
+    baseUrl ??= 'http://192.168.1.22:8085';
   }
 
   final Dio _dio;
@@ -167,7 +167,7 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<ActiveOTPResponse> activeOTP(String activeOTP) async {
+  Future<ActiveOTPResponse> activeOTP(int activeOTP) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'activeOTP': activeOTP};
     final _headers = <String, dynamic>{};
