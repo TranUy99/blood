@@ -6,7 +6,7 @@ import 'package:mobile_store/src/core/model/ward.dart';
 
 abstract class AddressState {}
 
-class AddressInitialState extends AddressState {}
+class InitialAddressState extends AddressState {}
 
 class AddressLoadingState extends AddressState {}
 

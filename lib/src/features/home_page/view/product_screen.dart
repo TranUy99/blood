@@ -82,7 +82,7 @@ class _ProductScreenState extends State<ProductScreen> {
         GridView.builder(
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            childAspectRatio: MediaQuery.of(context).size.aspectRatio * 1.4,
+            childAspectRatio: MediaQuery.of(context).size.aspectRatio * 1.3,
             crossAxisCount: 2,
             crossAxisSpacing: 5.0,
             mainAxisSpacing: 5.0,
@@ -109,32 +109,30 @@ class _ProductScreenState extends State<ProductScreen> {
                         ProductDetailScreen(idProduct: product.id!),
                   ),
                 ),
-                child: Container(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.25,
-                        child: CachedNetworkImage(
-                          imageUrl: ApiImage().generateImageUrl('$logo'),
-                          height: 20,
-                        ),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      child: CachedNetworkImage(
+                        imageUrl: ApiImage().generateImageUrl('$logo'),
+                        height: 20,
                       ),
-                      Column(
-                        children: [
-                          Text('${product.name}',
-                              style: const TextStyle(
-                                  fontSize: 20,
-                                  color: kRedColor,
-                                  fontFamily: 'sans-serif')),
-                          Text( '${NumberFormat('#,###.###').format( product.price).replaceAll(',','.')} VND',
-                              style: const TextStyle(
-                                  fontSize: 20,
-                                  color: kGreenColor,
-                                  fontFamily: 'sans-serif')),
-                        ],
-                      ),
-                    ],
-                  ),
+                    ),
+                    Column(
+                      children: [
+                        Text('${product.name}',
+                            style: const TextStyle(
+                                fontSize: 20,
+                                color: kRedColor,
+                                fontFamily: 'sans-serif')),
+                        Text( '${NumberFormat('#,###.###').format( product.price).replaceAll(',','.')} VND',
+                            style: const TextStyle(
+                                fontSize: 20,
+                                color: kGreenColor,
+                                fontFamily: 'sans-serif')),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             );

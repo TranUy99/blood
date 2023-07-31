@@ -7,14 +7,14 @@ class GetProvinceEvent extends AddressEvent {}
 
 //create district event
 class GetDistrictEvent extends AddressEvent {
-  final String? id;
-  GetDistrictEvent(this.id);
+  final String? provinceId;
+  GetDistrictEvent(this.provinceId);
 }
 
 //create ward event
 class GetWardEvent extends AddressEvent {
-  final String? id;
-  GetWardEvent(this.id);
+  final String? districtId;
+  GetWardEvent(this.districtId);
 }
 
 // get address

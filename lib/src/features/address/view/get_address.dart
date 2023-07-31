@@ -12,117 +12,131 @@ class GetAddressScreen extends StatefulWidget {
 }
 
 class _GetAddressScreenState extends State<GetAddressScreen> {
+  List<Address> address = [];
   final AddressViewModel _addressViewModel = AddressViewModel();
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<Address>>( 
-        stream: _addressViewModel.getAddress(),
-        builder: (context, snapshot) {
+    return FutureBuilder<List<Address>>(
+      future: _addressViewModel.getAddress(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasError) {
+          return Container();
+        } else {
           if (snapshot.hasData) {
-            return ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    ListTile(
-                      title: Column(
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 1,
-                            child: Text(
-                                '${snapshot.data![index].nameReceiver} | ${snapshot.data![index].phoneReceiver}'),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 1,
-                            child: Text('${snapshot.data![index].location}'),
-                          ),
-                          const SizedBox(height: 4),
-                          Row(
-                            children: [
-                              OutlinedButton(
-                                onPressed: () {},
-                                style: OutlinedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(0),
-                                  ),
-                                  side: const BorderSide(width: 1, color: Colors.green),
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 0.1,
-                                    horizontal: 14,
-                                  ),
-                                ),
-                                child: const Text(
-                                  'Default',
-                                  style: TextStyle(
-                                    color: Colors.green,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 20),
-                              OutlinedButton(
-                                onPressed: () {},
-                                style: OutlinedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(0),
-                                  ),
-                                  side: const BorderSide(width: 1, color: kOrange),
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 0.1,
-                                    horizontal: 12,
-                                  ),
-                                ),
-                                child: const Text(
-                                  'Home',
-                                  style: TextStyle(
-                                    color: kOrange,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      trailing: Wrap(
-                        spacing: MediaQuery.of(context).size.width * 0.05,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return const AddAddressScreen();
-                                },
-                              );
-                            },
-                            child: Image.asset(
-                              'assets/icon/edit_icon.png',
-                              height: MediaQuery.of(context).size.height * 0.03,
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {},
-                            child: Image.asset(
-                              'assets/icon/delete_icon.png',
-                              height: MediaQuery.of(context).size.height * 0.03,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Divider(
-                      thickness: MediaQuery.of(context).size.height * 0.004,
-                    ),
-                  ],
-                );
-              },
-            );
-          } else if (snapshot.hasError) {
-            return Center(child: Text("Error: ${snapshot.error}"));
+            address = snapshot.data!;
+            // Build UI using the retrieved products
+            return buildUI(context);
           } else {
-            return const Center(child: CircularProgressIndicator());
+            return Text('No address ');
           }
-        });
+        }
+      },
+    );
+  }
+
+  Widget buildUI(BuildContext context) {
+    return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: address.length,
+      itemBuilder: (context, index) {
+        return Column(
+          children: [
+            ListTile(
+              title: Column(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 1,
+                    child: Text(
+                        '${address[index].nameReceiver}|${address[index].phoneReceiver}'),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 1,
+                    child: Text('${address[index].location}'),
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      OutlinedButton(
+                        onPressed: () {},
+                        style: OutlinedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0),
+                          ),
+                          side: const BorderSide(width: 1, color: Colors.green),
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 0.1,
+                            horizontal: 14,
+                          ),
+                        ),
+                        child: const Text(
+                          'Default',
+                          style: TextStyle(
+                            color: Colors.green,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      OutlinedButton(
+                        onPressed: () {},
+                        style: OutlinedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0),
+                          ),
+                          side: const BorderSide(width: 1, color: kOrange),
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 0.1,
+                            horizontal: 12,
+                          ),
+                        ),
+                        child: const Text(
+                          'Home',
+                          style: TextStyle(
+                            color: kOrange,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              trailing: Wrap(
+                spacing: MediaQuery.of(context).size.width * 0.05,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return const AddAddressScreen();
+                        },
+                      );
+                    },
+                    child: Image.asset(
+                      'assets/icon/edit_icon.png',
+                      height: MediaQuery.of(context).size.height * 0.03,
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: Image.asset(
+                      'assets/icon/delete_icon.png',
+                      height: MediaQuery.of(context).size.height * 0.03,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Divider(
+              thickness: MediaQuery.of(context).size.height * 0.004,
+            ),
+          ],
+        );
+      },
+    );
   }
 }

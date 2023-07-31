@@ -26,7 +26,7 @@ class AddressBloc {
 //add district
   Future<void> addDistrictEvent(AddressEvent event) async {
     if (event is GetDistrictEvent) {
-      final getProvinceResult = await AddressService.getDistrict(event.id!);
+      final getProvinceResult = await AddressService.getDistrict(event.provinceId!);
       if (getProvinceResult.isNotEmpty) {
         _addressStateSubject.sink.add(SuccessGetDistrictState(getProvinceResult));
       } else {
@@ -38,7 +38,7 @@ class AddressBloc {
 //add ward
   Future<void> addWardEvent(AddressEvent event) async {
     if (event is GetWardEvent) {
-      final getProvinceResult = await AddressService.getWard(event.id);
+      final getProvinceResult = await AddressService.getWard(event.districtId);
       if (getProvinceResult.isNotEmpty) {
         _addressStateSubject.sink.add(SuccessGetWardState(getProvinceResult));
       } else {

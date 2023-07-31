@@ -7,10 +7,10 @@ import 'package:mobile_store/src/core/model/district.dart';
 import 'package:mobile_store/src/core/model/province.dart';
 import 'package:mobile_store/src/core/model/ward.dart';
 import 'package:mobile_store/src/features/address/view_model/address_view_model.dart';
+
+import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
-
-import 'get_address.dart';
 
 class AddAddressScreen extends StatefulWidget {
   const AddAddressScreen({super.key});
@@ -349,7 +349,12 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                               await _addressViewModel.createAddress(address, "type", phone, name);
 
                           if (createAddress == true) {
-                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const NavigationHomePage(),
+                              ),
+                            );
                             showTopSnackBar(
                               Overlay.of(context),
                               const CustomSnackBar.error(
@@ -364,7 +369,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                 backgroundColor: kRedColor,
                               ),
                             );
-                          
+                            // Navigator.pop(context);
                           }
                         } else {
                           showTopSnackBar(
