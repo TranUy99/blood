@@ -26,6 +26,7 @@ part 'api_service.g.dart';
 
 //Base address
 @RestApi(baseUrl: 'http://192.168.1.28:8085')
+
 // @RestApi(baseUrl: 'http://45.117.170.206:8085')
 
 abstract class ApiService {

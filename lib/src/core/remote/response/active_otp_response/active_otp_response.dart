@@ -8,10 +8,13 @@ class ActiveOTPResponse {
   @JsonKey(name: 'message')
   final String? message;
 
+  @JsonKey(name: 'errors')
+  final String? errors;
+
   @JsonKey(name: 'path')
   final String? path;
 
-  ActiveOTPResponse(this.message, this.path);
+  ActiveOTPResponse(this.message, this.path, this.errors);
 
   factory ActiveOTPResponse.fromJson(Map<String, dynamic> json) =>
       _$ActiveOTPResponseFromJson(json);

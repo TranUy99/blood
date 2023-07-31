@@ -29,7 +29,6 @@ class _VerifiedEmailState extends State<VerifiedEmail> {
   _sendEmail() async {
     try{
       String? email = getUser.email;
-      print(email);
       bool isSend = await verifiedEmailViewModel.sendEmail(email!);
      if( isSend  == false){
        showTopSnackBar(
@@ -137,7 +136,6 @@ class _VerifiedEmailState extends State<VerifiedEmail> {
                       String otpNumber = textOTPController.text;
                       bool? isVerified =
                           await verifiedEmailViewModel.activeOTP(otpNumber);
-                      print('isVerified: $isVerified');
                       if (isVerified) {
                         showTopSnackBar(
                             Overlay.of(context),

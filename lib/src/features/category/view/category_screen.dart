@@ -3,6 +3,7 @@ import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/core/remote/response/product_filter_response/category_filter_response.dart';
 import 'package:mobile_store/src/features/category/view_model/category_view_model.dart';
+import 'package:mobile_store/src/features/home_page/view/product_screen.dart';
 
 import '../../../constant/api_outside/api_image.dart';
 import '../../../constant/color/color.dart';
@@ -52,7 +53,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
   }
 
   Future<void> fetch() async {
-    print('End gridview');
     if(currentPage < (categoryFilterResponse!.totalPages! - 1)){
       try{
         setState(() {
@@ -62,16 +62,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
       }catch(e){
         print(e);
       }
-      print('next page $currentPage');
     }
   }
 
   _getData(int categoryId, int page) async {
-    print('categoryId: $categoryId');
     categoryFilterResponse = await categoryViewModel.categoryFilterViewModel(
         widget.categoryID, page, limit);
     try {
-      print('view ${categoryFilterResponse!.contents?[0].categoriesDTO?.name}');
       setState(() {
         products += (categoryFilterResponse?.contents)!;
       });
@@ -84,37 +81,46 @@ class _CategoryScreenState extends State<CategoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarWidget(context, true),
-      body: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: MediaQuery.of(context).size.height * 0.02,
-                horizontal: MediaQuery.of(context).size.width * 0.02),
-            child: Row(
-              children: [
-                productFilter('Manufacturer', 0.35, manufacturerMenuItems),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                productFilter('Price', 0.25, priceMenuItems)
-              ],
+      body: RefreshIndicator(
+        onRefresh: () async {
+          setState(() {
+            currentPage = 0;
+            products = [];
+          });
+          _getData(widget.categoryID, currentPage);
+        },
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  vertical: MediaQuery.of(context).size.height * 0.02,
+                  horizontal: MediaQuery.of(context).size.width * 0.02),
+              child: Row(
+                children: [
+                  productFilter('Manufacturer', 0.35, manufacturerMenuItems),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+                  productFilter('Price', 0.25, priceMenuItems)
+                ],
+              ),
             ),
-          ),
-          FutureBuilder(
-            future: categoryViewModel.categoryFilterViewModel(
-                widget.categoryID, 0, 10),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else {
-                if (snapshot.hasData) {
-                  return productFilterDisplay(
-                      );
+            FutureBuilder(
+              future: categoryViewModel.categoryFilterViewModel(
+                  widget.categoryID, 0, 10),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
                 } else {
-                  return const Text('No product available');
+                  if (snapshot.hasData) {
+                    return productFilterDisplay(
+                        );
+                  } else {
+                    return const Text('No product available');
+                  }
                 }
-              }
-            },
-          ),
-        ],
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -234,7 +240,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
-              print(brandName[index]);
+              ProductScreen(productBloc: productBloc,);
             },
             child: Container(
               decoration: BoxDecoration(

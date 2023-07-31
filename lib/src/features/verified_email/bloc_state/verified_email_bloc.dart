@@ -50,10 +50,10 @@ class VerifiedEmailBloc {
         message = value.message;
       });
     } catch (e) {
-      message = 'Failed to get data';
+      print('Failed to get data');
     }
 
-    if (message != 'UNEXPECTED ERROR OCCURRED') {
+    if (message == null) {
       _verifiedEmailStateController.sink.add(SuccessVerifiedEmailState());
     } else {
       _verifiedEmailStateController.sink.add(ErrorVerifiedEmailState('Failed to active OTP'));
