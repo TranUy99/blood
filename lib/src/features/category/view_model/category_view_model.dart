@@ -16,8 +16,6 @@ class CategoryViewModel {
       if (state is SuccessCategoryFilterState) {
         categoryFilterResponse =
             successCategoryFilterState.categoryFilterResponse!;
-        print(
-            'viewmodel: ${categoryFilterResponse!.contents?[0].categoriesDTO?.id}');
       } else if (state is ErrorCategoryFilterState) {
         print('Category filter failed');
       }

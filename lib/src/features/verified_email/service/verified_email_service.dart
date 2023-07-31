@@ -5,18 +5,16 @@ import '../../../core/remote/response/active_otp_response/active_otp_response.da
 import '../../../core/remote/response/active_otp_response/send_email_response.dart';
 
 //Call Api sendEmail and activeOTP
-class SendEmailService {
+class VerifiedEmailService {
   static Future<SendEmailResponse> sendEmailService(String email) async {
     SendEmailResponse sendEmailResponse =
         await ApiService(dio.Dio()).sendEmail(email);
     return sendEmailResponse;
   }
-}
 
-class ActiveOTPService{
-  static Future<ActiveOTPResponse> activeOTPService(int activeOTP) async {
+  static Future<ActiveOTPResponse> activeOTPService(String activeOTP) async {
     ActiveOTPResponse activeOTPResponse =
-    await ApiService(dio.Dio()).activeOTP(activeOTP);
+        await ApiService(dio.Dio()).activeOTP(activeOTP);
     return activeOTPResponse;
   }
 }

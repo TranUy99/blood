@@ -29,7 +29,6 @@ class _VerifiedEmailState extends State<VerifiedEmail> {
   _sendEmail() async {
     try{
       String? email = getUser.email;
-      print(email);
       bool isSend = await verifiedEmailViewModel.sendEmail(email!);
      if( isSend  == false){
        showTopSnackBar(
@@ -134,16 +133,15 @@ class _VerifiedEmailState extends State<VerifiedEmail> {
                       top: MediaQuery.of(context).size.height * 0.03),
                   child: InkWell(
                     onTap: () async {
-                      int otpNumber = int.parse(textOTPController.text);
+                      String otpNumber = textOTPController.text;
                       bool? isVerified =
                           await verifiedEmailViewModel.activeOTP(otpNumber);
-                      print('isVerified: $isVerified');
                       if (isVerified) {
                         showTopSnackBar(
                             Overlay.of(context),
                             const CustomSnackBar.success(
                                 message: 'Login success'));
-                        // Get.offAll(const NavigationHomePage());
+                        Get.offAll(const NavigationHomePage());
                       } else {
                         showTopSnackBar(
                             Overlay.of(context),
