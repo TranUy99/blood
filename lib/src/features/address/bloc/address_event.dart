@@ -3,8 +3,7 @@ abstract class AddressEvent {}
 //create province event
 class GetProvinceEvent extends AddressEvent {}
 
-// get address
-class GetAddressEvent extends AddressEvent {}
+
 
 //create district event
 class GetDistrictEvent extends AddressEvent {
@@ -18,6 +17,8 @@ class GetWardEvent extends AddressEvent {
   GetWardEvent(this.id);
 }
 
+// get address
+class GetAddressEvent extends AddressEvent {}
 //create add event
 class CreateAddressEvent extends AddressEvent {
   final String? location;

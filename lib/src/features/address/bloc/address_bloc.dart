@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'dart:async';
 
 import 'package:mobile_store/src/core/model/address.dart';
 import 'package:mobile_store/src/features/address/bloc/address_event.dart';
@@ -47,46 +47,57 @@ class AddressBloc {
     }
   }
 
-//get address
-    Future<void> getAddressEvent(AddressEvent event) async{
-    if(event is GetAddressEvent){
-   final List<Address> address = await AddressService.getAddressService();
-
-    if (address.isNotEmpty) {
-      _addressStateSubject.sink.add(SuccessGetAddressState(address));
-      
-    } else {
-      _addressStateSubject.sink.add(FailedGetAddressState("No address available"));
-    }
-    }
-  }
-
 // create address
   Future<void> addCreateAddressEvent(AddressEvent event) async {
     if (event is CreateAddressEvent) {
       final createAddress = await AddressService.createAddress(
           event.location, event.type, event.phoneReceiver, event.nameReceiver);
-     
+
       if (createAddress.message == null) {
-        _addressStateSubject.sink.add(SuccessAddressState(true));
+        _addressStateSubject.sink.add(SuccessCreateAddressState(true));
       } else {
-        _addressStateSubject.sink.add(FailedAddressState("error"));
+        _addressStateSubject.sink.add(FailedCreateAddressState("error"));
       }
     }
   }
 
-//change address
-    Future<void> changeAddressEvent(AddressEvent event) async {
-    if (event is ChangeAddressEvent) {
-      final changeAddress = await AddressService.changeAddress(
-          event.location, event.type, event.phoneReceiver, event.nameReceiver, event.defaults);
-     
-      if (changeAddress.message == null) {
-        _addressStateSubject.sink.add(SuccessAddressState(true));
+//get address
+  Future<void> getAddressEvent(AddressEvent event) async {
+    if (event is GetAddressEvent) {
+      final List<Address> address = await AddressService.getAddressService();
+
+      if (address.isNotEmpty) {
+        _addressStateSubject.sink.add(SuccessGetAddressState(address));
       } else {
-        _addressStateSubject.sink.add(FailedAddressState("error"));
+        _addressStateSubject.sink.add(FailedGetAddressState("No address available"));
       }
     }
   }
+  // Method to get the latest list of addresses
+  Future<void> updateAddresses() async {
+    final List<Address> addressList = await AddressService.getAddressService();
 
+    if (addressList.isNotEmpty) {
+      _addressStateSubject.sink.add(SuccessGetAddressState(addressList));
+    } else {
+      _addressStateSubject.sink.add(FailedGetAddressState("No address available"));
+    }
+  }
+// //change address
+//     Future<void> changeAddressEvent(AddressEvent event) async {
+//     if (event is ChangeAddressEvent) {
+//       final changeAddress = await AddressService.changeAddress(
+//           event.location, event.type, event.phoneReceiver, event.nameReceiver, event.defaults);
+
+//       if (changeAddress.message == null) {
+//         _addressStateSubject.sink.add(SuccessAddressState(true));
+//       } else {
+//         _addressStateSubject.sink.add(FailedAddressState("error"));
+//       }
+//     }
+//   }
+
+  void dispose() {
+    _addressStateSubject.close();
+  }
 }

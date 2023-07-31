@@ -149,7 +149,7 @@ class _YourInformationState extends State<YourInformation> {
                               },
                             );
                           },
-                          child: Text('Change password')),
+                          child: const Text('Change password')),
                     ],
                   )
                 ],

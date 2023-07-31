@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:mobile_store/src/core/model/address.dart';
 import 'package:mobile_store/src/core/model/district.dart';
@@ -10,7 +11,7 @@ import 'package:mobile_store/src/features/address/bloc/address_state.dart';
 
 class AddressViewModel {
   final AddressBloc _addressBloc = AddressBloc();
-
+ AddressBloc get addressBloc => _addressBloc;
 // add event and listen province state
   Future<List<Province>> getProvince() async {
     final provinceEvent = GetProvinceEvent();
@@ -83,39 +84,41 @@ class AddressViewModel {
     bool isCreateAddress = false;
 
     final createAddressEvent = CreateAddressEvent(location, nameReceiver, phoneReceiver, type);
-    await _addressBloc.addCreateAddressEvent(createAddressEvent);
 
+    await _addressBloc.addCreateAddressEvent(createAddressEvent);
     await _addressBloc.addressStateStream.listen((state) {
-       if (state is SuccessAddressState) {
-          isCreateAddress = true;
-        } else if (state is FailedAddressState) {
-          isCreateAddress = false;
-        }
+      if (state is SuccessCreateAddressState) {
+        isCreateAddress = true;
+      } else if (state is FailedCreateAddressState) {
+        isCreateAddress = false;
+      }
     });
     return isCreateAddress;
   }
 
 // add event and listen get address state
-    Future<List<Address>> getAddress() async {
+  Stream<List<Address>> getAddress() {
     final addressEvent = GetAddressEvent();
     List<Address> addressList = [];
 
     Completer<List<Address>> completer = Completer<List<Address>>();
-    
-    await _addressBloc.getAddressEvent(addressEvent);
+
+    _addressBloc.getAddressEvent(addressEvent);
 
     StreamSubscription<AddressState>? subscription;
     subscription = _addressBloc.addressStateStream.listen((state) {
       if (state is SuccessGetAddressState) {
         addressList = state.address;
         completer.complete(addressList);
-        subscription!.cancel(); 
+        subscription!.cancel();
       } else if (state is FailedGetAddressState) {
         completer.completeError('Error fetching products');
-        subscription!.cancel(); 
+        subscription!.cancel();
       }
     });
 
-    return completer.future;
+    return _addressBloc.addressStateStream
+        .where((state) => state is SuccessGetAddressState)
+        .map((state) => (state as SuccessGetAddressState).address);
   }
 }

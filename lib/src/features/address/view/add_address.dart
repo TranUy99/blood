@@ -10,6 +10,8 @@ import 'package:mobile_store/src/features/address/view_model/address_view_model.
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import 'get_address.dart';
+
 class AddAddressScreen extends StatefulWidget {
   const AddAddressScreen({super.key});
 
@@ -156,7 +158,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
                   //get district
                   provinceId == ""
-                      ? Text("Ban phai chon thanh pho")
+                      ? const Text("Ban phai chon thanh pho")
                       : FutureBuilder<List<District>>(
                           future: _addressViewModel.getDistrict("$provinceId"),
                           builder: (context, snapshot) {
@@ -202,7 +204,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
                   //get ward
                   districtId == ""
-                      ? Text("Ban phai chon quan")
+                      ? const Text("Ban phai chon quan")
                       : FutureBuilder<List<Ward>>(
                           future: _addressViewModel.getWard("$districtId"),
                           builder: (context, snapshot) {
@@ -336,10 +338,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         String address = ('$addressHome,$newWard ,$newDistrict ,$newProvince');
                         String phone = textPhoneController.text;
                         String name = textNameController.text;
-                        log("$address");
 
-                        if (
-                          addressHome.isNotEmpty &&
+                        if (addressHome.isNotEmpty &&
                             newProvince!.isNotEmpty &&
                             newWard!.isNotEmpty &&
                             newDistrict!.isNotEmpty &&
@@ -347,15 +347,15 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                             name.isNotEmpty) {
                           final createAddress =
                               await _addressViewModel.createAddress(address, "type", phone, name);
+
                           if (createAddress == true) {
                             Navigator.pop(context);
                             showTopSnackBar(
                               Overlay.of(context),
                               const CustomSnackBar.error(
-                                  message: 'Thêm địa chỉ thành công ', backgroundColor: kGreenColor),
+                                  message: 'Thêm địa chỉ thành công ',
+                                  backgroundColor: kGreenColor),
                             );
-                            // Navigator.pop(context);
-                            // ignore: use_build_context_synchronously
                           } else {
                             showTopSnackBar(
                               Overlay.of(context),
@@ -364,7 +364,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                 backgroundColor: kRedColor,
                               ),
                             );
-                            // Navigator.pop(context);
+                          
                           }
                         } else {
                           showTopSnackBar(
@@ -376,20 +376,20 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                           );
                         }
                       },
-                      child: const Text('Save'),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(kGreenColor),
                       ),
+                      child: const Text('Save'),
                     ),
                     const SizedBox(width: 40),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text('Close'),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(kRedColor),
                       ),
+                      child: const Text('Close'),
                     ),
                   ]),
                 ],
