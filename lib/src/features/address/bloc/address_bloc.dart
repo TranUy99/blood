@@ -73,29 +73,20 @@ class AddressBloc {
       }
     }
   }
-  // Method to get the latest list of addresses
-  Future<void> updateAddresses() async {
-    final List<Address> addressList = await AddressService.getAddressService();
 
-    if (addressList.isNotEmpty) {
-      _addressStateSubject.sink.add(SuccessGetAddressState(addressList));
-    } else {
-      _addressStateSubject.sink.add(FailedGetAddressState("No address available"));
+//change address
+    Future<void> changeAddressEvent(AddressEvent event) async {
+    if (event is ChangeAddressEvent) {
+      final changeAddress = await AddressService.changeAddress(
+          event.location, event.type, event.phoneReceiver, event.nameReceiver, event.defaults, event.id);
+
+      if (changeAddress.message == null) {
+        _addressStateSubject.sink.add(SuccessChangeAddressState(true));
+      } else {
+        _addressStateSubject.sink.add(FailedChangeAddressState("error"));
+      }
     }
   }
-// //change address
-//     Future<void> changeAddressEvent(AddressEvent event) async {
-//     if (event is ChangeAddressEvent) {
-//       final changeAddress = await AddressService.changeAddress(
-//           event.location, event.type, event.phoneReceiver, event.nameReceiver, event.defaults);
-
-//       if (changeAddress.message == null) {
-//         _addressStateSubject.sink.add(SuccessAddressState(true));
-//       } else {
-//         _addressStateSubject.sink.add(FailedAddressState("error"));
-//       }
-//     }
-//   }
 
   void dispose() {
     _addressStateSubject.close();

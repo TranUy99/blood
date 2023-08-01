@@ -13,8 +13,7 @@ class _ApiService implements ApiService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.1.28:8085';
-
+    baseUrl ??= 'http://192.168.1.33:8085';
   }
 
   final Dio _dio;
@@ -219,6 +218,32 @@ class _ApiService implements ApiService {
   }
 
   @override
+  Future<List<Address>> getAddress({required String auth}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': auth};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<List<dynamic>>(_setStreamType<List<Address>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/address',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    var value = _result.data!
+        .map((dynamic i) => Address.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
+
+  @override
   Future<AddressResponse> createAddress({
     required String auth,
     required AddressCreateRequest createAddress,
@@ -247,42 +272,17 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<List<Address>> getAddress({required String auth}) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'Authorization': auth};
-    _headers.removeWhere((k, v) => v == null);
-    final Map<String, dynamic>? _data = null;
-    final _result =
-        await _dio.fetch<List<dynamic>>(_setStreamType<List<Address>>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/api/address',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    var value = _result.data!
-        .map((dynamic i) => Address.fromJson(i as Map<String, dynamic>))
-        .toList();
-    return value;
-  }
-
-  @override
   Future<AddressResponse> changeAddress({
     required String auth,
-    required AddressChangeRequest createAddress,
+    required int? id,
+    required AddressChangeRequest changeAddress,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'Authorization': auth};
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    _data.addAll(createAddress.toJson());
+    _data.addAll(changeAddress.toJson());
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<AddressResponse>(Options(
       method: 'PUT',
@@ -291,34 +291,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/address',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = AddressResponse.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
-  Future<AddressResponse> deleteAddress({
-    required String auth,
-    required int id,
-  }) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'Authorization': auth};
-    _headers.removeWhere((k, v) => v == null);
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<AddressResponse>(Options(
-      method: 'PUT',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/api/address/${id}',
+              '/api/address/update-address/${id}',
               queryParameters: queryParameters,
               data: _data,
             )

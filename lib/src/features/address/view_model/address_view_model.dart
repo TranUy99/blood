@@ -87,22 +87,22 @@ class AddressViewModel {
     await _addressBloc.addCreateAddressEvent(createAddressEvent);
 
     await _addressBloc.addressStateStream.listen((state) {
-       if (state is SuccessCreateAddressState) {
-          isCreateAddress = true;
-        } else if (state is FailedCreateAddressState) {
-          isCreateAddress = false;
-        }
+      if (state is SuccessCreateAddressState) {
+        isCreateAddress = true;
+      } else if (state is FailedCreateAddressState) {
+        isCreateAddress = false;
+      }
     });
     return isCreateAddress;
   }
 
 // add event and listen get address state
-    Future<List<Address>> getAddress() async {
+  Future<List<Address>> getAddress() async {
     final addressEvent = GetAddressEvent();
     List<Address> addressList = [];
 
     Completer<List<Address>> completer = Completer<List<Address>>();
-    
+
     await _addressBloc.getAddressEvent(addressEvent);
 
     StreamSubscription<AddressState>? subscription;
@@ -110,13 +110,32 @@ class AddressViewModel {
       if (state is SuccessGetAddressState) {
         addressList = state.address;
         completer.complete(addressList);
-        subscription!.cancel(); 
+        subscription!.cancel();
       } else if (state is FailedGetAddressState) {
         completer.completeError('Error fetching products');
-        subscription!.cancel(); 
+        subscription!.cancel();
       }
     });
 
     return completer.future;
+  }
+
+  //add event and listen post address state
+  Future<bool?> changeAddress(String location, String type, String phoneReceiver,
+      String nameReceiver, int? id, bool? defaults) async {
+    bool isCreateAddress = false;
+
+    final createAddressEvent =
+        ChangeAddressEvent(location, nameReceiver, phoneReceiver, type, defaults, id);
+    await _addressBloc.changeAddressEvent(createAddressEvent);
+
+    await _addressBloc.addressStateStream.listen((state) {
+      if (state is SuccessChangeAddressState) {
+        isCreateAddress = true;
+      } else if (state is FailedChangeAddressState) {
+        isCreateAddress = false;
+      }
+    });
+    return isCreateAddress;
   }
 }

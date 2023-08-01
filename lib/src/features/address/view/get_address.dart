@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/model/address.dart';
 import 'package:mobile_store/src/features/address/view/add_address.dart';
+import 'package:mobile_store/src/features/address/view/change_address.dart';
 import 'package:mobile_store/src/features/address/view_model/address_view_model.dart';
 
 class GetAddressScreen extends StatefulWidget {
@@ -12,7 +13,7 @@ class GetAddressScreen extends StatefulWidget {
 }
 
 class _GetAddressScreenState extends State<GetAddressScreen> {
-  List<Address> address = [];
+  List<Address> addressList = [];
   final AddressViewModel _addressViewModel = AddressViewModel();
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class _GetAddressScreenState extends State<GetAddressScreen> {
           return Container();
         } else {
           if (snapshot.hasData) {
-            address = snapshot.data!;
+            addressList = snapshot.data!;
             // Build UI using the retrieved products
             return buildUI(context);
           } else {
@@ -42,8 +43,9 @@ class _GetAddressScreenState extends State<GetAddressScreen> {
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      itemCount: address.length,
+      itemCount: addressList.length,
       itemBuilder: (context, index) {
+        Address address = addressList[index] ;
         return Column(
           children: [
             ListTile(
@@ -52,11 +54,11 @@ class _GetAddressScreenState extends State<GetAddressScreen> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 1,
                     child: Text(
-                        '${address[index].nameReceiver}|${address[index].phoneReceiver}'),
+                        '${address.nameReceiver}|${address.phoneReceiver}'),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 1,
-                    child: Text('${address[index].location}'),
+                    child: Text('${address.location}'),
                   ),
                   const SizedBox(height: 4),
                   Row(
@@ -112,7 +114,7 @@ class _GetAddressScreenState extends State<GetAddressScreen> {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return const AddAddressScreen();
+                          return  ChangeAddressScreen(name:address.nameReceiver, phone: address.phoneReceiver,address:address.location, id : address.id );
                         },
                       );
                     },

@@ -85,10 +85,11 @@ class AddressService {
 
 // call api change address
   static Future<AddressResponse> changeAddress(String? location, String? type,
-      String? phoneReceiver, String? nameReceiver, bool? defaults) async {
+      String? phoneReceiver, String? nameReceiver, bool? defaults, int? id) async {
     AddressResponse response = await ApiService(dio.Dio()).changeAddress(
         auth: "Bearer ${getUser.token!}",
-        createAddress: AddressChangeRequest(
+        id:id,
+        changeAddress: AddressChangeRequest(
             location: location,
             type: type,
             phoneReceiver: phoneReceiver,
@@ -97,13 +98,13 @@ class AddressService {
 
     return response;
   }
-// call api delete address
-  static Future<AddressResponse> deleteAddress(
-    int? id,
-  ) async {
-    AddressResponse response =
-        await ApiService(dio.Dio()).deleteAddress(auth: "Bearer ${getUser.token!}", id: id!);
+// // call api delete address
+//   static Future<AddressResponse> deleteAddress(
+//     int? id,
+//   ) async {
+//     AddressResponse response =
+//         await ApiService(dio.Dio()).deleteAddress(auth: "Bearer ${getUser.token!}", id: id!);
 
-    return response;
-  }
+//     return response;
+//   }
 }

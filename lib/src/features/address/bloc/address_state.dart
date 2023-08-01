@@ -1,4 +1,3 @@
-
 import 'package:mobile_store/src/core/model/address.dart';
 import 'package:mobile_store/src/core/model/district.dart';
 import 'package:mobile_store/src/core/model/province.dart';
@@ -54,9 +53,9 @@ class FailedGetWardState extends AddressState {
 
 //State address success
 class SuccessCreateAddressState extends AddressState {
-  final bool onLoginState;
+  final bool onSuccessCreateAddressState;
 
-  SuccessCreateAddressState(this.onLoginState);
+  SuccessCreateAddressState(this.onSuccessCreateAddressState);
 }
 
 //State address failed
@@ -68,7 +67,7 @@ class FailedCreateAddressState extends AddressState {
 
 //get address state success
 class SuccessGetAddressState extends AddressState {
-    final List<Address> address;
+  final List<Address> address;
   SuccessGetAddressState(this.address);
 }
 
@@ -78,11 +77,11 @@ class FailedGetAddressState extends AddressState {
   FailedGetAddressState(this.errorMessage);
 }
 
-
 //change address state success
 class SuccessChangeAddressState extends AddressState {
-    final List<Address> address;
-  SuccessChangeAddressState(this.address);
+  final bool onSuccessCreateAddressState;
+
+  SuccessChangeAddressState(this.onSuccessCreateAddressState);
 }
 
 //change address state failed

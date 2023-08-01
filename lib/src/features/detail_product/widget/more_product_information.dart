@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:mobile_store/src/core/model/product.dart';
@@ -44,6 +46,7 @@ class MoreProductInformation extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: productDTO.productTechDTOs!.length,
                   itemBuilder: (BuildContext context, int index) {
+                    log(" ${productDTO.productTechDTOs![index].info!}");
                     return Html(
                       data: productDTO.productTechDTOs![index].info!,
                       style: {

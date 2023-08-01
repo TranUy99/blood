@@ -25,7 +25,7 @@ import '../core/remote/response/sign_up_response/sign_up_response.dart';
 part 'api_service.g.dart';
 
 //Base address
-@RestApi(baseUrl: 'http://192.168.1.28:8085')
+@RestApi(baseUrl: 'http://192.168.1.33:8085')
 
 // @RestApi(baseUrl: 'http://45.117.170.206:8085')
 
@@ -77,6 +77,12 @@ abstract class ApiService {
     @Body() required ChangePasswordRequest changePassword,
   });
 
+  // Call api  get address
+  @GET('/api/address')
+  Future<List<Address>> getAddress({
+    @Header("Authorization") required String auth,
+  });
+
   // Call api create address
   @POST('/api/address')
   Future<AddressResponse> createAddress({
@@ -84,24 +90,12 @@ abstract class ApiService {
     @Body() required AddressCreateRequest createAddress,
   });
 
-  // Call api  get address
-  @GET('/api/address')
-  Future<List<Address>> getAddress({
-    @Header("Authorization") required String auth,
-  });
-
-  // call api put address
-  @PUT('/api/address')
+  //call api delete address
+  @PUT('/api/address/update-address/{id}')
   Future<AddressResponse> changeAddress({
     @Header("Authorization") required String auth,
-    @Body() required AddressChangeRequest createAddress,
-  });
-
-  //call api delete address
-  @PUT('/api/address/{id}')
-  Future<AddressResponse> deleteAddress({
-    @Header("Authorization") required String auth,
-    @Path("id") required int id,
+    @Path("id") required int? id,
+    @Body() required AddressChangeRequest changeAddress,
   });
 
   //Filter product by manufactureId
