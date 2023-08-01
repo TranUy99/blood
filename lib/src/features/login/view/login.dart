@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
+import 'package:mobile_store/main.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/forgot_password/view/forgot_pass_form.dart';
 
@@ -48,6 +49,11 @@ class _LogInScreenState extends State<LogInScreen> {
   void initState() {
     super.initState();
     _loginViewModel = LoginViewModel();
+    isRemember = getUser.isRemember ?? false;
+    if(isRemember){
+      textEmailController.text = getUser.email ?? '';
+      textPasswordController.text = getUser.password ?? '';
+    }
   }
 
   @override

@@ -6,6 +6,14 @@ class GetUser {
   String? _password;
   String? _email;
   UserDTO _userDTO = UserDTO();
+  bool? _isRemember;
+
+
+  bool? get isRemember => _isRemember;
+
+  set isRemember(bool? value) {
+    _isRemember = value;
+  }
 
   String? get email => _email;
 
