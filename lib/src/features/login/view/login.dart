@@ -49,7 +49,6 @@ class _LogInScreenState extends State<LogInScreen> {
     super.initState();
     _loginViewModel = LoginViewModel();
     isRemember = getUser.isRemember ?? false;
-    print(isRemember);
     if(isRemember){
       textEmailController.text = getUser.email ?? '';
       textPasswordController.text = getUser.password ?? '';
@@ -138,7 +137,6 @@ class _LogInScreenState extends State<LogInScreen> {
                       String password = 'Candidate123';
                       // String email = textEmailController.text;
                       // String password = textPasswordController.text;
-                      print(isRemember);
                       final int? loginStatus = await _loginViewModel.login(
                           email, password, isRemember);
 

@@ -40,14 +40,14 @@ class LoginBloc {
     } catch (e) {
       error = '$e';
     }
-    print('${getUser.email} - ${getUser.idUser} - ${getUser.password} - ${getUser.token}');
+
     try {
       getUser.userDTO = await UserService.userService(getUser.idUser!, getUser.token!);
       verifiedStatus = (getUser.userDTO.statusDTO)!;
     } catch (e) {
       error = '$e';
     }
-
+    print('error: $error');
     if (error == null) {
       if (verifiedStatus) {
         _stateController.add(successLoginState = SuccessLoginState(true, true));
