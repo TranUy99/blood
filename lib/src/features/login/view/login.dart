@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
+import 'package:mobile_store/main.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/change_password/view/change_password.dart';
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
@@ -47,6 +48,12 @@ class _LogInScreenState extends State<LogInScreen> {
   void initState() {
     super.initState();
     _loginViewModel = LoginViewModel();
+    isRemember = getUser.isRemember ?? false;
+    print(isRemember);
+    if(isRemember){
+      textEmailController.text = getUser.email ?? '';
+      textPasswordController.text = getUser.password ?? '';
+    }
   }
 
   @override
@@ -131,6 +138,7 @@ class _LogInScreenState extends State<LogInScreen> {
                       String password = 'Candidate123';
                       // String email = textEmailController.text;
                       // String password = textPasswordController.text;
+                      print(isRemember);
                       final int? loginStatus = await _loginViewModel.login(
                           email, password, isRemember);
 

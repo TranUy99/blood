@@ -52,12 +52,19 @@ class CustomAppBar extends StatelessWidget {
                           onPressed: () async {
                             SharedPreferences preferences =
                                 await SharedPreferences.getInstance();
-                            preferences.remove('email');
+                            if(getUser.isRemember == false){
+                              preferences.remove('email');
+                              preferences.remove('password');
+                            }
                             preferences.remove('id');
                             preferences.remove('token');
-                            preferences.remove('password');
                             successLoginState.onLoginState = false;
                             indexScreen = 0;
+                            getUser.email = preferences.getString('email');
+                            getUser.idUser = preferences.getInt('idUser');
+                            getUser.token = preferences.getString('token');
+                            getUser.password = preferences.getString('password');
+                            print('${getUser.email} - ${getUser.password}');
                             // ignore: use_build_context_synchronously
                             Navigator.pushReplacement(
                                 context,

@@ -21,8 +21,8 @@ class LoginResponse {
   @JsonKey(name: 'error')
   final String? error;
 
-  @JsonKey(name: 'emailOrPhoneNumber')
-  final String? emailOrPhoneNumber;
+  @JsonKey(name: 'email')
+  final String? email;
 
   @JsonKey(name: 'role')
   final String? role;
@@ -32,7 +32,7 @@ class LoginResponse {
     this.message,
     this.token,
     this.type,
-    this.emailOrPhoneNumber,
+    this.email,
     this.idUser,
   });
 

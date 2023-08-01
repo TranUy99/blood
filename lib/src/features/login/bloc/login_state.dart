@@ -12,17 +12,14 @@ class SuccessLoginState extends LoginState {
   SuccessLoginState(this.onLoginState, this.isVerified);
 
   //Save data login in shared preferences
-  void saveLoginState(String? email, String? password, String? token, int? id,
-      bool isRemember) async {
+  void saveLoginState(
+      String? email, String? password, String? token, int? id, bool? isRemember) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString('email', email!);
     preferences.setString('token', token!);
     preferences.setInt('idUser', id!);
-    if (isRemember) {
-      preferences.setString('password', password!);
-    } else {
-      preferences.remove('password');
-    }
+    preferences.setString('password', password!);
+    preferences.setBool('isRemember', isRemember!);
   }
 }
 

@@ -1,9 +1,8 @@
-import 'dart:developer';
-
-import 'package:mobile_store/main.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_store/main.dart';
 import 'package:mobile_store/src/features/address/view/add_address.dart';
 import 'package:mobile_store/src/features/profile/widget/edit_information_form.dart';
+
 import '../../../constant/color/color.dart';
 import '../../change_password/view/change_password.dart';
 
@@ -15,9 +14,7 @@ class YourInformation extends StatefulWidget {
 }
 
 class _YourInformationState extends State<YourInformation> {
-  var home;
 
-  String? _selectedDate;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -44,7 +41,11 @@ class _YourInformationState extends State<YourInformation> {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return EditInfomationForm( getUser.userDTO.fullName, getUser.userDTO.email, getUser.userDTO.gender, _selectedDate);
+                                  return EditInfomationForm(
+                                      fullName: getUser.userDTO.fullName,
+                                      email: getUser.userDTO.email,
+                                      selectedDate: getUser.userDTO.birthday,
+                                      selectedGender: getUser.userDTO.gender);
                                 },
                               );
                             },
@@ -101,7 +102,7 @@ class _YourInformationState extends State<YourInformation> {
                             Row(
                               children: [
                                 Image.asset(
-                                  'assets/icon/male_icon.png',
+                                  'assets/icon/gender_icon.png',
                                   height: MediaQuery.of(context).size.height * 0.028,
                                 ),
                                 const SizedBox(

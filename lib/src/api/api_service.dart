@@ -20,7 +20,7 @@ import '../core/remote/response/sign_up_response/sign_up_response.dart';
 part 'api_service.g.dart';
 
 //Base address
-@RestApi(baseUrl: 'http://192.168.1.22:8085')
+@RestApi(baseUrl: 'http://192.168.1.13:8085')
 // @RestApi(baseUrl: 'http://45.117.170.206:8085')
 
 abstract class ApiService {
@@ -62,7 +62,7 @@ abstract class ApiService {
 
   //Verify whether the OTP matches the one sent to the email
   @GET('/api/user/active-otp')
-  Future<ActiveOTPResponse> activeOTP(@Query('activeOTP') int activeOTP);
+  Future<ActiveOTPResponse> activeOTP(@Query('activeOTP') String activeOTP);
 
   //Call Api to change password
   @PUT('/api/user/change-password-by-token')

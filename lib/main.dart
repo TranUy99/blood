@@ -22,23 +22,21 @@ void main() async {
 _autoLogin() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   getUser.email = preferences.getString('email');
-  getUser.idUser = preferences.getInt('id');
+  getUser.idUser = preferences.getInt('idUser');
   getUser.token = preferences.getString('token');
   getUser.password = preferences.getString('password');
-  if (getUser.password != null) {
+  getUser.isRemember = preferences.getBool('isRemember');
+  if (getUser.token != null && getUser.idUser != null) {
     successLoginState.onLoginState = true;
   } else {
     successLoginState.onLoginState = false;
   }
+  print('${getUser.email} - ${getUser.idUser} - ${getUser.password} - ${getUser.token}');
 }
 
 GetUser getUser = GetUser();
 
 _getUser() async {
-  SharedPreferences preferences = await SharedPreferences.getInstance();
-  getUser.idUser = preferences.getInt('idUser');
-  getUser.token = preferences.getString('token');
-  getUser.password = preferences.getString('password');
   if (successLoginState.onLoginState) {
     getUser.userDTO = await UserService.userService(getUser.idUser!, getUser.token!);
   }
