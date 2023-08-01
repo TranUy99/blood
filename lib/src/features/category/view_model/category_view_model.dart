@@ -17,7 +17,7 @@ class CategoryViewModel {
         categoryFilterResponse =
             successCategoryFilterState.categoryFilterResponse!;
       } else if (state is ErrorCategoryFilterState) {
-        print('Category filter failed');
+        // print('Category filter failed');
       }
     });
 

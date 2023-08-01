@@ -4,7 +4,7 @@ import 'package:mobile_store/src/features/address/view/add_address.dart';
 import 'package:mobile_store/src/features/profile/widget/edit_information_form.dart';
 
 import '../../../constant/color/color.dart';
-import '../../change_password/view/change_password.dart';
+import '../../change_password/view/change_password_screen.dart';
 
 class YourInformation extends StatefulWidget {
   const YourInformation({Key? key}) : super(key: key);

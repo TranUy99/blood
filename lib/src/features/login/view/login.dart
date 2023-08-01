@@ -3,7 +3,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 import 'package:mobile_store/main.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
-import 'package:mobile_store/src/features/change_password/view/change_password.dart';
+import 'package:mobile_store/src/features/change_password/view/change_password_screen.dart';
+import 'package:mobile_store/src/features/forgot_password/view/forgot_password.dart';
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import 'package:mobile_store/src/features/login/view_model/login_view_model.dart';
 import 'package:mobile_store/src/features/login/widget/login_form.dart';
@@ -48,6 +49,7 @@ class _LogInScreenState extends State<LogInScreen> {
   void initState() {
     super.initState();
     _loginViewModel = LoginViewModel();
+    print('${getUser.email} - ${getUser.password} - ${getUser.isRemember}');
     isRemember = getUser.isRemember ?? false;
     if(isRemember){
       textEmailController.text = getUser.email ?? '';
@@ -107,11 +109,12 @@ class _LogInScreenState extends State<LogInScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const ChangePasswordScreen()));
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return const ForgotPasswordScreen();
+                            },
+                          );
                         },
                         child: Text(
                           '${AppLocalizations.of(context)!.forgotPassword}?',
@@ -140,7 +143,7 @@ class _LogInScreenState extends State<LogInScreen> {
                       final int? loginStatus = await _loginViewModel.login(
                           email, password, isRemember);
 
-                      if (email.isNotEmpty || password.isNotEmpty) {
+                      if (email.isNotEmpty && password.isNotEmpty) {
                         if (loginStatus == LoginStatusEnum.successLogin.index) {
                           showTopSnackBar(
                               Overlay.of(context),
