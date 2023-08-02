@@ -11,7 +11,7 @@ import '../home_page/widget/menu_button.dart';
 import '../search/view/search.dart';
 
 class CustomAppBar extends StatelessWidget {
-  CustomAppBar({super.key});
+  const CustomAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,20 +24,50 @@ class CustomAppBar extends StatelessWidget {
         ),
         color: kDarkGreyColor,
         boxShadow: const [BoxShadow(blurRadius: 50.0)],
-        borderRadius: BorderRadius.vertical(
-            bottom: Radius.elliptical(MediaQuery.of(context).size.width, 20)),
+        borderRadius:
+            BorderRadius.vertical(bottom: Radius.elliptical(MediaQuery.of(context).size.width, 20)),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
+          Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                MenuButton(),
-                Search(),
+                const MenuButton(),
+                SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.75,
+                    height: MediaQuery.of(context).size.height * 0.05,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const Search()));
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.fromLTRB(10.0, 10.0, 20.0, 10.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: kGreyColor, width: 1),
+                        ),
+                        child:  Row(children: [
+                          
+                          
+                          const Text(
+                            " Search...",
+                            style: TextStyle(color: kGreenColor,fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.45,
+                          ),
+                          const Icon(
+                            Icons.search,
+                            color: kGreenColor,
+                          ),
+                        ]),
+                      ),
+                    ))
               ],
             ),
           ),
@@ -50,9 +80,8 @@ class CustomAppBar extends StatelessWidget {
                       Text(getUser.userDTO.fullName ?? 'null'),
                       TextButton(
                           onPressed: () async {
-                            SharedPreferences preferences =
-                                await SharedPreferences.getInstance();
-                            if(getUser.isRemember == false){
+                            SharedPreferences preferences = await SharedPreferences.getInstance();
+                            if (getUser.isRemember == false) {
                               preferences.remove('email');
                               preferences.remove('password');
                             }
@@ -69,8 +98,7 @@ class CustomAppBar extends StatelessWidget {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        const NavigationHomePage()));
+                                    builder: (context) => const NavigationHomePage()));
                           },
                           child: const Text(
                             'Log out',

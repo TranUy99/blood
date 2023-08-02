@@ -28,7 +28,7 @@ class StartState extends State<SplashScreen> {
   }
 
   startTime() async {
-    var duration = const Duration(seconds: 3);
+    var duration = const Duration(seconds:1);
     return Timer(duration, route);
   }
 

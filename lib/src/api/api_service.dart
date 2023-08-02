@@ -25,7 +25,7 @@ import '../core/remote/response/sign_up_response/sign_up_response.dart';
 part 'api_service.g.dart';
 
 //Base address
-@RestApi(baseUrl: 'http://192.168.1.33:8085')
+@RestApi(baseUrl: 'http://192.168.1.27:8085')
 
 
 // @RestApi(baseUrl: 'http://45.117.170.206:8085')
@@ -56,6 +56,7 @@ abstract class ApiService {
   @POST('/api/user/')
   Future<SignUpResponse> register(@Body() SignUpRequest register);
 
+  //get new product
   @GET('/api/product/new')
   Future<List<ProductDTO>> getProductNew();
 
@@ -63,6 +64,9 @@ abstract class ApiService {
   @GET('/api/product/detail/{id}')
   Future<ProductDTO> getDetailProduct(@Path('id') int id);
 
+  //search product with namme
+  @GET('/api/product/search-product/{keyword}')
+    Future<List<ProductDTO>> searchNameProduct(@Path('keyword') String keyword);
   //Call this api to send otp via email to active
   @GET('/api/mail/active-user')
   Future<SendEmailResponse> sendEmail(@Query('email') String email);

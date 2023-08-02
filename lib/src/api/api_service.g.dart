@@ -13,8 +13,7 @@ class _ApiService implements ApiService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.1.33:8085';
-
+    baseUrl ??= 'http://192.168.1.27:8085';
   }
 
   final Dio _dio;
@@ -31,19 +30,18 @@ class _ApiService implements ApiService {
     final _headers = <String, dynamic>{r'Authorization': auth};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
-    final _result =
-        await _dio.fetch<Map<String, dynamic>>(_setStreamType<UserDTO>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(_setStreamType<UserDTO>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
-            .compose(
-              _dio.options,
-              '/api/user/${id}',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+        .compose(
+          _dio.options,
+          '/api/user/${id}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UserDTO.fromJson(_result.data!);
     return value;
   }
@@ -55,19 +53,18 @@ class _ApiService implements ApiService {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(login.toJson());
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<LoginResponse>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(_setStreamType<LoginResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
-            .compose(
-              _dio.options,
-              '/api/login',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+        .compose(
+          _dio.options,
+          '/api/login',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = LoginResponse.fromJson(_result.data!);
     return value;
   }
@@ -79,19 +76,18 @@ class _ApiService implements ApiService {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(register.toJson());
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<SignUpResponse>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(_setStreamType<SignUpResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
-            .compose(
-              _dio.options,
-              '/api/user/',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+        .compose(
+          _dio.options,
+          '/api/user/',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = SignUpResponse.fromJson(_result.data!);
     return value;
   }
@@ -102,22 +98,20 @@ class _ApiService implements ApiService {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<List<dynamic>>(_setStreamType<List<ProductDTO>>(Options(
+    final _result = await _dio.fetch<List<dynamic>>(_setStreamType<List<ProductDTO>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
-            .compose(
-              _dio.options,
-              '/api/product/new',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    var value = _result.data!
-        .map((dynamic i) => ProductDTO.fromJson(i as Map<String, dynamic>))
-        .toList();
+        .compose(
+          _dio.options,
+          '/api/product/new',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    var value =
+        _result.data!.map((dynamic i) => ProductDTO.fromJson(i as Map<String, dynamic>)).toList();
     return value;
   }
 
@@ -127,20 +121,42 @@ class _ApiService implements ApiService {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<ProductDTO>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(_setStreamType<ProductDTO>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
-            .compose(
-              _dio.options,
-              '/api/product/detail/${id}',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+        .compose(
+          _dio.options,
+          '/api/product/detail/${id}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = ProductDTO.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<List<ProductDTO>> searchNameProduct(String keyword) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<List<dynamic>>(_setStreamType<List<ProductDTO>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/api/product/search-product/${keyword}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    var value =
+        _result.data!.map((dynamic i) => ProductDTO.fromJson(i as Map<String, dynamic>)).toList();
     return value;
   }
 
@@ -150,8 +166,8 @@ class _ApiService implements ApiService {
     final queryParameters = <String, dynamic>{r'email': email};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<SendEmailResponse>(Options(
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<SendEmailResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -173,8 +189,8 @@ class _ApiService implements ApiService {
     final queryParameters = <String, dynamic>{r'activeOTP': activeOTP};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<ActiveOTPResponse>(Options(
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<ActiveOTPResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -201,8 +217,8 @@ class _ApiService implements ApiService {
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(changePassword.toJson());
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ChangePasswordResponse>(Options(
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<ChangePasswordResponse>(Options(
       method: 'PUT',
       headers: _headers,
       extra: _extra,
@@ -225,22 +241,20 @@ class _ApiService implements ApiService {
     final _headers = <String, dynamic>{r'Authorization': auth};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
-    final _result =
-        await _dio.fetch<List<dynamic>>(_setStreamType<List<Address>>(Options(
+    final _result = await _dio.fetch<List<dynamic>>(_setStreamType<List<Address>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
-            .compose(
-              _dio.options,
-              '/api/address',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    var value = _result.data!
-        .map((dynamic i) => Address.fromJson(i as Map<String, dynamic>))
-        .toList();
+        .compose(
+          _dio.options,
+          '/api/address',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    var value =
+        _result.data!.map((dynamic i) => Address.fromJson(i as Map<String, dynamic>)).toList();
     return value;
   }
 
@@ -255,19 +269,18 @@ class _ApiService implements ApiService {
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(createAddress.toJson());
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<AddressResponse>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(_setStreamType<AddressResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
-            .compose(
-              _dio.options,
-              '/api/address',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+        .compose(
+          _dio.options,
+          '/api/address',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = AddressResponse.fromJson(_result.data!);
     return value;
   }
@@ -275,28 +288,28 @@ class _ApiService implements ApiService {
   @override
   Future<AddressResponse> changeAddress({
     required String auth,
-    required int? id,
+    int? id,
     required AddressChangeRequest changeAddress,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{r'Authorization': auth};
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(changeAddress.toJson());
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<AddressResponse>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(_setStreamType<AddressResponse>(Options(
       method: 'PUT',
       headers: _headers,
       extra: _extra,
     )
-            .compose(
-              _dio.options,
-              '/api/address/update-address/${id}',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+        .compose(
+          _dio.options,
+          '/api/address/update-address/${id}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = AddressResponse.fromJson(_result.data!);
     return value;
   }
@@ -314,8 +327,8 @@ class _ApiService implements ApiService {
     };
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ManufacturerFilterResponse>(Options(
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<ManufacturerFilterResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -344,8 +357,8 @@ class _ApiService implements ApiService {
     };
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<CategoryFilterResponse>(Options(
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<CategoryFilterResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,

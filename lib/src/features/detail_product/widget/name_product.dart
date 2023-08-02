@@ -46,7 +46,10 @@ class _NameProductState extends State<NameProduct> {
               color: Colors.amber,
             ),
           ),
-          onRatingUpdate: (rating) {},
+          onRatingUpdate: (rating) {
+          
+          },
+          
         ),
 
         //memory product

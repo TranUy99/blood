@@ -47,7 +47,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
             return buildUI(context);
           } else {
-            return Text('No products available');
+            return const Text('No products available');
           }
         }
       },
