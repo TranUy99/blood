@@ -1,10 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
+import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import '../../../../main.dart';
 import '../../checkout/screen/checkout_screen.dart';
-import '../../checkout/widget/address.dart';
-import '../../home_page/view/navigation_home_page.dart';
+import '../widget/cart_address.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CartPage extends StatefulWidget {
@@ -16,10 +18,7 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   int selectedAddressIndex = 0;
-  List<String> addresses = [
-    'Tran Ky Anh | 0583841958,\n515 a2-07 Le Van Luong, Tan Phong ward, district 7, Ho Chi Minh city',
-    'Tran Ky Anh | 0583841958\n273 Ly Thuong Kiet, 6 ward, district 8, Ho Chi Minh city',
-  ];
+
   int quantity = 1;
 
   @override
@@ -37,33 +36,6 @@ class _CartPageState extends State<CartPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(right: 20.0, bottom: 10.0),
-                  child: ElevatedButton.icon(
-                    onPressed: () {
-//Xử lý xóa tất cả sản phẩm
-                    },
-                    icon: const Icon(Icons.clear_outlined),
-                    label: Text(
-                      AppLocalizations.of(context)!.clearCart,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: kRedColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -201,11 +173,11 @@ class _CartPageState extends State<CartPage> {
             ),
             AddressInfo(
               selectedAddressIndex: selectedAddressIndex,
-              addresses: addresses,
               onAddressSelected: (int index) {
                 setState(() {
                   selectedAddressIndex = index;
                 });
+                log("$selectedAddressIndex");
               },
             ),
             Column(
@@ -214,7 +186,6 @@ class _CartPageState extends State<CartPage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: Text(
-//'DISCOUNT',
                       AppLocalizations.of(context)!.discount.toUpperCase(),
                       style: const TextStyle(
                           fontSize: 14, fontWeight: FontWeight.bold)),
@@ -233,28 +204,27 @@ class _CartPageState extends State<CartPage> {
                             isDense: true,
                             prefixIcon: const Icon(Icons.arrow_downward),
                           ),
-                          style: TextStyle(fontSize: 12),
+                          style: const TextStyle(fontSize: 12),
                         ),
                       ),
                     ),
                     const SizedBox(width: 8),
                     Padding(
-                      padding: EdgeInsets.only(right: 20, bottom: 10),
+                      padding: const EdgeInsets.only(right: 20, bottom: 10),
                       child: ElevatedButton(
                         onPressed: () {
-//Xử lý áp dụng mã giảm giá
                         },
-                        child: Text(
-                          AppLocalizations.of(context)!.apply,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15.0,
-                          ),
-                        ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: kGreenColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        child: Text(
+                          AppLocalizations.of(context)!.apply,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 15.0,
                           ),
                         ),
                       ),
@@ -315,6 +285,7 @@ class _CartPageState extends State<CartPage> {
                       ),
                     );
                   },
+
                   icon: const Icon(Icons.arrow_back_rounded),
                   label: Text(
                     AppLocalizations.of(context)!.continueShopping,

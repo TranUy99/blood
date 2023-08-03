@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -9,6 +10,7 @@ import '../../constant/color/color.dart';
 import '../home_page/view/navigation_home_page.dart';
 import '../home_page/widget/menu_button.dart';
 import '../search/view/search.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomAppBar extends StatelessWidget {
   const CustomAppBar({super.key});
@@ -42,24 +44,48 @@ class CustomAppBar extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.05,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const Search()));
+                        Navigator.push(
+                            context, MaterialPageRoute(builder: (context) => const Search()));
                       },
                       child: Container(
                         padding: const EdgeInsets.fromLTRB(10.0, 10.0, 20.0, 10.0),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: kWhiteColor,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(color: kGreyColor, width: 1),
                         ),
-                        child:  Row(children: [
-                          
-                          
-                          const Text(
-                            " Search...",
-                            style: TextStyle(color: kGreenColor,fontWeight: FontWeight.bold),
-                          ),
+                        child: Row(children: [
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.45,
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            child: DefaultTextStyle(
+                              style: GoogleFonts.lato(
+                                color: kGreenColor,
+                                textStyle: Theme.of(context).textTheme.displayLarge,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FontStyle.italic,
+                              ),
+                              child: AnimatedTextKit(
+                                animatedTexts: [
+                                  TyperAnimatedText(
+                                    'Search...',
+                                    speed: const Duration(milliseconds: 200),
+                                  ),
+                                  TyperAnimatedText(
+                                    'R2S..',
+                                    speed: const Duration(milliseconds: 200),
+                                  ),
+                                  TyperAnimatedText(
+                                    'Mobile Store',
+                                    speed: const Duration(milliseconds: 200),
+                                  ),
+                                ],
+                                onTap: () {
+                                   Navigator.push(
+                            context, MaterialPageRoute(builder: (context) => const Search()));
+                                },
+                              ),
+                            ),
                           ),
                           const Icon(
                             Icons.search,
@@ -127,12 +153,12 @@ PreferredSizeWidget? appBarWidget(BuildContext context, bool backButton) {
         leading: backButton
             ? IconButton(
                 onPressed: () {
-                  Get.offAll(NavigationHomePage());
+                  Get.offAll(const NavigationHomePage());
                 },
-                icon: Icon(Icons.arrow_back_ios_new_sharp))
+                icon: const Icon(Icons.arrow_back_ios_new_sharp))
             : Image(
                 image: const AssetImage('assets/images/banner0.jpg'),
                 height: MediaQuery.of(context).size.height * 0.06),
-        flexibleSpace: CustomAppBar()),
+        flexibleSpace: const CustomAppBar()),
   );
 }

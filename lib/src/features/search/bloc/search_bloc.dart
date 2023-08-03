@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_store/src/core/model/product.dart';
+import 'package:mobile_store/src/core/remote/response/search_response/search_response.dart';
 import 'package:mobile_store/src/features/search/service/search_service.dart';
 import 'package:rxdart/rxdart.dart';
 part 'search_event.dart';
@@ -17,11 +18,11 @@ class SearchBloc {
   //Get product and add state
   Future<void> searchProducts(SearchNameEvent event) async {
     _productStateSubject.sink.add(SearchInitial());
-
+  
     try {
-      final List<ProductDTO> products = await SearchService.getSearchService(event.keyword);
+      final products = await SearchService.getSearchService(event.keyword,event.no,event.limit);
 
-      if (products.isNotEmpty) {
+      if (products.contents!.isNotEmpty) {
       
         _productStateSubject.sink.add(SuccessSearchListProduct(products));
       } else {

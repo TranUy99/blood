@@ -13,7 +13,7 @@ class _ApiService implements ApiService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.1.27:8085';
+    baseUrl ??= 'http://192.168.1.32:8085';
   }
 
   final Dio _dio;
@@ -138,25 +138,34 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<List<ProductDTO>> searchNameProduct(String keyword) async {
+  Future<SearchResponse> searchNameProduct(
+    String? keyword,
+    int? no,
+    int? limit,
+  ) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'keyword': keyword,
+      r'no': no,
+      r'limit': limit,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<List<dynamic>>(_setStreamType<List<ProductDTO>>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(_setStreamType<SearchResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          '/api/product/search-product/${keyword}',
+          '/api/product/search-product',
           queryParameters: queryParameters,
           data: _data,
         )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    var value =
-        _result.data!.map((dynamic i) => ProductDTO.fromJson(i as Map<String, dynamic>)).toList();
+    final value = SearchResponse.fromJson(_result.data!);
+
     return value;
   }
 

@@ -12,6 +12,7 @@ import 'package:mobile_store/src/core/remote/response/address_response/address_r
 import 'package:mobile_store/src/core/remote/response/login_response/login_response.dart';
 import 'package:mobile_store/src/core/remote/response/product_filter_response/category_filter_response.dart';
 import 'package:mobile_store/src/core/remote/response/product_filter_response/manufacturer_filter_response.dart';
+import 'package:mobile_store/src/core/remote/response/search_response/search_response.dart';
 import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -25,8 +26,7 @@ import '../core/remote/response/sign_up_response/sign_up_response.dart';
 part 'api_service.g.dart';
 
 //Base address
-@RestApi(baseUrl: 'http://192.168.1.27:8085')
-
+@RestApi(baseUrl: 'http://192.168.1.32:8085')
 
 // @RestApi(baseUrl: 'http://45.117.170.206:8085')
 
@@ -65,8 +65,9 @@ abstract class ApiService {
   Future<ProductDTO> getDetailProduct(@Path('id') int id);
 
   //search product with namme
-  @GET('/api/product/search-product/{keyword}')
-    Future<List<ProductDTO>> searchNameProduct(@Path('keyword') String keyword);
+  @GET('/api/product/search-product')
+  Future<SearchResponse> searchNameProduct(
+      @Query('keyword') String? keyword, @Query('no') int? no, @Query('limit') int? limit);
   //Call this api to send otp via email to active
   @GET('/api/mail/active-user')
   Future<SendEmailResponse> sendEmail(@Query('email') String email);
