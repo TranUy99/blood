@@ -138,12 +138,14 @@ class _VerifiedEmailState extends State<VerifiedEmail> {
                           await verifiedEmailViewModel.activeOTP(otpNumber);
                       if (isVerified) {
                         showTopSnackBar(
+                            // ignore: use_build_context_synchronously
                             Overlay.of(context),
                             const CustomSnackBar.success(
                                 message: 'Login success'));
                         Get.offAll(const NavigationHomePage());
                       } else {
                         showTopSnackBar(
+                            // ignore: use_build_context_synchronously
                             Overlay.of(context),
                             const CustomSnackBar.error(
                                 message: 'Wrong OTP number'));

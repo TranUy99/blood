@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_store/src/constant/utils/validate.dart';
 
-class EditInfomationForm extends StatefulWidget {
+
+class EditInformationForm extends StatefulWidget {
   String? fullName;
   String? email;
   int? selectedGender;
   String? selectedDate;
 
-  EditInfomationForm(
+  EditInformationForm(
       {super.key,
       required this.fullName,
       required this.email,
@@ -16,10 +17,10 @@ class EditInfomationForm extends StatefulWidget {
       required this.selectedGender});
 
   @override
-  _EditInfomationFormState createState() => _EditInfomationFormState();
+  _EditInformationFormState createState() => _EditInformationFormState();
 }
 
-class _EditInfomationFormState extends State<EditInfomationForm> {
+class _EditInformationFormState extends State<EditInformationForm> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _dateOfbirthController = TextEditingController();

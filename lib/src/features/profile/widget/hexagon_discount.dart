@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class HexagonPage extends StatelessWidget {
-  final int discount;
+  final int? discount;
   final double height;
   const HexagonPage({Key? key, required this.discount, required this.height}) : super(key: key);
 
@@ -33,7 +33,7 @@ class HexagonPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.red
+      ..color = Color.fromARGB(255, 252, 185, 61)
       ..style = PaintingStyle.fill;
 
     final double radius = size.height / 2;

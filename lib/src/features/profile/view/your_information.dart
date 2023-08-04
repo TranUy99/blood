@@ -42,7 +42,7 @@ class _YourInformationState extends State<YourInformation> {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return EditInfomationForm(
+                                  return EditInformationForm(
                                       fullName: getUser.userDTO.fullName,
                                       email: getUser.userDTO.email,
                                       selectedDate: getUser.userDTO.birthday,
@@ -91,7 +91,7 @@ class _YourInformationState extends State<YourInformation> {
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                Text('${getUser.userDTO.birthday ?? "Chưa có"}')
+                                Text(getUser.userDTO.birthday ?? "Chưa có")
                               ],
                             ),
                           ],
@@ -182,10 +182,10 @@ class _YourInformationState extends State<YourInformation> {
                               },
                             );
                           },
-                          child: Text('Add'),
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
                           ),
+                          child: const Text('Add'),
                         ),
                       ),
                     ],
@@ -202,12 +202,12 @@ class _YourInformationState extends State<YourInformation> {
   Widget personalInformation(String title, String information) {
     return Row(
       children: [
-        Container(
+        SizedBox(
           width: MediaQuery.of(context).size.width * 0.25,
           child: Text('$title:'),
         ),
         SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-        Container(
+        SizedBox(
           width: MediaQuery.of(context).size.width * 0.6,
           child: Text(information),
         ),
