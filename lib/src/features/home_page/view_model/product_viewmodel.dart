@@ -1,10 +1,10 @@
 import 'dart:async';
 
-
 import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/features/home_page/bloc/product_bloc.dart';
 import 'package:mobile_store/src/features/home_page/bloc/product_event.dart';
 import 'package:mobile_store/src/features/home_page/bloc/product_state.dart';
+
 class ProductViewModel {
   final ProductBloc _productBloc = ProductBloc();
 
@@ -13,7 +13,7 @@ class ProductViewModel {
     List<ProductDTO> productList = [];
 
     Completer<List<ProductDTO>> completer = Completer<List<ProductDTO>>();
-    
+
     await _productBloc.fetchProducts(productEvent);
 
     StreamSubscription<ProductState>? subscription;
@@ -21,7 +21,8 @@ class ProductViewModel {
       if (state is ProductLoadedState) {
         productList = state.products;
         completer.complete(productList);
-        subscription!.cancel(); // Hủy lắng nghe sau khi nhận được danh sách sản phẩm
+        subscription!
+            .cancel(); // Hủy lắng nghe sau khi nhận được danh sách sản phẩm
       } else if (state is ProductErrorState) {
         completer.completeError('Error fetching products');
         subscription!.cancel(); // Hủy lắng nghe nếu có lỗi xảy ra

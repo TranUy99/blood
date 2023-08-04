@@ -69,18 +69,18 @@ class Validate {
   static bool validName(String? value) {
     RegExp rex = RegExp(r'^[^\s\d][\p{L}\p{M}\s]*(?:[\p{L}\p{M}]+[\s-]*)*$', unicode: true);
     if (value == null) {
-      return false;
+      return true;
     }
     if (!rex.hasMatch(value)) {
-      return false; // Invalid name format
+      return true; // Invalid name format
     }
     if (value.endsWith(' ')) {
-      return false; // Trailing space detected
+      return true; // Trailing space detected
     }
     if (value.contains(RegExp(r'\d'))) {
-      return false; // Numbers detected
+      return true; // Numbers detected
     }
-    return true; // Valid name
+    return false; // Valid name
   }
   // static bool validName2(String? value) {
   //   RegExp rex = RegExp(r'^[a-zA-Z]$');

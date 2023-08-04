@@ -127,7 +127,7 @@ class _ReviewState extends State<Review> {
                 ),
               ],
             ),
-            const Center(child: MoreProductInformation()),
+            // const Center(child: MoreProductInformation()),
           ],
         ),
       ),

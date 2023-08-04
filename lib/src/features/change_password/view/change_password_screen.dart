@@ -18,7 +18,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   TextEditingController textOldPasswordController = TextEditingController();
   TextEditingController textConfirmPasswordController = TextEditingController();
   bool obscure = true;
-  ChangePasswordViewModel _changePasswordViewModel = ChangePasswordViewModel();
+  final ChangePasswordViewModel _changePasswordViewModel = ChangePasswordViewModel();
   bool error = false;
   bool errorNewPassword = false;
   bool errorConfirmPassword = false;
@@ -145,31 +145,43 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         onPressed: () async {
                           String oldPassword = textPasswordController.text;
                           String newPassword = textNewPasswordController.text;
+                          String confirmPassword = textConfirmPasswordController.text;
                           final changPassword = await _changePasswordViewModel.changePassword(
                               oldPassword, newPassword);
-                          if (changPassword == true) {
-                            showTopSnackBar(
-                              Overlay.of(context),
-                              const CustomSnackBar.error(
-                                message: 'Change password success',
-                                backgroundColor: Color.fromARGB(255, 32, 186, 38),
-                              ),
-                            );
+                          if (oldPassword.isNotEmpty ||
+                              newPassword.isNotEmpty ||
+                              confirmPassword.isNotEmpty) {
+                            if (changPassword == true) {
+                              showTopSnackBar(
+                                Overlay.of(context),
+                                const CustomSnackBar.error(
+                                    message: 'Change password success',
+                                    backgroundColor: kGreenColor),
+                              );
                               // Navigator.pop(context);
-                            // ignore: use_build_context_synchronously
+                              // ignore: use_build_context_synchronously
+                            } else {
+                              showTopSnackBar(
+                                Overlay.of(context),
+                                const CustomSnackBar.error(
+                                  message: 'Failed change password',
+                                  backgroundColor: kRedColor,
+                                ),
+                              );
+                              // Navigator.pop(context);
+                            }
                           } else {
                             showTopSnackBar(
                               Overlay.of(context),
                               const CustomSnackBar.error(
-                                message: 'Failed change password',
-                                backgroundColor: Colors.red,
+                                message: 'Vui long nhap dau tu thong tin',
+                                backgroundColor: kRedColor,
                               ),
                             );
-                              // Navigator.pop(context);
                           }
                         },
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+                          backgroundColor: MaterialStateProperty.all<Color>(kGreenColor),
                         ),
                         child: const Text('Save'),
                       ),
@@ -179,7 +191,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           Navigator.pop(context);
                         },
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                          backgroundColor: MaterialStateProperty.all<Color>(kRedColor),
                         ),
                         child: const Text('Close'),
                       ),

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:mobile_store/main.dart';
 import 'package:mobile_store/src/features/sign_up/bloc/sign_up_event.dart';

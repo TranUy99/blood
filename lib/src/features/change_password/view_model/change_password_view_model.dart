@@ -6,25 +6,24 @@ class ChangePasswordViewModel {
   final ChangePasswordBloc _changePasswordBloc = ChangePasswordBloc();
 
 
-  //Add event
+  //Add event change password and listen state
   Future<bool> changePassword(String oldPassword, String newPassword) async {
     final changePasswordEvent =
         ChangePasswordButtonPressedEvent(oldPassword: oldPassword, newPassword: newPassword);
     await _changePasswordBloc.addEvent(changePasswordEvent);
 
-    bool isSignUP = false;
+    bool isChangePassword = false;
 
-  //listen state 
     await _changePasswordBloc.changePasswordStateStream.listen(
       (state) {
         if (state is SuccessChangePasswordState) {
-          isSignUP = true;
+          isChangePassword = true;
         } else if (state is FailedChangePasswordState) {
-          isSignUP = false;
+          isChangePassword = false;
         }
       },
     );
 
-    return isSignUP;
+    return isChangePassword;
   }
 }

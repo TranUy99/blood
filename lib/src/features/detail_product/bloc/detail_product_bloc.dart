@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/features/detail_product/bloc/detail_product_event.dart';
 import 'package:mobile_store/src/features/detail_product/bloc/detail_product_state.dart';

@@ -2,6 +2,7 @@ import 'package:mobile_store/src/core/remote/response/product_filter_response/ca
 import 'package:mobile_store/src/features/category/bloc_state/category_bloc.dart';
 import 'package:mobile_store/src/features/category/bloc_state/category_event.dart';
 import 'package:mobile_store/src/features/category/bloc_state/category_state.dart';
+import 'package:mobile_store/src/features/category/service/get_category_service.dart';
 
 class CategoryViewModel {
   final CategoryFilterBloc _categoryFilterBloc = CategoryFilterBloc();
@@ -22,5 +23,16 @@ class CategoryViewModel {
     });
 
     return categoryFilterResponse;
+  }
+}
+
+class GetCategoryViewModel{
+  int? total;
+  Future<void> getCategoryViewModel(int no, int limit)async {
+    final getCategory = GetCategoryService().getCategoryService(no, limit);
+    await getCategory.then((value) {
+      total = value.totalItems;
+    });
+    print(total);
   }
 }

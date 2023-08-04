@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:mobile_store/src/core/model/product.dart';
+import 'package:intl/intl.dart';
 
 class NameProduct extends StatefulWidget {
   final ProductDTO productDTO;
@@ -15,13 +15,7 @@ class NameProduct extends StatefulWidget {
 class _NameProductState extends State<NameProduct> {
   String selectedOption = '';
   String selectedColor = '';
-  Map<String, Color> colorMap = {
-    'red': Colors.red,
-    'green': Colors.green,
-    'blue': Colors.blue,
-    'white': Colors.white,
-    // Thêm các màu khác vào đây
-  };
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -79,13 +73,13 @@ class _NameProductState extends State<NameProduct> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5.0),
                       border: Border.all(
-                        color: selectedOption == memoryName ? Colors.green : Colors.grey,
+                        color: selectedOption == memoryName ? kGreenColor : kGreyColor,
                       ),
                     ),
                     child: Text(
                       memoryName!,
                       style: TextStyle(
-                        color: selectedOption == memoryName ? Colors.green : Colors.grey,
+                        color: selectedOption == memoryName ? kGreenColor : kGreyColor,
                       ),
                     ),
                   ),
@@ -140,7 +134,7 @@ class _NameProductState extends State<NameProduct> {
         Padding(
           padding: const EdgeInsets.only(left: 12),
           child: Text(
-            '${widget.productDTO.price} USD',
+            '${NumberFormat('#,###.###').format(widget.productDTO.price).replaceAll(',', '.')} VND',
             style: const TextStyle(
               fontSize: 16,
               color: kRedColor,

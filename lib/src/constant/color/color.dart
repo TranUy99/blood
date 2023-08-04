@@ -15,10 +15,19 @@ const kBlueColor = Colors.blue;
 const kGreyColor = Colors.grey;
 const kWhiteGrey = Color.fromARGB(255, 225, 224, 224);
 const kYellow = Colors.amber;
+const kOrange = Colors.orange;
 
-TextStyle titleText = const TextStyle(
-    color: kGreenColor, fontSize: 32, fontWeight: FontWeight.w700);
-TextStyle subtitle = const TextStyle(
-    color: kSecondaryColor, fontSize: 18, fontWeight: FontWeight.w500);
-TextStyle textButton =
-    const TextStyle(color: kYellow, fontSize: 18, fontWeight: FontWeight.w700);
+TextStyle titleText =
+    const TextStyle(color: kGreenColor, fontSize: 32, fontWeight: FontWeight.w700);
+TextStyle subtitle =
+    const TextStyle(color: kSecondaryColor, fontSize: 18, fontWeight: FontWeight.w500);
+TextStyle textButton = const TextStyle(color: kYellow, fontSize: 18, fontWeight: FontWeight.w700);
+
+Map<String, Color> colorMap = {
+  'red': kRedColor,
+  'green': kGreenColor,
+  'blue': kBlueColor,
+  'white': kWhiteColor,
+  'black': kBlackColor,
+  'yellow': kYellow,
+};

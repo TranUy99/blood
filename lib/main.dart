@@ -11,11 +11,14 @@ import 'package:mobile_store/src/features/login/service/login_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'src/core/network/network_binding.dart';
+import 'src/core/network/network_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await _autoLogin();
   await _getUser();
+  final NetworkController networkContrroller = Get.put(NetworkController());
+  networkContrroller.onInit();
   runApp(const MyApp());
 }
 

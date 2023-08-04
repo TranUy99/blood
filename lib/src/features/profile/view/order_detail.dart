@@ -19,7 +19,7 @@ class _OrderDetailState extends State<OrderDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(context, true),
+      appBar: appBarWidget(context),
       body: SingleChildScrollView(
         child: Column(
           children: [

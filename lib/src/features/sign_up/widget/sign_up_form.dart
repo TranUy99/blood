@@ -22,7 +22,7 @@ class _BuildInputFormSignInState extends State<BuildInputFormSignIn> {
       child: TextField(
         onChanged: (value) {
           setState(() {
-            if (widget.validationType == 0 && !Validate.validName(value)) {
+            if (widget.validationType == 0 && Validate.validName(value)) {
               error = true;
               errorText = value.isEmpty
                   ? 'Tên không được để trống'
@@ -57,81 +57,6 @@ class _BuildInputFormSignInState extends State<BuildInputFormSignIn> {
     );
   }
 }
-
-// class BuildInputSignUpFormPassword extends StatefulWidget {
-//   const BuildInputSignUpFormPassword({
-//     Key? key,
-//     required this.hint,
-//     required this.obscure,
-//     required this.textController,
-//     required this.function,
-//     required this.isConfirm,
-//   }) : super(key: key);
-
-//   final TextEditingController textController;
-//   final String hint;
-//   final bool obscure;
-//   final Widget function;
-//   final bool isConfirm;
-
-//   @override
-//   State<BuildInputSignUpFormPassword> createState() => _BuildInputFormPasswordState();
-// }
-
-// class _BuildInputFormPasswordState extends State<BuildInputSignUpFormPassword> {
-//   bool error = false;
-//   String errorText = '';
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01),
-//       child: TextField(
-//         onChanged: (value) {
-//           setState(() {
-//             if (widget.isConfirm) {
-//               if (value == widget.textController.text) {
-             
-//                 error = false;
-//                 errorText = '';
-//               } else {
-//                 error = true;
-//                 errorText = value.isEmpty ? 'Mật khẩu không được để trống' : 'Mật khẩu không trùng khớp';
-//               }
-//             } else {
-//               // Check password
-//               if (value.isEmpty || Validate.checkInvalidateNewPassword(value)) {
-//                 error = true;
-//                 errorText = value.isEmpty ? 'Mật khẩu không được để trống' : 'Mật khẩu nên có chữ cái in hoa và kí tự đặc biệt';
-//               } else {
-//                 error = false;
-//                 errorText = '';
-//               }
-//             }
-//           });
-
-//           // Check if password and confirmation password match
-//           if (widget.isConfirm) {
-//             String password = widget.textController.text;
-//             String confirmPassword = value;
-//             if (password.isNotEmpty && password != confirmPassword) {
-//               // Handle the password mismatch
-//             }
-//           }
-//         },
-//         controller: widget.textController,
-//         obscureText: widget.obscure,
-//         decoration: InputDecoration(
-//           errorText: error ? errorText : null,
-//           hintText: widget.hint,
-//           hintStyle: const TextStyle(color: kTextFieldColor),
-//           focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
-//           suffixIcon: widget.function,
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class CheckBoxSignIn extends StatefulWidget {
   final String text;

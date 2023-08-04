@@ -5,12 +5,37 @@ class GetProvinceEvent extends AddressEvent {}
 
 //create district event
 class GetDistrictEvent extends AddressEvent {
-  final String? id;
-  GetDistrictEvent(this.id);
+  final String? provinceId;
+  GetDistrictEvent(this.provinceId);
 }
 
 //create ward event
 class GetWardEvent extends AddressEvent {
-  final String? id;
-  GetWardEvent(this.id);
+  final String? districtId;
+  GetWardEvent(this.districtId);
+}
+
+// get address
+class GetAddressEvent extends AddressEvent {}
+
+//create add event
+class CreateAddressEvent extends AddressEvent {
+  final String? location;
+  final String? type;
+  final String? phoneReceiver;
+  final String? nameReceiver;
+
+  CreateAddressEvent(this.location, this.nameReceiver, this.phoneReceiver, this.type);
+}
+
+class ChangeAddressEvent extends AddressEvent {
+  final String? location;
+  final String? type;
+  final String? phoneReceiver;
+  final String? nameReceiver;
+  final bool? defaults;
+  final int? id;
+
+  ChangeAddressEvent(
+      this.location, this.nameReceiver, this.phoneReceiver, this.type, this.defaults, this.id);
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/src/core/remote/response/product_filter_response/category_filter_response.dart';
 import 'package:mobile_store/src/features/category/view_model/category_view_model.dart';
 import 'package:mobile_store/src/features/home_page/view/product_screen.dart';
+import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 
 import '../../../constant/api_outside/api_image.dart';
 import '../../../constant/color/color.dart';
@@ -70,7 +71,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         widget.categoryID, page, limit);
     try {
       setState(() {
-        products += (categoryFilterResponse?.contents)!;
+        products += (categoryFilterResponse?.contents) ?? [];
       });
     } catch (e) {
       print('view: $e');
@@ -80,7 +81,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(context, true),
+      appBar: appBarWidget(context),
       body: RefreshIndicator(
         onRefresh: () async {
           setState(() {
@@ -126,7 +127,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   Widget productFilterDisplay() {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.7,
+      height: successLoginState.onLoginState
+          ? MediaQuery.of(context).size.height * 0.65
+          : MediaQuery.of(context).size.height * 0.7,
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         controller: _scrollController,
@@ -143,7 +146,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
               itemCount: products.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                if (index < products.length) {
+
                   final product = products[index];
                   String logo = '${product.imageDTOs![0].name}';
                   return Container(
@@ -189,15 +192,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       ),
                     ),
                   );
-                } else if (index == products.length &&
-                    currentPage < (categoryFilterResponse!.totalPages! - 1) &&
-                    index > 3) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else {
-                  return const SizedBox.shrink();
-                }
               },
             ),
             (currentPage < (categoryFilterResponse!.totalPages! - 1) &&

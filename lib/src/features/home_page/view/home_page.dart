@@ -17,12 +17,18 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(context, false),
-      body: SingleChildScrollView(
-        child: Column(children: [
-          const CarouselSliderBanner(),
-          ProductScreen(productBloc: productBloc),
-        ]),
+      appBar: appBarWidget(context),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          setState(() {});
+          ProductScreen(productBloc: productBloc);
+        },
+        child: SingleChildScrollView(
+          child: Column(children: [
+            const CarouselSliderBanner(),
+            ProductScreen(productBloc: productBloc),
+          ]),
+        ),
       ),
     );
   }

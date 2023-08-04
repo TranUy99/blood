@@ -1,196 +1,217 @@
 import 'package:flutter/material.dart';
-
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/constant/utils/validate.dart';
-import 'package:mobile_store/src/features/change_password/view_model/change_password_view_model.dart';
+import 'package:mobile_store/src/features/forgot_password/view_model/forgot_password_view_model.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../component/primary_button.dart';
+
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({Key? key}) : super(key: key);
+
   @override
   State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  TextEditingController textPasswordController = TextEditingController();
-  TextEditingController textNewPasswordController = TextEditingController();
-  TextEditingController textOldPasswordController = TextEditingController();
-  TextEditingController textConfirmPasswordController = TextEditingController();
   bool obscure = true;
-  ChangePasswordViewModel _changePasswordViewModel = ChangePasswordViewModel();
-  bool error = false;
-  bool errorNewPassword = false;
-  bool errorConfirmPassword = false;
-  String errorText = '';
-  String errorNewPasswordText = '';
-  String errorComFirmPasswordText = '';
+  final ForgotPasswordViewModel _forgotPasswordViewModel =
+      ForgotPasswordViewModel();
+  bool resentEmail = false;
+  bool isSendEmail = true;
+  TextEditingController textEmailController = TextEditingController();
+  bool errorSendEmail = false;
+  String errorTextSendEmail = '';
+
+  _sendEmail(String email) async {
+    try {
+      _forgotPasswordViewModel.sendEmailForgotPasswordViewModel(email);
+    } catch (e) {
+      print('Send email error: $e');
+    }
+  }
+
   @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // _sendEmail();
   }
 
   @override
   Widget build(BuildContext context) {
-    // var action;
-    return AlertDialog(
-      icon: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.4,
-        width: MediaQuery.of(context).size.width * 0.6,
-        child: SingleChildScrollView(
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.05),
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
-                child: const Text('CHANGE PASSWORD',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    )),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.04),
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: textPasswordController,
-                      keyboardType: TextInputType.text,
-                      obscureText: obscure,
-                      decoration: InputDecoration(
-                          errorText: error ? errorText : null,
-                          hintText: 'Old password',
-                          hintStyle: const TextStyle(color: kTextFieldColor),
-                          focusedBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: kGreenColor)),
-                          suffixIcon: obscureChange()),
-                      onChanged: (value) {
-                        setState(() {
-                          // Check password
-                          if (value.isEmpty || Validate.checkInvalidateNewPassword(value)) {
-                            error = true;
-                            errorText = value.isEmpty
-                                ? 'Mật khẩu không được để trống'
-                                : 'Mật khẩu nên có chữ cái in hoa và kí tự đặc biệt';
-                          } else {
-                            error = false;
-                            errorText = '';
-                          }
-                        });
-                      },
-                    ),
-                    TextFormField(
-                      controller: textNewPasswordController,
-                      keyboardType: TextInputType.text,
-                      obscureText: obscure,
-                      decoration: InputDecoration(
-                          errorText: errorNewPassword ? errorNewPasswordText : null,
-                          hintText: 'New password',
-                          hintStyle: const TextStyle(color: kTextFieldColor),
-                          focusedBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: kGreenColor)),
-                          suffixIcon: obscureChange()),
-                      onChanged: (value) {
-                        setState(() {
-                          // Check password
-                          if (value.isEmpty || Validate.checkInvalidateNewPassword(value)) {
-                            errorNewPassword = true;
-                            errorNewPasswordText = value.isEmpty
-                                ? 'Mật khẩu không được để trống'
-                                : 'Mật khẩu nên có chữ cái in hoa và kí tự đặc biệt';
-                          } else {
-                            errorNewPassword = false;
-                            errorNewPasswordText = '';
-                          }
-                        });
-                      },
-                    ),
-                    TextFormField(
-                      controller: textConfirmPasswordController,
-                      keyboardType: TextInputType.text,
-                      obscureText: obscure,
-                      decoration: InputDecoration(
-                          errorText: errorConfirmPassword ? errorComFirmPasswordText : null,
-                          hintText: 'New password',
-                          hintStyle: const TextStyle(color: kTextFieldColor),
-                          focusedBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: kGreenColor)),
-                          suffixIcon: obscureChange()),
-                      onChanged: (value) {
-                        setState(() {
-                          // Check password
-                          if (textConfirmPasswordController.text !=
-                              textNewPasswordController.text) {
-                            errorConfirmPassword = true;
-                            errorComFirmPasswordText = 'Mật khẩu không trùng khớp';
-                          } else {
-                            errorConfirmPassword = false;
-                            errorComFirmPasswordText = '';
-                          }
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () async {
-                          String oldPassword = textPasswordController.text;
-                          String newPassword = textNewPasswordController.text;
-                          final changPassword = await _changePasswordViewModel.changePassword(
-                              oldPassword, newPassword);
-                          if (changPassword == true) {
-                            showTopSnackBar(
-                              Overlay.of(context),
-                              const CustomSnackBar.error(
-                                message: 'Change password success',
-                                backgroundColor: Color.fromARGB(255, 32, 186, 38),
-                              ),
-                            );
-                            // Navigator.pop(context);
-                            // ignore: use_build_context_synchronously
-                          } else {
-                            showTopSnackBar(
-                              Overlay.of(context),
-                              const CustomSnackBar.error(
-                                message: 'Failed change password',
-                                backgroundColor: Colors.red,
-                              ),
-                            );
-                            // Navigator.pop(context);
-                          }
-                        },
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
-                        ),
-                        child: const Text('Save'),
-                      ),
-                      const SizedBox(width: 40),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
-                        ),
-                        child: const Text('Close'),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.04),
+                  child:
+                      Text('Forgot password'.toUpperCase(), style: titleText)),
+              // isSendEmail? sendEmailPage(): verifiedOTPPage(),
+              sendEmailPage()
             ],
           ),
         ),
       ),
+    );
+  }
+
+  // Widget verifiedOTPPage(){
+  //   CountdownController countdownController = CountdownController(autoStart: true);
+  //   return Column(
+  //     children: [
+  //       Padding(
+  //         padding: EdgeInsets.symmetric(
+  //             vertical: MediaQuery.of(context).size.height * 0.05,
+  //             horizontal: MediaQuery.of(context).size.width * 0.25),
+  //         child: TextField(
+  //           textAlign: TextAlign.center,
+  //           maxLength: 4,
+  //           onChanged: (value) {
+  //             setState(() {
+  //               if (Validate.checkInvalidateOTPNumber(value) == false) {
+  //                 error = true;
+  //                 errorText = 'Invalid OTP number';
+  //               } else {
+  //                 error = false;
+  //               }
+  //             });
+  //           },
+  //           style: const TextStyle(fontSize: 25),
+  //           controller: textOTPController,
+  //           decoration: InputDecoration(
+  //             errorText: error ? errorText : null,
+  //             hintText: 'OTP number',
+  //             hintStyle: const TextStyle(color: kTextFieldColor),
+  //             focusedBorder: const UnderlineInputBorder(
+  //                 borderSide: BorderSide(color: kGreenColor)),
+  //           ),
+  //         ),
+  //       ),
+  //       resentEmail
+  //           ? Row(
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           children: [
+  //             const Text('Did not send OTP'),
+  //             TextButton(
+  //               onPressed: () {
+  //                 _sendEmail();
+  //                 showTopSnackBar(
+  //                     Overlay.of(context),
+  //                     const CustomSnackBar.info(
+  //                         message:
+  //                         'Please enter your otp number that was sent via email'));
+  //                 setState(() {
+  //                   resentEmail = !resentEmail;
+  //                 });
+  //                 countdownController.restart();
+  //               },
+  //               child: Text('Press here'),
+  //             )
+  //           ])
+  //           : Countdown(
+  //         controller: countdownController,
+  //         seconds: 120,
+  //         build: (context, time) {
+  //           return Text(
+  //               'Sent OTP number via email: ${time.toInt()}');
+  //         },
+  //         onFinished: () {
+  //           setState(() {
+  //             resentEmail = !resentEmail;
+  //           });
+  //         },
+  //       ),
+  //       Padding(
+  //         padding: EdgeInsets.only(
+  //             top: MediaQuery.of(context).size.height * 0.03),
+  //         child: InkWell(
+  //           onTap: () async {
+  //             String otpNumber = textOTPController.text;
+  //             bool? isVerified =
+  //             await verifiedEmailViewModel.activeOTP(otpNumber);
+  //             if (isVerified) {
+  //               showTopSnackBar(
+  //                   Overlay.of(context),
+  //                   const CustomSnackBar.success(
+  //                       message: 'Login success'));
+  //               Get.offAll(const NavigationHomePage());
+  //             } else {
+  //               showTopSnackBar(
+  //                   Overlay.of(context),
+  //                   const CustomSnackBar.error(
+  //                       message: 'Wrong OTP number'));
+  //             }
+  //           },
+  //           child: const PrimaryButton(buttonText: 'Verified Email'),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
+  //
+  Widget sendEmailPage() {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(
+              vertical: MediaQuery.of(context).size.height * 0.03),
+          child: TextField(
+            onChanged: (value) {
+              setState(() {
+                if (Validate.invalidateEmail(value)) {
+                  setState(() {
+                    errorSendEmail = true;
+                    errorTextSendEmail = (textEmailController.text == '')
+                        ? 'Enter your email'
+                        : 'Incorrect email';
+                  });
+                  print(errorTextSendEmail);
+                } else {
+                  setState(() {
+                    errorSendEmail = false;
+                  });
+                }
+              });
+            },
+            controller: textEmailController,
+            decoration: InputDecoration(
+              errorText: errorSendEmail ? errorTextSendEmail : null,
+              hintText: 'Email',
+              hintStyle: const TextStyle(color: kTextFieldColor),
+              focusedBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: kGreenColor)),
+            ),
+          ),
+        ),
+        Padding(
+          padding:
+              EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
+          child: InkWell(
+            onTap: () async {
+              String email = textEmailController.text;
+              isSendEmail = await _forgotPasswordViewModel
+                  .sendEmailForgotPasswordViewModel(email);
+              if (isSendEmail) {
+                showTopSnackBar(
+                    Overlay.of(context),
+                    const CustomSnackBar.info(
+                        message: 'Otp that sent via email'));
+              } else {
+                showTopSnackBar(Overlay.of(context),
+                    const CustomSnackBar.error(message: 'Wrong email'));
+              }
+            },
+            child: const PrimaryButton(buttonText: 'Send OTP'),
+          ),
+        ),
+      ],
     );
   }
 
@@ -203,12 +224,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         },
         icon: obscure
             ? const Icon(
-          Icons.visibility_off,
-          color: kGreenColor,
-        )
+                Icons.visibility_off,
+                color: kGreenColor,
+              )
             : const Icon(
-          Icons.visibility,
-          color: kGreenColor,
-        ));
+                Icons.visibility,
+                color: kGreenColor,
+              ));
   }
 }

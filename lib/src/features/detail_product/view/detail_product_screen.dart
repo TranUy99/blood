@@ -2,19 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/model/product.dart';
-import 'package:mobile_store/src/features/cart_page/screen/cart_page.dart';
+import 'package:mobile_store/src/features/cart_page/view/cart_page.dart';
 
 import 'package:mobile_store/src/features/detail_product/view_model/detail_product_view_model.dart';
 import 'package:mobile_store/src/features/detail_product/widget/configuration_product.dart';
 import 'package:mobile_store/src/features/detail_product/widget/product_information.dart';
 import 'package:mobile_store/src/features/detail_product/widget/review_product.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
-import 'package:mobile_store/src/features/detail_product/view_model/detail_product_view_model.dart';
-import 'package:mobile_store/src/features/detail_product/widget/configuration_product.dart';
 import 'package:mobile_store/src/features/detail_product/widget/image_product.dart';
 import 'package:mobile_store/src/features/detail_product/widget/name_product.dart';
-import 'package:mobile_store/src/features/detail_product/widget/product_information.dart';
-import 'package:mobile_store/src/features/detail_product/widget/review_product.dart';
+
 
 class ProductDetailScreen extends StatefulWidget {
   final int idProduct;
@@ -59,7 +56,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   Widget buildUI(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(context, true),
+      appBar: appBarWidget(context),
       body: SingleChildScrollView(
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,7 +90,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
           ),
           const ConfigurationProduct(),
-          const ProductInformation(),
+           ProductInformation(productDTO: product),
           const Review(),
           // const AnotherProduct(),
         ],
