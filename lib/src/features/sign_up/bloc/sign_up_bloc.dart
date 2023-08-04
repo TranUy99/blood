@@ -1,4 +1,6 @@
 import 'dart:async';
+
+import 'package:mobile_store/main.dart';
 import 'package:mobile_store/src/features/sign_up/bloc/sign_up_event.dart';
 import 'package:mobile_store/src/features/sign_up/bloc/sign_up_state.dart';
 import 'package:mobile_store/src/features/sign_up/service/sign_up_servie.dart';
@@ -24,7 +26,9 @@ class SignUpBloc {
 
         if (signUpResult.message == null) {
           _signUpStateSubject.sink.add(SuccessSignUpState(true));
-        
+          getUser.email = email;
+          getUser.password = password;
+          getUser.isRemember = true;
         } else {
           _signUpStateSubject.sink.add(ErrorSignUpState("error"));
         

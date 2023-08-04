@@ -1,14 +1,12 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
 import '../../constant/color/color.dart';
+import '../category/widget/menu_button.dart';
 import '../home_page/view/navigation_home_page.dart';
-import '../home_page/widget/menu_button.dart';
 import '../search/view/search.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -143,20 +141,14 @@ class CustomAppBar extends StatelessWidget {
   }
 }
 
-PreferredSizeWidget? appBarWidget(BuildContext context, bool backButton) {
+PreferredSizeWidget? appBarWidget(BuildContext context) {
   return PreferredSize(
     preferredSize: successLoginState.onLoginState
         ? Size.fromHeight(MediaQuery.of(context).size.height * 0.2)
         : Size.fromHeight(MediaQuery.of(context).size.height * 0.15),
     child: AppBar(
         backgroundColor: kSecondaryColor,
-        leading: backButton
-            ? IconButton(
-                onPressed: () {
-                  Get.offAll(const NavigationHomePage());
-                },
-                icon: const Icon(Icons.arrow_back_ios_new_sharp))
-            : Image(
+        leading: Image(
                 image: const AssetImage('assets/images/banner0.jpg'),
                 height: MediaQuery.of(context).size.height * 0.06),
         flexibleSpace: const CustomAppBar()),

@@ -48,8 +48,9 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
     super.initState();
     _nameController.text = widget.fullName!;
     _emailController.text = widget.email!;
-    dateOfBirth = DateFormat("dd-MM-yyyy").parse(widget.selectedDate!);
-    // _selectedGender = widget.selectedGender;
+    // dateOfBirth = DateFormat("dd-MM-yyyy").parse(widget.selectedDate!);
+    _selectedGender = widget.selectedGender;
+
   }
 
   @override

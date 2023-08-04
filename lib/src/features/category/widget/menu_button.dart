@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/features/category/view/category_screen.dart';
+import 'package:mobile_store/src/features/category/view_model/category_view_model.dart';
+
+import '../../../core/remote/response/category_response/category_items_response.dart';
 
 class MenuButton extends StatefulWidget {
   const MenuButton({super.key});
@@ -9,9 +12,15 @@ class MenuButton extends StatefulWidget {
 }
 
 class _MenuButtonState extends State<MenuButton> {
+  GetCategoryViewModel getCategoryViewModel = GetCategoryViewModel();
+  List<CategoryItemsResponse> categoryList = [];
+
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
+      onOpened: () {
+
+      },
       onSelected: (value) => onSelected(context, value),
       offset: const Offset(-20, 52),
       icon: const Icon(
@@ -47,8 +56,9 @@ class _MenuButtonState extends State<MenuButton> {
         ));
   }
 
-  onSelected(BuildContext context, int value) {
+  onSelected(BuildContext context, int value) async {
     navigatorPage(context, value);
+    // await getCategoryViewModel.getCategoryViewModel(0, 10);
   }
 
   Widget menuItems(String title, String src){

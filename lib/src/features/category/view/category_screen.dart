@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/src/core/remote/response/product_filter_response/category_filter_response.dart';
 import 'package:mobile_store/src/features/category/view_model/category_view_model.dart';
 import 'package:mobile_store/src/features/home_page/view/product_screen.dart';
+import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 
 import '../../../constant/api_outside/api_image.dart';
 import '../../../constant/color/color.dart';
@@ -37,7 +38,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   ];
   List<ProductFilter> products = [];
   int currentPage = 0;
-  int limit = 2;
+  int limit = 4;
 
   @override
   void initState() {
@@ -53,13 +54,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
   }
 
   Future<void> fetch() async {
-    if(currentPage < (categoryFilterResponse!.totalPages! - 1)){
-      try{
+    if (currentPage < (categoryFilterResponse!.totalPages! - 1)) {
+      try {
         setState(() {
           currentPage++;
           _getData(widget.categoryID, currentPage);
         });
-      }catch(e){
+      } catch (e) {
         print(e);
       }
     }
@@ -70,7 +71,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         widget.categoryID, page, limit);
     try {
       setState(() {
-        products += (categoryFilterResponse?.contents)!;
+        products += (categoryFilterResponse?.contents) ?? [];
       });
     } catch (e) {
       print('view: $e');
@@ -80,7 +81,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(context, true),
+      appBar: appBarWidget(context),
       body: RefreshIndicator(
         onRefresh: () async {
           setState(() {
@@ -111,8 +112,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   return Text('Error: ${snapshot.error}');
                 } else {
                   if (snapshot.hasData) {
-                    return productFilterDisplay(
-                        );
+                    return productFilterDisplay();
                   } else {
                     return const Text('No product available');
                   }
@@ -126,72 +126,82 @@ class _CategoryScreenState extends State<CategoryScreen> {
   }
 
   Widget productFilterDisplay() {
-    return Expanded(
-      child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          childAspectRatio: 0.6,
-          crossAxisCount: 2,
-          crossAxisSpacing: 5.0,
-          mainAxisSpacing: 5.0,
-        ),
+    return SizedBox(
+      height: successLoginState.onLoginState
+          ? MediaQuery.of(context).size.height * 0.65
+          : MediaQuery.of(context).size.height * 0.7,
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
         controller: _scrollController,
-        itemCount:  products.length + 1 ,
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          if (index < products.length) {
-            final product = products[index];
-            String logo = '${product.imageDTOs![0].name}';
-            return Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: kZambeziColor,
-                  width: 2.0,
-                ),
+        child: Column(
+          children: [
+            GridView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                childAspectRatio: 0.6,
+                crossAxisCount: 2,
+                crossAxisSpacing: 5.0,
+                mainAxisSpacing: 5.0,
               ),
-              child: InkWell(
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        ProductDetailScreen(idProduct: product.id!),
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.25,
-                      child: CachedNetworkImage(
-                        imageUrl: ApiImage().generateImageUrl(logo),
-                        height: 20,
+              itemCount: products.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+
+                  final product = products[index];
+                  String logo = '${product.imageDTOs![0].name}';
+                  return Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: kZambeziColor,
+                        width: 2.0,
                       ),
                     ),
-                    Column(
-                      children: [
-                        Text('${product.name}',
-                            style: const TextStyle(
-                                fontSize: 20,
-                                color: kRedColor,
-                                fontFamily: 'sans-serif')),
-                        Text('${product.price}',
-                            style: const TextStyle(
-                                fontSize: 20,
-                                color: kGreenColor,
-                                fontFamily: 'sans-serif')),
-                      ],
+                    child: InkWell(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ProductDetailScreen(idProduct: product.id!),
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.25,
+                            child: CachedNetworkImage(
+                              imageUrl: ApiImage().generateImageUrl(logo),
+                              height: 20,
+                            ),
+                          ),
+                          Column(
+                            children: [
+                              Text('${product.name}',
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      color: kRedColor,
+                                      fontFamily: 'sans-serif')),
+                              Text('${product.price}',
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      color: kGreenColor,
+                                      fontFamily: 'sans-serif')),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-              ),
-            );
-          } else if (index == products.length &&
-              currentPage < (categoryFilterResponse!.totalPages! - 1) &&
-              index > 3) {
-            return const Center(child: CircularProgressIndicator(),);
-          }else{
-            return const SizedBox.shrink();
-          }
-        },
+                  );
+              },
+            ),
+            (currentPage < ((categoryFilterResponse?.totalPages) ?? 1 - 1) &&
+                    products.length > 3)
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : const SizedBox.shrink(),
+          ],
+        ),
       ),
     );
   }
@@ -240,7 +250,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
-              ProductScreen(productBloc: productBloc,);
+              ProductScreen(
+                productBloc: productBloc,
+              );
             },
             child: Container(
               decoration: BoxDecoration(

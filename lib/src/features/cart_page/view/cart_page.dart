@@ -32,7 +32,7 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(context, false),
+      appBar: appBarWidget(context),
       body: SingleChildScrollView(
         child: Column(
           children: [

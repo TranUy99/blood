@@ -52,7 +52,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   Widget buildUI(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(context, true),
+      appBar: appBarWidget(context),
       body: SingleChildScrollView(
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

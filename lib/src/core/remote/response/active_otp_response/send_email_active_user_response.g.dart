@@ -1,20 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'send_email_response.dart';
+part of 'send_email_active_user_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-SendEmailResponse _$SendEmailResponseFromJson(Map<String, dynamic> json) =>
-    SendEmailResponse(
+SendEmailActiveUserResponse _$SendEmailActiveUserResponseFromJson(
+        Map<String, dynamic> json) =>
+    SendEmailActiveUserResponse(
       json['message'] as String?,
       json['errors'] as String?,
       json['path'] as String?,
       json['httpCode'] as int?,
     );
 
-Map<String, dynamic> _$SendEmailResponseToJson(SendEmailResponse instance) =>
+Map<String, dynamic> _$SendEmailActiveUserResponseToJson(
+        SendEmailActiveUserResponse instance) =>
     <String, dynamic>{
       'message': instance.message,
       'errors': instance.errors,
