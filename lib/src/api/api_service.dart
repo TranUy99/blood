@@ -9,6 +9,7 @@ import 'package:mobile_store/src/core/remote/response/address_response/address_r
 import 'package:mobile_store/src/core/remote/response/login_response/login_response.dart';
 import 'package:mobile_store/src/core/remote/response/product_filter_response/category_filter_response.dart';
 import 'package:mobile_store/src/core/remote/response/product_filter_response/manufacturer_filter_response.dart';
+import 'package:mobile_store/src/core/remote/response/search_response/search_response.dart';
 import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -54,6 +55,7 @@ abstract class ApiService {
   @POST('/api/user/')
   Future<SignUpResponse> register(@Body() SignUpRequest register);
 
+  //get new product
   @GET('/api/product/new')
   Future<List<ProductDTO>> getProductNew();
 
@@ -61,6 +63,10 @@ abstract class ApiService {
   @GET('/api/product/detail/{id}')
   Future<ProductDTO> getDetailProduct(@Path('id') int id);
 
+  //search product with namme
+  @GET('/api/product/search-product')
+  Future<SearchResponse> searchNameProduct(
+      @Query('keyword') String? keyword, @Query('no') int? no, @Query('limit') int? limit);
   //Call this api to send otp via email to active
   @GET('/api/mail/active-user')
   Future<SendEmailActiveUserResponse> sendEmailActiveUser(
@@ -106,7 +112,7 @@ abstract class ApiService {
       @Query('limit') int limit);
 
   // //Filter product by categoryId
-  @GET('/api/product/active-category/{categoryId}')
+  @GET('/api/product/show-product/{categoryId}')
   Future<CategoryFilterResponse> productCategoryFilter(
       @Path('categoryId') int categoryId,
       @Query('no') int no,

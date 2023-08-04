@@ -194,7 +194,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   );
               },
             ),
-            (currentPage < (categoryFilterResponse!.totalPages! - 1) &&
+            (currentPage < ((categoryFilterResponse?.totalPages) ?? 1 - 1) &&
                     products.length > 3)
                 ? const Center(
                     child: CircularProgressIndicator(),

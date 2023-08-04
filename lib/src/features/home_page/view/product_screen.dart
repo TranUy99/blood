@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -20,7 +22,7 @@ class ProductScreen extends StatefulWidget {
 
 class _ProductScreenState extends State<ProductScreen> {
   List<ProductDTO> products = [];
-  ProductViewModel _productViewModel = ProductViewModel();
+  final ProductViewModel _productViewModel = ProductViewModel();
 
   @override
   void initState() {
@@ -38,6 +40,7 @@ class _ProductScreenState extends State<ProductScreen> {
     return FutureBuilder<List<ProductDTO>>(
       future: _productViewModel.getProducts(),
       builder: (context, snapshot) {
+     
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
             child: CircularProgressIndicator(),
@@ -105,8 +108,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        ProductDetailScreen(idProduct: product.id!),
+                    builder: (context) => ProductDetailScreen(idProduct: product.id!),
                   ),
                 ),
                 child: Container(
@@ -123,14 +125,11 @@ class _ProductScreenState extends State<ProductScreen> {
                         children: [
                           Text('${product.name}',
                               style: const TextStyle(
-                                  fontSize: 20,
-                                  color: kRedColor,
-                                  fontFamily: 'sans-serif')),
-                          Text( '${NumberFormat('#,###.###').format( product.price).replaceAll(',','.')} VND',
+                                  fontSize: 20, color: kRedColor, fontFamily: 'sans-serif')),
+                          Text(
+                              '${NumberFormat('#,###.###').format(product.price).replaceAll(',', '.')} VND',
                               style: const TextStyle(
-                                  fontSize: 20,
-                                  color: kGreenColor,
-                                  fontFamily: 'sans-serif')),
+                                  fontSize: 20, color: kGreenColor, fontFamily: 'sans-serif')),
                         ],
                       ),
                     ],

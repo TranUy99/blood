@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/model/product.dart';
-import 'package:mobile_store/src/features/cart_page/view/cart_page.dart';
-
 import 'package:mobile_store/src/features/detail_product/view_model/detail_product_view_model.dart';
 import 'package:mobile_store/src/features/detail_product/widget/configuration_product.dart';
 import 'package:mobile_store/src/features/detail_product/widget/product_information.dart';
 import 'package:mobile_store/src/features/detail_product/widget/review_product.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
 import 'package:mobile_store/src/features/detail_product/widget/image_product.dart';
-import 'package:mobile_store/src/features/detail_product/widget/name_product.dart';
+import 'package:mobile_store/src/features/detail_product/widget/rating_product.dart';
 
 
 class ProductDetailScreen extends StatefulWidget {
@@ -47,7 +43,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
             return buildUI(context);
           } else {
-            return Text('No products available');
+            return const Text('No products available');
           }
         }
       },
@@ -62,33 +58,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ImageProduct(productDTO: product),
-          NameProduct(productDTO: product),
-          SizedBox(
-            width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const CartPage(),
-                    ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: kGreenColor,
-                ),
-                child: Text(
-                  AppLocalizations.of(context)!.buyNow.toUpperCase(),
-                  style: const TextStyle(
-                    color: kWhiteColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ),
+          RatingProduct(productDTO: product),
+          
+         
           const ConfigurationProduct(),
            ProductInformation(productDTO: product),
           const Review(),

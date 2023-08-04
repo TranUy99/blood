@@ -1,11 +1,11 @@
 import 'package:mobile_store/src/core/model/categories_dto.dart';
 import 'package:mobile_store/src/core/model/product_filter.dart';
-import 'package:mobile_store/src/core/remote/response/category_response/category_items_response.dart';
-import 'package:mobile_store/src/features/category/bloc_state/category_event.dart';
-import 'package:mobile_store/src/features/category/bloc_state/category_state.dart';
 import 'package:mobile_store/src/features/category/service/category_filter_service.dart';
 import 'package:mobile_store/src/features/category/service/get_category_service.dart';
 import 'package:rxdart/rxdart.dart';
+
+import 'category_event.dart';
+import 'category_state.dart';
 
 abstract class CategoryBloc{}
 

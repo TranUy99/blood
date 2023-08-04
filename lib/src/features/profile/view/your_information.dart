@@ -106,11 +106,12 @@ class _YourInformationState extends State<YourInformation> {
                                 Image.asset(
                                   'assets/icon/gender_icon.png',
                                   height: MediaQuery.of(context).size.height * 0.028,
+                               
                                 ),
                                 const SizedBox(
                                   width: 8,
                                 ),
-                                Text('Male'),
+                                const Text('Male'),
                               ],
                             ),
                             const SizedBox(height: 4),

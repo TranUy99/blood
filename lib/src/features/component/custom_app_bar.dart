@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,9 +8,10 @@ import '../../constant/color/color.dart';
 import '../category/widget/menu_button.dart';
 import '../home_page/view/navigation_home_page.dart';
 import '../search/view/search.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomAppBar extends StatelessWidget {
-  CustomAppBar({super.key});
+  const CustomAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,20 +24,74 @@ class CustomAppBar extends StatelessWidget {
         ),
         color: kDarkGreyColor,
         boxShadow: const [BoxShadow(blurRadius: 50.0)],
-        borderRadius: BorderRadius.vertical(
-            bottom: Radius.elliptical(MediaQuery.of(context).size.width, 20)),
+        borderRadius:
+            BorderRadius.vertical(bottom: Radius.elliptical(MediaQuery.of(context).size.width, 20)),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
+          Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                MenuButton(),
-                Search(),
+                const MenuButton(),
+                SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.75,
+                    height: MediaQuery.of(context).size.height * 0.05,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context, MaterialPageRoute(builder: (context) => const Search()));
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.fromLTRB(10.0, 10.0, 20.0, 10.0),
+                        decoration: BoxDecoration(
+                          color: kWhiteColor,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: kGreyColor, width: 1),
+                        ),
+                        child: Row(children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            child: DefaultTextStyle(
+                              style: GoogleFonts.lato(
+                                color: kGreenColor,
+                                textStyle: Theme.of(context).textTheme.displayLarge,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FontStyle.italic,
+                              ),
+                              child: AnimatedTextKit(
+                                animatedTexts: [
+                                  TyperAnimatedText(
+                                    'Search...',
+                                    speed: const Duration(milliseconds: 200),
+                                  ),
+                                  TyperAnimatedText(
+                                    'R2S..',
+                                    speed: const Duration(milliseconds: 200),
+                                  ),
+                                  TyperAnimatedText(
+                                    'Mobile Store',
+                                    speed: const Duration(milliseconds: 200),
+                                  ),
+                                ],
+                                onTap: () {
+                                   Navigator.push(
+                            context, MaterialPageRoute(builder: (context) => const Search()));
+                                },
+                              ),
+                            ),
+                          ),
+                          const Icon(
+                            Icons.search,
+                            color: kGreenColor,
+                          ),
+                        ]),
+                      ),
+                    ))
               ],
             ),
           ),
@@ -48,9 +104,8 @@ class CustomAppBar extends StatelessWidget {
                       Text(getUser.userDTO.fullName ?? 'null'),
                       TextButton(
                           onPressed: () async {
-                            SharedPreferences preferences =
-                                await SharedPreferences.getInstance();
-                            if(getUser.isRemember == false){
+                            SharedPreferences preferences = await SharedPreferences.getInstance();
+                            if (getUser.isRemember == false) {
                               preferences.remove('email');
                               preferences.remove('password');
                             }
@@ -67,8 +122,7 @@ class CustomAppBar extends StatelessWidget {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        const NavigationHomePage()));
+                                    builder: (context) => const NavigationHomePage()));
                           },
                           child: const Text(
                             'Log out',
@@ -97,6 +151,6 @@ PreferredSizeWidget? appBarWidget(BuildContext context) {
         leading: Image(
                 image: const AssetImage('assets/images/banner0.jpg'),
                 height: MediaQuery.of(context).size.height * 0.06),
-        flexibleSpace: CustomAppBar()),
+        flexibleSpace: const CustomAppBar()),
   );
 }

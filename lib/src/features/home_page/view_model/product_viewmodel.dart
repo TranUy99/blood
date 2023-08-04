@@ -25,10 +25,10 @@ class ProductViewModel {
             .cancel(); // Hủy lắng nghe sau khi nhận được danh sách sản phẩm
       } else if (state is ProductErrorState) {
         completer.completeError('Error fetching products');
-        subscription!.cancel(); // Hủy lắng nghe nếu có lỗi xảy ra
+        subscription!.cancel(); 
       }
     });
-
+  
     return completer.future;
   }
 }

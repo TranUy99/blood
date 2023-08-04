@@ -135,10 +135,10 @@ class _LogInScreenState extends State<LogInScreen> {
                       // String password = '1234567Hau';
                       // String email = 'tranuy0907@gmail.com';
                       // String password = 'Tranuy1.';
-                      // String email = textEmailController.text;
-                      // String password = textPasswordController.text;
-                      String email = 'yukatanguyen545@gmail.com';
-                      String password = 'Candidate123';
+                      String email = textEmailController.text;
+                      String password = textPasswordController.text;
+                      // String email = 'yukatanguyen545@gmail.com';
+                      // String password = 'Candidate123';
                       final int? loginStatus = await _loginViewModel.login(
                           email, password, isRemember);
 
@@ -228,7 +228,7 @@ class _LogInScreenState extends State<LogInScreen> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.8,
                         height: MediaQuery.of(context).size.height * 0.1,
-                        child: LoginOption(),
+                        child: const LoginOption(),
                       ),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.01),

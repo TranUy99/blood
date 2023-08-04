@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:mobile_store/src/core/model/product.dart';
+import 'package:mobile_store/src/features/cart_page/view/cart_page.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class NameProduct extends StatefulWidget {
+class RatingProduct extends StatefulWidget {
   final ProductDTO productDTO;
-  const NameProduct({super.key, required this.productDTO});
+  const RatingProduct({super.key, required this.productDTO});
 
   @override
-  State<NameProduct> createState() => _NameProductState();
+  State<RatingProduct> createState() => _RatingProductState();
 }
 
-class _NameProductState extends State<NameProduct> {
+class _RatingProductState extends State<RatingProduct> {
   String selectedOption = '';
   String selectedColor = '';
 
@@ -142,7 +144,33 @@ class _NameProductState extends State<NameProduct> {
               fontFamily: "Times New Roman",
             ),
           ),
-        )
+        ),
+        SizedBox(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CartPage(),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: kGreenColor,
+              ),
+              child: Text(
+                AppLocalizations.of(context)!.buyNow.toUpperCase(),
+                style: const TextStyle(
+                  color: kWhiteColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
