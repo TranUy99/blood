@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
+import 'package:mobile_store/src/features/address/view/add_address.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import '../../../../main.dart';
@@ -27,7 +28,6 @@ class _CartPageState extends State<CartPage> {
     super.initState();
     print('idUser: ${getUser.idUser}');
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +42,7 @@ class _CartPageState extends State<CartPage> {
               itemCount: 3, // số lượng sản phẩm trong giỏ hàng
               itemBuilder: (context, index) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 15.0),
+                  padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
                   child: Container(
                     height: 120,
                     decoration: BoxDecoration(
@@ -101,8 +100,7 @@ class _CartPageState extends State<CartPage> {
                             Row(
                               children: <Widget>[
                                 IconTheme(
-                                  data: IconThemeData(
-                                      color: quantity == 1 ? kGreyColor : null),
+                                  data: IconThemeData(color: quantity == 1 ? kGreyColor : null),
                                   child: IconButton(
                                     icon: const Icon(Icons.remove),
                                     onPressed: () {
@@ -180,15 +178,37 @@ class _CartPageState extends State<CartPage> {
                 log("$selectedAddressIndex");
               },
             ),
+            Container(
+              
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: TextButton(
+                onPressed: () {
+                  // Xử lý sự kiện khi người dùng nhấn vào nút "Thêm địa chỉ khác"
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return const AddAddressScreen();
+                    },
+                  );
+                },
+                child: Text(
+                  //'Add another address',
+                  AppLocalizations.of(context)!.anotherAddress,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: kGreenColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
-                  child: Text(
-                      AppLocalizations.of(context)!.discount.toUpperCase(),
-                      style: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.bold)),
+                  child: Text(AppLocalizations.of(context)!.discount.toUpperCase(),
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -198,8 +218,7 @@ class _CartPageState extends State<CartPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 14),
                         child: TextField(
                           decoration: InputDecoration(
-                            hintText:
-                                AppLocalizations.of(context)!.enterDiscountCode,
+                            hintText: AppLocalizations.of(context)!.enterDiscountCode,
                             border: const OutlineInputBorder(),
                             isDense: true,
                             prefixIcon: const Icon(Icons.arrow_downward),
@@ -212,8 +231,7 @@ class _CartPageState extends State<CartPage> {
                     Padding(
                       padding: const EdgeInsets.only(right: 20, bottom: 10),
                       child: ElevatedButton(
-                        onPressed: () {
-                        },
+                        onPressed: () {},
                         style: ElevatedButton.styleFrom(
                           backgroundColor: kGreenColor,
                           shape: RoundedRectangleBorder(
@@ -285,7 +303,6 @@ class _CartPageState extends State<CartPage> {
                       ),
                     );
                   },
-
                   icon: const Icon(Icons.arrow_back_rounded),
                   label: Text(
                     AppLocalizations.of(context)!.continueShopping,
