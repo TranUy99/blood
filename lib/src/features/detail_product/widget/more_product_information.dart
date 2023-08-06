@@ -46,7 +46,7 @@ class MoreProductInformation extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: productDTO.productTechDTOs!.length,
                   itemBuilder: (BuildContext context, int index) {
-                    log(" ${productDTO.productTechDTOs![index].info!}");
+
                     return Html(
                       data: productDTO.productTechDTOs![index].info!,
                       style: {
