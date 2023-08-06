@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_store/src/constant/utils/validate.dart';
 
+import '../view_model/profile_view_model.dart';
+
 class EditInfomationForm extends StatefulWidget {
   String? fullName;
   String? email;
@@ -48,9 +50,12 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
     super.initState();
     _nameController.text = widget.fullName!;
     _emailController.text = widget.email!;
-    // dateOfBirth = DateFormat("dd-MM-yyyy").parse(widget.selectedDate!);
     _selectedGender = widget.selectedGender;
-
+    try{
+      dateOfBirth = DateFormat("dd-MM-yyyy").parse(widget.selectedDate!);
+    }catch(e){
+      dateOfBirth = DateTime.now();
+    }
   }
 
   @override
@@ -87,7 +92,13 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
             ),
-            onPressed: () {},
+            onPressed: () async {
+              String fullName = _nameController.text;
+              String email = _emailController.text;
+              String birthdayFormat = '${dateOfBirth?.day}-${dateOfBirth?.month}-${dateOfBirth?.year}';
+              print('$fullName - $email - $birthdayFormat - $_selectedGender');
+              // Navigator.pop(context);
+            },
             child: const Text('Save')),
         ElevatedButton(
           onPressed: () {
@@ -150,7 +161,7 @@ class _EditInfomationFormState extends State<EditInfomationForm> {
           print(errorTextEmail);
         },
         decoration: InputDecoration(
-          labelText: 'Full name',
+          labelText: 'Email',
           border: const OutlineInputBorder(),
           errorText: errorEmail ? errorTextEmail : null,
         ),

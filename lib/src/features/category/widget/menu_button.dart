@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_store/src/core/model/categories_dto.dart';
 import 'package:mobile_store/src/features/category/view/category_screen.dart';
 import 'package:mobile_store/src/features/category/view_model/category_view_model.dart';
-
-import '../../../core/remote/response/category_response/category_items_response.dart';
 
 class MenuButton extends StatefulWidget {
   const MenuButton({super.key});
@@ -13,38 +12,34 @@ class MenuButton extends StatefulWidget {
 
 class _MenuButtonState extends State<MenuButton> {
   GetCategoryViewModel getCategoryViewModel = GetCategoryViewModel();
-  List<CategoryItemsResponse> categoryList = [];
+  List<CategoriesDTO> categoryList = [];
+  int no = 0;
+  int limit = 4;
+
+  _getData() async {
+    categoryList =
+        await getCategoryViewModel.getCategoryViewModel(no, limit) ?? [];
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getData();
+  }
 
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
-      onOpened: () {
-
-      },
+      // onOpened: () => _getData(),
       onSelected: (value) => onSelected(context, value),
       offset: const Offset(-20, 52),
       icon: const Icon(
         Icons.menu,
         color: Colors.white,
       ),
-      itemBuilder: (context) => [
-        PopupMenuItem(
-          value: 1,
-          child: menuItems('Mobile', 'assets/icon/mobile_menu_item_icon.png'),
-        ),
-        PopupMenuItem(
-          value: 2,
-          child: menuItems('Laptop', 'assets/icon/laptop_menu_item_icon.png'),
-        ),
-        PopupMenuItem(
-          value: 3,
-          child: menuItems('Tablet', 'assets/icon/tablet_menu_item.png'),
-        ),
-        PopupMenuItem(
-          value: 0,
-          child: menuItems('PC', 'assets/icon/pc_menu_item_icon.png'),
-        ),
-      ],
+      itemBuilder: (context) => menuItems(),
     );
   }
 
@@ -58,19 +53,25 @@ class _MenuButtonState extends State<MenuButton> {
 
   onSelected(BuildContext context, int value) async {
     navigatorPage(context, value);
-    // await getCategoryViewModel.getCategoryViewModel(0, 10);
   }
 
-  Widget menuItems(String title, String src){
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.25,
-      child: Row(
-        children: [
-          Image.asset(src, height: MediaQuery.of(context).size.height * 0.03),
-          SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-          Text(title),
-        ],
-      ),
-    );
+  List<PopupMenuEntry<int>> menuItems() {
+    List<PopupMenuEntry<int>> menuList = [];
+
+    for (final items in categoryList) {
+      menuList.add(PopupMenuItem(
+          value: items.id,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.25,
+            child: Row(
+              children: [
+                SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+                Text(items.name ?? ''),
+              ],
+            ),
+          )));
+    }
+
+    return menuList;
   }
 }

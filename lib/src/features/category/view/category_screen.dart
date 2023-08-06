@@ -3,11 +3,11 @@ import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/core/remote/response/product_filter_response/category_filter_response.dart';
 import 'package:mobile_store/src/features/category/view_model/category_view_model.dart';
-import 'package:mobile_store/src/features/home_page/view/product_screen.dart';
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 
 import '../../../constant/api_outside/api_image.dart';
 import '../../../constant/color/color.dart';
+import '../../../core/model/manufacturer_dto.dart';
 import '../../../core/model/product_filter.dart';
 import '../../component/custom_app_bar.dart';
 import '../../detail_product/view/detail_product_screen.dart';
@@ -26,8 +26,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
   final ProductBloc productBloc = ProductBloc();
   CategoryViewModel categoryViewModel = CategoryViewModel();
   final ScrollController _scrollController = ScrollController();
+  GetManufacturerViewModel getManufacturerViewModel =
+      GetManufacturerViewModel();
   CategoryFilterResponse? categoryFilterResponse;
-  List<String> brandName = ['Apple', 'Xiaomi', 'Samsung'];
+  CustomPopupMenuController manufacturerPopupMenuController =
+      CustomPopupMenuController();
+  CustomPopupMenuController pricePopupMenuController =
+      CustomPopupMenuController();
   List<String> priceRange = [
     'Under 500 USD',
     '500 - 1000 USD',
@@ -38,13 +43,17 @@ class _CategoryScreenState extends State<CategoryScreen> {
   ];
   List<ProductFilter> products = [];
   int currentPage = 0;
+  int no = 0;
   int limit = 4;
+  List<ManufacturerDTO> manufacturerList = [];
+  String? manufacturerName;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _getData(widget.categoryID, currentPage);
+    _getDataManufacturer();
+    _getDataProduct(widget.categoryID, currentPage);
     _scrollController.addListener(() {
       if (_scrollController.offset ==
           _scrollController.position.maxScrollExtent) {
@@ -58,7 +67,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
       try {
         setState(() {
           currentPage++;
-          _getData(widget.categoryID, currentPage);
+          _getDataProduct(widget.categoryID, currentPage);
         });
       } catch (e) {
         print(e);
@@ -66,7 +75,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     }
   }
 
-  _getData(int categoryId, int page) async {
+  _getDataProduct(int categoryId, int page) async {
     categoryFilterResponse = await categoryViewModel.categoryFilterViewModel(
         widget.categoryID, page, limit);
     try {
@@ -76,6 +85,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
     } catch (e) {
       print('view: $e');
     }
+  }
+
+  _getDataManufacturer() async {
+    manufacturerList =
+        await getManufacturerViewModel.getManufacturerViewModel(no, limit) ??
+            [];
+    setState(() {});
   }
 
   @override
@@ -88,7 +104,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
             currentPage = 0;
             products = [];
           });
-          _getData(widget.categoryID, currentPage);
+          _getDataProduct(widget.categoryID, currentPage);
         },
         child: Column(
           children: [
@@ -98,9 +114,11 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   horizontal: MediaQuery.of(context).size.width * 0.02),
               child: Row(
                 children: [
-                  productFilter('Manufacturer', 0.35, manufacturerMenuItems),
+                  productFilter(manufacturerName ?? 'Manufacturer', 0.4,
+                      manufacturerMenuItems, manufacturerPopupMenuController),
                   SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                  productFilter('Price', 0.25, priceMenuItems)
+                  productFilter(
+                      'Price', 0.25, priceMenuItems, pricePopupMenuController)
                 ],
               ),
             ),
@@ -137,8 +155,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
           children: [
             GridView.builder(
               physics: NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: 0.6,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                childAspectRatio:
+                    MediaQuery.of(context).devicePixelRatio * 0.25,
                 crossAxisCount: 2,
                 crossAxisSpacing: 5.0,
                 mainAxisSpacing: 5.0,
@@ -146,52 +165,51 @@ class _CategoryScreenState extends State<CategoryScreen> {
               itemCount: products.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-
-                  final product = products[index];
-                  String logo = '${product.imageDTOs![0].name}';
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: kZambeziColor,
-                        width: 2.0,
+                final product = products[index];
+                String logo = '${product.imageDTOs![0].name}';
+                return Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: kZambeziColor,
+                      width: 2.0,
+                    ),
+                  ),
+                  child: InkWell(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ProductDetailScreen(idProduct: product.id!),
                       ),
                     ),
-                    child: InkWell(
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              ProductDetailScreen(idProduct: product.id!),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.25,
+                          child: CachedNetworkImage(
+                            imageUrl: ApiImage().generateImageUrl(logo),
+                            height: 20,
+                          ),
                         ),
-                      ),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.25,
-                            child: CachedNetworkImage(
-                              imageUrl: ApiImage().generateImageUrl(logo),
-                              height: 20,
-                            ),
-                          ),
-                          Column(
-                            children: [
-                              Text('${product.name}',
-                                  style: const TextStyle(
-                                      fontSize: 20,
-                                      color: kRedColor,
-                                      fontFamily: 'sans-serif')),
-                              Text('${product.price}',
-                                  style: const TextStyle(
-                                      fontSize: 20,
-                                      color: kGreenColor,
-                                      fontFamily: 'sans-serif')),
-                            ],
-                          ),
-                        ],
-                      ),
+                        Column(
+                          children: [
+                            Text('${product.name}',
+                                style: const TextStyle(
+                                    fontSize: 20,
+                                    color: kRedColor,
+                                    fontFamily: 'sans-serif')),
+                            Text('${product.price}',
+                                style: const TextStyle(
+                                    fontSize: 20,
+                                    color: kGreenColor,
+                                    fontFamily: 'sans-serif')),
+                          ],
+                        ),
+                      ],
                     ),
-                  );
+                  ),
+                );
               },
             ),
             (currentPage < ((categoryFilterResponse?.totalPages) ?? 1 - 1) &&
@@ -207,8 +225,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
   }
 
   Widget productFilter(
-      String title, double sizeWidth, Widget Function() menuItem) {
+      String title,
+      double sizeWidth,
+      Widget Function() menuItem,
+      CustomPopupMenuController customPopupMenuController) {
     return CustomPopupMenu(
+        controller: customPopupMenuController,
         position: PreferredPosition.bottom,
         arrowColor: kWhiteColor,
         barrierColor: Colors.black45,
@@ -241,26 +263,37 @@ class _CategoryScreenState extends State<CategoryScreen> {
         physics: const NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           childAspectRatio: 2,
-          crossAxisCount: 4,
+          crossAxisCount: 3,
           crossAxisSpacing: MediaQuery.of(context).size.width * 0.02,
           mainAxisSpacing: MediaQuery.of(context).size.height * 0.01,
         ),
         shrinkWrap: true,
-        itemCount: brandName.length,
+        itemCount: manufacturerList.length,
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
-              ProductScreen(
-                productBloc: productBloc,
-              );
+              if (manufacturerName == manufacturerList[index].name) {
+                setState(() {
+                  manufacturerName = null;
+                });
+              } else {
+                setState(() {
+                  manufacturerName = manufacturerList[index].name;
+                });
+              }
+              manufacturerPopupMenuController.hideMenu();
             },
             child: Container(
               decoration: BoxDecoration(
-                border: Border.all(),
+                border: Border.all(
+                    color: (manufacturerName != null &&
+                            manufacturerName == manufacturerList[index].name)
+                        ? Colors.red
+                        : Colors.black),
                 borderRadius: BorderRadius.circular(5),
               ),
               child: Center(
-                child: Text(brandName[index]),
+                child: Text(manufacturerList[index].name ?? ''),
               ),
             ),
           );

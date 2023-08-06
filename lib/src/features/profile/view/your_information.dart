@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/main.dart';
 import 'package:mobile_store/src/features/address/view/add_address.dart';
 import 'package:mobile_store/src/features/address/view/get_address.dart';
-import 'package:mobile_store/src/features/profile/widget/edit_information_form.dart';
 
 import '../../../constant/color/color.dart';
 import '../../change_password/view/change_password_screen.dart';
+import '../../login/service/login_service.dart';
+import '../view_model/profile_view_model.dart';
+import '../widget/edit_information_form.dart';
 
 class YourInformation extends StatefulWidget {
   const YourInformation({Key? key}) : super(key: key);
@@ -15,6 +17,8 @@ class YourInformation extends StatefulWidget {
 }
 
 class _YourInformationState extends State<YourInformation> {
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +42,7 @@ class _YourInformationState extends State<YourInformation> {
                         children: [
                           const Text('INFORMATION', style: TextStyle(fontSize: 18)),
                           InkWell(
-                            onTap: () {
+                            onTap: () async {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -49,6 +53,7 @@ class _YourInformationState extends State<YourInformation> {
                                       selectedGender: getUser.userDTO.gender);
                                 },
                               );
+
                             },
                             child: Image.asset(
                               'assets/icon/edit_icon.png',
