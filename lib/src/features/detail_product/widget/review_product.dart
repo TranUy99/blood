@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:mobile_store/src/features/detail_product/widget/more_product_information.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class Review extends StatefulWidget {

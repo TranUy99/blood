@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:equatable/equatable.dart';
 import 'package:mobile_store/src/core/remote/response/promotion_response/promotion_response.dart';

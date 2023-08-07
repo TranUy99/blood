@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:mobile_store/src/constant/utils/validate.dart';
 
 
+// ignore: must_be_immutable
 class EditInformationForm extends StatefulWidget {
   String? fullName;
   String? email;
