@@ -2,24 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/core/model/address.dart';
-import 'package:mobile_store/src/features/address/view/add_address.dart';
 import 'package:mobile_store/src/features/address/view_model/address_view_model.dart';
 
-class AddressInfo extends StatefulWidget {
+class SelectedAddressCart extends StatefulWidget {
   final int selectedAddressIndex;
   final Function(int) onAddressSelected;
 
-  const AddressInfo({
+  const SelectedAddressCart({
     Key? key,
     required this.selectedAddressIndex,
     required this.onAddressSelected,
   }) : super(key: key);
 
   @override
-  State<AddressInfo> createState() => _AddressInfoState();
+  State<SelectedAddressCart> createState() => _SelectedAddressCartState();
 }
 
-class _AddressInfoState extends State<AddressInfo> {
+class _SelectedAddressCartState extends State<SelectedAddressCart> {
   List<Address> addressList = [];
 
   final AddressViewModel _addressViewModel = AddressViewModel();

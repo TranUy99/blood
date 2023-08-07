@@ -20,7 +20,7 @@ class PromotionBloc {
       if (promotion.contents!.isNotEmpty) {
         _promotionStateSubject.sink.add(SuccessGetListPromotion(promotion));
       } else {
-        _promotionStateSubject.sink.add(FailedGetListPromotion("No address available"));
+        _promotionStateSubject.sink.add(const FailedGetListPromotion("No promotion available"));
       }
     }
 

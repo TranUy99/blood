@@ -7,8 +7,11 @@ import 'package:mobile_store/src/features/component/custom_app_bar.dart';
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import '../../../../main.dart';
 import '../../checkout/screen/checkout_screen.dart';
-import '../widget/cart_address.dart';
+
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../widget/cart_selecte_address.dart';
+import '../widget/cart_selecte_promotion.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -19,7 +22,7 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   int selectedAddressIndex = 0;
-
+  int selectedPromotionIndex = 0;
   int quantity = 1;
 
   @override
@@ -59,21 +62,21 @@ class _CartPageState extends State<CartPage> {
                     ),
                     child: Row(
                       children: <Widget>[
-                        Container(
-                          width: 120.0,
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15.0),
-                              bottomLeft: Radius.circular(15.0),
-                            ),
-                          ),
-                          child: Image.asset(
-                            'assets/icon/iphone.png',
-                            height: 150,
-                            width: 80,
-                          ),
-                        ),
-                        const SizedBox(width: 15),
+                        // Container(
+                        //   width: 120.0,
+                        //   decoration: const BoxDecoration(
+                        //     borderRadius: BorderRadius.only(
+                        //       topLeft: Radius.circular(15.0),
+                        //       bottomLeft: Radius.circular(15.0),
+                        //     ),
+                        //   ),
+                        //   child: Image.asset(
+                        //     'assets/icon/iphone.png',
+                        //     height: 150,
+                        //     width: 80,
+                        //   ),
+                        // ),
+                        // const SizedBox(width: 15),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,7 +118,7 @@ class _CartPageState extends State<CartPage> {
                                 ),
                                 Text(
                                   '$quantity',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -169,20 +172,21 @@ class _CartPageState extends State<CartPage> {
                 ),
               ),
             ),
-            AddressInfo(
+// selected address
+            SelectedAddressCart(
               selectedAddressIndex: selectedAddressIndex,
               onAddressSelected: (int index) {
                 setState(() {
                   selectedAddressIndex = index;
                 });
-                log("$selectedAddressIndex");
               },
             ),
-            Container(            
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+
+// Add another address ,
+            Align(
+               alignment: Alignment.centerRight,
               child: TextButton(
                 onPressed: () {
-                  // Xử lý sự kiện khi người dùng nhấn vào nút "Thêm địa chỉ khác"
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -191,7 +195,6 @@ class _CartPageState extends State<CartPage> {
                   );
                 },
                 child: Text(
-                  //'Add another address',
                   AppLocalizations.of(context)!.anotherAddress,
                   style: const TextStyle(
                     fontSize: 14,
@@ -201,55 +204,20 @@ class _CartPageState extends State<CartPage> {
                 ),
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Text(AppLocalizations.of(context)!.discount.toUpperCase(),
-                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 14),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: AppLocalizations.of(context)!.enterDiscountCode,
-                            border: const OutlineInputBorder(),
-                            isDense: true,
-                            prefixIcon: const Icon(Icons.arrow_downward),
-                          ),
-                          style: const TextStyle(fontSize: 12),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 20, bottom: 10),
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: kGreenColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                        child: Text(
-                          AppLocalizations.of(context)!.apply,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 15.0,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+
+// selected promotion,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SelectedPromotionCard(
+                selectedPromotionIndex: selectedPromotionIndex,
+                onAddressSelected: (int? index) {
+                  setState(() {
+                    selectedPromotionIndex = index!;
+                  });
+                },
+              ),
             ),
+
             Align(
               alignment: Alignment.bottomRight,
               child: Padding(

@@ -12,9 +12,9 @@ PromotionDTO _$PromotionDTOFromJson(Map<String, dynamic> json) => PromotionDTO(
       discountCodeDTO: json['discountCodeDTO'] as String?,
       discountDTO: json['discountDTO'] as int?,
       expireDateDTO: json['expireDateDTO'] as String?,
-      maxGetDTO: json['maxGetDTO'] as double?,
+      maxGetDTO: (json['maxGetDTO'] as num?)?.toDouble(),
       statusDTO: json['statusDTO'] as bool?,
-      totalPurchaseDTO: json['totalPurchaseDTO'] as double?,
+      totalPurchaseDTO: (json['totalPurchaseDTO'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$PromotionDTOToJson(PromotionDTO instance) =>

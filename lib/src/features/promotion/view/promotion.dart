@@ -13,7 +13,7 @@ class Promotion extends StatefulWidget {
 
 class _PromotionState extends State<Promotion> {
   PromotionViewModel promotionViewModel = PromotionViewModel();
-  List<PromotionDTO> promotions = [];
+  List<PromotionDTO> promotionList = [];
   PromotionResponse? promotionResponse;
   int currentPage = 0;
   int limit = 2;
@@ -32,7 +32,7 @@ class _PromotionState extends State<Promotion> {
       });
       promotionResponse = await promotionViewModel.getPromotion(page, limit);
       setState(() {
-        promotions.addAll(promotionResponse?.contents ?? []);
+        promotionList.addAll(promotionResponse?.contents ?? []);
         currentPage++;
         isLoading = false;
       });
@@ -56,10 +56,10 @@ class _PromotionState extends State<Promotion> {
           scrollDirection: Axis.vertical,
           physics: const ScrollPhysics(),
           shrinkWrap: true,
-          itemCount: promotions.length + 1, // Add 1 for the loading indicator
+          itemCount: promotionList.length + 1, // Add 1 for the loading indicator
           itemBuilder: (BuildContext context, int index) {
-            if (index < promotions.length) {
-              final promotion = promotions[index];
+            if (index < promotionList.length) {
+              final promotion = promotionList[index];
 
               return Container(
                 padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.015),
@@ -78,7 +78,7 @@ class _PromotionState extends State<Promotion> {
                   ),
                 ),
               );
-            } else if (index == promotions.length && isLoading) {
+            } else if (index == promotionList.length && isLoading) {
               // Render loading indicator
               return const Center(
                 child: CircularProgressIndicator(
