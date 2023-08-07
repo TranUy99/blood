@@ -6,6 +6,8 @@ import 'package:mobile_store/src/core/remote/request/address_request/address_cha
 import 'package:mobile_store/src/core/remote/request/change_information_request/change_information_request.dart';
 import 'package:mobile_store/src/core/remote/request/change_password_request/change_password_request.dart';
 import 'package:mobile_store/src/core/remote/request/login_request/login_request.dart';
+import 'package:mobile_store/src/core/remote/request/review_request/create_review_request.dart';
+import 'package:mobile_store/src/core/remote/request/review_request/edit_review_request.dart';
 import 'package:mobile_store/src/core/remote/response/address_response/address_response.dart';
 import 'package:mobile_store/src/core/remote/response/category_response/manufacturer_items_response.dart';
 import 'package:mobile_store/src/core/remote/response/login_response/login_response.dart';
@@ -15,6 +17,7 @@ import 'package:mobile_store/src/core/remote/response/search_response/search_res
 import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../core/model/review_dtos.dart';
 import '../core/remote/request/address_request/address_create_request.dart';
 import '../core/remote/request/sign_up_request/sign_up_request.dart';
 import '../core/remote/response/active_otp_response/active_otp_response.dart';
@@ -22,6 +25,7 @@ import '../core/remote/response/active_otp_response/send_email_active_user_respo
 import '../core/remote/response/category_response/category_items_response.dart';
 import '../core/remote/response/change_password_response/change_password_response.dart';
 import '../core/remote/response/forgot_password_response/send_email_forgot_password_response.dart';
+import '../core/remote/response/review_request/create_review_response.dart';
 import '../core/remote/response/sign_up_response/sign_up_response.dart';
 
 part 'api_service.g.dart';
@@ -138,4 +142,13 @@ abstract class ApiService {
       @Path('id') int userId,
       @Header("Authorization") String auth,
       @Body() ChangeInformationRequest changeInformation);
+
+  @POST('/api/review')
+  Future<CreateReviewResponse> createReview(
+      @Header("Authorization") String auth,
+      @Body() CreateReviewRequest createReviewRequest);
+
+  @PUT('/api/review/{reviewID}')
+  Future<ReviewDTOs> editReview(@Path('reviewID') int reviewID,
+      @Body() EditReviewRequest editReviewRequest);
 }

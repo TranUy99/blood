@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/core/model/categories_dto.dart';
 import 'package:mobile_store/src/features/category/view/category_screen.dart';
+import 'package:mobile_store/src/features/category/view/navigation_category_screen.dart';
 import 'package:mobile_store/src/features/category/view_model/category_view_model.dart';
 
 class MenuButton extends StatefulWidget {
@@ -47,7 +48,7 @@ class _MenuButtonState extends State<MenuButton> {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => CategoryScreen(categoryID: value),
+          builder: (context) => NavigationCategoryScreen(categoryIndex: value),
         ));
   }
 
@@ -62,13 +63,8 @@ class _MenuButtonState extends State<MenuButton> {
       menuList.add(PopupMenuItem(
           value: items.id,
           child: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.25,
-            child: Row(
-              children: [
-                SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-                Text(items.name ?? ''),
-              ],
-            ),
+            width: MediaQuery.of(context).size.width * 0.2,
+            child: Text(items.name ?? ''),
           )));
     }
 

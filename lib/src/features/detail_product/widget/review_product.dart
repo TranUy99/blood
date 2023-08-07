@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:mobile_store/src/features/detail_product/widget/more_product_information.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:mobile_store/src/constant/color/color.dart';
+import 'package:mobile_store/src/features/detail_product/widget/review_written.dart';
 
 class Review extends StatefulWidget {
   const Review({super.key});
@@ -60,7 +60,7 @@ class _ReviewState extends State<Review> {
                       initialRating: 3,
                       minRating: 1,
                       direction: Axis.horizontal,
-                      allowHalfRating: true,
+                      allowHalfRating: false,
                       itemCount: 5,
                       itemSize: 20,
                       itemBuilder: (context, _) => const Icon(
@@ -127,7 +127,14 @@ class _ReviewState extends State<Review> {
                 ),
               ],
             ),
-            // const Center(child: MoreProductInformation()),
+            ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => const ReviewWritten(),
+                  );
+                },
+                child: Text('Viết đánh giá'))
           ],
         ),
       ),

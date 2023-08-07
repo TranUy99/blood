@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/core/model/product.dart';
+import 'package:mobile_store/src/features/component/custom_app_bar.dart';
 import 'package:mobile_store/src/features/detail_product/view_model/detail_product_view_model.dart';
 import 'package:mobile_store/src/features/detail_product/widget/configuration_product.dart';
-import 'package:mobile_store/src/features/detail_product/widget/product_information.dart';
-import 'package:mobile_store/src/features/detail_product/widget/review_product.dart';
-import 'package:mobile_store/src/features/component/custom_app_bar.dart';
 import 'package:mobile_store/src/features/detail_product/widget/image_product.dart';
+import 'package:mobile_store/src/features/detail_product/widget/product_information.dart';
 import 'package:mobile_store/src/features/detail_product/widget/rating_product.dart';
-
+import 'package:mobile_store/src/features/detail_product/widget/review_product.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final int idProduct;
@@ -59,10 +58,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         children: [
           ImageProduct(productDTO: product),
           RatingProduct(productDTO: product),
-          
-         
+
           const ConfigurationProduct(),
-           ProductInformation(productDTO: product),
+          ProductInformation(productDTO: product),
           const Review(),
           // const AnotherProduct(),
         ],

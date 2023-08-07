@@ -106,7 +106,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(getUser.userDTO.fullName ?? 'null'),
+                      Text(getUser.userDTO.fullName ?? ''),
                       TextButton(
                           onPressed: () async {
                             SharedPreferences preferences = await SharedPreferences.getInstance();

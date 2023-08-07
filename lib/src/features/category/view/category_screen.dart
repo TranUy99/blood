@@ -3,6 +3,7 @@ import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/core/remote/response/product_filter_response/category_filter_response.dart';
 import 'package:mobile_store/src/features/category/view_model/category_view_model.dart';
+import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 
 import '../../../constant/api_outside/api_image.dart';
@@ -146,15 +147,15 @@ class _CategoryScreenState extends State<CategoryScreen> {
   Widget productFilterDisplay() {
     return SizedBox(
       height: successLoginState.onLoginState
-          ? MediaQuery.of(context).size.height * 0.65
-          : MediaQuery.of(context).size.height * 0.7,
+          ? MediaQuery.of(context).size.height * 0.58
+          : MediaQuery.of(context).size.height * 0.63,
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         controller: _scrollController,
         child: Column(
           children: [
             GridView.builder(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 childAspectRatio:
                     MediaQuery.of(context).devicePixelRatio * 0.25,
