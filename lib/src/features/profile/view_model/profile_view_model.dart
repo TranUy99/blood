@@ -8,7 +8,3 @@ class ProfileViewModel {
 
 }
 
-getDataUser() async {
-  getUser.userDTO =
-  await UserService.userService(getUser.idUser!, getUser.token!);
-}

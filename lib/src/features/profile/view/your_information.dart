@@ -5,8 +5,6 @@ import 'package:mobile_store/src/features/address/view/get_address.dart';
 
 import '../../../constant/color/color.dart';
 import '../../change_password/view/change_password_screen.dart';
-import '../../login/service/login_service.dart';
-import '../view_model/profile_view_model.dart';
 import '../widget/edit_information_form.dart';
 
 class YourInformation extends StatefulWidget {
@@ -17,8 +15,17 @@ class YourInformation extends StatefulWidget {
 }
 
 class _YourInformationState extends State<YourInformation> {
-
-
+  String genderText() {
+    String gender;
+    if (getUser.userDTO.gender == 0) {
+      gender = 'Male';
+    } else if (getUser.userDTO.gender == 1) {
+      gender = 'Female';
+    } else {
+      gender = 'Other';
+    }
+    return gender;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +43,13 @@ class _YourInformationState extends State<YourInformation> {
               child: Column(
                 children: [
                   Container(
-                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.015),
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height * 0.015),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('INFORMATION', style: TextStyle(fontSize: 18)),
+                          const Text('INFORMATION',
+                              style: TextStyle(fontSize: 18)),
                           InkWell(
                             onTap: () async {
                               showDialog(
@@ -53,7 +62,6 @@ class _YourInformationState extends State<YourInformation> {
                                       selectedGender: getUser.userDTO.gender);
                                 },
                               );
-
                             },
                             child: Image.asset(
                               'assets/icon/edit_icon.png',
@@ -73,7 +81,8 @@ class _YourInformationState extends State<YourInformation> {
                               children: [
                                 Image.asset(
                                   'assets/icon/account_icon.jpg',
-                                  height: MediaQuery.of(context).size.height * 0.03,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.03,
                                 ),
                                 const SizedBox(
                                   width: 6,
@@ -91,7 +100,8 @@ class _YourInformationState extends State<YourInformation> {
                               children: [
                                 Image.asset(
                                   'assets/icon/calendar_icon.png',
-                                  height: MediaQuery.of(context).size.height * 0.025,
+                                  height: MediaQuery.of(context).size.height *
+                                      0.025,
                                 ),
                                 const SizedBox(
                                   width: 10,
@@ -110,13 +120,13 @@ class _YourInformationState extends State<YourInformation> {
                               children: [
                                 Image.asset(
                                   'assets/icon/gender_icon.png',
-                                  height: MediaQuery.of(context).size.height * 0.028,
-                               
+                                  height: MediaQuery.of(context).size.height *
+                                      0.028,
                                 ),
                                 const SizedBox(
                                   width: 8,
                                 ),
-                                const Text('Male'),
+                                Text(genderText()),
                               ],
                             ),
                             const SizedBox(height: 4),
@@ -171,9 +181,11 @@ class _YourInformationState extends State<YourInformation> {
               child: Column(
                 children: [
                   Container(
-                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.015),
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height * 0.015),
                       width: MediaQuery.of(context).size.width * 1,
-                      child: const Text('ADDRESS', style: TextStyle(fontSize: 18))),
+                      child: const Text('ADDRESS',
+                          style: TextStyle(fontSize: 18))),
                   const GetAddressScreen(),
                   Row(
                     children: [
@@ -189,7 +201,8 @@ class _YourInformationState extends State<YourInformation> {
                           },
                           child: Text('Add'),
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.green),
                           ),
                         ),
                       ),
@@ -219,6 +232,4 @@ class _YourInformationState extends State<YourInformation> {
       ],
     );
   }
-
-  
 }

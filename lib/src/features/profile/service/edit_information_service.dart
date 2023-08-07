@@ -5,10 +5,10 @@ import 'package:mobile_store/src/core/remote/request/change_information_request/
 import '../../../core/model/user.dart';
 
 class EditInformationService {
-  Future<UserDTO> editInformationService(int userId, String token, String email,
-      String fullName, int gender, String birthDay) async {
+  Future<UserDTO> editInformationService(int? userId, String? token,
+      String? email, String? fullName, int? gender, String? birthDay) async {
     UserDTO editInformation = await ApiService(dio.Dio()).changeInformationUser(
-        userId,
+        userId!,
         'Bearer $token',
         ChangeInformationRequest(email, fullName, gender, birthDay));
     return editInformation;
