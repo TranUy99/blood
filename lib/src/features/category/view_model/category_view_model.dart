@@ -1,9 +1,10 @@
+import 'package:mobile_store/src/core/model/categories_dto.dart';
 import 'package:mobile_store/src/core/remote/response/product_filter_response/category_filter_response.dart';
 import 'package:mobile_store/src/features/category/bloc/category_bloc.dart';
 import 'package:mobile_store/src/features/category/bloc/category_event.dart';
 import 'package:mobile_store/src/features/category/bloc/category_state.dart';
 
-import '../service/get_category_service.dart';
+import '../../../core/model/manufacturer_dto.dart';
 
 class CategoryViewModel {
   final CategoryFilterBloc _categoryFilterBloc = CategoryFilterBloc();
@@ -27,13 +28,47 @@ class CategoryViewModel {
   }
 }
 
-class GetCategoryViewModel{
-  int? total;
-  Future<void> getCategoryViewModel(int no, int limit)async {
-    final getCategory = GetCategoryService().getCategoryService(no, limit);
-    await getCategory.then((value) {
-      total = value.totalItems;
-    });
-    print(total);
+class GetCategoryViewModel {
+  GetCategoryBloc getCategoryBloc = GetCategoryBloc();
+  List<CategoriesDTO>? categoryList = [];
+
+  Future<List<CategoriesDTO>?> getCategoryViewModel(int no, int limit) async {
+    await getCategoryBloc.addEvent(GetCategoryEvent(no, limit));
+
+    try {
+      await getCategoryBloc.state.listen((state) {
+        if (state is SuccessGetCategoryState) {
+          categoryList = state.categoryList;
+        } else if (state is ErrorGetCategoryState) {
+          categoryList = null;
+        }
+      });
+    } catch (e) {
+      print(e);
+    }
+    return categoryList;
+  }
+}
+
+class GetManufacturerViewModel {
+  GetManufacturerBloc getManufacturerBloc = GetManufacturerBloc();
+  List<ManufacturerDTO>? manufacturerList = [];
+
+  Future<List<ManufacturerDTO>?> getManufacturerViewModel(
+      int no, int limit) async {
+    await getManufacturerBloc.addEvent(GetManufacturerEvent(no, limit));
+
+    try {
+      await getManufacturerBloc.state.listen((state) {
+        if (state is SuccessGetManufacturerState) {
+          manufacturerList = state.manufacturerList;
+        } else if (state is ErrorGetManufacturerState) {
+          manufacturerList = null;
+        }
+      });
+    } catch (e) {
+      print(e);
+    }
+    return manufacturerList;
   }
 }

@@ -35,29 +35,9 @@ class _AddressInfoState extends State<AddressInfo> {
           if (snapshot.hasData) {
             addressList = snapshot.data!;
             // Build UI using the retrieved products
-            return Column(children:[buildUI(context),Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: TextButton(
-            onPressed: () {
-              // Xử lý sự kiện khi người dùng nhấn vào nút "Thêm địa chỉ khác"
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return const AddAddressScreen();
-                },
-              );
-            },
-            child: Text(
-              //'Add another address',
-              AppLocalizations.of(context)!.anotherAddress,
-              style: const TextStyle(
-                fontSize: 14,
-                color: kGreenColor,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),]);
+            return Column(children: [
+              buildUI(context),
+            ]);
           } else {
             return const Text('No address ');
           }
@@ -114,7 +94,6 @@ class _AddressInfoState extends State<AddressInfo> {
             );
           },
         ),
-     
       ],
     );
   }

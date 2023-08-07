@@ -178,8 +178,7 @@ class _CartPageState extends State<CartPage> {
                 log("$selectedAddressIndex");
               },
             ),
-            Container(
-              
+            Container(            
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: TextButton(
                 onPressed: () {

@@ -5,9 +5,11 @@ import 'package:mobile_store/src/core/model/address.dart';
 import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/core/model/user.dart';
 import 'package:mobile_store/src/core/remote/request/address_request/address_change_request.dart';
+import 'package:mobile_store/src/core/remote/request/change_information_request/change_information_request.dart';
 import 'package:mobile_store/src/core/remote/request/change_password_request/change_password_request.dart';
 import 'package:mobile_store/src/core/remote/request/login_request/login_request.dart';
 import 'package:mobile_store/src/core/remote/response/address_response/address_response.dart';
+import 'package:mobile_store/src/core/remote/response/category_response/manufacturer_items_response.dart';
 import 'package:mobile_store/src/core/remote/response/login_response/login_response.dart';
 import 'package:mobile_store/src/core/remote/response/product_filter_response/category_filter_response.dart';
 import 'package:mobile_store/src/core/remote/response/product_filter_response/manufacturer_filter_response.dart';
@@ -28,8 +30,7 @@ import '../core/remote/response/sign_up_response/sign_up_response.dart';
 part 'api_service.g.dart';
 
 //Base address
-@RestApi(baseUrl: 'http://192.168.1.35:8085')
-
+@RestApi(baseUrl: 'http://192.168.1.44:8085')
 // @RestApi(baseUrl: 'http://45.117.170.206:8085')
 
 abstract class ApiService {
@@ -68,8 +69,9 @@ abstract class ApiService {
 
   //search product with namme
   @GET('/api/product/search-product')
-  Future<SearchResponse> searchNameProduct(
-      @Query('keyword') String? keyword, @Query('no') int? no, @Query('limit') int? limit);
+  Future<SearchResponse> searchNameProduct(@Query('keyword') String? keyword,
+      @Query('no') int? no, @Query('limit') int? limit);
+
   //Call this api to send otp via email to active
   @GET('/api/mail/active-user')
   Future<SendEmailActiveUserResponse> sendEmailActiveUser(@Query('email') String email);
@@ -124,6 +126,17 @@ abstract class ApiService {
   @GET('/api/categories')
   Future<CategoryItemsResponse> getCategory(@Query('no') int no, @Query('limit') int limit);
 
+  @GET('/api/manufacturer')
+  Future<ManufacturerItemsResponse> getManufacturer(
+      @Query('no') int no, @Query('limit') int limit);
+
   @GET('/api/mail/forgot-password/{email}')
-  Future<SendEmailForgotPasswordResponse> sendEmailForgotPassword(@Path('email') String email);
+  Future<SendEmailForgotPasswordResponse> sendEmailForgotPassword(
+      @Path('email') String email);
+
+  @PUT('/api/user/{id}')
+  Future<UserDTO> changeInformationUser(
+      @Path('id') int userId,
+      @Header("Authorization") String auth,
+      @Body() ChangeInformationRequest changeInformation);
 }

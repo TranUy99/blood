@@ -13,7 +13,7 @@ class _ApiService implements ApiService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.1.35:8085';
+    baseUrl ??= 'http://192.168.1.44:8085';
   }
 
   final Dio _dio;
@@ -445,7 +445,37 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<SendEmailForgotPasswordResponse> sendEmailForgotPassword(String email) async {
+  Future<ManufacturerItemsResponse> getManufacturer(
+    int no,
+    int limit,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'no': no,
+      r'limit': limit,
+    };
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ManufacturerItemsResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/manufacturer',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = ManufacturerItemsResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<SendEmailForgotPasswordResponse> sendEmailForgotPassword(
+      String email) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -464,6 +494,35 @@ class _ApiService implements ApiService {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = SendEmailForgotPasswordResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<UserDTO> changeInformationUser(
+    int userId,
+    String auth,
+    ChangeInformationRequest changeInformation,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': auth};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(changeInformation.toJson());
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<UserDTO>(Options(
+      method: 'PUT',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/user/${userId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = UserDTO.fromJson(_result.data!);
     return value;
   }
 

@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:mobile_store/main.dart';
 import 'package:mobile_store/src/constant/utils/validate.dart';
+import 'package:mobile_store/src/core/model/user.dart';
+import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
+import 'package:mobile_store/src/features/profile/view_model/change_information_view_model.dart';
 
 
 // ignore: must_be_immutable
@@ -24,6 +30,7 @@ class _EditInformationFormState extends State<EditInformationForm> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _dateOfbirthController = TextEditingController();
+  final ChangeInformationViewModel changeInformationViewModel = ChangeInformationViewModel();
 
   DateTime? dateOfBirth;
   int? _selectedGender;
@@ -37,7 +44,7 @@ class _EditInformationFormState extends State<EditInformationForm> {
     dateOfBirth = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime(2021),
+        firstDate: DateTime(1990),
         lastDate: DateTime(2025));
     setState(() {});
     print(dateOfBirth);
@@ -49,9 +56,12 @@ class _EditInformationFormState extends State<EditInformationForm> {
     super.initState();
     _nameController.text = widget.fullName!;
     _emailController.text = widget.email!;
-    // dateOfBirth = DateFormat("dd-MM-yyyy").parse(widget.selectedDate!);
     _selectedGender = widget.selectedGender;
-
+    try{
+      dateOfBirth = DateFormat("dd-MM-yyyy").parse(widget.selectedDate!);
+    }catch(e){
+      dateOfBirth = DateTime.now();
+    }
   }
 
   @override
@@ -78,7 +88,6 @@ class _EditInformationFormState extends State<EditInformationForm> {
                 )),
           ),
           textInputFieldFullName(),
-          textInputFieldEmail(),
           dayOfBirthPicker(),
           dropdownGender(),
         ]),
@@ -88,7 +97,23 @@ class _EditInformationFormState extends State<EditInformationForm> {
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
             ),
-            onPressed: () {},
+            onPressed: () async {
+              String fullNameText = _nameController.text;
+              String birthdayFormat =
+                  '${dateOfBirth?.day}-${dateOfBirth?.month}-${dateOfBirth?.year}';
+              print('$fullNameText - $birthdayFormat - $_selectedGender');
+              UserDTO userInformation =
+                  await changeInformationViewModel.changeInformationViewModel(
+                fullNameText,
+                _selectedGender!,
+                birthdayFormat,
+              );
+              setState(() {
+                getUser.userDTO = userInformation;
+                indexScreen = 2;
+              });
+              Get.offAll(NavigationHomePage());
+            },
             child: const Text('Save')),
         ElevatedButton(
           onPressed: () {
@@ -110,14 +135,21 @@ class _EditInformationFormState extends State<EditInformationForm> {
       child: TextField(
         controller: _nameController,
         onChanged: (value) {
-          if (Validate.validName(value.trim())) {
-            errorFullName = false;
-            setState(() {});
+          if (Validate.validName(value)) {
+            errorFullName = true;
+            errorTextFullName = value.isEmpty
+                ? 'Tên không được để trống'
+                : value.startsWith(' ')
+                ? 'Không có dấu cách ở đầu'
+                : value.endsWith(' ')
+                ? 'Không có dấu cách cuối'
+                : 'Không được nhập số hoặc ký tự đặc biệt';
+            setState(() {
+
+            });
           } else {
             setState(() {
-              errorFullName = true;
-              errorTextFullName =
-                  (value == '') ? 'Please enter your name' : 'Incorrect name';
+              errorFullName = false;
             });
           }
         },
@@ -125,35 +157,6 @@ class _EditInformationFormState extends State<EditInformationForm> {
           labelText: 'Full name',
           border: const OutlineInputBorder(),
           errorText: errorFullName ? errorTextFullName : null,
-        ),
-      ),
-    );
-  }
-
-  Widget textInputFieldEmail() {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-          vertical: MediaQuery.of(context).size.height * 0.01),
-      child: TextField(
-        controller: _emailController,
-        onChanged: (value) {
-          if (Validate.invalidateEmail(value.trim())) {
-            setState(() {
-              errorEmail = true;
-              errorTextEmail =
-                  (value == '') ? 'Please enter your email' : 'Incorrect email';
-            });
-          } else {
-            errorEmail = false;
-            setState(() {});
-          }
-
-          print(errorTextEmail);
-        },
-        decoration: InputDecoration(
-          labelText: 'Full name',
-          border: const OutlineInputBorder(),
-          errorText: errorEmail ? errorTextEmail : null,
         ),
       ),
     );

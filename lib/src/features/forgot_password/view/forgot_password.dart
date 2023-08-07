@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/constant/utils/validate.dart';
 import 'package:mobile_store/src/features/forgot_password/view_model/forgot_password_view_model.dart';
+import 'package:timer_count_down/timer_controller.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -19,24 +21,29 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final ForgotPasswordViewModel _forgotPasswordViewModel =
       ForgotPasswordViewModel();
   bool resentEmail = false;
-  bool isSendEmail = true;
-  TextEditingController textEmailController = TextEditingController();
+  bool isSendEmail = false;
+  final TextEditingController textEmailController = TextEditingController();
+  final TextEditingController textOTPController = TextEditingController();
+  final TextEditingController textPasswordController = TextEditingController();
   bool errorSendEmail = false;
   String errorTextSendEmail = '';
+  bool errorOTP = false;
+  String errorTextOTP = '';
+  bool errorPassword = false;
+  String errorTextPassword = '';
+  String email = '';
 
-  _sendEmail(String email) async {
-    try {
-      _forgotPasswordViewModel.sendEmailForgotPasswordViewModel(email);
-    } catch (e) {
-      print('Send email error: $e');
+  _sendEmail(String emailSent, String errorMessage) async {
+    isSendEmail = await _forgotPasswordViewModel
+        .sendEmailForgotPasswordViewModel(emailSent);
+    setState(() {});
+    if (isSendEmail) {
+      showTopSnackBar(Overlay.of(context),
+          const CustomSnackBar.info(message: 'Otp that sent via email'));
+    } else {
+      showTopSnackBar(
+          Overlay.of(context), CustomSnackBar.error(message: errorMessage));
     }
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    // _sendEmail();
   }
 
   @override
@@ -53,8 +60,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       top: MediaQuery.of(context).size.height * 0.04),
                   child:
                       Text('Forgot password'.toUpperCase(), style: titleText)),
-              // isSendEmail? sendEmailPage(): verifiedOTPPage(),
-              sendEmailPage()
+              isSendEmail ? verifiedOTPPage() : sendEmailPage(),
             ],
           ),
         ),
@@ -62,100 +68,111 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     );
   }
 
-  // Widget verifiedOTPPage(){
-  //   CountdownController countdownController = CountdownController(autoStart: true);
-  //   return Column(
-  //     children: [
-  //       Padding(
-  //         padding: EdgeInsets.symmetric(
-  //             vertical: MediaQuery.of(context).size.height * 0.05,
-  //             horizontal: MediaQuery.of(context).size.width * 0.25),
-  //         child: TextField(
-  //           textAlign: TextAlign.center,
-  //           maxLength: 4,
-  //           onChanged: (value) {
-  //             setState(() {
-  //               if (Validate.checkInvalidateOTPNumber(value) == false) {
-  //                 error = true;
-  //                 errorText = 'Invalid OTP number';
-  //               } else {
-  //                 error = false;
-  //               }
-  //             });
-  //           },
-  //           style: const TextStyle(fontSize: 25),
-  //           controller: textOTPController,
-  //           decoration: InputDecoration(
-  //             errorText: error ? errorText : null,
-  //             hintText: 'OTP number',
-  //             hintStyle: const TextStyle(color: kTextFieldColor),
-  //             focusedBorder: const UnderlineInputBorder(
-  //                 borderSide: BorderSide(color: kGreenColor)),
-  //           ),
-  //         ),
-  //       ),
-  //       resentEmail
-  //           ? Row(
-  //           mainAxisAlignment: MainAxisAlignment.center,
-  //           children: [
-  //             const Text('Did not send OTP'),
-  //             TextButton(
-  //               onPressed: () {
-  //                 _sendEmail();
-  //                 showTopSnackBar(
-  //                     Overlay.of(context),
-  //                     const CustomSnackBar.info(
-  //                         message:
-  //                         'Please enter your otp number that was sent via email'));
-  //                 setState(() {
-  //                   resentEmail = !resentEmail;
-  //                 });
-  //                 countdownController.restart();
-  //               },
-  //               child: Text('Press here'),
-  //             )
-  //           ])
-  //           : Countdown(
-  //         controller: countdownController,
-  //         seconds: 120,
-  //         build: (context, time) {
-  //           return Text(
-  //               'Sent OTP number via email: ${time.toInt()}');
-  //         },
-  //         onFinished: () {
-  //           setState(() {
-  //             resentEmail = !resentEmail;
-  //           });
-  //         },
-  //       ),
-  //       Padding(
-  //         padding: EdgeInsets.only(
-  //             top: MediaQuery.of(context).size.height * 0.03),
-  //         child: InkWell(
-  //           onTap: () async {
-  //             String otpNumber = textOTPController.text;
-  //             bool? isVerified =
-  //             await verifiedEmailViewModel.activeOTP(otpNumber);
-  //             if (isVerified) {
-  //               showTopSnackBar(
-  //                   Overlay.of(context),
-  //                   const CustomSnackBar.success(
-  //                       message: 'Login success'));
-  //               Get.offAll(const NavigationHomePage());
-  //             } else {
-  //               showTopSnackBar(
-  //                   Overlay.of(context),
-  //                   const CustomSnackBar.error(
-  //                       message: 'Wrong OTP number'));
-  //             }
-  //           },
-  //           child: const PrimaryButton(buttonText: 'Verified Email'),
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
-  //
+  Widget verifiedOTPPage() {
+    CountdownController countdownController =
+        CountdownController(autoStart: true);
+    return Column(
+      children: [
+        Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  vertical: MediaQuery.of(context).size.height * 0.03,
+                  horizontal: MediaQuery.of(context).size.width * 0.25),
+              child: TextField(
+                textAlign: TextAlign.center,
+                maxLength: 4,
+                onChanged: (value) {
+                  setState(() {
+                    if (Validate.checkInvalidateOTPNumber(value) == false) {
+                      errorOTP = true;
+                      errorTextOTP = 'Invalid OTP number';
+                    } else {
+                      errorOTP = false;
+                    }
+                  });
+                },
+                style: const TextStyle(fontSize: 25),
+                controller: textOTPController,
+                decoration: InputDecoration(
+                  errorText: errorOTP ? errorTextOTP : null,
+                  hintText: 'OTP number',
+                  hintStyle: const TextStyle(color: kTextFieldColor),
+                  focusedBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: kGreenColor)),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  vertical: MediaQuery.of(context).size.height * 0.03
+              ),
+              child: TextField(
+                onChanged: (value) {
+                  setState(() {
+                    if (Validate.checkInvalidateNewPassword(value)) {
+                      errorPassword = true;
+                      errorTextPassword = textPasswordController.text.isEmpty
+                          ? 'Please enter password'
+                          : 'Incorrect password';
+                    } else {
+                      errorPassword = false;
+                    }
+                  });
+                },
+                controller: textPasswordController,
+                obscureText: obscure,
+                decoration: InputDecoration(
+                    errorText: errorPassword ? errorTextPassword : null,
+                    hintText: 'Password',
+                    hintStyle: const TextStyle(color: kTextFieldColor),
+                    focusedBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(color: kGreenColor)),
+                    suffixIcon: obscureChange()),
+              ),
+            )
+          ],
+        ),
+        resentEmail
+            ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                const Text('Did not send OTP'),
+                TextButton(
+                  onPressed: () {
+                    _sendEmail(email, 'Email that is not send');
+                    setState(() {
+                      resentEmail = !resentEmail;
+                    });
+                    countdownController.restart();
+                  },
+                  child: const Text('Press here'),
+                )
+              ])
+            : Countdown(
+                controller: countdownController,
+                seconds: 120,
+                build: (context, time) {
+                  return Text('Sent OTP number via email: ${time.toInt()}');
+                },
+                onFinished: () {
+                  setState(() {
+                    resentEmail = !resentEmail;
+                  });
+                },
+              ),
+        Padding(
+          padding:
+              EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
+          child: InkWell(
+            onTap: () async {
+              Navigator.pop(context);
+            },
+            child: const PrimaryButton(buttonText: 'Verified Email'),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget sendEmailPage() {
     return Column(
       children: [
@@ -195,18 +212,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
           child: InkWell(
             onTap: () async {
-              String email = textEmailController.text;
-              isSendEmail = await _forgotPasswordViewModel
-                  .sendEmailForgotPasswordViewModel(email);
-              if (isSendEmail) {
-                showTopSnackBar(
-                    Overlay.of(context),
-                    const CustomSnackBar.info(
-                        message: 'Otp that sent via email'));
-              } else {
-                showTopSnackBar(Overlay.of(context),
-                    const CustomSnackBar.error(message: 'Wrong email'));
-              }
+              setState(() {
+                email = textEmailController.text;
+              });
+              _sendEmail(email, 'Wrong email');
             },
             child: const PrimaryButton(buttonText: 'Send OTP'),
           ),
