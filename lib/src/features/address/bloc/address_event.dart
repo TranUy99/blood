@@ -39,3 +39,9 @@ class ChangeAddressEvent extends AddressEvent {
   ChangeAddressEvent(
       this.location, this.nameReceiver, this.phoneReceiver, this.type, this.defaults, this.id);
 }
+
+class DeleteAddressEvent extends AddressEvent {
+  final int? id;
+
+  DeleteAddressEvent(this.id);
+}

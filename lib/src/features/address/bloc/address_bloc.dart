@@ -88,6 +88,19 @@ class AddressBloc {
     }
   }
 
+//delete address
+    Future<void> deleteAddressEvent(AddressEvent event) async {
+    if (event is DeleteAddressEvent) {
+      final changeAddress = await AddressService.deleteAddress(
+       event.id);
+
+      if (changeAddress.response.statusCode==200) {
+        _addressStateSubject.sink.add(SuccessDeleteAddressState(true));
+      } else {
+        _addressStateSubject.sink.add(FailedDeleteAddressState("error"));
+      }
+    }
+  }
   void dispose() {
     _addressStateSubject.close();
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/model/address.dart';
 import 'package:mobile_store/src/features/address/view/change_address.dart';
+import 'package:mobile_store/src/features/address/view/delete_address.dart';
 import 'package:mobile_store/src/features/address/view_model/address_view_model.dart';
 
 class GetAddressScreen extends StatefulWidget {
@@ -44,7 +45,7 @@ class _GetAddressScreenState extends State<GetAddressScreen> {
       shrinkWrap: true,
       itemCount: addressList.length,
       itemBuilder: (context, index) {
-        Address address = addressList[index] ;
+        Address address = addressList[index];
         return Column(
           children: [
             ListTile(
@@ -52,8 +53,7 @@ class _GetAddressScreenState extends State<GetAddressScreen> {
                 children: [
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 1,
-                    child: Text(
-                        '${address.nameReceiver}|${address.phoneReceiver}'),
+                    child: Text('${address.nameReceiver}|${address.phoneReceiver}'),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 1,
@@ -113,7 +113,11 @@ class _GetAddressScreenState extends State<GetAddressScreen> {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return  ChangeAddressScreen(name:address.nameReceiver, phone: address.phoneReceiver,address:address.location, id : address.id );
+                          return ChangeAddressScreen(
+                              name: address.nameReceiver,
+                              phone: address.phoneReceiver,
+                              address: address.location,
+                              id: address.id);
                         },
                       );
                     },
@@ -123,7 +127,14 @@ class _GetAddressScreenState extends State<GetAddressScreen> {
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return DeleteAddress(id: address.id);
+                        },
+                      );
+                    },
                     child: Image.asset(
                       'assets/icon/delete_icon.png',
                       height: MediaQuery.of(context).size.height * 0.03,

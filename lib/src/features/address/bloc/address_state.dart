@@ -79,13 +79,27 @@ class FailedGetAddressState extends AddressState {
 
 //change address state success
 class SuccessChangeAddressState extends AddressState {
-  final bool onSuccessCreateAddressState;
+  final bool onSuccessChangeAddressState;
 
-  SuccessChangeAddressState(this.onSuccessCreateAddressState);
+  SuccessChangeAddressState(this.onSuccessChangeAddressState);
 }
 
 //change address state failed
 class FailedChangeAddressState extends AddressState {
   final String errorMessage;
   FailedChangeAddressState(this.errorMessage);
+}
+
+
+//delete address state success
+class SuccessDeleteAddressState extends AddressState {
+  final bool onSuccessDeleteAddressState;
+
+  SuccessDeleteAddressState(this.onSuccessDeleteAddressState);
+}
+
+//delete address state failed
+class FailedDeleteAddressState extends AddressState {
+  final String errorMessage;
+  FailedDeleteAddressState(this.errorMessage);
 }

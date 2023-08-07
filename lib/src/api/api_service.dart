@@ -100,12 +100,19 @@ abstract class ApiService {
     @Body() required AddressCreateRequest createAddress,
   });
 
-  //call api delete address
+  //call api change address
   @PUT('/api/address/update-address/{id}')
   Future<AddressResponse> changeAddress({
     @Header("Authorization") required String auth,
     @Path("id") required int? id,
     @Body() required AddressChangeRequest changeAddress,
+  });
+  //call api change address
+  @DELETE('/api/address/{id}')
+  Future<HttpResponse> deleteAddress({
+    @Header("Authorization") required String auth,
+    @Path("id") required int? id,
+ 
   });
 
   //Filter product by manufactureId

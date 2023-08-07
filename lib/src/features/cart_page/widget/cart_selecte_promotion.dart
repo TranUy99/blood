@@ -48,7 +48,7 @@ class _SelectedPromotionCardState extends State<SelectedPromotionCard> {
             // Build UI using the retrieved products
             return buildUI(context);
           } else {
-            return Text('No address ');
+            return const Text('No promotion ');
           }
         }
       },

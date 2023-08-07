@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:mobile_store/src/core/model/address.dart';
 import 'package:mobile_store/src/core/model/district.dart';
 import 'package:mobile_store/src/core/model/province.dart';
@@ -118,10 +119,10 @@ class AddressViewModel {
     return completer.future;
   }
 
-  //add event and listen post address state
+  //add event and listen change address state
   Future<bool?> changeAddress(String location, String type, String phoneReceiver,
       String nameReceiver, int? id, bool? defaults) async {
-    bool isCreateAddress = false;
+    bool isChangeAddress = false;
 
     final createAddressEvent =
         ChangeAddressEvent(location, nameReceiver, phoneReceiver, type, defaults, id);
@@ -129,11 +130,31 @@ class AddressViewModel {
 
     await _addressBloc.addressStateStream.listen((state) {
       if (state is SuccessChangeAddressState) {
-        isCreateAddress = true;
+        isChangeAddress = true;
       } else if (state is FailedChangeAddressState) {
-        isCreateAddress = false;
+        isChangeAddress = false;
       }
     });
-    return isCreateAddress;
+    return isChangeAddress;
+  }
+
+  //add event and listen delete address state
+  Future<bool?> deleteAddress(
+    int? id,
+  ) async {
+    bool isDeleteAddress = false;
+
+    final createAddressEvent = DeleteAddressEvent(id);
+    await _addressBloc.deleteAddressEvent(createAddressEvent);
+
+    await _addressBloc.addressStateStream.listen((state) {
+      if (state is SuccessDeleteAddressState) {
+        isDeleteAddress = true;
+      } else if (state is FailedDeleteAddressState) {
+        isDeleteAddress = false;
+      }
+    });
+ 
+    return isDeleteAddress;
   }
 }
