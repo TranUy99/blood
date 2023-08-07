@@ -1,9 +1,5 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/core/remote/response/search_response/search_response.dart';
 import 'package:mobile_store/src/features/search/service/search_service.dart';
 import 'package:rxdart/rxdart.dart';

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/api_outside/api_image.dart';
@@ -116,7 +114,7 @@ class _SearchState extends State<Search> {
               ),
             ),
             const SizedBox(height: 20),
-            BuildUi(context)
+            BuildUI(context)
           ],
         ),
       ),
@@ -124,84 +122,86 @@ class _SearchState extends State<Search> {
   }
 
 
-  Widget BuildUi(content) {
-    return Expanded(
-      child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          childAspectRatio: 0.6,
-          crossAxisCount: 2,
-          crossAxisSpacing: 5.0,
-          mainAxisSpacing: 5.0,
-        ),
-        controller: _scrollController,
-        scrollDirection: Axis.vertical,
-        physics: const ScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: products.length + 1, // Add 1 for the loading indicator
-        itemBuilder: (BuildContext context, int index) {
-          if (index < products.length) {
-            final product = products[index];
-            String logo = '${product.imageDTOs![0].name}';
-            return Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: kZambeziColor,
-                  width: 2.0,
-                ),
-              ),
-              child: InkWell(
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ProductDetailScreen(idProduct: product.id!),
+  Widget BuildUI(content) {
+    return SizedBox(
+      child: Expanded(
+        child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            childAspectRatio: 0.6,
+            crossAxisCount: 2,
+            crossAxisSpacing: 5.0,
+            mainAxisSpacing: 5.0,
+          ),
+          controller: _scrollController,
+          scrollDirection: Axis.vertical,
+          physics: const ScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: products.length + 1, // Add 1 for the loading indicator
+          itemBuilder: (BuildContext context, int index) {
+            if (index < products.length) {
+              final product = products[index];
+              String logo = '${product.imageDTOs![0].name}';
+              return Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: kZambeziColor,
+                    width: 2.0,
                   ),
                 ),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.25,
-                      child: CachedNetworkImage(
-                        imageUrl: ApiImage().generateImageUrl(logo),
-                        height: 20,
+                child: InkWell(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProductDetailScreen(idProduct: product.id!),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.25,
+                        child: CachedNetworkImage(
+                          imageUrl: ApiImage().generateImageUrl(logo),
+                          height: 20,
+                        ),
                       ),
-                    ),
-                    Column(
-                      children: [
-                        Text(
-                          '${product.name}',
-                          style: const TextStyle(
-                            fontSize: 20,
-                            color: kRedColor,
-                            fontFamily: 'sans-serif',
+                      Column(
+                        children: [
+                          Text(
+                            '${product.name}',
+                            style: const TextStyle(
+                              fontSize: 20,
+                              color: kRedColor,
+                              fontFamily: 'sans-serif',
+                            ),
                           ),
-                        ),
-                        Text(
-                          '${product.price}',
-                          style: const TextStyle(
-                            fontSize: 20,
-                            color: kGreenColor,
-                            fontFamily: 'sans-serif',
+                          Text(
+                            '${product.price}',
+                            style: const TextStyle(
+                              fontSize: 20,
+                              color: kGreenColor,
+                              fontFamily: 'sans-serif',
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          } else if (index == products.length && isLoading) {
-            // Render loading indicator
-            return const Center(
-              child: CircularProgressIndicator(
-                strokeWidth: 1.5,
-              ),
-            );
-          } else {
-            // Reached the end of the list
-            return const SizedBox();
-          }
-        },
+              );
+            } else if (index == products.length && isLoading) {
+              // Render loading indicator
+              return const Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 1.5,
+                ),
+              );
+            } else {
+              // Reached the end of the list
+              return const SizedBox();
+            }
+          },
+        ),
       ),
     );
   }

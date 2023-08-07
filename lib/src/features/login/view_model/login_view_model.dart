@@ -1,10 +1,6 @@
-import 'dart:developer';
-
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 import 'package:mobile_store/src/features/login/bloc/login_event.dart';
-
 import '../bloc/login_state.dart';
-
 enum LoginStatusEnum { successLogin, successLoginWithoutVerified, errorLogin }
 
 class LoginViewModel {

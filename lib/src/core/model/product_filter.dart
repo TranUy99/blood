@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mobile_store/src/core/model/categories_dto.dart';

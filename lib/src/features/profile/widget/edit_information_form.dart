@@ -7,13 +7,15 @@ import 'package:mobile_store/src/core/model/user.dart';
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import 'package:mobile_store/src/features/profile/view_model/change_information_view_model.dart';
 
-class EditInfomationForm extends StatefulWidget {
+
+// ignore: must_be_immutable
+class EditInformationForm extends StatefulWidget {
   String? fullName;
   String? email;
   int? selectedGender;
   String? selectedDate;
 
-  EditInfomationForm(
+  EditInformationForm(
       {super.key,
       required this.fullName,
       required this.email,
@@ -21,10 +23,10 @@ class EditInfomationForm extends StatefulWidget {
       required this.selectedGender});
 
   @override
-  _EditInfomationFormState createState() => _EditInfomationFormState();
+  _EditInformationFormState createState() => _EditInformationFormState();
 }
 
-class _EditInfomationFormState extends State<EditInfomationForm> {
+class _EditInformationFormState extends State<EditInformationForm> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _dateOfbirthController = TextEditingController();

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:mobile_store/src/core/model/address.dart';
 import 'package:mobile_store/src/core/model/product.dart';
@@ -13,6 +15,7 @@ import 'package:mobile_store/src/core/remote/response/category_response/manufact
 import 'package:mobile_store/src/core/remote/response/login_response/login_response.dart';
 import 'package:mobile_store/src/core/remote/response/product_filter_response/category_filter_response.dart';
 import 'package:mobile_store/src/core/remote/response/product_filter_response/manufacturer_filter_response.dart';
+import 'package:mobile_store/src/core/remote/response/promotion_response/promotion_response.dart';
 import 'package:mobile_store/src/core/remote/response/search_response/search_response.dart';
 import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
@@ -31,7 +34,7 @@ import '../core/remote/response/sign_up_response/sign_up_response.dart';
 part 'api_service.g.dart';
 
 //Base address
-@RestApi(baseUrl: 'http://192.168.1.36:8085')
+@RestApi(baseUrl: 'http://192.168.1.44:8085')
 // @RestApi(baseUrl: 'http://45.117.170.206:8085')
 
 abstract class ApiService {
@@ -50,8 +53,7 @@ abstract class ApiService {
   //Call api getUser to get user information after login
   @GET('/api/user/{id}')
   Future<UserDTO> getUser(
-      {@Header("Authorization") required String auth,
-      @Path('id') required int id});
+      {@Header("Authorization") required String auth, @Path('id') required int id});
 
   //Verified email and password to login
   @POST('/api/login')
@@ -76,8 +78,7 @@ abstract class ApiService {
 
   //Call this api to send otp via email to active
   @GET('/api/mail/active-user')
-  Future<SendEmailActiveUserResponse> sendEmailActiveUser(
-      @Query('email') String email);
+  Future<SendEmailActiveUserResponse> sendEmailActiveUser(@Query('email') String email);
 
   //Verify whether the OTP matches the one sent to the email
   @GET('/api/user/active-otp')
@@ -103,31 +104,38 @@ abstract class ApiService {
     @Body() required AddressCreateRequest createAddress,
   });
 
-  //call api delete address
+  //call api change address
   @PUT('/api/address/update-address/{id}')
   Future<AddressResponse> changeAddress({
     @Header("Authorization") required String auth,
     @Path("id") required int? id,
     @Body() required AddressChangeRequest changeAddress,
   });
+  //call api change address
+  @DELETE('/api/address/{id}')
+  Future<HttpResponse> deleteAddress({
+    @Header("Authorization") required String auth,
+    @Path("id") required int? id,
+ 
+  });
 
   //Filter product by manufactureId
   @GET('/api/product/active-filter/{manufacturerId}')
   Future<ManufacturerFilterResponse> productManufacturerFilter(
-      @Path('manufacturerId') int manufacturerId,
-      @Query('no') int no,
-      @Query('limit') int limit);
+      @Path('manufacturerId') int manufacturerId, @Query('no') int no, @Query('limit') int limit);
+
+  //Get promotion
+  @GET('/api/promotion')
+  Future<PromotionResponse> getPromotion(
+      @Header("Authorization") String auth, @Query('no') int? no, @Query('limit') int? limit);
 
   // //Filter product by categoryId
   @GET('/api/product/show-product/{categoryId}')
   Future<CategoryFilterResponse> productCategoryFilter(
-      @Path('categoryId') int categoryId,
-      @Query('no') int no,
-      @Query('limit') int limit);
+      @Path('categoryId') int categoryId, @Query('no') int no, @Query('limit') int limit);
 
   @GET('/api/categories')
-  Future<CategoryItemsResponse> getCategory(
-      @Query('no') int no, @Query('limit') int limit);
+  Future<CategoryItemsResponse> getCategory(@Query('no') int no, @Query('limit') int limit);
 
   @GET('/api/manufacturer')
   Future<ManufacturerItemsResponse> getManufacturer(

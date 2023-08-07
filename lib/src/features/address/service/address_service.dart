@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:dio/dio.dart' as dio;
 import 'package:mobile_store/main.dart';
 import 'package:mobile_store/src/api/api_service.dart';
@@ -10,6 +11,7 @@ import 'package:mobile_store/src/core/model/ward.dart';
 import 'package:mobile_store/src/core/remote/request/address_request/address_change_request.dart';
 import 'package:mobile_store/src/core/remote/request/address_request/address_create_request.dart';
 import 'package:mobile_store/src/core/remote/response/address_response/address_response.dart';
+import 'package:retrofit/dio.dart';
 
 class AddressService {
 //api get province
@@ -88,7 +90,7 @@ class AddressService {
       String? phoneReceiver, String? nameReceiver, bool? defaults, int? id) async {
     AddressResponse response = await ApiService(dio.Dio()).changeAddress(
         auth: "Bearer ${getUser.token!}",
-        id:id,
+        id: id,
         changeAddress: AddressChangeRequest(
             location: location,
             type: type,
@@ -98,13 +100,14 @@ class AddressService {
 
     return response;
   }
-// // call api delete address
-//   static Future<AddressResponse> deleteAddress(
-//     int? id,
-//   ) async {
-//     AddressResponse response =
-//         await ApiService(dio.Dio()).deleteAddress(auth: "Bearer ${getUser.token!}", id: id!);
 
-//     return response;
-//   }
+// call api delete address
+  static Future<HttpResponse> deleteAddress(
+    int? id,
+  ) async {
+    HttpResponse response =
+        await ApiService(dio.Dio()).deleteAddress(auth: "Bearer ${getUser.token}", id: id!);
+ 
+    return response;
+  }
 }

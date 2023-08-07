@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:mobile_store/src/core/remote/response/search_response/search_response.dart';
 import 'package:mobile_store/src/features/search/bloc/search_bloc.dart';
 

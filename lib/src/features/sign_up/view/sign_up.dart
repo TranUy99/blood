@@ -164,7 +164,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return;
                     }
 
-                    final bool? signUpStatus = await _signUpViewModel.signUp(
+                    final bool signUpStatus = await _signUpViewModel.signUp(
                         email, password, fullName);
 
                     if (signUpStatus == true) {

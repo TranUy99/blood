@@ -2,24 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/core/model/address.dart';
-import 'package:mobile_store/src/features/address/view/add_address.dart';
 import 'package:mobile_store/src/features/address/view_model/address_view_model.dart';
 
-class AddressInfo extends StatefulWidget {
+class SelectedAddressCart extends StatefulWidget {
   final int selectedAddressIndex;
   final Function(int) onAddressSelected;
 
-  const AddressInfo({
+  const SelectedAddressCart({
     Key? key,
     required this.selectedAddressIndex,
     required this.onAddressSelected,
   }) : super(key: key);
 
   @override
-  State<AddressInfo> createState() => _AddressInfoState();
+  State<SelectedAddressCart> createState() => _SelectedAddressCartState();
 }
 
-class _AddressInfoState extends State<AddressInfo> {
+class _SelectedAddressCartState extends State<SelectedAddressCart> {
   List<Address> addressList = [];
 
   final AddressViewModel _addressViewModel = AddressViewModel();
@@ -35,29 +34,9 @@ class _AddressInfoState extends State<AddressInfo> {
           if (snapshot.hasData) {
             addressList = snapshot.data!;
             // Build UI using the retrieved products
-            return Column(children:[buildUI(context),Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: TextButton(
-            onPressed: () {
-              // Xử lý sự kiện khi người dùng nhấn vào nút "Thêm địa chỉ khác"
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return const AddAddressScreen();
-                },
-              );
-            },
-            child: Text(
-              //'Add another address',
-              AppLocalizations.of(context)!.anotherAddress,
-              style: const TextStyle(
-                fontSize: 14,
-                color: kGreenColor,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),]);
+            return Column(children: [
+              buildUI(context),
+            ]);
           } else {
             return const Text('No address ');
           }
@@ -114,7 +93,6 @@ class _AddressInfoState extends State<AddressInfo> {
             );
           },
         ),
-     
       ],
     );
   }
