@@ -10,7 +10,7 @@ ReviewDTOs _$ReviewDTOsFromJson(Map<String, dynamic> json) => ReviewDTOs(
       json['id'] as int?,
       json['user_id'] as int?,
       json['product_id'] as int?,
-      json['comment'] as int?,
+      json['comment'] as String?,
       json['rating'] as int?,
       json['status'] as bool?,
     );

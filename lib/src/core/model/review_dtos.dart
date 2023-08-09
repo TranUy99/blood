@@ -15,7 +15,7 @@ class ReviewDTOs {
   final int? productID;
 
   @JsonKey(name: 'comment')
-  final int? comment;
+  final String? comment;
 
   @JsonKey(name: 'rating')
   final int? rating;

@@ -10,13 +10,13 @@ class CreateReviewResponse {
   @JsonKey(name: 'message')
   final String? message;
 
-  @JsonKey(name: 'error')
-  final String? error;
+  @JsonKey(name: 'errors')
+  final String? errors;
 
   @JsonKey(name: 'status')
   final bool? status;
 
-  CreateReviewResponse(this.httpCode, this.message, this.error, this.status);
+  CreateReviewResponse(this.httpCode, this.message, this.errors, this.status);
 
   factory CreateReviewResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateReviewResponseFromJson(json);

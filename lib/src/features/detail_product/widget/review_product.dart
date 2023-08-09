@@ -5,8 +5,8 @@ import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/detail_product/widget/review_written.dart';
 
 class Review extends StatefulWidget {
-  const Review({super.key});
-
+  const Review({super.key, required this.productId});
+  final int productId;
   @override
   State<Review> createState() => _ReviewState();
 }
@@ -131,7 +131,7 @@ class _ReviewState extends State<Review> {
                 onPressed: () {
                   showDialog(
                     context: context,
-                    builder: (context) => const ReviewWritten(),
+                    builder: (context) => ReviewWritten(productId: widget.productId),
                   );
                 },
                 child: Text('Viết đánh giá'))

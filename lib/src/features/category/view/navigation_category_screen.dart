@@ -47,7 +47,6 @@ class _NavigationCategoryScreenState extends State<NavigationCategoryScreen> {
         height: MediaQuery.of(context).size.height * 0.07,
         onDestinationSelected: (value) => setState(() {
           indexScreenCategory = value;
-          print(indexScreenCategory);
         }),
         indicatorColor: const Color.fromARGB(100, 233, 233, 233),
         selectedIndex: indexScreenCategory,

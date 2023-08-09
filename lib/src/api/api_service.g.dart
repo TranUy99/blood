@@ -13,7 +13,7 @@ class _ApiService implements ApiService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.1.44:8085';
+    baseUrl ??= 'http://192.168.1.11:8085';
   }
 
   final Dio _dio;
@@ -426,15 +426,19 @@ class _ApiService implements ApiService {
 
   @override
   Future<CategoryFilterResponse> productCategoryFilter(
+    int? manufacturerId,
     int categoryId,
     int no,
     int limit,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
+      r'manufacturerId': manufacturerId,
+      r'categoryId': categoryId,
       r'no': no,
       r'limit': limit,
     };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -445,7 +449,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/product/show-product/${categoryId}',
+              '/api/product/filter-product',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -533,6 +537,31 @@ class _ApiService implements ApiService {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = SendEmailForgotPasswordResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<ForgotPasswordResponse> forgotPassword(
+      ForgotPasswordRequest forgotPasswordRequest) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(forgotPasswordRequest.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ForgotPasswordResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/user/change-password-by-otp',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = ForgotPasswordResponse.fromJson(_result.data!);
     return value;
   }
 

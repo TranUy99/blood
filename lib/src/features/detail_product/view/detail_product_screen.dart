@@ -61,7 +61,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
           const ConfigurationProduct(),
           ProductInformation(productDTO: product),
-          const Review(),
+          Review(productId: widget.idProduct),
           // const AnotherProduct(),
         ],
       )),

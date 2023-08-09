@@ -1,8 +1,20 @@
-abstract class ForgotPasswordState{}
+abstract class SendEmailForgotPasswordState {}
 
-class SuccessSendEmailForgotPasswordState extends ForgotPasswordState{}
+class SuccessSendEmailForgotPasswordState
+    extends SendEmailForgotPasswordState {}
 
-class ErrorSendEmailForgotPasswordState extends ForgotPasswordState{
+class ErrorSendEmailForgotPasswordState extends SendEmailForgotPasswordState {
   final String error;
+
   ErrorSendEmailForgotPasswordState(this.error);
+}
+
+abstract class ForgotPasswordState {}
+
+class SuccessForgotPasswordState extends ForgotPasswordState {}
+
+class ErrorForgotPasswordState extends ForgotPasswordState {
+  final String error;
+
+  ErrorForgotPasswordState(this.error);
 }

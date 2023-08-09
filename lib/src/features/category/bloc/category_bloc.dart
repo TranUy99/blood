@@ -9,7 +9,7 @@ import '../service/get_manufacturer_service.dart';
 import 'category_event.dart';
 import 'category_state.dart';
 
-abstract class CategoryBloc{}
+abstract class CategoryBloc {}
 
 SuccessCategoryFilterState successCategoryFilterState =
     SuccessCategoryFilterState(null);
@@ -23,12 +23,14 @@ class CategoryFilterBloc extends CategoryBloc {
   List<ProductFilter>? productList = [];
 
   Future<void> addEvent(CategoryFilterEvent event) async {
-    await _categoryFilter(event.categoryId, event.no, event.limit);
+    await _categoryFilter(
+        event.manufacturerId, event.categoryId, event.no, event.limit);
   }
 
-  Future<void> _categoryFilter(int categoryId, int no, int limit) async {
-    final categoryFilterResult =
-        CategoryFilterService().categoryFilterService(categoryId, no, limit);
+  Future<void> _categoryFilter(
+      int? manufacturerId, int categoryId, int no, int limit) async {
+    final categoryFilterResult = CategoryFilterService()
+        .categoryFilterService(manufacturerId, categoryId, no, limit);
     try {
       await categoryFilterResult.then((value) {
         productList = value.contents;
@@ -67,7 +69,7 @@ class GetCategoryBloc extends CategoryBloc {
 
   Future<List<CategoriesDTO>?> _getCategory(int no, int limit) async {
     final getCategoryResult =
-    GetCategoryService().getCategoryService(no, limit);
+        GetCategoryService().getCategoryService(no, limit);
     try {
       await getCategoryResult.then((value) {
         categoryList = value.contents;
@@ -77,8 +79,7 @@ class GetCategoryBloc extends CategoryBloc {
       message = e.toString();
     }
     if (totalItems != 0) {
-      _stateController.add(SuccessGetCategoryState(categoryList! ));
-
+      _stateController.add(SuccessGetCategoryState(categoryList!));
     } else {
       _stateController.add(ErrorGetCategoryState(message ?? ''));
     }
@@ -105,7 +106,7 @@ class GetManufacturerBloc extends CategoryBloc {
 
   Future<List<ManufacturerDTO>?> _getManufacturer(int no, int limit) async {
     final getManufacturerResult =
-    GetManufacturerService().getManufacturerService(no, limit);
+        GetManufacturerService().getManufacturerService(no, limit);
     try {
       await getManufacturerResult.then((value) {
         manufacturerList = value.contents;
@@ -115,8 +116,7 @@ class GetManufacturerBloc extends CategoryBloc {
       message = e.toString();
     }
     if (totalItems != 0) {
-      _stateController.add(SuccessGetManufacturerState(manufacturerList! ));
-
+      _stateController.add(SuccessGetManufacturerState(manufacturerList!));
     } else {
       _stateController.add(ErrorGetManufacturerState(message ?? ''));
     }

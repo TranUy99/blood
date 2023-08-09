@@ -11,7 +11,7 @@ CreateReviewResponse _$CreateReviewResponseFromJson(
     CreateReviewResponse(
       json['httpCode'] as int?,
       json['message'] as String?,
-      json['error'] as String?,
+      json['errors'] as String?,
       json['status'] as bool?,
     );
 
@@ -20,6 +20,6 @@ Map<String, dynamic> _$CreateReviewResponseToJson(
     <String, dynamic>{
       'httpCode': instance.httpCode,
       'message': instance.message,
-      'error': instance.error,
+      'errors': instance.errors,
       'status': instance.status,
     };

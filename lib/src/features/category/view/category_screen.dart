@@ -3,7 +3,6 @@ import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/core/remote/response/product_filter_response/category_filter_response.dart';
 import 'package:mobile_store/src/features/category/view_model/category_view_model.dart';
-import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 
 import '../../../constant/api_outside/api_image.dart';
@@ -48,6 +47,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   int limit = 4;
   List<ManufacturerDTO> manufacturerList = [];
   String? manufacturerName;
+  int? manufacturerId;
 
   @override
   void initState() {
@@ -77,7 +77,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   }
 
   _getDataProduct(int categoryId, int page) async {
-    categoryFilterResponse = await categoryViewModel.categoryFilterViewModel(
+    categoryFilterResponse = await categoryViewModel.categoryFilterViewModel(manufacturerId,
         widget.categoryID, page, limit);
     try {
       setState(() {
@@ -86,6 +86,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     } catch (e) {
       print('view: $e');
     }
+    print(products[1].name);
   }
 
   _getDataManufacturer() async {
@@ -124,7 +125,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
               ),
             ),
             FutureBuilder(
-              future: categoryViewModel.categoryFilterViewModel(
+              future: categoryViewModel.categoryFilterViewModel(manufacturerId,
                   widget.categoryID, 0, 10),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
@@ -276,11 +277,19 @@ class _CategoryScreenState extends State<CategoryScreen> {
               if (manufacturerName == manufacturerList[index].name) {
                 setState(() {
                   manufacturerName = null;
+                  manufacturerId = null;
+                  currentPage = 0;
+                  products = [];
                 });
+                _getDataProduct(widget.categoryID, currentPage);
               } else {
                 setState(() {
+                  manufacturerId = manufacturerList[index].id;
                   manufacturerName = manufacturerList[index].name;
+                  currentPage = 0;
+                  products = [];
                 });
+                _getDataProduct(widget.categoryID, currentPage);
               }
               manufacturerPopupMenuController.hideMenu();
             },

@@ -3,12 +3,11 @@ import 'package:mobile_store/src/features/forgot_password/bloc_state/forgot_pass
 import 'package:mobile_store/src/features/forgot_password/service/forgot_password_service.dart';
 import 'package:rxdart/rxdart.dart';
 
-abstract class ForgotPasswordBloc{}
 
 class SendEmailForgotPasswordBloc {
-  final _stateController = BehaviorSubject<ForgotPasswordState>();
+  final _stateController = BehaviorSubject<SendEmailForgotPasswordState>();
 
-  Stream<ForgotPasswordState> get state => _stateController.stream;
+  Stream<SendEmailForgotPasswordState> get state => _stateController.stream;
 
   Future<void> addEvent(SendEmailForgotPasswordEvent event) async {
     await _sendEmailForgotPassword(event.email);
@@ -39,4 +38,29 @@ class SendEmailForgotPasswordBloc {
   }
 }
 
+class ForgotPasswordBloc  {
+  String? error;
+  int? httpCode;
+  final _stateController = BehaviorSubject<ForgotPasswordState>();
 
+  Stream<ForgotPasswordState> get state => _stateController.stream;
+
+  Future<void> forgotPasswordBloc(ForgotPasswordEvent event)async {
+    final forgotPasswordResult = ForgotPasswordService().forgotPasswordService(event.newPassword, event.otp);
+
+    try{
+      await forgotPasswordResult.then((value) {
+        error = value.error;
+        httpCode = value.httpCode;
+      });
+    }catch(e){
+      error = e.toString();
+    }
+
+    if(httpCode != null){
+      _stateController.sink.add(SuccessForgotPasswordState());
+    }else{
+      _stateController.sink.add(ErrorForgotPasswordState(error ?? ''));
+    }
+  }
+}
