@@ -16,7 +16,7 @@ class _PromotionState extends State<Promotion> {
   List<PromotionDTO> promotionList = [];
   PromotionResponse? promotionResponse;
   int currentPage = 0;
-  int limit = 2;
+  int limit = 7;
   bool isLoading = false;
 
   @override
@@ -52,44 +52,47 @@ class _PromotionState extends State<Promotion> {
       },
       child: SizedBox(
         height: 400,
-        child: ListView.builder(
-          scrollDirection: Axis.vertical,
-          physics: const ScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: promotionList.length + 1, // Add 1 for the loading indicator
-          itemBuilder: (BuildContext context, int index) {
-            if (index < promotionList.length) {
-              final promotion = promotionList[index];
+        child: SingleChildScrollView(
+          child: ListView.builder(
+            scrollDirection: Axis.vertical,
+            physics: const ScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: promotionList.length + 1,
+            itemBuilder: (BuildContext context, int index) {
+              if (index < promotionList.length) {
+                final promotion = promotionList[index];
 
-              return Container(
-                padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.015),
-                child: ListTile(
-                  leading: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      HexagonPage(
-                        height: MediaQuery.of(context).size.height * 0.07,
-                        discount: promotion.discountDTO,
-                      ),
-                    ],
+                return Container(
+                  padding:
+                      EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.015),
+                  child: ListTile(
+                    leading: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        HexagonPage(
+                          height: MediaQuery.of(context).size.height * 0.07,
+                          discount: promotion.discountDTO,
+                        ),
+                      ],
+                    ),
+                    title: Text(
+                      '${promotion.discountDTO}% discount for orders under ${promotion.totalPurchaseDTO}\$, for customers who bought ${promotion.maxGetDTO}\$ ',
+                    ),
                   ),
-                  title: Text(
-                    '${promotion.discountDTO}% discount for orders under ${promotion.totalPurchaseDTO}\$, for customers who bought ${promotion.maxGetDTO}\$ ',
+                );
+              } else if (index == promotionList.length && isLoading) {
+                // Render loading indicator
+                return const Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 1.5,
                   ),
-                ),
-              );
-            } else if (index == promotionList.length && isLoading) {
-              // Render loading indicator
-              return const Center(
-                child: CircularProgressIndicator(
-                  strokeWidth: 1.5,
-                ),
-              );
-            } else {
-              // Reached the end of the list
-              return const SizedBox();
-            }
-          },
+                );
+              } else {
+                // Reached the end of the list
+                return const SizedBox();
+              }
+            },
+          ),
         ),
       ),
     );

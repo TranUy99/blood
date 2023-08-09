@@ -46,8 +46,7 @@ class _OrderDetailState extends State<OrderDetail> {
                   DeliveryAddress(
                     name: 'Tran Ky Anh',
                     phone: '0583841958',
-                    address:
-                        '273 Ly Thuong Kiet, 6 ward, district 8, Ho Chi Minh city',
+                    address: '273 Ly Thuong Kiet, 6 ward, district 8, Ho Chi Minh city',
                   ),
                 ],
               ),
@@ -106,12 +105,12 @@ class _OrderDetailState extends State<OrderDetail> {
                                 width: 80,
                               ),
                               Image.asset(
-                                 'assets/images/anh1.jpg',
+                                'assets/images/anh1.jpg',
                                 height: 150,
                                 width: 80,
                               ),
                               Image.asset(
-                               'assets/images/anh1.jpg',
+                                'assets/images/anh1.jpg',
                                 height: 150,
                                 width: 80,
                               ),
@@ -422,8 +421,7 @@ class _OrderDetailState extends State<OrderDetail> {
                       },
                       child: Text(
                         AppLocalizations.of(context)!.buyAgain,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: kGreenColor,

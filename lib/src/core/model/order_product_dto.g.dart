@@ -1,22 +1,24 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'order_product.dart';
+part of 'order_product_dto.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-OrderProduct _$OrderProductFromJson(Map<String, dynamic> json) => OrderProduct(
+OrderProductDTO _$OrderProductDTOFromJson(Map<String, dynamic> json) =>
+    OrderProductDTO(
       id: json['id'] as int?,
       name: json['name'] as String?,
       color: json['color'] as String?,
       description: json['description'] as String?,
       memory: json['memory'] as String?,
-      price: json['price'] as int?,
+      price: (json['price'] as num?)?.toDouble(),
       seri: json['seri'] as String?,
+      image: json['image'] as String?,
     );
 
-Map<String, dynamic> _$OrderProductToJson(OrderProduct instance) =>
+Map<String, dynamic> _$OrderProductDTOToJson(OrderProductDTO instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
@@ -25,4 +27,5 @@ Map<String, dynamic> _$OrderProductToJson(OrderProduct instance) =>
       'memory': instance.memory,
       'color': instance.color,
       'seri': instance.seri,
+      'image': instance.image,
     };

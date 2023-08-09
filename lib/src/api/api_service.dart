@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:mobile_store/src/core/model/address.dart';
 import 'package:mobile_store/src/core/model/product.dart';
@@ -25,12 +23,13 @@ import '../core/remote/response/active_otp_response/send_email_active_user_respo
 import '../core/remote/response/category_response/category_items_response.dart';
 import '../core/remote/response/change_password_response/change_password_response.dart';
 import '../core/remote/response/forgot_password_response/send_email_forgot_password_response.dart';
+import '../core/remote/response/order_response/order_response.dart';
 import '../core/remote/response/sign_up_response/sign_up_response.dart';
 
 part 'api_service.g.dart';
 
 //Base address
-@RestApi(baseUrl: 'http://192.168.1.44:8085')
+@RestApi(baseUrl: 'http://192.168.1.4:8085')
 // @RestApi(baseUrl: 'http://45.117.170.206:8085')
 
 abstract class ApiService {
@@ -69,8 +68,8 @@ abstract class ApiService {
 
   //search product with namme
   @GET('/api/product/search-product')
-  Future<SearchResponse> searchNameProduct(@Query('keyword') String? keyword,
-      @Query('no') int? no, @Query('limit') int? limit);
+  Future<SearchResponse> searchNameProduct(
+      @Query('keyword') String? keyword, @Query('no') int? no, @Query('limit') int? limit);
 
   //Call this api to send otp via email to active
   @GET('/api/mail/active-user')
@@ -112,7 +111,6 @@ abstract class ApiService {
   Future<HttpResponse> deleteAddress({
     @Header("Authorization") required String auth,
     @Path("id") required int? id,
- 
   });
 
   //Filter product by manufactureId
@@ -134,16 +132,16 @@ abstract class ApiService {
   Future<CategoryItemsResponse> getCategory(@Query('no') int no, @Query('limit') int limit);
 
   @GET('/api/manufacturer')
-  Future<ManufacturerItemsResponse> getManufacturer(
-      @Query('no') int no, @Query('limit') int limit);
+  Future<ManufacturerItemsResponse> getManufacturer(@Query('no') int no, @Query('limit') int limit);
 
   @GET('/api/mail/forgot-password/{email}')
-  Future<SendEmailForgotPasswordResponse> sendEmailForgotPassword(
-      @Path('email') String email);
+  Future<SendEmailForgotPasswordResponse> sendEmailForgotPassword(@Path('email') String email);
 
   @PUT('/api/user/{id}')
-  Future<UserDTO> changeInformationUser(
-      @Path('id') int userId,
-      @Header("Authorization") String auth,
-      @Body() ChangeInformationRequest changeInformation);
+  Future<UserDTO> changeInformationUser(@Path('id') int userId,
+      @Header("Authorization") String auth, @Body() ChangeInformationRequest changeInformation);
+//get order
+  @GET('/api/order/user')
+  Future<OrderResponse> getOrder(
+      @Header("Authorization") String auth, @Query('no') int? no, @Query('limit') int? limit);
 }
