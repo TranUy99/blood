@@ -35,6 +35,7 @@ class _RatingProductState extends State<RatingProduct> {
 
         //rating product
         RatingBar.builder(
+          ignoreGestures: true,
           initialRating: 3,
           minRating: 1,
           direction: Axis.horizontal,

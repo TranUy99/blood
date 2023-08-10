@@ -4,30 +4,42 @@ import 'package:mobile_store/src/features/detail_product/view_model/review_view_
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../../../main.dart';
 import '../../../constant/color/color.dart';
 
-class ReviewWritten extends StatefulWidget {
-  const ReviewWritten({Key? key, required this.productId}) : super(key: key);
-  final int productId;
+class EditReview extends StatefulWidget {
+  const EditReview(
+      {Key? key,
+      required this.reviewID,
+      required this.rating,
+      required this.comment})
+      : super(key: key);
+  final int reviewID;
+  final int rating;
+  final String comment;
 
   @override
-  State<ReviewWritten> createState() => _ReviewWrittenState();
+  State<EditReview> createState() => _EditReviewState();
 }
 
-class _ReviewWrittenState extends State<ReviewWritten> {
+class _EditReviewState extends State<EditReview> {
   final TextEditingController _reviewController = TextEditingController();
   final ReviewViewModel _reviewViewModel = ReviewViewModel();
-  int rating = 3;
+  int rating = 0;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(widget.productId);
+    rating = widget.rating;
+    _reviewController.text = widget.comment;
+    print(widget.reviewID);
   }
 
   @override
   Widget build(BuildContext context) {
+
+
     return AlertDialog(
       title: Text('Write your review'),
       content: Container(
@@ -63,7 +75,6 @@ class _ReviewWrittenState extends State<ReviewWritten> {
               children: [
                 ElevatedButton(
                     onPressed: () {
-
                       Navigator.pop(context);
                     },
                     style: ButtonStyle(
@@ -74,18 +85,20 @@ class _ReviewWrittenState extends State<ReviewWritten> {
                 ),
                 ElevatedButton(
                     onPressed: () async {
-                      bool isSuccess = await _reviewViewModel.createReviewViewModel(widget.productId, _reviewController.text, rating);
-                      if(isSuccess){
+                      bool isSuccess =
+                          await _reviewViewModel.editReviewViewModel(
+                              widget.reviewID, _reviewController.text, rating);
+                      if (isSuccess) {
                         showTopSnackBar(
                             Overlay.of(context),
                             const CustomSnackBar.success(
-                                message: 'Thanks to review product'));
+                                message: 'Edit review successful'));
                         Navigator.pop(context);
-                      }else{
+                      } else {
                         showTopSnackBar(
                             Overlay.of(context),
                             const CustomSnackBar.error(
-                                message: 'Failed to review product'));
+                                message: 'Failed to edit review'));
                       }
                     },
                     style: ButtonStyle(

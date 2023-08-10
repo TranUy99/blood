@@ -13,7 +13,7 @@ class _ApiService implements ApiService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.1.11:8085';
+    baseUrl ??= 'http://10.5.50.4:8085';
   }
 
   final Dio _dio;
@@ -363,36 +363,6 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<ManufacturerFilterResponse> productManufacturerFilter(
-    int manufacturerId,
-    int no,
-    int limit,
-  ) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'no': no,
-      r'limit': limit,
-    };
-    final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ManufacturerFilterResponse>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/api/product/active-filter/${manufacturerId}',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ManufacturerFilterResponse.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
   Future<PromotionResponse> getPromotion(
     String auth,
     int? no,
@@ -623,17 +593,19 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<ReviewDTOs> editReview(
+  Future<EditReviewResponse> editReview(
     int reviewID,
+    String auth,
     EditReviewRequest editReviewRequest,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': auth};
+    _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(editReviewRequest.toJson());
     final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<ReviewDTOs>(Options(
+        .fetch<Map<String, dynamic>>(_setStreamType<EditReviewResponse>(Options(
       method: 'PUT',
       headers: _headers,
       extra: _extra,
@@ -645,7 +617,37 @@ class _ApiService implements ApiService {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ReviewDTOs.fromJson(_result.data!);
+    final value = EditReviewResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<ReviewResponse> getReview(
+    int manufacturerID,
+    int no,
+    int limit,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'no': no,
+      r'limit': limit,
+    };
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<ReviewResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/review/${manufacturerID}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = ReviewResponse.fromJson(_result.data!);
     return value;
   }
 

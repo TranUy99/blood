@@ -96,7 +96,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
                           ),
                         ]),
                       ),
-                    ))
+                    )),
+                IconButton(onPressed: () {
+
+                }, icon: Icon(Icons.shopping_cart_outlined))
               ],
             ),
           ),

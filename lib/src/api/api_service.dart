@@ -14,6 +14,7 @@ import 'package:mobile_store/src/core/remote/response/login_response/login_respo
 import 'package:mobile_store/src/core/remote/response/product_filter_response/category_filter_response.dart';
 import 'package:mobile_store/src/core/remote/response/product_filter_response/manufacturer_filter_response.dart';
 import 'package:mobile_store/src/core/remote/response/promotion_response/promotion_response.dart';
+import 'package:mobile_store/src/core/remote/response/review_response/edit_review_response.dart';
 import 'package:mobile_store/src/core/remote/response/search_response/search_response.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -27,13 +28,14 @@ import '../core/remote/response/category_response/category_items_response.dart';
 import '../core/remote/response/change_password_response/change_password_response.dart';
 import '../core/remote/response/forgot_password_response/forgot_password_response.dart';
 import '../core/remote/response/forgot_password_response/send_email_forgot_password_response.dart';
-import '../core/remote/response/review_request/create_review_response.dart';
+import '../core/remote/response/review_response/create_review_response.dart';
+import '../core/remote/response/review_response/review_response.dart';
 import '../core/remote/response/sign_up_response/sign_up_response.dart';
 
 part 'api_service.g.dart';
 
 //Base address
-@RestApi(baseUrl: 'http://192.168.1.11:8085')
+@RestApi(baseUrl: 'http://10.5.50.4:8085')
 // @RestApi(baseUrl: 'http://45.117.170.206:8085')
 
 abstract class ApiService {
@@ -120,13 +122,6 @@ abstract class ApiService {
     @Path("id") required int? id,
   });
 
-  //Filter product by manufactureId
-  @GET('/api/product/active-filter/{manufacturerId}')
-  Future<ManufacturerFilterResponse> productManufacturerFilter(
-      @Path('manufacturerId') int manufacturerId,
-      @Query('no') int no,
-      @Query('limit') int limit);
-
   //Get promotion
   @GET('/api/promotion')
   Future<PromotionResponse> getPromotion(@Header("Authorization") String auth,
@@ -167,6 +162,12 @@ abstract class ApiService {
       @Body() CreateReviewRequest createReviewRequest);
 
   @PUT('/api/review/{reviewID}')
-  Future<ReviewDTOs> editReview(@Path('reviewID') int reviewID,
+  Future<EditReviewResponse> editReview(
+      @Path('reviewID') int reviewID,
+      @Header("Authorization") String auth,
       @Body() EditReviewRequest editReviewRequest);
+
+  @GET('/api/review/{manufacturerID}')
+  Future<ReviewResponse> getReview(@Path('manufacturerID') int manufacturerID,
+      @Query('no') int no, @Query('limit') int limit);
 }

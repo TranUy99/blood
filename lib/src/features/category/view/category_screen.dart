@@ -86,7 +86,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
     } catch (e) {
       print('view: $e');
     }
-    print(products[1].name);
   }
 
   _getDataManufacturer() async {
