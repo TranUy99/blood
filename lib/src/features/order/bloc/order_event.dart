@@ -1,4 +1,6 @@
-part of 'order_bloc.dart';
+
+
+import 'package:equatable/equatable.dart';
 
 sealed class OrderEvent extends Equatable {
   const OrderEvent();
@@ -11,4 +13,12 @@ class GetOrderEvent extends OrderEvent {
   final int limit;
 
   const GetOrderEvent( this.no,this.limit,);
+}
+class GetOrderDetailEvent extends OrderEvent {
+  final int id;
+
+
+  const GetOrderDetailEvent(
+    this.id,
+  );
 }

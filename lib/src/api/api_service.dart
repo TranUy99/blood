@@ -18,6 +18,7 @@ import 'package:mobile_store/src/core/remote/response/review_response/edit_revie
 import 'package:mobile_store/src/core/remote/response/search_response/search_response.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../core/model/order_detail.dart';
 import '../core/model/review_dtos.dart';
 import '../core/remote/request/address_request/address_create_request.dart';
 import '../core/remote/request/forgot_password_request/forgot_password_request.dart';
@@ -36,7 +37,7 @@ import '../core/remote/response/sign_up_response/sign_up_response.dart';
 part 'api_service.g.dart';
 
 //Base address
-@RestApi(baseUrl: 'http://10.5.50.4:8085')
+@RestApi(baseUrl: 'http://192.168.1.17:8085')
 // @RestApi(baseUrl: 'http://45.117.170.206:8085')
 
 abstract class ApiService {
@@ -152,7 +153,7 @@ abstract class ApiService {
       @Header("Authorization") String auth, @Query('no') int? no, @Query('limit') int? limit);
 //get order detail
   @GET('/api/order/user/detail/{id}')
-  Future<HttpResponse> getOrderDetail(
+  Future<OrderDetailDTO> getOrderDetail(
     @Header("Authorization") String auth,
     @Path("id") int? id,
   );

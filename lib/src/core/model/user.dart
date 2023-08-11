@@ -20,8 +20,6 @@ class UserDTO {
   @JsonKey(name: 'birthDay')
   final String? birthday;
 
-  @JsonKey(name: 'authProvider')
-  final bool? authProvider;
 
   @JsonKey(name: 'roleDTO')
   final RoleDTO? roleDTO;
@@ -36,7 +34,7 @@ class UserDTO {
     this.email,
     this.fullName,
     this.birthday,
-    this.authProvider,
+   
     this.statusDTO,
   });
 

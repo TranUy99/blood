@@ -52,7 +52,7 @@ class _ProductScreenState extends State<ProductScreen> {
             // Build UI using the retrieved products
             return buildUI(context);
           } else {
-            return Text('No products available');
+            return const Text('No products available');
           }
         }
       },
@@ -110,29 +110,27 @@ class _ProductScreenState extends State<ProductScreen> {
                     builder: (context) => ProductDetailScreen(idProduct: product.id!),
                   ),
                 ),
-                child: Container(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.25,
-                        child: CachedNetworkImage(
-                          imageUrl: ApiImage().generateImageUrl('$logo'),
-                          height: 20,
-                        ),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      child: CachedNetworkImage(
+                        imageUrl: ApiImage().generateImageUrl('$logo'),
+                        height: 20,
                       ),
-                      Column(
-                        children: [
-                          Text('${product.name}',
-                              style: const TextStyle(
-                                  fontSize: 20, color: kRedColor, fontFamily: 'sans-serif')),
-                          Text(
-                              '${NumberFormat('#,###.###').format(product.price).replaceAll(',', '.')} VND',
-                              style: const TextStyle(
-                                  fontSize: 20, color: kGreenColor, fontFamily: 'sans-serif')),
-                        ],
-                      ),
-                    ],
-                  ),
+                    ),
+                    Column(
+                      children: [
+                        Text('${product.name}',
+                            style: const TextStyle(
+                                fontSize: 20, color: kRedColor, fontFamily: 'sans-serif')),
+                        Text(
+                            '${NumberFormat('#,###.###').format(product.price).replaceAll(',', '.')} VND',
+                            style: const TextStyle(
+                                fontSize: 20, color: kGreenColor, fontFamily: 'sans-serif')),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             );

@@ -43,7 +43,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
               children: [
                 const MenuButton(),
                 SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.75,
+                    width: MediaQuery.of(context).size.width * 0.6,
                     height: MediaQuery.of(context).size.height * 0.05,
                     child: GestureDetector(
                       onTap: () {
@@ -59,7 +59,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                         ),
                         child: Row(children: [
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.6,
+                            width: MediaQuery.of(context).size.width * 0.45,
                             child: DefaultTextStyle(
                               style: GoogleFonts.lato(
                                 color: kGreenColor,

@@ -13,7 +13,7 @@ class _ApiService implements ApiService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://10.5.50.4:8085';
+    baseUrl ??= 'http://192.168.1.17:8085';
   }
 
   final Dio _dio;
@@ -597,7 +597,7 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<HttpResponse<dynamic>> getOrderDetail(
+  Future<OrderDetailDTO> getOrderDetail(
     String auth,
     int? id,
   ) async {
@@ -607,8 +607,8 @@ class _ApiService implements ApiService {
     final _headers = <String, dynamic>{r'Authorization': auth};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
-    final _result =
-        await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<OrderDetailDTO>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -620,9 +620,8 @@ class _ApiService implements ApiService {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = _result.data;
-    final httpResponse = HttpResponse(value, _result);
-    return httpResponse;
+    final value = OrderDetailDTO.fromJson(_result.data!);
+    return value;
   }
 
   @override

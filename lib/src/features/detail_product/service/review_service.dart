@@ -17,19 +17,16 @@ class ReviewService {
     return reviewResult;
   }
 
-  Future<CreateReviewResponse> createReviewService(String token, int productId,
-      String comment, int rating, bool status) async {
-    print(token);
+  Future<CreateReviewResponse> createReviewService(
+      String token, int productId, String comment, int rating, bool status) async {
+
     CreateReviewResponse createReviewResult = await ApiService(dio.Dio())
-        .createReview('Bearer $token',
-            CreateReviewRequest(productId, comment, rating, status));
+        .createReview('Bearer $token', CreateReviewRequest(productId, comment, rating, status));
     return createReviewResult;
   }
 
-  Future<ReviewResponse> getReviewService(
-      int manufacturerID, int no, int limit) async {
-    ReviewResponse reviewResult =
-        await ApiService(dio.Dio()).getReview(manufacturerID, no, limit);
+  Future<ReviewResponse> getReviewService(int manufacturerID, int no, int limit) async {
+    ReviewResponse reviewResult = await ApiService(dio.Dio()).getReview(manufacturerID, no, limit);
     return reviewResult;
   }
 }
