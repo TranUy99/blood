@@ -6,30 +6,37 @@ import 'package:mobile_store/src/core/remote/request/address_request/address_cha
 import 'package:mobile_store/src/core/remote/request/change_information_request/change_information_request.dart';
 import 'package:mobile_store/src/core/remote/request/change_password_request/change_password_request.dart';
 import 'package:mobile_store/src/core/remote/request/login_request/login_request.dart';
+import 'package:mobile_store/src/core/remote/request/review_request/create_review_request.dart';
+import 'package:mobile_store/src/core/remote/request/review_request/edit_review_request.dart';
 import 'package:mobile_store/src/core/remote/response/address_response/address_response.dart';
 import 'package:mobile_store/src/core/remote/response/category_response/manufacturer_items_response.dart';
 import 'package:mobile_store/src/core/remote/response/login_response/login_response.dart';
 import 'package:mobile_store/src/core/remote/response/product_filter_response/category_filter_response.dart';
 import 'package:mobile_store/src/core/remote/response/product_filter_response/manufacturer_filter_response.dart';
 import 'package:mobile_store/src/core/remote/response/promotion_response/promotion_response.dart';
+import 'package:mobile_store/src/core/remote/response/review_response/edit_review_response.dart';
 import 'package:mobile_store/src/core/remote/response/search_response/search_response.dart';
-import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../core/model/review_dtos.dart';
 import '../core/remote/request/address_request/address_create_request.dart';
+import '../core/remote/request/forgot_password_request/forgot_password_request.dart';
 import '../core/remote/request/sign_up_request/sign_up_request.dart';
 import '../core/remote/response/active_otp_response/active_otp_response.dart';
 import '../core/remote/response/active_otp_response/send_email_active_user_response.dart';
 import '../core/remote/response/category_response/category_items_response.dart';
 import '../core/remote/response/change_password_response/change_password_response.dart';
+import '../core/remote/response/forgot_password_response/forgot_password_response.dart';
 import '../core/remote/response/forgot_password_response/send_email_forgot_password_response.dart';
 import '../core/remote/response/order_response/order_response.dart';
+import '../core/remote/response/review_response/create_review_response.dart';
+import '../core/remote/response/review_response/review_response.dart';
 import '../core/remote/response/sign_up_response/sign_up_response.dart';
 
 part 'api_service.g.dart';
 
 //Base address
-@RestApi(baseUrl: 'http://192.168.1.4:8085')
+@RestApi(baseUrl: 'http://10.5.50.4:8085')
 // @RestApi(baseUrl: 'http://45.117.170.206:8085')
 
 abstract class ApiService {
@@ -106,6 +113,7 @@ abstract class ApiService {
     @Path("id") required int? id,
     @Body() required AddressChangeRequest changeAddress,
   });
+
   //call api change address
   @DELETE('/api/address/{id}')
   Future<HttpResponse> deleteAddress({
@@ -113,20 +121,14 @@ abstract class ApiService {
     @Path("id") required int? id,
   });
 
-  //Filter product by manufactureId
-  @GET('/api/product/active-filter/{manufacturerId}')
-  Future<ManufacturerFilterResponse> productManufacturerFilter(
-      @Path('manufacturerId') int manufacturerId, @Query('no') int no, @Query('limit') int limit);
-
   //Get promotion
   @GET('/api/promotion')
   Future<PromotionResponse> getPromotion(
       @Header("Authorization") String auth, @Query('no') int? no, @Query('limit') int? limit);
 
-  // //Filter product by categoryId
-  @GET('/api/product/show-product/{categoryId}')
-  Future<CategoryFilterResponse> productCategoryFilter(
-      @Path('categoryId') int categoryId, @Query('no') int no, @Query('limit') int limit);
+  @GET('/api/product/filter-product')
+  Future<CategoryFilterResponse> productCategoryFilter(@Query('manufacturerId') int? manufacturerId,
+      @Query('categoryId') int categoryId, @Query('no') int no, @Query('limit') int limit);
 
   @GET('/api/categories')
   Future<CategoryItemsResponse> getCategory(@Query('no') int no, @Query('limit') int limit);
@@ -136,6 +138,10 @@ abstract class ApiService {
 
   @GET('/api/mail/forgot-password/{email}')
   Future<SendEmailForgotPasswordResponse> sendEmailForgotPassword(@Path('email') String email);
+
+  @POST('/api/user/change-password-by-otp')
+  Future<ForgotPasswordResponse> forgotPassword(
+      @Body() ForgotPasswordRequest forgotPasswordRequest);
 
   @PUT('/api/user/{id}')
   Future<UserDTO> changeInformationUser(@Path('id') int userId,
@@ -150,4 +156,16 @@ abstract class ApiService {
     @Header("Authorization") String auth,
     @Path("id") int? id,
   );
+
+  @POST('/api/review')
+  Future<CreateReviewResponse> createReview(
+      @Header("Authorization") String auth, @Body() CreateReviewRequest createReviewRequest);
+
+  @PUT('/api/review/{reviewID}')
+  Future<EditReviewResponse> editReview(@Path('reviewID') int reviewID,
+      @Header("Authorization") String auth, @Body() EditReviewRequest editReviewRequest);
+
+  @GET('/api/review/{manufacturerID}')
+  Future<ReviewResponse> getReview(
+      @Path('manufacturerID') int manufacturerID, @Query('no') int no, @Query('limit') int limit);
 }

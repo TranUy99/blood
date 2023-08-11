@@ -96,7 +96,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
                           ),
                         ]),
                       ),
-                    ))
+                    )),
+                IconButton(onPressed: () {
+
+                }, icon: Icon(Icons.shopping_cart_outlined))
               ],
             ),
           ),
@@ -106,7 +109,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(getUser.userDTO.fullName ?? 'null'),
+                      Text(getUser.userDTO.fullName ?? ''),
                       TextButton(
                           onPressed: () async {
                             SharedPreferences preferences = await SharedPreferences.getInstance();

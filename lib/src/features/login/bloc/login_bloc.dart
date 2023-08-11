@@ -10,11 +10,11 @@ import 'login_state.dart';
 SuccessLoginState successLoginState = SuccessLoginState(false, false);
 
 class LoginBloc {
-  final _stateController = BehaviorSubject<LoginState>();
   String? message;
   bool verifiedStatus = false;
   int? id;
   String? error;
+  final _stateController = BehaviorSubject<LoginState>();
   Stream<LoginState> get state => _stateController.stream;
 
   //Get event login

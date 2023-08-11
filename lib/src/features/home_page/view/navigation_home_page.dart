@@ -26,10 +26,18 @@ class _NavigationHomePageState extends State<NavigationHomePage> {
   int? id;
   String? token;
 
-  List appScreens = [const HomePage(), const LogInScreen(), const LogInScreen()];
+  List appScreens = [
+    const HomePage(),
+    const LogInScreen(),
+    const LogInScreen()
+  ];
 
   List navigationLoginScreen() {
-    return appScreens = [const HomePage(), const CartPage(), const ProfilePage()];
+    return appScreens = [
+      const HomePage(),
+      const CartPage(),
+      const ProfilePage()
+    ];
   }
 
   List navigationLogoutScreen() {
@@ -122,7 +130,8 @@ class _NavigationHomePageState extends State<NavigationHomePage> {
                           );
                         });
                       },
-                      style: ElevatedButton.styleFrom(backgroundColor: kGreenColor),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: kGreenColor),
                       child: const Text('Reload')),
                 ],
               ),

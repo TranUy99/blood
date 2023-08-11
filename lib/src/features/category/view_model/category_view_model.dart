@@ -9,11 +9,11 @@ import '../../../core/model/manufacturer_dto.dart';
 class CategoryViewModel {
   final CategoryFilterBloc _categoryFilterBloc = CategoryFilterBloc();
 
-  Future<CategoryFilterResponse?> categoryFilterViewModel(
+  Future<CategoryFilterResponse?> categoryFilterViewModel(int? manufacturerId,
       int categoryId, int no, int limit) async {
     CategoryFilterResponse? categoryFilterResponse;
     await _categoryFilterBloc
-        .addEvent(CategoryFilterEvent(categoryId, no, limit));
+        .addEvent(CategoryFilterEvent(manufacturerId, categoryId, no, limit));
 
     await _categoryFilterBloc.state.listen((state) {
       if (state is SuccessCategoryFilterState) {

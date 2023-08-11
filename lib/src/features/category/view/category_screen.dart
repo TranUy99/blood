@@ -47,6 +47,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   int limit = 4;
   List<ManufacturerDTO> manufacturerList = [];
   String? manufacturerName;
+  int? manufacturerId;
 
   @override
   void initState() {
@@ -76,7 +77,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   }
 
   _getDataProduct(int categoryId, int page) async {
-    categoryFilterResponse = await categoryViewModel.categoryFilterViewModel(
+    categoryFilterResponse = await categoryViewModel.categoryFilterViewModel(manufacturerId,
         widget.categoryID, page, limit);
     try {
       setState(() {
@@ -123,7 +124,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
               ),
             ),
             FutureBuilder(
-              future: categoryViewModel.categoryFilterViewModel(
+              future: categoryViewModel.categoryFilterViewModel(manufacturerId,
                   widget.categoryID, 0, 10),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
@@ -146,15 +147,15 @@ class _CategoryScreenState extends State<CategoryScreen> {
   Widget productFilterDisplay() {
     return SizedBox(
       height: successLoginState.onLoginState
-          ? MediaQuery.of(context).size.height * 0.65
-          : MediaQuery.of(context).size.height * 0.7,
+          ? MediaQuery.of(context).size.height * 0.58
+          : MediaQuery.of(context).size.height * 0.63,
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         controller: _scrollController,
         child: Column(
           children: [
             GridView.builder(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 childAspectRatio:
                     MediaQuery.of(context).devicePixelRatio * 0.25,
@@ -275,11 +276,19 @@ class _CategoryScreenState extends State<CategoryScreen> {
               if (manufacturerName == manufacturerList[index].name) {
                 setState(() {
                   manufacturerName = null;
+                  manufacturerId = null;
+                  currentPage = 0;
+                  products = [];
                 });
+                _getDataProduct(widget.categoryID, currentPage);
               } else {
                 setState(() {
+                  manufacturerId = manufacturerList[index].id;
                   manufacturerName = manufacturerList[index].name;
+                  currentPage = 0;
+                  products = [];
                 });
+                _getDataProduct(widget.categoryID, currentPage);
               }
               manufacturerPopupMenuController.hideMenu();
             },

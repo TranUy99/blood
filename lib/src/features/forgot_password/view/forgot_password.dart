@@ -105,8 +105,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             ),
             Padding(
               padding: EdgeInsets.symmetric(
-                  vertical: MediaQuery.of(context).size.height * 0.03
-              ),
+                  vertical: MediaQuery.of(context).size.height * 0.03),
               child: TextField(
                 onChanged: (value) {
                   setState(() {
@@ -164,7 +163,21 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
           child: InkWell(
             onTap: () async {
-              Navigator.pop(context);
+              bool isChange =
+                  await _forgotPasswordViewModel.forgotPasswordViewModel(
+                      textOTPController.text, textPasswordController.text);
+              if (isChange) {
+                showTopSnackBar(
+                    Overlay.of(context),
+                    const CustomSnackBar.success(
+                        message: 'Change password successfully'));
+                Navigator.pop(context);
+              } else {
+                showTopSnackBar(
+                    Overlay.of(context),
+                    const CustomSnackBar.error(
+                        message: 'Change password failed'));
+              }
             },
             child: const PrimaryButton(buttonText: 'Verified Email'),
           ),

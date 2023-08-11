@@ -13,7 +13,7 @@ class _ApiService implements ApiService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.1.4:8085';
+    baseUrl ??= 'http://10.5.50.4:8085';
   }
 
   final Dio _dio;
@@ -363,36 +363,6 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<ManufacturerFilterResponse> productManufacturerFilter(
-    int manufacturerId,
-    int no,
-    int limit,
-  ) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'no': no,
-      r'limit': limit,
-    };
-    final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ManufacturerFilterResponse>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/api/product/active-filter/${manufacturerId}',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ManufacturerFilterResponse.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
   Future<PromotionResponse> getPromotion(
     String auth,
     int? no,
@@ -426,15 +396,19 @@ class _ApiService implements ApiService {
 
   @override
   Future<CategoryFilterResponse> productCategoryFilter(
+    int? manufacturerId,
     int categoryId,
     int no,
     int limit,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
+      r'manufacturerId': manufacturerId,
+      r'categoryId': categoryId,
       r'no': no,
       r'limit': limit,
     };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -445,7 +419,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/product/show-product/${categoryId}',
+              '/api/product/filter-product',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -537,6 +511,31 @@ class _ApiService implements ApiService {
   }
 
   @override
+  Future<ForgotPasswordResponse> forgotPassword(
+      ForgotPasswordRequest forgotPasswordRequest) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(forgotPasswordRequest.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ForgotPasswordResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/user/change-password-by-otp',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = ForgotPasswordResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
   Future<UserDTO> changeInformationUser(
     int userId,
     String auth,
@@ -624,6 +623,93 @@ class _ApiService implements ApiService {
     final value = _result.data;
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
+  }
+
+  @override
+  Future<CreateReviewResponse> createReview(
+    String auth,
+    CreateReviewRequest createReviewRequest,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': auth};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(createReviewRequest.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<CreateReviewResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/review',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = CreateReviewResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<EditReviewResponse> editReview(
+    int reviewID,
+    String auth,
+    EditReviewRequest editReviewRequest,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': auth};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(editReviewRequest.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<EditReviewResponse>(Options(
+      method: 'PUT',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/review/${reviewID}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = EditReviewResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<ReviewResponse> getReview(
+    int manufacturerID,
+    int no,
+    int limit,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'no': no,
+      r'limit': limit,
+    };
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<ReviewResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/review/${manufacturerID}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = ReviewResponse.fromJson(_result.data!);
+    return value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
