@@ -144,4 +144,10 @@ abstract class ApiService {
   @GET('/api/order/user')
   Future<OrderResponse> getOrder(
       @Header("Authorization") String auth, @Query('no') int? no, @Query('limit') int? limit);
+//get order detail
+  @GET('/api/order/user/detail/{id}')
+  Future<HttpResponse> getOrderDetail(
+    @Header("Authorization") String auth,
+    @Path("id") int? id,
+  );
 }

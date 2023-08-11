@@ -171,7 +171,9 @@ class _OrderState extends State<OrderView> {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => const OrderDetail(),
+                                            builder: (context) => OrderDetail(
+                                              idOrder: order.id,
+                                            ),
                                           ),
                                         );
                                       },

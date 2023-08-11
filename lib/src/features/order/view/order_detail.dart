@@ -7,7 +7,8 @@ import '../../component/custom_app_bar.dart';
 import 'package:mobile_store/src/features/checkout/widget/delivery_address.dart';
 
 class OrderDetail extends StatefulWidget {
-  const OrderDetail({super.key});
+  final int? idOrder;
+  const OrderDetail({required this.idOrder, super.key});
 
   @override
   State<OrderDetail> createState() => _OrderDetailState();
@@ -249,17 +250,17 @@ class _OrderDetailState extends State<OrderDetail> {
                         onPressed: () {
                           // Handle the Pay button press
                         },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: kGreyColor,
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        ),
                         child: Text(
                           AppLocalizations.of(context)!.paid,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                             color: Colors.white,
                           ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: kGreyColor,
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                         ),
                       ),
                     ],
@@ -419,13 +420,13 @@ class _OrderDetailState extends State<OrderDetail> {
                       onPressed: () {
                         // Handle the Buy again button press
                       },
-                      child: Text(
-                        AppLocalizations.of(context)!.buyAgain,
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                      ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: kGreenColor,
                         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                      ),
+                      child: Text(
+                        AppLocalizations.of(context)!.buyAgain,
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                     ),
                   ),
