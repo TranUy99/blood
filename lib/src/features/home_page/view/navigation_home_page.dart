@@ -18,6 +18,7 @@ class NavigationHomePage extends StatefulWidget {
 }
 
 int indexScreen = 0;
+List appScreens = [];
 
 class _NavigationHomePageState extends State<NavigationHomePage> {
   final LoginBloc loginBloc = LoginBloc();
@@ -25,12 +26,6 @@ class _NavigationHomePageState extends State<NavigationHomePage> {
   String? email;
   int? id;
   String? token;
-
-  List appScreens = [
-    const HomePage(),
-    const LogInScreen(),
-    const LogInScreen()
-  ];
 
   List navigationLoginScreen() {
     return appScreens = [
@@ -42,14 +37,6 @@ class _NavigationHomePageState extends State<NavigationHomePage> {
 
   List navigationLogoutScreen() {
     return appScreens = [const HomePage(), const NotLogin(), const NotLogin()];
-  }
-
-  navi() {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const LogInScreen(),
-        ));
   }
 
   @override

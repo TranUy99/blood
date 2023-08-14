@@ -1,11 +1,13 @@
 import 'package:mobile_store/src/core/remote/response/review_response/review_response.dart';
-import 'package:mobile_store/src/features/detail_product/bloc/review_bloc/create_review_bloc.dart';
-import 'package:mobile_store/src/features/detail_product/bloc/review_bloc/create_review_state.dart';
-import 'package:mobile_store/src/features/detail_product/bloc/review_bloc/edit_review_bloc.dart';
-import 'package:mobile_store/src/features/detail_product/bloc/review_bloc/get_review_bloc.dart';
-import 'package:mobile_store/src/features/detail_product/bloc/review_bloc/review_event.dart';
-import '../bloc/review_bloc/edit_review_state.dart';
-import '../bloc/review_bloc/get_review_state.dart';
+import 'package:mobile_store/src/features/review/bloc_state/create_review_bloc.dart';
+import 'package:mobile_store/src/features/review/bloc_state/create_review_state.dart';
+import 'package:mobile_store/src/features/review/bloc_state/edit_review_bloc.dart';
+import 'package:mobile_store/src/features/review/bloc_state/get_review_bloc.dart';
+import 'package:mobile_store/src/features/review/bloc_state/review_event.dart';
+import 'package:mobile_store/src/features/review/service/review_service.dart';
+
+import '../../review/bloc_state/edit_review_state.dart';
+import '../../review/bloc_state/get_review_state.dart';
 
 class ReviewViewModel {
   final CreateReviewBloc _createReviewBloc = CreateReviewBloc();
@@ -21,10 +23,8 @@ class ReviewViewModel {
     await _createReviewBloc.state.listen((state) {
       if (state is SuccessCreateReviewState) {
         isSuccess = true;
-        print('success');
       } else if (state is ErrorCreateReviewState) {
         isSuccess = false;
-        print('failed');
       }
     });
     return isSuccess;

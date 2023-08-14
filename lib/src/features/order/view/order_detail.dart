@@ -48,7 +48,7 @@ class _OrderDetailState extends State<OrderDetail> {
   Widget buildUI(BuildContext context) {
     final orderProductDTOList = orderDetailDTO.orderProductDTOList;
     return Scaffold(
-        appBar: appBarWidget(context),
+        appBar: appBarWidget(context, true),
         body: SingleChildScrollView(
           child: Column(
             children: [

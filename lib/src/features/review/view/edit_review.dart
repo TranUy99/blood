@@ -31,7 +31,6 @@ class _EditReviewState extends State<EditReview> {
     super.initState();
     rating = widget.rating;
     _reviewController.text = widget.comment;
-    print(widget.reviewID);
   }
 
   @override

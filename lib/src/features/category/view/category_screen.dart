@@ -48,6 +48,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   List<ManufacturerDTO> manufacturerList = [];
   String? manufacturerName;
   int? manufacturerId;
+  String? priceFilter;
 
   @override
   void initState() {
@@ -98,7 +99,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(context),
+      appBar: appBarWidget(context, true),
       body: RefreshIndicator(
         onRefresh: () async {
           setState(() {
@@ -119,7 +120,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       manufacturerMenuItems, manufacturerPopupMenuController),
                   SizedBox(width: MediaQuery.of(context).size.width * 0.02),
                   productFilter(
-                      'Price', 0.25, priceMenuItems, pricePopupMenuController)
+                     priceFilter ?? 'Price', 0.4, priceMenuItems, pricePopupMenuController)
                 ],
               ),
             ),
@@ -147,8 +148,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
   Widget productFilterDisplay() {
     return SizedBox(
       height: successLoginState.onLoginState
-          ? MediaQuery.of(context).size.height * 0.58
-          : MediaQuery.of(context).size.height * 0.63,
+          ? MediaQuery.of(context).size.height * 0.65
+          : MediaQuery.of(context).size.height * 0.7,
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         controller: _scrollController,
@@ -332,11 +333,22 @@ class _CategoryScreenState extends State<CategoryScreen> {
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
-              print(priceRange[index]);
+              if(priceFilter == priceRange[index]){
+                priceFilter = null;
+              }else{
+                priceFilter = priceRange[index];
+              }
+              setState(() {
+
+              });
+            
+              pricePopupMenuController.hideMenu();
             },
             child: Container(
               decoration: BoxDecoration(
-                border: Border.all(),
+                border: (priceFilter == priceRange[index])
+                    ? Border.all(color: Colors.red)
+                    : Border.all(),
                 borderRadius: BorderRadius.circular(5),
               ),
               child: Center(
