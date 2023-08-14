@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
+import 'package:mobile_store/src/core/model/promotion.dart';
 import 'package:mobile_store/src/features/address/view_model/address_view_model.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
 import '../../../core/model/address.dart';
@@ -11,7 +10,8 @@ import '../widget/delivery_address.dart';
 
 class CheckoutPage extends StatefulWidget {
   int? idAddress;
-  CheckoutPage({Key? key, required this.idAddress}) : super(key: key);
+  int? idPromotion;
+  CheckoutPage({Key? key, required this.idAddress, required this.idPromotion}) : super(key: key);
 
   @override
   State<CheckoutPage> createState() => _CheckoutPageState();
@@ -23,6 +23,7 @@ final AddressViewModel _addressViewModel = AddressViewModel();
 class _CheckoutPageState extends State<CheckoutPage> {
   String? _paymentMethod;
   late Future<Address> _addressFuture;
+  late Future<PromotionDTO> _promotionFuture;
   late Address address;
   @override
   void initState() {
@@ -32,6 +33,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   Future<void> _loadData() async {
     _addressFuture = _addressViewModel.getIdAddress(widget.idAddress);
+    //  _promotionFuture = _addressViewModel.getIdAddress(widget.idAddress);
   }
 
   @override
@@ -84,13 +86,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text(
-                AppLocalizations.of(context)!.paymentDetails,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+
               const SizedBox(height: 10),
               Row(
                 children: [

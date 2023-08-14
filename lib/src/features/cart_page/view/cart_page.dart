@@ -1,8 +1,8 @@
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/address/view/add_address.dart';
-import 'package:mobile_store/src/features/cart_page/widget/cart_list_view.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import '../../../../main.dart';
@@ -10,6 +10,7 @@ import '../../checkout/view/checkout_screen.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../widget/cart_list_view.dart';
 import '../widget/cart_selecte_address.dart';
 import '../widget/cart_selecte_promotion.dart';
 
@@ -22,20 +23,19 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   int? selectedAddressIndex = 0;
-  int selectedPromotionIndex = 0;
+  int? selectedPromotionIndex = 0;
   int quantity = 1;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
- 
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(context, false),
+      appBar: appBarWidget(context, true),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -82,7 +82,7 @@ class _CartPageState extends State<CartPage> {
 
 // Add another address ,
             Align(
-               alignment: Alignment.centerRight,
+              alignment: Alignment.centerRight,
               child: TextButton(
                 onPressed: () {
                   showDialog(
@@ -111,6 +111,7 @@ class _CartPageState extends State<CartPage> {
                 onAddressSelected: (int? index) {
                   setState(() {
                     selectedPromotionIndex = index!;
+                   
                   });
                 },
               ),
@@ -193,8 +194,8 @@ class _CartPageState extends State<CartPage> {
                       MaterialPageRoute(
                           builder: (context) => CheckoutPage(
                                 idAddress: selectedAddressIndex,
-                              )
-                      ),
+                                idPromotion: selectedPromotionIndex,
+                              )),
                     );
                   },
                   icon: const Icon(Icons.shopping_cart),

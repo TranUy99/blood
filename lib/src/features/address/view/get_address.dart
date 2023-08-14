@@ -53,56 +53,40 @@ class _GetAddressScreenState extends State<GetAddressScreen> {
                 children: [
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 1,
-                    child: Text('${address.nameReceiver}|${address.phoneReceiver}'),
+                    child: Text('${address.nameReceiver} | ${address.phoneReceiver}'),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 1,
                     child: Text('${address.location}'),
                   ),
                   const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      OutlinedButton(
-                        onPressed: () {},
-                        style: OutlinedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0),
+                  if (address.defaults == true)
+                    
+                    Row(
+                      children: [
+                        OutlinedButton(
+                          onPressed: () {},
+                          style: OutlinedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(0),
+                            ),
+                            side: const BorderSide(width: 1, color: Colors.green),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 0.1,
+                              horizontal: 14,
+                            ),
                           ),
-                          side: const BorderSide(width: 1, color: Colors.green),
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 0.1,
-                            horizontal: 14,
-                          ),
-                        ),
-                        child: const Text(
-                          'Default',
-                          style: TextStyle(
-                            color: Colors.green,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 20),
-                      OutlinedButton(
-                        onPressed: () {},
-                        style: OutlinedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          side: const BorderSide(width: 1, color: kOrange),
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 0.1,
-                            horizontal: 12,
+                          child: const Text(
+                            'Default',
+                            style: TextStyle(
+                              color: Colors.green,
+                            ),
                           ),
                         ),
-                        child: const Text(
-                          'Home',
-                          style: TextStyle(
-                            color: kOrange,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                        const SizedBox(width: 20),
+                      ],
+                    ),
+                    
                 ],
               ),
               trailing: Wrap(
