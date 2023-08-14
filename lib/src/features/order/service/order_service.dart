@@ -1,9 +1,6 @@
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:mobile_store/src/core/remote/response/order_response/order_response.dart';
-import 'package:retrofit/dio.dart';
-
 import '../../../../main.dart';
 import '../../../api/api_service.dart';
 import '../../../core/model/order_detail.dart';

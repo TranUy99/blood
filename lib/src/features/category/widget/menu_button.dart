@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/core/model/categories_dto.dart';
-import 'package:mobile_store/src/features/category/view/category_screen.dart';
 import 'package:mobile_store/src/features/category/view/navigation_category_screen.dart';
 import 'package:mobile_store/src/features/category/view_model/category_view_model.dart';
 

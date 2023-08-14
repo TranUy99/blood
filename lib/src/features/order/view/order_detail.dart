@@ -113,7 +113,7 @@ class _OrderDetailState extends State<OrderDetail> {
                       child: Row(
                         children: [
                           SizedBox(
-                            width: 100,
+                            width: 150,
                             child: CarouselSlider(
                               options: CarouselOptions(
                                 height: 150,
@@ -148,7 +148,7 @@ class _OrderDetailState extends State<OrderDetail> {
                             children: [
                               SizedBox(
                                 height: MediaQuery.of(context).size.height * 0.17,
-                                width: MediaQuery.of(context).size.width * 0.6,
+                                width: MediaQuery.of(context).size.width * 0.5,
                                 child: SingleChildScrollView(
                                   child: ListView.builder(
                                       shrinkWrap: true,
@@ -227,23 +227,23 @@ class _OrderDetailState extends State<OrderDetail> {
                             ),
                           ],
                         ),
-                        ElevatedButton(
-                          onPressed: () {
-                            // Handle the Pay button press
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: kGreyColor,
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          ),
-                          child: Text(
-                            AppLocalizations.of(context)!.paid,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
+                        // ElevatedButton(
+                        //   onPressed: () {
+                        //     // Handle the Pay button press
+                        //   },
+                        //   style: ElevatedButton.styleFrom(
+                        //     backgroundColor: kGreyColor,
+                        //     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        //   ),
+                        //   child: Text(
+                        //     AppLocalizations.of(context)!.paid,
+                        //     style: const TextStyle(
+                        //       fontWeight: FontWeight.bold,
+                        //       fontSize: 15,
+                        //       color: Colors.white,
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ],

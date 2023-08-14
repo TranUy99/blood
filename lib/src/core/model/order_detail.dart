@@ -2,9 +2,6 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:mobile_store/src/core/model/address.dart';
 import 'package:mobile_store/src/core/model/order_dto.dart';
 import 'package:mobile_store/src/core/model/order_product_dto.dart';
-import 'package:mobile_store/src/core/model/status_dto.dart';
-import 'package:mobile_store/src/core/model/user.dart';
-
 part 'order_detail.g.dart';
 
 @JsonSerializable()

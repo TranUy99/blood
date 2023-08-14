@@ -4,8 +4,6 @@ import 'package:mobile_store/src/features/detail_product/bloc/review_bloc/create
 import 'package:mobile_store/src/features/detail_product/bloc/review_bloc/edit_review_bloc.dart';
 import 'package:mobile_store/src/features/detail_product/bloc/review_bloc/get_review_bloc.dart';
 import 'package:mobile_store/src/features/detail_product/bloc/review_bloc/review_event.dart';
-import 'package:mobile_store/src/features/detail_product/service/review_service.dart';
-
 import '../bloc/review_bloc/edit_review_state.dart';
 import '../bloc/review_bloc/get_review_state.dart';
 
