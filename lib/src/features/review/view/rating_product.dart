@@ -5,6 +5,9 @@ import 'package:intl/intl.dart';
 import 'package:mobile_store/main.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/model/product.dart';
+import 'package:mobile_store/src/features/component/bloc_state/app_bar_event.dart';
+import 'package:mobile_store/src/features/component/custom_app_bar.dart';
+import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -22,6 +25,15 @@ class RatingProduct extends StatefulWidget {
 class _RatingProductState extends State<RatingProduct> {
   String selectedOption = '';
   String selectedColor = '';
+
+  int cartListLength(){
+    int count = 0;
+    for(int i=0; i<getUser.cartBox!.length; i++){
+      ProductDetailCart productDetailCart = getUser.cartBox?.getAt(i);
+      count += productDetailCart.productQuantity;
+    }
+    return count;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -168,43 +180,52 @@ class _RatingProductState extends State<RatingProduct> {
                 String? memory;
                 String? color;
 
-                if (selectedOption != '' && selectedColor != '') {
-                  for (int i = 0; i < getUser.cartBox!.length; i++) {
-                    ProductDetailCart product = getUser.cartBox?.getAt(i);
-                    if (widget.productDTO.id == product.productID &&
-                        selectedOption == product.memory &&
-                        selectedColor == product.color) {
-                      flag = i;
-                      memory = selectedOption;
-                      color = selectedColor;
+                if(successLoginState.onLoginState){
+                  if (selectedOption != '' && selectedColor != '') {
+                    for (int i = 0; i < getUser.cartBox!.length; i++) {
+                      ProductDetailCart product = getUser.cartBox?.getAt(i);
+                      if (widget.productDTO.id == product.productID &&
+                          selectedOption == product.memory &&
+                          selectedColor == product.color) {
+                        flag = i;
+                        memory = selectedOption;
+                        color = selectedColor;
+                      }
                     }
-                  }
-                  if (flag == null && memory == null && color == null) {
-                    getUser.cartBox?.add(ProductDetailCart(
-                        productID: widget.productDTO.id ?? 0,
-                        productQuantity: 1,
-                        memory: selectedOption,
-                        color: selectedColor));
+                    if (flag == null && memory == null && color == null) {
+                      getUser.cartBox?.add(ProductDetailCart(
+                          productID: widget.productDTO.id ?? 0,
+                          productQuantity: 1,
+                          memory: selectedOption,
+                          color: selectedColor));
+                    } else {
+                      ProductDetailCart product =
+                          getUser.cartBox?.getAt(flag ?? 0);
+                      getUser.cartBox?.putAt(
+                          flag ?? 0,
+                          ProductDetailCart(
+                              productID: widget.productDTO.id ?? 0,
+                              productQuantity: product.productQuantity + 1,
+                              memory: product.memory,
+                              color: product.color));
+                    }
+                    CustomAppBar.appBarBloc.eventController.sink
+                        .add(AddItemToCartEvent(cartListLength()));
+                    showTopSnackBar(
+                        Overlay.of(context),
+                        const CustomSnackBar.success(
+                            message: 'Add to cart successfully'));
                   } else {
-                    ProductDetailCart product =
-                        getUser.cartBox?.getAt(flag ?? 0);
-                    getUser.cartBox?.putAt(
-                        flag ?? 0,
-                        ProductDetailCart(
-                            productID: widget.productDTO.id ?? 0,
-                            productQuantity: product.productQuantity + 1,
-                            memory: product.memory,
-                            color: product.color));
+                    showTopSnackBar(
+                        Overlay.of(context),
+                        const CustomSnackBar.error(
+                            message: 'Please choose memory or color option'));
                   }
-                  showTopSnackBar(
-                      Overlay.of(context),
-                      const CustomSnackBar.success(
-                          message: 'Add to cart successfully'));
-                } else {
+                }else{
                   showTopSnackBar(
                       Overlay.of(context),
                       const CustomSnackBar.error(
-                          message: 'Please choose memory or color option'));
+                          message: 'You are not login yet'));
                 }
               },
               style: ElevatedButton.styleFrom(

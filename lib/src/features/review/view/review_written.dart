@@ -23,7 +23,6 @@ class _ReviewWrittenState extends State<ReviewWritten> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(widget.productId);
   }
 
   @override
