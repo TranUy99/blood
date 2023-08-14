@@ -165,28 +165,47 @@ class _RatingProductState extends State<RatingProduct> {
             child: ElevatedButton(
               onPressed: () async {
                 int? flag;
+                String? memory;
+                String? color;
 
-                for(int i=0; i<getUser.cartBox!.length; i++){
-                  ProductDetailCart product = getUser.cartBox?.getAt(i);
-                  if(widget.productDTO.id == product.productID){
-                    flag = i;
+                if (selectedOption != '' && selectedColor != '') {
+                  for (int i = 0; i < getUser.cartBox!.length; i++) {
+                    ProductDetailCart product = getUser.cartBox?.getAt(i);
+                    if (widget.productDTO.id == product.productID &&
+                        selectedOption == product.memory &&
+                        selectedColor == product.color) {
+                      flag = i;
+                      memory = selectedOption;
+                      color = selectedColor;
+                    }
                   }
+                  if (flag == null && memory == null && color == null) {
+                    getUser.cartBox?.add(ProductDetailCart(
+                        productID: widget.productDTO.id ?? 0,
+                        productQuantity: 1,
+                        memory: selectedOption,
+                        color: selectedColor));
+                  } else {
+                    ProductDetailCart product =
+                        getUser.cartBox?.getAt(flag ?? 0);
+                    getUser.cartBox?.putAt(
+                        flag ?? 0,
+                        ProductDetailCart(
+                            productID: widget.productDTO.id ?? 0,
+                            productQuantity: product.productQuantity + 1,
+                            memory: product.memory,
+                            color: product.color));
+                  }
+                  showTopSnackBar(
+                      Overlay.of(context),
+                      const CustomSnackBar.success(
+                          message: 'Add to cart successfully'));
+                } else {
+                  showTopSnackBar(
+                      Overlay.of(context),
+                      const CustomSnackBar.error(
+                          message: 'Please choose memory or color option'));
                 }
-                if(flag == null){
-                  getUser.cartBox?.add(ProductDetailCart(
-                      productID: widget.productDTO.id ?? 0, productQuantity: 1));
-                }else{
-                  ProductDetailCart product = getUser.cartBox?.getAt(flag);
-                  getUser.cartBox?.putAt(
-                      flag,
-                      ProductDetailCart(
-                          productID: widget.productDTO.id ?? 0,
-                          productQuantity: product.productQuantity + 1));
-                }
-                showTopSnackBar(
-                    Overlay.of(context),
-                    const CustomSnackBar.success(
-                        message: 'Add to cart successfully'));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: kGreenColor,

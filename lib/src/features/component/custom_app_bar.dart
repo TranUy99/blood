@@ -12,8 +12,6 @@ import '../category/widget/menu_button.dart';
 import '../home_page/view/navigation_home_page.dart';
 import '../search/view/search.dart';
 
-GlobalKey<_CustomAppBarState> classBKey = GlobalKey<_CustomAppBarState>();
-
 class CustomAppBar extends StatefulWidget {
   const CustomAppBar({super.key, required this.isBack});
 
