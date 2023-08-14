@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:mobile_store/languages/language_contanst.dart';
 import 'package:mobile_store/src/constant/utils/get_user.dart';
+import 'package:mobile_store/src/core/model/product_detail_cart.dart';
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 import 'package:mobile_store/src/features/login/service/login_service.dart';
@@ -17,6 +19,9 @@ void main() async {
   await _getUser();
   final NetworkController networkContrroller = Get.put(NetworkController());
   networkContrroller.onInit();
+  await Hive.initFlutter();
+  Hive.registerAdapter(ProductDetailCartAdapter());
+  getUser.cartBox = await Hive.openBox<ProductDetailCart>('cartBox');
   runApp(const MyApp());
 }
 
