@@ -23,10 +23,8 @@ class ReviewViewModel {
     await _createReviewBloc.state.listen((state) {
       if (state is SuccessCreateReviewState) {
         isSuccess = true;
-        print('success');
       } else if (state is ErrorCreateReviewState) {
         isSuccess = false;
-        print('failed');
       }
     });
     return isSuccess;

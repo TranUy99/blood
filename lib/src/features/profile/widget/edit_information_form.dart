@@ -48,7 +48,6 @@ class _EditInformationFormState extends State<EditInformationForm> {
         firstDate: DateTime(1990),
         lastDate: DateTime(2025));
     setState(() {});
-    print(dateOfBirth);
   }
 
   @override
@@ -102,7 +101,6 @@ class _EditInformationFormState extends State<EditInformationForm> {
               String fullNameText = _nameController.text;
               String birthdayFormat =
                   '${dateOfBirth?.day}-${dateOfBirth?.month}-${dateOfBirth?.year}';
-              print('$fullNameText - $birthdayFormat - $_selectedGender');
               UserDTO userInformation =
                   await changeInformationViewModel.changeInformationViewModel(
                 fullNameText,

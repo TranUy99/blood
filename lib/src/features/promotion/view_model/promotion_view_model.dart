@@ -1,8 +1,5 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:mobile_store/src/core/remote/response/promotion_response/promotion_response.dart';
-
 import '../bloc/promotion_bloc.dart';
 
 class PromotionViewModel {

@@ -15,7 +15,6 @@ UserDTO _$UserDTOFromJson(Map<String, dynamic> json) => UserDTO(
       email: json['email'] as String?,
       fullName: json['fullName'] as String?,
       birthday: json['birthDay'] as String?,
-      authProvider: json['authProvider'] as bool?,
       statusDTO: json['statusDTO'] as bool?,
     );
 
@@ -25,7 +24,6 @@ Map<String, dynamic> _$UserDTOToJson(UserDTO instance) => <String, dynamic>{
       'email': instance.email,
       'fullName': instance.fullName,
       'birthDay': instance.birthday,
-      'authProvider': instance.authProvider,
       'roleDTO': instance.roleDTO,
       'statusDTO': instance.statusDTO,
     };

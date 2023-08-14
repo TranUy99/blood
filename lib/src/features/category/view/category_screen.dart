@@ -341,7 +341,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
               setState(() {
 
               });
-              print(priceRange[index]);
+            
               pricePopupMenuController.hideMenu();
             },
             child: Container(

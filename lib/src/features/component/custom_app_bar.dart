@@ -149,7 +149,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                             getUser.token = preferences.getString('token');
                             getUser.password =
                                 preferences.getString('password');
-                            print('${getUser.email} - ${getUser.password}');
+                            
                             // ignore: use_build_context_synchronously
                             Navigator.pushReplacement(
                                 context,

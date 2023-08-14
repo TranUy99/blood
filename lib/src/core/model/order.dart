@@ -1,30 +1,27 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mobile_store/src/core/model/order_product.dart';
+import 'package:mobile_store/src/core/model/order_product_dto.dart';
 import 'package:mobile_store/src/core/model/status_dto.dart';
 part 'order.g.dart';
 
 @JsonSerializable()
 class Order {
-  @JsonKey(name: 'idUser')
-  final int? idUser;
+  @JsonKey(name: 'id')
+  final int? id;
 
-  @JsonKey(name: 'idPromotion')
-  final int? idPromotion;
+  @JsonKey(name: 'total')
+  final double? total;
 
-  @JsonKey(name: 'paymentMethodDTO')
-  final String? paymentMethodDTO;
+  @JsonKey(name: 'receiveDate')
+  final String? receiveDate;
 
   @JsonKey(name: 'statusDTO')
   final StatusDTO? statusDTO;
 
-  @JsonKey(name: 'orderProductDTOList')
-  final OrderProduct? orderProductDTOList;
+  @JsonKey(name: 'productOrderDTO')
+  final OrderProductDTO? productOrderDTO;
 
   Order(
-      {this.idUser,
-      this.idPromotion,
-      this.orderProductDTOList,
-      this.paymentMethodDTO,
+      {this.id, this.total, this.productOrderDTO, this.receiveDate,
       this.statusDTO});
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
 

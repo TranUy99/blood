@@ -17,6 +17,8 @@ import 'package:mobile_store/src/core/remote/response/review_response/edit_revie
 import 'package:mobile_store/src/core/remote/response/search_response/search_response.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../core/model/order_detail.dart';
+import '../core/model/review_dtos.dart';
 import '../core/remote/request/address_request/address_create_request.dart';
 import '../core/remote/request/forgot_password_request/forgot_password_request.dart';
 import '../core/remote/request/sign_up_request/sign_up_request.dart';
@@ -26,6 +28,7 @@ import '../core/remote/response/category_response/category_items_response.dart';
 import '../core/remote/response/change_password_response/change_password_response.dart';
 import '../core/remote/response/forgot_password_response/forgot_password_response.dart';
 import '../core/remote/response/forgot_password_response/send_email_forgot_password_response.dart';
+import '../core/remote/response/order_response/order_response.dart';
 import '../core/remote/response/review_response/create_review_response.dart';
 import '../core/remote/response/review_response/review_response.dart';
 import '../core/remote/response/sign_up_response/sign_up_response.dart';
@@ -52,8 +55,7 @@ abstract class ApiService {
   //Call api getUser to get user information after login
   @GET('/api/user/{id}')
   Future<UserDTO> getUser(
-      {@Header("Authorization") required String auth,
-      @Path('id') required int id});
+      {@Header("Authorization") required String auth, @Path('id') required int id});
 
   //Verified email and password to login
   @POST('/api/login')
@@ -73,13 +75,12 @@ abstract class ApiService {
 
   //search product with namme
   @GET('/api/product/search-product')
-  Future<SearchResponse> searchNameProduct(@Query('keyword') String? keyword,
-      @Query('no') int? no, @Query('limit') int? limit);
+  Future<SearchResponse> searchNameProduct(
+      @Query('keyword') String? keyword, @Query('no') int? no, @Query('limit') int? limit);
 
   //Call this api to send otp via email to active
   @GET('/api/mail/active-user')
-  Future<SendEmailActiveUserResponse> sendEmailActiveUser(
-      @Query('email') String email);
+  Future<SendEmailActiveUserResponse> sendEmailActiveUser(@Query('email') String email);
 
   //Verify whether the OTP matches the one sent to the email
   @GET('/api/user/active-otp')
@@ -122,50 +123,49 @@ abstract class ApiService {
 
   //Get promotion
   @GET('/api/promotion')
-  Future<PromotionResponse> getPromotion(@Header("Authorization") String auth,
-      @Query('no') int? no, @Query('limit') int? limit);
+  Future<PromotionResponse> getPromotion(
+      @Header("Authorization") String auth, @Query('no') int? no, @Query('limit') int? limit);
 
   @GET('/api/product/filter-product')
-  Future<CategoryFilterResponse> productCategoryFilter(
-      @Query('manufacturerId') int? manufacturerId,
-      @Query('categoryId') int categoryId,
-      @Query('no') int no,
-      @Query('limit') int limit);
+  Future<CategoryFilterResponse> productCategoryFilter(@Query('manufacturerId') int? manufacturerId,
+      @Query('categoryId') int categoryId, @Query('no') int no, @Query('limit') int limit);
 
   @GET('/api/categories')
-  Future<CategoryItemsResponse> getCategory(
-      @Query('no') int no, @Query('limit') int limit);
+  Future<CategoryItemsResponse> getCategory(@Query('no') int no, @Query('limit') int limit);
 
   @GET('/api/manufacturer')
-  Future<ManufacturerItemsResponse> getManufacturer(
-      @Query('no') int no, @Query('limit') int limit);
+  Future<ManufacturerItemsResponse> getManufacturer(@Query('no') int no, @Query('limit') int limit);
 
   @GET('/api/mail/forgot-password/{email}')
-  Future<SendEmailForgotPasswordResponse> sendEmailForgotPassword(
-      @Path('email') String email);
+  Future<SendEmailForgotPasswordResponse> sendEmailForgotPassword(@Path('email') String email);
 
   @POST('/api/user/change-password-by-otp')
   Future<ForgotPasswordResponse> forgotPassword(
       @Body() ForgotPasswordRequest forgotPasswordRequest);
 
   @PUT('/api/user/{id}')
-  Future<UserDTO> changeInformationUser(
-      @Path('id') int userId,
-      @Header("Authorization") String auth,
-      @Body() ChangeInformationRequest changeInformation);
+  Future<UserDTO> changeInformationUser(@Path('id') int userId,
+      @Header("Authorization") String auth, @Body() ChangeInformationRequest changeInformation);
+//get order
+  @GET('/api/order/user')
+  Future<OrderResponse> getOrder(
+      @Header("Authorization") String auth, @Query('no') int? no, @Query('limit') int? limit);
+//get order detail
+  @GET('/api/order/user/detail/{id}')
+  Future<OrderDetailDTO> getOrderDetail(
+    @Header("Authorization") String auth,
+    @Path("id") int? id,
+  );
 
   @POST('/api/review')
   Future<CreateReviewResponse> createReview(
-      @Header("Authorization") String auth,
-      @Body() CreateReviewRequest createReviewRequest);
+      @Header("Authorization") String auth, @Body() CreateReviewRequest createReviewRequest);
 
   @PUT('/api/review/{reviewID}')
-  Future<EditReviewResponse> editReview(
-      @Path('reviewID') int reviewID,
-      @Header("Authorization") String auth,
-      @Body() EditReviewRequest editReviewRequest);
+  Future<EditReviewResponse> editReview(@Path('reviewID') int reviewID,
+      @Header("Authorization") String auth, @Body() EditReviewRequest editReviewRequest);
 
   @GET('/api/review/{manufacturerID}')
-  Future<ReviewResponse> getReview(@Path('manufacturerID') int manufacturerID,
-      @Query('no') int no, @Query('limit') int limit);
+  Future<ReviewResponse> getReview(
+      @Path('manufacturerID') int manufacturerID, @Query('no') int no, @Query('limit') int limit);
 }

@@ -28,7 +28,6 @@ class SendEmailForgotPasswordBloc {
       error = e.toString();
     }
 
-    print(httpCode);
 
     if (httpCode != null) {
       _stateController.add(SuccessSendEmailForgotPasswordState());

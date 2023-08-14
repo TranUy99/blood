@@ -3,8 +3,6 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:mobile_store/src/features/detail_product/view_model/review_view_model.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
-
-import '../../../../main.dart';
 import '../../../constant/color/color.dart';
 
 class EditReview extends StatefulWidget {
@@ -33,7 +31,6 @@ class _EditReviewState extends State<EditReview> {
     super.initState();
     rating = widget.rating;
     _reviewController.text = widget.comment;
-    print(widget.reviewID);
   }
 
   @override
