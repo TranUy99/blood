@@ -1,5 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,10 +9,10 @@ import '../../constant/color/color.dart';
 import '../category/widget/menu_button.dart';
 import '../home_page/view/navigation_home_page.dart';
 import '../search/view/search.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CustomAppBar extends StatefulWidget {
-  const CustomAppBar({super.key});
+  const CustomAppBar({super.key, required this.isBack});
+  final bool isBack;
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
@@ -29,8 +30,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
         ),
         color: kDarkGreyColor,
         boxShadow: const [BoxShadow(blurRadius: 50.0)],
-        borderRadius:
-            BorderRadius.vertical(bottom: Radius.elliptical(MediaQuery.of(context).size.width, 20)),
+        borderRadius: BorderRadius.vertical(
+            bottom: Radius.elliptical(MediaQuery.of(context).size.width, 20)),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -41,17 +42,29 @@ class _CustomAppBarState extends State<CustomAppBar> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const MenuButton(),
+                widget.isBack
+                    ? IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.white,
+                        ))
+                    : const MenuButton(),
                 SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.75,
+                    width: MediaQuery.of(context).size.width * 0.65,
                     height: MediaQuery.of(context).size.height * 0.05,
                     child: GestureDetector(
                       onTap: () {
                         Navigator.push(
-                            context, MaterialPageRoute(builder: (context) => const Search()));
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Search()));
                       },
                       child: Container(
-                        padding: const EdgeInsets.fromLTRB(10.0, 10.0, 20.0, 10.0),
+                        padding:
+                            const EdgeInsets.fromLTRB(10.0, 10.0, 20.0, 10.0),
                         decoration: BoxDecoration(
                           color: kWhiteColor,
                           borderRadius: BorderRadius.circular(10),
@@ -59,11 +72,12 @@ class _CustomAppBarState extends State<CustomAppBar> {
                         ),
                         child: Row(children: [
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.6,
+                            width: MediaQuery.of(context).size.width * 0.50,
                             child: DefaultTextStyle(
                               style: GoogleFonts.lato(
                                 color: kGreenColor,
-                                textStyle: Theme.of(context).textTheme.displayLarge,
+                                textStyle:
+                                    Theme.of(context).textTheme.displayLarge,
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                                 fontStyle: FontStyle.italic,
@@ -84,8 +98,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                   ),
                                 ],
                                 onTap: () {
-                                   Navigator.push(
-                            context, MaterialPageRoute(builder: (context) => const Search()));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const Search()));
                                 },
                               ),
                             ),
@@ -97,9 +114,14 @@ class _CustomAppBarState extends State<CustomAppBar> {
                         ]),
                       ),
                     )),
-                IconButton(onPressed: () {
-
-                }, icon: Icon(Icons.shopping_cart_outlined))
+                IconButton(
+                    onPressed: () {},
+                    icon: const Badge(
+                        label: Text('10'),
+                        child: Icon(
+                          Icons.shopping_cart_outlined,
+                          color: Colors.white,
+                        )))
               ],
             ),
           ),
@@ -112,7 +134,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       Text(getUser.userDTO.fullName ?? ''),
                       TextButton(
                           onPressed: () async {
-                            SharedPreferences preferences = await SharedPreferences.getInstance();
+                            SharedPreferences preferences =
+                                await SharedPreferences.getInstance();
                             if (getUser.isRemember == false) {
                               preferences.remove('email');
                               preferences.remove('password');
@@ -124,13 +147,15 @@ class _CustomAppBarState extends State<CustomAppBar> {
                             getUser.email = preferences.getString('email');
                             getUser.idUser = preferences.getInt('idUser');
                             getUser.token = preferences.getString('token');
-                            getUser.password = preferences.getString('password');
+                            getUser.password =
+                                preferences.getString('password');
                             print('${getUser.email} - ${getUser.password}');
                             // ignore: use_build_context_synchronously
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const NavigationHomePage()));
+                                    builder: (context) =>
+                                        const NavigationHomePage()));
                           },
                           child: const Text(
                             'Log out',
@@ -149,7 +174,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   }
 }
 
-PreferredSizeWidget? appBarWidget(BuildContext context) {
+PreferredSizeWidget? appBarWidget(BuildContext context, bool isBack) {
   return PreferredSize(
     preferredSize: successLoginState.onLoginState
         ? Size.fromHeight(MediaQuery.of(context).size.height * 0.2)
@@ -157,8 +182,8 @@ PreferredSizeWidget? appBarWidget(BuildContext context) {
     child: AppBar(
         backgroundColor: kSecondaryColor,
         leading: Image(
-                image: const AssetImage('assets/images/banner0.jpg'),
-                height: MediaQuery.of(context).size.height * 0.06),
-        flexibleSpace: const CustomAppBar()),
+            image: const AssetImage('assets/images/banner0.jpg'),
+            height: MediaQuery.of(context).size.height * 0.06),
+        flexibleSpace: CustomAppBar(isBack: isBack,)),
   );
 }

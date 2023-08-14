@@ -1,9 +1,9 @@
 import 'package:mobile_store/src/core/model/review_dtos.dart';
 import 'package:mobile_store/src/core/remote/response/review_response/review_response.dart';
-import 'package:mobile_store/src/features/detail_product/bloc/review_bloc/review_event.dart';
+import 'package:mobile_store/src/features/review/bloc_state/review_event.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../service/review_service.dart';
+import '../service/review_service.dart';
 import 'get_review_state.dart';
 
 class GetReviewBloc {

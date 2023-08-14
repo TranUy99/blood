@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/core/model/categories_dto.dart';
 import 'package:mobile_store/src/features/category/view/category_screen.dart';
-import 'package:mobile_store/src/features/category/view/navigation_category_screen.dart';
 import 'package:mobile_store/src/features/category/view_model/category_view_model.dart';
 
 class MenuButton extends StatefulWidget {
@@ -48,7 +47,7 @@ class _MenuButtonState extends State<MenuButton> {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => NavigationCategoryScreen(categoryIndex: value),
+          builder: (context) => CategoryScreen(categoryID: value),
         ));
   }
 

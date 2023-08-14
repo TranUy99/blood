@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/address/view/add_address.dart';
+import 'package:mobile_store/src/features/cart_page/widget/cart_list_view.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import '../../../../main.dart';
@@ -35,113 +36,11 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(context),
+      appBar: appBarWidget(context, false),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: 3, // số lượng sản phẩm trong giỏ hàng
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-                  child: Container(
-                    height: 120,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: <Widget>[
-                        // Container(
-                        //   width: 120.0,
-                        //   decoration: const BoxDecoration(
-                        //     borderRadius: BorderRadius.only(
-                        //       topLeft: Radius.circular(15.0),
-                        //       bottomLeft: Radius.circular(15.0),
-                        //     ),
-                        //   ),
-                        //   child: Image.asset(
-                        //     'assets/icon/iphone.png',
-                        //     height: 150,
-                        //     width: 80,
-                        //   ),
-                        // ),
-                        // const SizedBox(width: 15),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            const Text(
-//'Product ${index + 1}',
-                              'Iphone 14 Pro Max',
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            const Text(
-//'${widget.productDTO.price}',
-                              '1099 USD',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: kGreenColor,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Row(
-                              children: <Widget>[
-                                IconTheme(
-                                  data: IconThemeData(color: quantity == 1 ? kGreyColor : null),
-                                  child: IconButton(
-                                    icon: const Icon(Icons.remove),
-                                    onPressed: () {
-                                      setState(() {
-// xử lý giảm số lượng sản phẩm
-                                        if (quantity > 1) {
-                                          quantity--;
-                                        }
-                                      });
-                                    },
-                                  ),
-                                ),
-                                Text(
-                                  '$quantity',
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.add),
-                                  onPressed: () {
-                                    setState(() {
-// xử lý tăng số lượng sản phẩm
-                                      quantity++;
-                                    });
-                                  },
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
+            CartListView(),
             Align(
               alignment: Alignment.bottomRight,
               child: Padding(

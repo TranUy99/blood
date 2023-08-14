@@ -1,9 +1,9 @@
-import 'package:mobile_store/src/features/detail_product/bloc/review_bloc/create_review_state.dart';
-import 'package:mobile_store/src/features/detail_product/bloc/review_bloc/review_event.dart';
+import 'package:mobile_store/src/features/review/bloc_state/create_review_state.dart';
+import 'package:mobile_store/src/features/review/bloc_state/review_event.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../../../main.dart';
-import '../../service/review_service.dart';
+import '../../../../main.dart';
+import '../service/review_service.dart';
 
 class CreateReviewBloc {
   ReviewService reviewService = ReviewService();

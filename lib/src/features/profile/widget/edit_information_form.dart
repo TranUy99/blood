@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:mobile_store/main.dart';
 import 'package:mobile_store/src/constant/utils/validate.dart';
 import 'package:mobile_store/src/core/model/user.dart';
+import 'package:mobile_store/src/features/component/custom_app_bar.dart';
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import 'package:mobile_store/src/features/profile/view_model/change_information_view_model.dart';
 
@@ -108,6 +109,9 @@ class _EditInformationFormState extends State<EditInformationForm> {
                 _selectedGender!,
                 birthdayFormat,
               );
+              setState(() {
+                getUser.userDTO = userInformation;
+              });
               setState(() {
                 getUser.userDTO = userInformation;
                 indexScreen = 2;

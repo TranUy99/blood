@@ -12,13 +12,11 @@ import 'package:mobile_store/src/core/remote/response/address_response/address_r
 import 'package:mobile_store/src/core/remote/response/category_response/manufacturer_items_response.dart';
 import 'package:mobile_store/src/core/remote/response/login_response/login_response.dart';
 import 'package:mobile_store/src/core/remote/response/product_filter_response/category_filter_response.dart';
-import 'package:mobile_store/src/core/remote/response/product_filter_response/manufacturer_filter_response.dart';
 import 'package:mobile_store/src/core/remote/response/promotion_response/promotion_response.dart';
 import 'package:mobile_store/src/core/remote/response/review_response/edit_review_response.dart';
 import 'package:mobile_store/src/core/remote/response/search_response/search_response.dart';
 import 'package:retrofit/retrofit.dart';
 
-import '../core/model/review_dtos.dart';
 import '../core/remote/request/address_request/address_create_request.dart';
 import '../core/remote/request/forgot_password_request/forgot_password_request.dart';
 import '../core/remote/request/sign_up_request/sign_up_request.dart';
@@ -35,7 +33,7 @@ import '../core/remote/response/sign_up_response/sign_up_response.dart';
 part 'api_service.g.dart';
 
 //Base address
-@RestApi(baseUrl: 'http://10.5.50.4:8085')
+@RestApi(baseUrl: 'http://192.168.1.43:8085')
 // @RestApi(baseUrl: 'http://45.117.170.206:8085')
 
 abstract class ApiService {

@@ -5,11 +5,11 @@ import 'package:mobile_store/src/features/detail_product/view_model/detail_produ
 import 'package:mobile_store/src/features/detail_product/widget/configuration_product.dart';
 import 'package:mobile_store/src/features/detail_product/widget/image_product.dart';
 import 'package:mobile_store/src/features/detail_product/widget/product_information.dart';
-import 'package:mobile_store/src/features/detail_product/widget/rating_product.dart';
-import 'package:mobile_store/src/features/detail_product/widget/review_product.dart';
 
 import '../../../core/model/review_dtos.dart';
 import '../../../core/remote/response/review_response/review_response.dart';
+import '../../review/view/rating_product.dart';
+import '../../review/view/review_product.dart';
 import '../view_model/review_view_model.dart';
 
 class ProductDetailScreen extends StatefulWidget {
@@ -112,7 +112,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   Widget buildUI(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(context),
+      appBar: appBarWidget(context, true),
       body: SingleChildScrollView(
           controller: _scrollController,
           child: Column(

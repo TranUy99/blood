@@ -9,7 +9,7 @@ class CreateReviewEvent extends ReviewEvent{
 
 class GetReviewEvent extends ReviewEvent{
   final int manufacturerID;
-  final int no;
+  final int no; 
   final int limit;
   GetReviewEvent(this.manufacturerID, this.no, this.limit);
 }

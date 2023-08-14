@@ -4,19 +4,20 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/remote/response/review_response/review_response.dart';
 import 'package:mobile_store/src/features/detail_product/view_model/review_view_model.dart';
-import 'package:mobile_store/src/features/detail_product/widget/edit_review.dart';
-import 'package:mobile_store/src/features/detail_product/widget/review_written.dart';
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
+import 'package:mobile_store/src/features/review/view/edit_review.dart';
+import 'package:mobile_store/src/features/review/view/review_written.dart';
 
 import '../../../../main.dart';
-import '../view/detail_product_screen.dart';
+import '../../detail_product/view/detail_product_screen.dart';
 
 class ReviewProduct extends StatefulWidget {
-  const ReviewProduct(
-      {super.key,
-      required this.productId,
-      required this.no,
-      required this.limit,});
+  const ReviewProduct({
+    super.key,
+    required this.productId,
+    required this.no,
+    required this.limit,
+  });
 
   final int productId;
   final int no;
@@ -31,16 +32,15 @@ class _ReviewProductState extends State<ReviewProduct> {
   ReviewResponse? reviewResponse;
 
   _getReviewData(int categoryId, int page) async {
-    reviewResponse =
-    await _reviewViewModel.getReviewViewModel(categoryId, page, widget.limit);
-    try{
+    reviewResponse = await _reviewViewModel.getReviewViewModel(
+        categoryId, page, widget.limit);
+    try {
       setState(() {
         reviewList += reviewResponse?.contents ?? [];
       });
-    }catch(e){
+    } catch (e) {
       print(e.toString());
     }
-
   }
 
   @override
@@ -101,24 +101,25 @@ class _ReviewProductState extends State<ReviewProduct> {
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return ListTile(
-          trailing: (reviewList[index].userID == getUser.idUser && successLoginState.onLoginState)
+          trailing: (reviewList[index].userID == getUser.idUser &&
+                  successLoginState.onLoginState)
               ? IconButton(
-            icon: const Icon(Icons.edit),
-            onPressed: () async {
-              await showDialog(
-                context: context,
-                builder: (context) => EditReview(
-                    reviewID: reviewList[index].reviewID!,
-                    rating: reviewList[index].rating!,
-                    comment: reviewList[index].comment!),
-              );
-              setState(() {
-                reviewList = [];
-                currentPageReview = 0;
-                _getReviewData(widget.productId, widget.no);
-              });
-            },
-          )
+                  icon: const Icon(Icons.edit),
+                  onPressed: () async {
+                    await showDialog(
+                      context: context,
+                      builder: (context) => EditReview(
+                          reviewID: reviewList[index].reviewID!,
+                          rating: reviewList[index].rating!,
+                          comment: reviewList[index].comment!),
+                    );
+                    setState(() {
+                      reviewList = [];
+                      currentPageReview = 0;
+                      _getReviewData(widget.productId, widget.no);
+                    });
+                  },
+                )
               : null,
           title: Column(
             mainAxisAlignment: MainAxisAlignment.start,
