@@ -48,8 +48,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       reviewList = [];
       currentPageReview = 0;
     });
-    print(widget.idProduct);
-    print('$currentPageReview - ${reviewResponse?.totalPages}');
     _getReviewData(widget.idProduct, currentPageReview);
     _scrollController.addListener(() {
       if (_scrollController.offset ==

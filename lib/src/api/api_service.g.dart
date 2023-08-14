@@ -276,6 +276,34 @@ class _ApiService implements ApiService {
   }
 
   @override
+  Future<Address> getIdAddress({
+    required String auth,
+    int? id,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{r'Authorization': auth};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Address>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/address/${id}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Address.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
   Future<AddressResponse> createAddress({
     required String auth,
     required AddressCreateRequest createAddress,

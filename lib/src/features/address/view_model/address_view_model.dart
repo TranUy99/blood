@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:mobile_store/src/core/model/address.dart';
 import 'package:mobile_store/src/core/model/district.dart';
 import 'package:mobile_store/src/core/model/province.dart';
@@ -110,6 +111,31 @@ class AddressViewModel {
         completer.complete(addressList);
         subscription!.cancel();
       } else if (state is FailedGetAddressState) {
+        completer.completeError('Error fetching products');
+        subscription!.cancel();
+      }
+    });
+
+    return completer.future;
+  }
+
+// add event and listen get address state
+  Future<Address> getIdAddress(int? idAddress) async {
+    final addressEvent = GetIdAddressEvent(idAddress);
+    Address address;
+
+    Completer<Address> completer = Completer<Address>();
+
+    await _addressBloc.getIdAddressEvent(addressEvent);
+
+    StreamSubscription<AddressState>? subscription;
+    subscription = _addressBloc.addressStateStream.listen((state) {
+      if (state is SuccessGetIdAddressState) {
+        address = state.address;
+
+        completer.complete(address);
+        subscription!.cancel();
+      } else if (state is FailedGetIdAddressState) {
         completer.completeError('Error fetching products');
         subscription!.cancel();
       }

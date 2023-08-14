@@ -99,7 +99,12 @@ abstract class ApiService {
   Future<List<Address>> getAddress({
     @Header("Authorization") required String auth,
   });
-
+  // Call api  get address
+  @GET('/api/address/{id}')
+  Future<Address> getIdAddress({
+    @Header("Authorization") required String auth,
+    @Path("id") required int? id,
+  });
   // Call api create address
   @POST('/api/address')
   Future<AddressResponse> createAddress({

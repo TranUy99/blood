@@ -45,3 +45,8 @@ class DeleteAddressEvent extends AddressEvent {
 
   DeleteAddressEvent(this.id);
 }
+// get IdAddress
+class GetIdAddressEvent extends AddressEvent {
+  final int? idAddress;
+  GetIdAddressEvent(this.idAddress);
+}

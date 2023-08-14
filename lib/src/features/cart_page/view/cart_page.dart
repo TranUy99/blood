@@ -5,7 +5,7 @@ import 'package:mobile_store/src/features/address/view/add_address.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import '../../../../main.dart';
-import '../../checkout/screen/checkout_screen.dart';
+import '../../checkout/view/checkout_screen.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -20,7 +20,7 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  int selectedAddressIndex = 0;
+  int? selectedAddressIndex = 0;
   int selectedPromotionIndex = 0;
   int quantity = 1;
 
@@ -28,7 +28,7 @@ class _CartPageState extends State<CartPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print('idUser: ${getUser.idUser}');
+ 
   }
 
   @override
@@ -173,7 +173,7 @@ class _CartPageState extends State<CartPage> {
             ),
 // selected address
             SelectedAddressCart(
-              selectedAddressIndex: selectedAddressIndex,
+              selectedAddressIndex: selectedAddressIndex!,
               onAddressSelected: (int index) {
                 setState(() {
                   selectedAddressIndex = index;
@@ -292,7 +292,9 @@ class _CartPageState extends State<CartPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const CheckoutPage(),
+                          builder: (context) => CheckoutPage(
+                                idAddress: selectedAddressIndex,
+                              )
                       ),
                     );
                   },

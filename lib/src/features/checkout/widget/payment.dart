@@ -34,7 +34,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
           title: Row(
             children: [
               Image.asset(
-                'images/momo_icon.png',
+                'assets/icon/momo_icon.png',
                 width: 24,
                 height: 24,
               ),
@@ -51,7 +51,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
           title: Row(
             children: [
               Image.asset(
-                'images/receive_oder_icon.png',
+                'assets/icon/receive_oder_icon.png',
                 width: 24,
                 height: 24,
               ),
@@ -68,7 +68,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
           title: Row(
             children: [
               Image.asset(
-                'images/banking_icon.png',
+                'assets/icon/banking_icon.png',
                 width: 24,
                 height: 24,
               ),
