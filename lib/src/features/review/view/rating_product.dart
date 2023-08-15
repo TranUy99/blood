@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/constant/color/color.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:mobile_store/src/core/model/product.dart';
-import 'package:mobile_store/src/features/cart_page/view/cart_page.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:intl/intl.dart';
+import 'package:mobile_store/main.dart';
+import 'package:mobile_store/src/constant/color/color.dart';
+import 'package:mobile_store/src/core/model/product.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
+
+import '../../../core/model/product_detail_cart.dart';
 
 class RatingProduct extends StatefulWidget {
   final ProductDTO productDTO;
+
   const RatingProduct({super.key, required this.productDTO});
 
   @override
@@ -29,7 +34,8 @@ class _RatingProductState extends State<RatingProduct> {
           padding: const EdgeInsets.only(left: 8),
           child: Text(
             '${widget.productDTO.name}',
-            style: const TextStyle(fontSize: 16, color: kBlackColor, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+                fontSize: 16, color: kBlackColor, fontWeight: FontWeight.bold),
           ),
         ),
 
@@ -76,13 +82,17 @@ class _RatingProductState extends State<RatingProduct> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5.0),
                       border: Border.all(
-                        color: selectedOption == memoryName ? kGreenColor : kGreyColor,
+                        color: selectedOption == memoryName
+                            ? kGreenColor
+                            : kGreyColor,
                       ),
                     ),
                     child: Text(
                       memoryName!,
                       style: TextStyle(
-                        color: selectedOption == memoryName ? kGreenColor : kGreyColor,
+                        color: selectedOption == memoryName
+                            ? kGreenColor
+                            : kGreyColor,
                       ),
                     ),
                   ),
@@ -118,7 +128,9 @@ class _RatingProductState extends State<RatingProduct> {
                   child: Container(
                     padding: const EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
-                      color: selectedColor == colorName ? colorMap[colorName] : Colors.white,
+                      color: selectedColor == colorName
+                          ? colorMap[colorName]
+                          : Colors.white,
                       borderRadius: BorderRadius.circular(5.0),
                       border: Border.all(),
                     ),
@@ -151,13 +163,30 @@ class _RatingProductState extends State<RatingProduct> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const CartPage(),
-                  ),
-                );
+              onPressed: () async {
+                int? flag;
+
+                for(int i=0; i<getUser.cartBox!.length; i++){
+                  ProductDetailCart product = getUser.cartBox?.getAt(i);
+                  if(widget.productDTO.id == product.productID){
+                    flag = i;
+                  }
+                }
+                if(flag == null){
+                  getUser.cartBox?.add(ProductDetailCart(
+                      productID: widget.productDTO.id ?? 0, productQuantity: 1));
+                }else{
+                  ProductDetailCart product = getUser.cartBox?.getAt(flag);
+                  getUser.cartBox?.putAt(
+                      flag,
+                      ProductDetailCart(
+                          productID: widget.productDTO.id ?? 0,
+                          productQuantity: product.productQuantity + 1));
+                }
+                showTopSnackBar(
+                    Overlay.of(context),
+                    const CustomSnackBar.success(
+                        message: 'Add to cart successfully'));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: kGreenColor,

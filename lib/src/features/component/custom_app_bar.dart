@@ -1,5 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,8 +12,11 @@ import '../category/widget/menu_button.dart';
 import '../home_page/view/navigation_home_page.dart';
 import '../search/view/search.dart';
 
+GlobalKey<_CustomAppBarState> classBKey = GlobalKey<_CustomAppBarState>();
+
 class CustomAppBar extends StatefulWidget {
   const CustomAppBar({super.key, required this.isBack});
+
   final bool isBack;
 
   @override
@@ -19,6 +24,8 @@ class CustomAppBar extends StatefulWidget {
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
+  int? cartListLength;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -115,10 +122,17 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       ),
                     )),
                 IconButton(
-                    onPressed: () {},
-                    icon: const Badge(
-                        label: Text('10'),
-                        child: Icon(
+                    onPressed: () {
+                      setState(() {
+                        indexScreen = 1;
+                      });
+                      Get.offAll(const NavigationHomePage());
+                    },
+                    icon: Badge(
+                        label: Text((cartListLength == null)
+                            ? '0'
+                            : cartListLength.toString()),
+                        child: const Icon(
                           Icons.shopping_cart_outlined,
                           color: Colors.white,
                         )))
@@ -149,7 +163,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                             getUser.token = preferences.getString('token');
                             getUser.password =
                                 preferences.getString('password');
-                            
+
                             // ignore: use_build_context_synchronously
                             Navigator.pushReplacement(
                                 context,
@@ -184,6 +198,8 @@ PreferredSizeWidget? appBarWidget(BuildContext context, bool isBack) {
         leading: Image(
             image: const AssetImage('assets/images/banner0.jpg'),
             height: MediaQuery.of(context).size.height * 0.06),
-        flexibleSpace: CustomAppBar(isBack: isBack,)),
+        flexibleSpace: CustomAppBar(
+          isBack: isBack,
+        )),
   );
 }

@@ -1,3 +1,4 @@
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobile_store/src/core/model/user.dart';
 
 class GetUser {
@@ -7,7 +8,13 @@ class GetUser {
   String? _email;
   UserDTO _userDTO = UserDTO();
   bool? _isRemember;
+  Box? _cartBox;
 
+  Box? get cartBox => _cartBox;
+
+  set cartBox(Box? value) {
+    _cartBox = value;
+  }
 
   bool? get isRemember => _isRemember;
 

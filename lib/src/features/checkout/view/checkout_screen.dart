@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/model/promotion.dart';
 import 'package:mobile_store/src/features/address/view_model/address_view_model.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
 import '../../../core/model/address.dart';
+import '../widget/checkout_list_product.dart';
 import '../widget/payment.dart';
 import '../widget/delivery_address.dart';
 
 class CheckoutPage extends StatefulWidget {
   int? idAddress;
   int? idPromotion;
+
   CheckoutPage({Key? key, required this.idAddress, required this.idPromotion}) : super(key: key);
 
   @override
@@ -25,6 +28,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   late Future<Address> _addressFuture;
   late Future<PromotionDTO> _promotionFuture;
   late Address address;
+
   @override
   void initState() {
     super.initState();
@@ -34,6 +38,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
   Future<void> _loadData() async {
     _addressFuture = _addressViewModel.getIdAddress(widget.idAddress);
     //  _promotionFuture = _addressViewModel.getIdAddress(widget.idAddress);
+  }
+
+  double? totalAmount = 0;
+
+  void updateTotalAmount(double? newTotalAmount) {
+    setState(() {
+      totalAmount = newTotalAmount;
+    });
   }
 
   @override
@@ -88,99 +100,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
               ),
 
               const SizedBox(height: 10),
-              Row(
-                children: [
-                  // Image.asset(
-                  //   'images/iphone14Blue.jpg',
-                  //   width: 100,
-                  //   height: 100,
-                  // ),
-                  const SizedBox(width: 5),
-                  const Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Iphone 14',
-                          style: TextStyle(
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          'Blue, 128 GB',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: kGreyColor,
-                          ),
-                        ),
-                        Text(
-                          'Quantity: 1',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: kGreyColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Text(
-                    '1025 USD',
-                    style: TextStyle(
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.bold,
-                      color: kGreenColor,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 14),
-              Row(
-                children: [
-                  // Image.asset(
-                  //   'images/ZFlip4.jpg',
-                  //   width: 100,
-                  //   height: 100,
-                  // ),
-                  const SizedBox(width: 5),
-                  const Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Samsung Galaxy Z Flip 4',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          'Purple, 128GB',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: kGreyColor,
-                          ),
-                        ),
-                        Text(
-                          'Quantity: 1',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: kGreyColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Text(
-                    '1000 USD',
-                    style: TextStyle(
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.bold,
-                      color: kGreenColor,
-                    ),
-                  ),
-                ],
-              ),
+              CheckoutList(updateTotalAmountCallback: updateTotalAmount),
+              Text("Total Amount: ${NumberFormat('#,###.###').format(totalAmount)} VND"),
               const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -213,7 +134,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     ),
                   ),
                   const Text(
-                    '0 USD',
+                    'Free Ship',
                     style: TextStyle(
                       fontSize: 14,
                       color: kGreyColor,
