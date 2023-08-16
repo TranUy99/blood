@@ -1,8 +1,9 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
-import 'package:mobile_store/src/core/model/promotion.dart';
+
 import 'package:mobile_store/src/features/address/view_model/address_view_model.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
 import '../../../core/model/address.dart';
@@ -26,27 +27,19 @@ final AddressViewModel _addressViewModel = AddressViewModel();
 class _CheckoutPageState extends State<CheckoutPage> {
   String? _paymentMethod;
   late Future<Address> _addressFuture;
-  late Future<PromotionDTO> _promotionFuture;
+  // late Future<PromotionDTO> _promotionFuture;
   late Address address;
-
   @override
   void initState() {
     super.initState();
-    _loadData(); // Load address when the state is initialized
+    _loadData();
   }
 
   Future<void> _loadData() async {
     _addressFuture = _addressViewModel.getIdAddress(widget.idAddress);
-    //  _promotionFuture = _addressViewModel.getIdAddress(widget.idAddress);
   }
 
   double? totalAmount = 0;
-
-  void updateTotalAmount(double? newTotalAmount) {
-    setState(() {
-      totalAmount = newTotalAmount;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +60,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
             address = data[0] as Address;
             // final List<Product> products = data[1] as List<Product>;
             // final List<Promotion> promotions = data[2] as List<Promotion>;
-
             // Build UI using the retrieved products
             return buildUI(context);
           } else {
@@ -100,7 +92,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
               ),
 
               const SizedBox(height: 10),
-              CheckoutList(updateTotalAmountCallback: updateTotalAmount),
+              CheckoutList(),
               Text("Total Amount: ${NumberFormat('#,###.###').format(totalAmount)} VND"),
               const SizedBox(height: 10),
               Row(
@@ -169,6 +161,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 onChanged: (value) {
                   setState(() {
                     _paymentMethod = value;
+                  
                   });
                 },
               ),

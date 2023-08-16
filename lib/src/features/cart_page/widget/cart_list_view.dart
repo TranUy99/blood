@@ -52,19 +52,29 @@ class _CartListViewState extends State<CartListView> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text('${snapshot.data?.name}'),
+                            Row(
+                              children: [
+                                Text('${productDetailCart.memory} |'),
+                                Text('${productDetailCart.color}'),
+                              ],
+                            ),
                             Text('${snapshot.data?.price}'),
                             Row(
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    setState(() {
-                                      getUser.cartBox?.putAt(
-                                          index,
-                                          ProductDetailCart(
-                                              productID: productDetailCart.productID ?? 0,
-                                              productQuantity:
-                                                  productDetailCart.productQuantity - 1));
-                                    });
+                                    if (productDetailCart.productQuantity > 1) {
+                                      setState(() {
+                                        getUser.cartBox?.putAt(
+                                            index,
+                                            ProductDetailCart(
+                                                productID: productDetailCart.productID,
+                                                productQuantity:
+                                                    productDetailCart.productQuantity - 1,
+                                                memory: productDetailCart.memory,
+                                                color: productDetailCart.color));
+                                      });
+                                    }
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(border: Border.all()),
@@ -81,9 +91,11 @@ class _CartListViewState extends State<CartListView> {
                                       getUser.cartBox?.putAt(
                                           index,
                                           ProductDetailCart(
-                                              productID: productDetailCart.productID ?? 0,
+                                              productID: productDetailCart.productID,
                                               productQuantity:
-                                                  productDetailCart.productQuantity + 1));
+                                                  productDetailCart.productQuantity + 1,
+                                              memory: productDetailCart.memory,
+                                              color: productDetailCart.color));
                                     });
                                   },
                                   child: Container(
@@ -100,7 +112,7 @@ class _CartListViewState extends State<CartListView> {
                                           const CustomSnackBar.success(
                                               message: 'Delete item successfully'));
                                     },
-                                    icon: Icon(Icons.delete))
+                                    icon: const Icon(Icons.delete))
                               ],
                             )
                           ],

@@ -8,3 +8,16 @@ sealed class CheckoutState extends Equatable {
 }
 
 final class CheckoutInitial extends CheckoutState {}
+//State change password  success
+class SuccessCheckoutState extends CheckoutState {
+  final bool onLoginState;
+
+  const SuccessCheckoutState(this.onLoginState);
+}
+
+//State change password failed
+class FailedCheckoutState extends CheckoutState {
+  final String errorMessage;
+
+  const FailedCheckoutState(this.errorMessage);
+}

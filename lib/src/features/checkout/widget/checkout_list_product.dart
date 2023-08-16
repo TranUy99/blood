@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +11,9 @@ import '../../../constant/color/color.dart';
 import '../../../core/model/product.dart';
 
 class CheckoutList extends StatefulWidget {
-  final Function(double?) updateTotalAmountCallback;
-
-  CheckoutList({Key? key, required this.updateTotalAmountCallback}) : super(key: key);
+  CheckoutList({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<CheckoutList> createState() => _CheckoutListViewState();
@@ -23,19 +22,14 @@ class CheckoutList extends StatefulWidget {
 class _CheckoutListViewState extends State<CheckoutList> {
   final DetailProductViewModel detailProductViewModel = DetailProductViewModel();
   static double totalAmount = 0;
-
-  bool _isMounted = false;
-
   @override
   void initState() {
     super.initState();
-    _isMounted = true;
     _calculateTotalAmount();
   }
 
   @override
   void dispose() {
-    _isMounted = false;
     super.dispose();
   }
 
@@ -43,10 +37,6 @@ class _CheckoutListViewState extends State<CheckoutList> {
     double calculatedTotalAmount = 0;
 
     for (int index = 0; index < getUser.cartBox!.length; index++) {
-      if (!_isMounted) {
-        return; // Exit the loop if the widget is not mounted
-      }
-
       ProductDetailCart productDetailCart = getUser.cartBox?.getAt(index);
       ProductDTO product =
           await detailProductViewModel.getDetailProduct(productDetailCart.productID);
@@ -55,12 +45,10 @@ class _CheckoutListViewState extends State<CheckoutList> {
       calculatedTotalAmount += productPrice;
     }
 
-    if (_isMounted) {
-      setState(() {
-        totalAmount = calculatedTotalAmount;
-        widget.updateTotalAmountCallback(totalAmount);
-      });
-    }
+    setState(() {
+      totalAmount = calculatedTotalAmount;
+    });
+   
   }
 
   @override
@@ -140,13 +128,13 @@ class _CheckoutListViewState extends State<CheckoutList> {
           );
         },
       ),
-      Text(
-        'Total Amount: ${NumberFormat('#,###.###').format(totalAmount)} VND',
-        style: const TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+      // Text(
+      //   'Total Amount: ${NumberFormat('#,###.###').format(totalAmount)} VND',
+      //   style: const TextStyle(
+      //     fontSize: 18,
+      //     fontWeight: FontWeight.bold,
+      //   ),
+      // ),
     ]);
   }
 }
