@@ -1,6 +1,8 @@
+import 'package:mobile_store/src/api/api_service.dart';
+
 class ApiImage {
   String generateImageUrl(String fileName) {
-    String baseUrl = 'http://192.168.1.42:8085/api/file/download/';
+    String baseUrl = '${ApiService.baseUrl}/file/download/';
     String encodedFileName = Uri.encodeComponent(fileName);
     return baseUrl + encodedFileName;
   }
