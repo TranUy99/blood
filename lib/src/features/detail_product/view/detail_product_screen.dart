@@ -118,7 +118,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             children: [
               ImageProduct(productDTO: product),
               RatingProduct(productDTO: product),
-              const ConfigurationProduct(),
+              // const ConfigurationProduct(),
               ProductInformation(productDTO: product),
               ReviewProduct(
                 productId: widget.idProduct,
