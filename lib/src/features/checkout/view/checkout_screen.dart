@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
@@ -7,6 +6,9 @@ import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/address/view_model/address_view_model.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
 import '../../../core/model/address.dart';
+import '../../../core/model/order_product_dto.dart';
+import '../../../core/model/status_dto.dart';
+import '../view_model/checkout_view_model.dart';
 import '../widget/checkout_list_product.dart';
 import '../widget/payment.dart';
 import '../widget/delivery_address.dart';
@@ -21,54 +23,40 @@ class CheckoutPage extends StatefulWidget {
   State<CheckoutPage> createState() => _CheckoutPageState();
 }
 
-Address? address; // Change Address to be nullable
-final AddressViewModel _addressViewModel = AddressViewModel();
-
 class _CheckoutPageState extends State<CheckoutPage> {
+  final AddressViewModel _addressViewModel = AddressViewModel();
+  CheckoutViewModel _checkoutViewModel = CheckoutViewModel();
   String? _paymentMethod;
   late Future<Address> _addressFuture;
-  // late Future<PromotionDTO> _promotionFuture;
+  bool _uiBuilt = false;
   late Address address;
+
   @override
   void initState() {
     super.initState();
-    _loadData();
-  }
-
-  Future<void> _loadData() async {
     _addressFuture = _addressViewModel.getIdAddress(widget.idAddress);
+    _addressFuture.then((address) {
+      setState(() {
+        this.address = address;
+        _uiBuilt = true;
+      });
+    });
   }
 
   double? totalAmount = 0;
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: Future.wait([
-        _addressFuture,
-      ]),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (snapshot.hasError) {
-          return Container();
-        } else {
-          if (snapshot.hasData) {
-            final List<dynamic> data = snapshot.data as List<dynamic>;
-            address = data[0] as Address;
-            // final List<Product> products = data[1] as List<Product>;
-            // final List<Promotion> promotions = data[2] as List<Promotion>;
-            // Build UI using the retrieved products
-            return buildUI(context);
-          } else {
-            return const Text('No data ');
-          }
-        }
-      },
-    );
+    if (_uiBuilt) {
+      return buildUI(context);
+    } else {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
   }
+
+
 
   Widget buildUI(BuildContext context) {
     return Scaffold(
@@ -92,7 +80,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
               ),
 
               const SizedBox(height: 10),
-              CheckoutList(),
+              CheckoutList(
+                totalAmount: totalAmount!,
+                totalAmountSelected: (double? index) {
+                  setState(() {
+                    totalAmount = index;
+                  });
+                },
+              ),
               Text("Total Amount: ${NumberFormat('#,###.###').format(totalAmount)} VND"),
               const SizedBox(height: 10),
               Row(
@@ -161,7 +156,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 onChanged: (value) {
                   setState(() {
                     _paymentMethod = value;
-                  
                   });
                 },
               ),
@@ -175,7 +169,16 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       child: SizedBox(
                         height: 50.0,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            final createOrder = await _checkoutViewModel.changePassword(
+                                idUser: 3,
+                                idPromotion: 1,
+                                paymentMethodDTO: "Momo",
+                                statusDTO: StatusDTO(id: 1, name: "Active"),
+                                orderProductDTOList: [],
+                                idAddress: 5,
+                                receiveDate: "2023-08-08");
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: kGreenColor,
                           ),

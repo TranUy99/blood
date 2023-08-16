@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -11,9 +10,10 @@ import '../../../constant/color/color.dart';
 import '../../../core/model/product.dart';
 
 class CheckoutList extends StatefulWidget {
-  CheckoutList({
-    Key? key,
-  }) : super(key: key);
+  final double? totalAmount;
+  final Function(double?) totalAmountSelected;
+  CheckoutList({Key? key, required this.totalAmount, required this.totalAmountSelected})
+      : super(key: key);
 
   @override
   State<CheckoutList> createState() => _CheckoutListViewState();
@@ -48,7 +48,7 @@ class _CheckoutListViewState extends State<CheckoutList> {
     setState(() {
       totalAmount = calculatedTotalAmount;
     });
-   
+    widget.totalAmountSelected(totalAmount);
   }
 
   @override
