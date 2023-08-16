@@ -2,12 +2,15 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
+import 'package:mobile_store/src/core/model/product.dart';
+import 'package:mobile_store/src/core/model/product_detail_cart.dart';
 import 'package:mobile_store/src/features/address/view/add_address.dart';
+import 'package:mobile_store/src/features/cart_page/view_model/cart_view_model.dart';
+import 'package:mobile_store/src/features/cart_page/widget/cart_list_view.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import '../../../../main.dart';
-import '../../checkout/view/checkout_screen.dart';
-
+import '../../../core/model/order_product_dto.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../widget/cart_list_view.dart';
@@ -22,15 +25,10 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  int? selectedAddressIndex = 0;
-  int? selectedPromotionIndex = 0;
-  int quantity = 1;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
+  int selectedAddressIndex = 0;
+  int selectedPromotionIndex = 0;
+  List<OrderProductDTO> orderProductDTOList = [];
+  CartViewModel cartViewModel = CartViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +109,6 @@ class _CartPageState extends State<CartPage> {
                 onAddressSelected: (int? index) {
                   setState(() {
                     selectedPromotionIndex = index!;
-                   
                   });
                 },
               ),
@@ -188,15 +185,32 @@ class _CartPageState extends State<CartPage> {
               Padding(
                 padding: const EdgeInsets.only(right: 20.0, bottom: 10.0),
                 child: ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CheckoutPage(
-                                idAddress: selectedAddressIndex,
-                                idPromotion: selectedPromotionIndex,
-                              )),
-                    );
+                  onPressed: () async {
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => const CheckoutPage(),
+                    //   ),
+                    // );
+                    // ProductDetailCart productDetailCart = getUser.cartBox;
+                    orderProductDTOList = await cartViewModel.cartViewModel();
+                    List<OrderProductDTO> listTemp = [];
+                    for (int i = 0; i < getUser.cartBox!.length; i++) {
+                      ProductDetailCart productDetailCart = getUser.cartBox?.getAt(i);
+                      for (int j = productDetailCart.productQuantity; j > 0; j--) {
+                        listTemp.add(OrderProductDTO(
+                            id: orderProductDTOList[i].id,
+                            price: orderProductDTOList[i].price,
+                            image: orderProductDTOList[i].image,
+                            name: orderProductDTOList[i].name,
+                            memory: orderProductDTOList[i].memory,
+                            color: orderProductDTOList[i].color,
+                            description: orderProductDTOList[i].description));
+                      }
+                    }
+                    for (int i = 0; i < listTemp.length; i++) {
+                      print(listTemp[i].name);
+                    }
                   },
                   icon: const Icon(Icons.shopping_cart),
                   label: Text(

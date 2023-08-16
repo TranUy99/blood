@@ -1,8 +1,9 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_store/src/core/model/product_detail_cart.dart';
+import 'package:mobile_store/src/features/component/bloc_state/app_bar_state.dart';
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,18 +12,26 @@ import '../../constant/color/color.dart';
 import '../category/widget/menu_button.dart';
 import '../home_page/view/navigation_home_page.dart';
 import '../search/view/search.dart';
+import 'bloc_state/app_bar_bloc.dart';
 
 class CustomAppBar extends StatefulWidget {
-  const CustomAppBar({super.key, required this.isBack});
+  const CustomAppBar({super.key});
 
-  final bool isBack;
+  static AppBarBloc appBarBloc = AppBarBloc();
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
-  int? cartListLength;
+  int cartListLength(){
+    int count = 0;
+    for(int i=0; i<getUser.cartBox!.length; i++){
+      ProductDetailCart productDetailCart = getUser.cartBox?.getAt(i);
+      count += productDetailCart.productQuantity;
+    }
+    return count;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,16 +56,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                widget.isBack
-                    ? IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.white,
-                        ))
-                    : const MenuButton(),
+                const MenuButton(),
                 SizedBox(
                     width: MediaQuery.of(context).size.width * 0.65,
                     height: MediaQuery.of(context).size.height * 0.05,
@@ -119,21 +119,30 @@ class _CustomAppBarState extends State<CustomAppBar> {
                         ]),
                       ),
                     )),
-                IconButton(
-                    onPressed: () {
-                      setState(() {
-                        indexScreen = 1;
-                      });
-                      Get.offAll(const NavigationHomePage());
-                    },
-                    icon: Badge(
-                        label: Text((cartListLength == null)
-                            ? '0'
-                            : cartListLength.toString()),
-                        child: const Icon(
+                StreamBuilder<AppBarState>(
+                  initialData: AppBarState(cartListLength()),
+                  stream: CustomAppBar.appBarBloc.stateController.stream,
+                  builder: (context, snapshot) {
+                    return IconButton(
+                        onPressed: () {
+                          setState(() {
+                            indexScreen = 1;
+                          });
+                          Get.offAll(const NavigationHomePage());
+                        },
+                        icon: successLoginState.onLoginState
+                            ? Badge(
+                            label: Text('${snapshot.data?.cartListLength}'),
+                            child: const Icon(
+                              Icons.shopping_cart_outlined,
+                              color: Colors.white,
+                            ))
+                            : const Icon(
                           Icons.shopping_cart_outlined,
                           color: Colors.white,
-                        )))
+                        ));
+                  },
+                )
               ],
             ),
           ),
@@ -193,11 +202,18 @@ PreferredSizeWidget? appBarWidget(BuildContext context, bool isBack) {
         : Size.fromHeight(MediaQuery.of(context).size.height * 0.15),
     child: AppBar(
         backgroundColor: kSecondaryColor,
-        leading: Image(
+        leading: isBack
+            ? IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white,
+            )):
+        Image(
             image: const AssetImage('assets/images/banner0.jpg'),
             height: MediaQuery.of(context).size.height * 0.06),
-        flexibleSpace: CustomAppBar(
-          isBack: isBack,
-        )),
+        flexibleSpace: CustomAppBar()),
   );
 }

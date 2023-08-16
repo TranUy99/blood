@@ -1,8 +1,10 @@
-part of 'cart_bloc.dart';
+import '../../../core/model/order_product_dto.dart';
 
-abstract class CartEvent extends Equatable {
-  const CartEvent();
+class CartEvent {}
 
-  @override
-  List<Object> get props => [];
+class GetProductCartEvent extends CartEvent {
+  final int productID;
+
+  GetProductCartEvent(this.productID);
 }
+

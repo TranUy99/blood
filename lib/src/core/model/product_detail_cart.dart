@@ -16,9 +16,13 @@ class ProductDetailCart {
   @HiveField(3)
   final String? color;
 
+  @HiveField(4)
+  final int? stock;
+
   ProductDetailCart(
       {required this.productID,
       required this.productQuantity,
       required this.memory,
-      required this.color});
+      required this.color,
+      required this.stock});
 }
