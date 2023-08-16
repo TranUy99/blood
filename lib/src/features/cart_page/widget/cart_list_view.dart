@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_store/src/core/model/product_detail_cart.dart';
+import 'package:mobile_store/src/features/cart_page/view_model/cart_view_model.dart';
 import 'package:mobile_store/src/features/detail_product/view_model/detail_product_view_model.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -9,6 +10,7 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../../main.dart';
 import '../../../constant/api_outside/api_image.dart';
 import '../../../constant/color/color.dart';
+import '../../../core/model/order_product_dto.dart';
 import '../../../core/model/product.dart';
 import '../../component/bloc_state/app_bar_event.dart';
 import '../../component/custom_app_bar.dart';
@@ -24,6 +26,9 @@ class _CartListViewState extends State<CartListView> {
   final DetailProductViewModel detailProductViewModel =
       DetailProductViewModel();
   final textCurrency = NumberFormat("#,###.###", "en_US");
+  List<OrderProductDTO> cartList = [];
+  CartViewModel cartViewModel = CartViewModel();
+  bool flag = false;
 
   int cartListLength() {
     int count = 0;
@@ -35,22 +40,38 @@ class _CartListViewState extends State<CartListView> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      flag = true;
+    });
+  }
+
+
+  @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: getUser.cartBox?.length,
-      itemBuilder: (context, index) {
-        ProductDetailCart productDetailCart = getUser.cartBox?.getAt(index);
-        return FutureBuilder(
-          future: detailProductViewModel
-              .getDetailProduct(productDetailCart.productID),
-          builder: (BuildContext context, AsyncSnapshot<ProductDTO> snapshot) {
-            if (snapshot.hasError) {
+    return FutureBuilder(
+      future: cartViewModel.cartViewModel(),
+      builder: (context, snapshot) {
+        return ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: getUser.cartBox?.length,
+          itemBuilder: (context, index) {
+            OrderProductDTO? orderProductDTO = snapshot.data?[index];
+            ProductDetailCart productDetailCart = getUser.cartBox?.getAt(index);
+            if (snapshot.connectionState == ConnectionState.waiting && flag == false) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {
               if (snapshot.hasData) {
-                return cartItem(snapshot, productDetailCart, index);
+
+                  return cartItem(orderProductDTO!, productDetailCart, index);
+
               } else {
                 return const Text('No products available');
               }
@@ -61,8 +82,8 @@ class _CartListViewState extends State<CartListView> {
     );
   }
 
-  Widget cartItem(AsyncSnapshot<ProductDTO> snapshot,
-      ProductDetailCart productDetailCart, int index) {
+  Widget cartItem(
+      OrderProductDTO orderProductDTO, ProductDetailCart productDetailCart, int index) {
     return Container(
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -75,7 +96,7 @@ class _CartListViewState extends State<CartListView> {
             width: MediaQuery.of(context).size.width * 0.35,
             child: CachedNetworkImage(
               imageUrl: ApiImage()
-                  .generateImageUrl('${snapshot.data!.imageDTOs?[0].name}'),
+                  .generateImageUrl('${orderProductDTO.image}'),
             ),
           ),
           Container(
@@ -88,7 +109,7 @@ class _CartListViewState extends State<CartListView> {
                 Padding(
                   padding: const EdgeInsets.only(top: 5),
                   child: Text(
-                    '${snapshot.data?.name}',
+                    '${orderProductDTO.name}',
                     style: const TextStyle(fontSize: 20, color: kRedColor),
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -96,15 +117,15 @@ class _CartListViewState extends State<CartListView> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: Text(
-                    '${textCurrency.format(snapshot.data?.price)} đ',
+                    '${textCurrency.format(orderProductDTO.price)} đ',
                     style: const TextStyle(color: kGreenColor, fontSize: 18),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: Text(
-                    '${productDetailCart.memory} | ${productDetailCart.color}',
-                    style: TextStyle(fontSize: 15),
+                    '${orderProductDTO.memory} | ${orderProductDTO.color}',
+                    style: const TextStyle(fontSize: 15),
                   ),
                 ),
                 Row(
@@ -120,7 +141,7 @@ class _CartListViewState extends State<CartListView> {
                                     productQuantity:
                                         productDetailCart.productQuantity - 1,
                                     memory: productDetailCart.memory,
-                                    color: productDetailCart.color));
+                                    color: productDetailCart.color, stock: productDetailCart.stock));
                           });
                         }
                         CustomAppBar.appBarBloc.eventController.sink
@@ -148,15 +169,15 @@ class _CartListViewState extends State<CartListView> {
                       onTap: () {
                         setState(() {
                           if (productDetailCart.productQuantity <
-                              (snapshot.data?.stocks)!) {
+                              (productDetailCart.stock)!) {
                             getUser.cartBox?.putAt(
                                 index,
                                 ProductDetailCart(
-                                    productID: productDetailCart.productID ?? 0,
+                                    productID: productDetailCart.productID,
                                     productQuantity:
                                         productDetailCart.productQuantity + 1,
                                     memory: productDetailCart.memory,
-                                    color: productDetailCart.color));
+                                    color: productDetailCart.color, stock: productDetailCart.stock));
                           }
                           CustomAppBar.appBarBloc.eventController.sink
                               .add(AddItemToCartEvent(cartListLength()));

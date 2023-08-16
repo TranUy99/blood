@@ -21,13 +21,14 @@ class ProductDetailCartAdapter extends TypeAdapter<ProductDetailCart> {
       productQuantity: fields[1] as int,
       memory: fields[2] as String?,
       color: fields[3] as String?,
+      stock: fields[4] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, ProductDetailCart obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.productID)
       ..writeByte(1)
@@ -35,7 +36,9 @@ class ProductDetailCartAdapter extends TypeAdapter<ProductDetailCart> {
       ..writeByte(2)
       ..write(obj.memory)
       ..writeByte(3)
-      ..write(obj.color);
+      ..write(obj.color)
+      ..writeByte(4)
+      ..write(obj.stock);
   }
 
   @override

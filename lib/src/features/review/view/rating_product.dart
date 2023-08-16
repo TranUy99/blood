@@ -197,7 +197,7 @@ class _RatingProductState extends State<RatingProduct> {
                           productID: widget.productDTO.id ?? 0,
                           productQuantity: 1,
                           memory: selectedOption,
-                          color: selectedColor));
+                          color: selectedColor, stock: widget.productDTO.stocks));
                     } else {
                       ProductDetailCart product =
                           getUser.cartBox?.getAt(flag ?? 0);
@@ -207,7 +207,7 @@ class _RatingProductState extends State<RatingProduct> {
                               productID: widget.productDTO.id ?? 0,
                               productQuantity: product.productQuantity + 1,
                               memory: product.memory,
-                              color: product.color));
+                              color: product.color, stock: widget.productDTO.stocks));
                     }
                     CustomAppBar.appBarBloc.eventController.sink
                         .add(AddItemToCartEvent(cartListLength()));

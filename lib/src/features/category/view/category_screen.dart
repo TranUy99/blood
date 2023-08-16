@@ -120,7 +120,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       manufacturerMenuItems, manufacturerPopupMenuController),
                   SizedBox(width: MediaQuery.of(context).size.width * 0.02),
                   productFilter(
-                     priceFilter ?? 'Price', 0.4, priceMenuItems, pricePopupMenuController)
+                      priceFilter ?? 'Price', 0.4, priceMenuItems,
+                      pricePopupMenuController)
                 ],
               ),
             ),
