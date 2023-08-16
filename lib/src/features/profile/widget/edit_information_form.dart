@@ -7,7 +7,8 @@ import 'package:mobile_store/src/core/model/user.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import 'package:mobile_store/src/features/profile/view_model/change_information_view_model.dart';
-
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 // ignore: must_be_immutable
 class EditInformationForm extends StatefulWidget {
@@ -37,16 +38,17 @@ class _EditInformationFormState extends State<EditInformationForm> {
   int? _selectedGender;
   Validate? validate;
   bool errorFullName = false;
-  String errorTextFullName = '';
-  bool errorEmail = false;
-  String errorTextEmail = '';
+  String? errorTextFullName = '';
+  bool? errorEmail = false;
+  String? errorTextEmail = '';
 
   _showBirthdayPicker(BuildContext context) async {
     dateOfBirth = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1990),
-        lastDate: DateTime(2025));
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1990),
+      lastDate: DateTime.now(),
+    );
     setState(() {});
   }
 
@@ -57,9 +59,9 @@ class _EditInformationFormState extends State<EditInformationForm> {
     _nameController.text = widget.fullName!;
     _emailController.text = widget.email!;
     _selectedGender = widget.selectedGender;
-    try{
+    try {
       dateOfBirth = DateFormat("dd-MM-yyyy").parse(widget.selectedDate!);
-    }catch(e){
+    } catch (e) {
       dateOfBirth = DateTime.now();
     }
   }
@@ -78,8 +80,7 @@ class _EditInformationFormState extends State<EditInformationForm> {
       content: SingleChildScrollView(
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: MediaQuery.of(context).size.height * 0.02),
+            padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.02),
             child: const Text('Edit information',
                 style: TextStyle(
                   color: Colors.black,
@@ -101,8 +102,19 @@ class _EditInformationFormState extends State<EditInformationForm> {
               String fullNameText = _nameController.text;
               String birthdayFormat =
                   '${dateOfBirth?.day}-${dateOfBirth?.month}-${dateOfBirth?.year}';
-              UserDTO userInformation =
-                  await changeInformationViewModel.changeInformationViewModel(
+
+              if (fullNameText.isEmpty) {
+                showTopSnackBar(
+                  Overlay.of(context),
+                  const CustomSnackBar.error(
+                    message: 'Please enter full name',
+                    backgroundColor: Colors.red,
+                  ),
+                );
+                return;
+              }
+
+              UserDTO userInformation = await changeInformationViewModel.changeInformationViewModel(
                 fullNameText,
                 _selectedGender!,
                 birthdayFormat,
@@ -114,7 +126,7 @@ class _EditInformationFormState extends State<EditInformationForm> {
                 getUser.userDTO = userInformation;
                 indexScreen = 2;
               });
-              Get.offAll(NavigationHomePage());
+              Get.offAll(const NavigationHomePage());
             },
             child: const Text('Save')),
         ElevatedButton(
@@ -132,8 +144,7 @@ class _EditInformationFormState extends State<EditInformationForm> {
 
   Widget textInputFieldFullName() {
     return Padding(
-      padding: EdgeInsets.symmetric(
-          vertical: MediaQuery.of(context).size.height * 0.01),
+      padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01),
       child: TextField(
         controller: _nameController,
         onChanged: (value) {
@@ -142,13 +153,11 @@ class _EditInformationFormState extends State<EditInformationForm> {
             errorTextFullName = value.isEmpty
                 ? 'Tên không được để trống'
                 : value.startsWith(' ')
-                ? 'Không có dấu cách ở đầu'
-                : value.endsWith(' ')
-                ? 'Không có dấu cách cuối'
-                : 'Không được nhập số hoặc ký tự đặc biệt';
-            setState(() {
-
-            });
+                    ? 'Không có dấu cách ở đầu'
+                    : value.endsWith(' ')
+                        ? 'Không có dấu cách cuối'
+                        : 'Không được nhập số hoặc ký tự đặc biệt';
+            setState(() {});
           } else {
             setState(() {
               errorFullName = false;
@@ -166,15 +175,13 @@ class _EditInformationFormState extends State<EditInformationForm> {
 
   Widget dayOfBirthPicker() {
     return Padding(
-      padding: EdgeInsets.symmetric(
-          vertical: MediaQuery.of(context).size.height * 0.02),
+      padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.02),
       child: InkWell(
         onTap: () {
           _showBirthdayPicker(context);
         },
         child: Container(
-          padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.02),
+          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.02),
           height: MediaQuery.of(context).size.height * 0.07,
           decoration: BoxDecoration(
             border: Border.all(width: 0.5),
@@ -204,8 +211,7 @@ class _EditInformationFormState extends State<EditInformationForm> {
 
   Widget dropdownGender() {
     return Padding(
-      padding: EdgeInsets.symmetric(
-          vertical: MediaQuery.of(context).size.height * 0.02),
+      padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.02),
       child: DropdownButtonFormField<int>(
         value: _selectedGender,
         onChanged: (value) => setState(() => _selectedGender = value),

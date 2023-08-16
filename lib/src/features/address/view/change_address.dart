@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/constant/utils/validate.dart';
@@ -9,6 +8,7 @@ import 'package:mobile_store/src/features/address/view_model/address_view_model.
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 // ignore: must_be_immutable
 class ChangeAddressScreen extends StatefulWidget {
@@ -48,7 +48,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
   String errorPhoneText = '';
   bool errorName = false;
   String errorNameText = '';
-
+bool isDefault = false;
   final AddressViewModel _addressViewModel = AddressViewModel();
 
   void initState() {
@@ -70,7 +70,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
     return AlertDialog(
       contentPadding: EdgeInsets.zero,
       content: Builder(builder: (BuildContext context) {
-        final double maxHeight = MediaQuery.of(context).size.height * 0.7;
+        final double maxHeight = MediaQuery.of(context).size.height * 0.6;
         final viewInsets = MediaQuery.of(context).viewInsets;
         final double availableHeight = MediaQuery.of(context).size.height - viewInsets.bottom;
         final double contentHeight = availableHeight < maxHeight ? availableHeight : maxHeight;
@@ -92,36 +92,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                         )),
                   ),
                   const SizedBox(height: 13),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        children: [
-                          Image.asset(
-                            'assets/icon/home_icon.png',
-                            height: MediaQuery.of(context).size.height * 0.02,
-                          ),
-                          const SizedBox(
-                            width: 6,
-                          ),
-                          const Text('HOME'),
-                        ],
-                      ),
-                      const SizedBox(width: 20),
-                      Row(
-                        children: [
-                          Image.asset(
-                            'assets/icon/office_icon.png',
-                            height: MediaQuery.of(context).size.height * 0.02,
-                          ),
-                          const SizedBox(
-                            width: 6,
-                          ),
-                          const Text('OFFICE'),
-                        ],
-                      )
-                    ],
-                  ),
+
                   const SizedBox(height: 5),
 
                   //get province
@@ -259,7 +230,27 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                           },
                         ),
                   const SizedBox(height: 16.0),
-
+                  ToggleSwitch(
+                    minWidth: 90.0,
+                    cornerRadius: 20.0,
+                    activeBgColors: [
+                      [Colors.green[800]!],
+                      [Colors.red[800]!]
+                    ],
+                    activeFgColor: Colors.white,
+                    inactiveBgColor: Colors.grey,
+                    inactiveFgColor: Colors.white,
+                    initialLabelIndex: isDefault ? 0 : 1,
+                    totalSwitches: 2,
+                    labels: ['Default', 'No dault'],
+                    radiusStyle: true,
+                    onToggle: (index) {
+                      setState(() {
+                        isDefault = index == 0;
+                      
+                      });
+                    },
+                  ),
                   TextFormField(
                     controller: textAddressController,
                     keyboardType: TextInputType.text,
@@ -361,9 +352,10 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                             phone.isNotEmpty &&
                             name.isNotEmpty) {
                           final createAddress = await _addressViewModel.changeAddress(
-                              address, "type", phone, name, widget.id, false);
+                              address, "type", phone, name, widget.id, isDefault);
 
                           if (createAddress == true) {
+                            // ignore: use_build_context_synchronously
                             Navigator.push(
                               context,
                               MaterialPageRoute(

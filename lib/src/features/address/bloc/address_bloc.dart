@@ -73,7 +73,18 @@ class AddressBloc {
       }
     }
   }
+//get id address
+  Future<void> getIdAddressEvent(AddressEvent event) async {
+    if (event is GetIdAddressEvent) {
+      final Address address = await AddressService.getIdAddressService(event.idAddress);
 
+      if (address != null) {
+        _addressStateSubject.sink.add(SuccessGetIdAddressState(address));
+      } else {
+        _addressStateSubject.sink.add(FailedGetIdAddressState("No address available"));
+      }
+    }
+  }
 //change address
     Future<void> changeAddressEvent(AddressEvent event) async {
     if (event is ChangeAddressEvent) {

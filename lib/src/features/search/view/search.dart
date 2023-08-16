@@ -73,49 +73,51 @@ class _SearchState extends State<Search> {
           ),
         ),
       ),
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.8,
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: SizedBox(
-                child: TextField(
-                  decoration: InputDecoration(
-                    fillColor: Colors.white,
-                    filled: true,
-                    labelText: 'Search...',
-                    labelStyle: const TextStyle(
-                      color: kGreenColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.8,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: SizedBox(
+                  child: TextField(
+                    decoration: InputDecoration(
+                      fillColor: Colors.white,
+                      filled: true,
+                      labelText: 'Search...',
+                      labelStyle: const TextStyle(
+                        color: kGreenColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      suffixIcon: const Icon(
+                        Icons.search,
+                        color: kGreenColor,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: kGreenColor),
+                      ),
                     ),
-                    suffixIcon: const Icon(
-                      Icons.search,
-                      color: kGreenColor,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: kGreenColor),
-                    ),
+                    controller: textSearchController,
+                    onChanged: (value) async {
+                      setState(() {
+                        currentPage = 0;
+                        products = [];
+                      });
+                      await _loadData(value, currentPage);
+                    },
                   ),
-                  controller: textSearchController,
-                  onChanged: (value) async {
-                    setState(() {
-                      currentPage = 0;
-                      products = [];
-                    });
-                    await _loadData(value, currentPage);
-                  },
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-            BuildUI(context)
-          ],
+              const SizedBox(height: 20),
+              BuildUI(context)
+            ],
+          ),
         ),
       ),
     );
@@ -124,10 +126,11 @@ class _SearchState extends State<Search> {
 
   Widget BuildUI(content) {
     return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.65,
       child: Expanded(
         child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            childAspectRatio: 0.6,
+            childAspectRatio: 0.7,
             crossAxisCount: 2,
             crossAxisSpacing: 5.0,
             mainAxisSpacing: 5.0,
@@ -159,7 +162,7 @@ class _SearchState extends State<Search> {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.25,
+                        height: MediaQuery.of(context).size.height * 0.23,
                         child: CachedNetworkImage(
                           imageUrl: ApiImage().generateImageUrl(logo),
                           height: 20,

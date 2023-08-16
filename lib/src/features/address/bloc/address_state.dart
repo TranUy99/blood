@@ -77,6 +77,18 @@ class FailedGetAddressState extends AddressState {
   FailedGetAddressState(this.errorMessage);
 }
 
+//get id address state success
+class SuccessGetIdAddressState extends AddressState {
+  final Address address;
+  SuccessGetIdAddressState(this.address);
+}
+
+//get id address state failed
+class FailedGetIdAddressState extends AddressState {
+  final String errorMessage;
+  FailedGetIdAddressState(this.errorMessage);
+}
+
 //change address state success
 class SuccessChangeAddressState extends AddressState {
   final bool onSuccessChangeAddressState;

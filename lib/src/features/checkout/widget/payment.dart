@@ -34,7 +34,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
           title: Row(
             children: [
               Image.asset(
-                'images/momo_icon.png',
+                'assets/icon/momo_icon.png',
                 width: 24,
                 height: 24,
               ),
@@ -42,7 +42,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
               Text(AppLocalizations.of(context)!.momo),
             ],
           ),
-          value: 'wallet_momo',
+          value: 'Momo',
           groupValue: widget.paymentMethod,
           onChanged: widget.onChanged,
           activeColor: kGreenColor,
@@ -51,7 +51,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
           title: Row(
             children: [
               Image.asset(
-                'images/receive_oder_icon.png',
+                'assets/icon/receive_oder_icon.png',
                 width: 24,
                 height: 24,
               ),
@@ -59,7 +59,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
               Text(AppLocalizations.of(context)!.payAfter),
             ],
           ),
-          value: 'pay_after_receive_order',
+          value: 'Cash',
           groupValue: widget.paymentMethod,
           onChanged: widget.onChanged,
           activeColor: kGreenColor,
@@ -68,7 +68,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
           title: Row(
             children: [
               Image.asset(
-                'images/banking_icon.png',
+                'assets/icon/banking_icon.png',
                 width: 24,
                 height: 24,
               ),
@@ -76,7 +76,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
               Text(AppLocalizations.of(context)!.banking),
             ],
           ),
-          value: 'banking',
+          value: 'Banking',
           groupValue: widget.paymentMethod,
           onChanged: widget.onChanged,
           activeColor: kGreenColor,

@@ -16,11 +16,10 @@ import 'package:mobile_store/src/core/remote/response/promotion_response/promoti
 import 'package:mobile_store/src/core/remote/response/review_response/edit_review_response.dart';
 import 'package:mobile_store/src/core/remote/response/search_response/search_response.dart';
 import 'package:retrofit/retrofit.dart';
-
 import '../core/model/order_detail.dart';
-import '../core/model/review_dtos.dart';
 import '../core/remote/request/address_request/address_create_request.dart';
 import '../core/remote/request/forgot_password_request/forgot_password_request.dart';
+import '../core/remote/request/order_request/order_request.dart';
 import '../core/remote/request/sign_up_request/sign_up_request.dart';
 import '../core/remote/response/active_otp_response/active_otp_response.dart';
 import '../core/remote/response/active_otp_response/send_email_active_user_response.dart';
@@ -98,7 +97,12 @@ abstract class ApiService {
   Future<List<Address>> getAddress({
     @Header("Authorization") required String auth,
   });
-
+  // Call api  get address
+  @GET('/api/address/{id}')
+  Future<Address> getIdAddress({
+    @Header("Authorization") required String auth,
+    @Path("id") required int? id,
+  });
   // Call api create address
   @POST('/api/address')
   Future<AddressResponse> createAddress({
@@ -156,7 +160,12 @@ abstract class ApiService {
     @Header("Authorization") String auth,
     @Path("id") int? id,
   );
-
+//get order detail
+  @GET('/api/order')
+  Future<HttpResponse> createOrder(
+    @Header("Authorization") String auth,
+    @Body() OrderRequest orderRequest,
+  );
   @POST('/api/review')
   Future<CreateReviewResponse> createReview(
       @Header("Authorization") String auth, @Body() CreateReviewRequest createReviewRequest);

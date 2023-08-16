@@ -85,6 +85,14 @@ class AddressService {
     return address;
   }
 
+// call api get idAddress
+  static Future<Address> getIdAddressService(int? idAddress) async {
+    Address address =
+        await ApiService(dio.Dio()).getIdAddress(auth: 'Bearer ${getUser.token}', id: idAddress);
+
+    return address;
+  }
+
 // call api change address
   static Future<AddressResponse> changeAddress(String? location, String? type,
       String? phoneReceiver, String? nameReceiver, bool? defaults, int? id) async {
@@ -107,7 +115,7 @@ class AddressService {
   ) async {
     HttpResponse response =
         await ApiService(dio.Dio()).deleteAddress(auth: "Bearer ${getUser.token}", id: id!);
- 
+
     return response;
   }
 }

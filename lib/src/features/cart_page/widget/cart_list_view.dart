@@ -11,7 +11,6 @@ import '../../../../main.dart';
 import '../../../constant/api_outside/api_image.dart';
 import '../../../constant/color/color.dart';
 import '../../../core/model/order_product_dto.dart';
-import '../../../core/model/product.dart';
 import '../../component/bloc_state/app_bar_event.dart';
 import '../../component/custom_app_bar.dart';
 
@@ -141,7 +140,8 @@ class _CartListViewState extends State<CartListView> {
                                     productQuantity:
                                         productDetailCart.productQuantity - 1,
                                     memory: productDetailCart.memory,
-                                    color: productDetailCart.color, stock: productDetailCart.stock));
+                                    color: productDetailCart.color,
+                                    stock: productDetailCart.stock));
                           });
                         }
                         CustomAppBar.appBarBloc.eventController.sink
