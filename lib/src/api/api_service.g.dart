@@ -13,7 +13,7 @@ class _ApiService implements ApiService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.1.12:8085';
+    baseUrl ??= 'http://45.117.170.206:60/apis';
   }
 
   final Dio _dio;
@@ -38,7 +38,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/user/${id}',
+              '/user/${id}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -62,7 +62,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/login',
+              '/login',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -86,7 +86,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/user/',
+              '/user/',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -109,7 +109,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/product/new',
+              '/product/new',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -134,7 +134,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/product/detail/${id}',
+              '/product/detail/${id}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -166,7 +166,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/product/search-product',
+              '/product/search-product',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -189,7 +189,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/mail/active-user',
+              '/mail/active-user',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -212,7 +212,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/user/active-otp',
+              '/user/active-otp',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -240,7 +240,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/user/change-password-by-token',
+              '/user/change-password-by-token',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -264,7 +264,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/address',
+              '/address',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -294,7 +294,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/address/${id}',
+              '/address/${id}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -322,7 +322,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/address',
+              '/address',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -352,7 +352,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/address/update-address/${id}',
+              '/address/update-address/${id}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -380,7 +380,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/address/${id}',
+              '/address/${id}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -413,7 +413,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/promotion',
+              '/promotion',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -447,7 +447,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/product/filter-product',
+              '/product/filter-product',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -476,7 +476,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/categories',
+              '/categories',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -505,7 +505,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/manufacturer',
+              '/manufacturer',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -529,7 +529,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/mail/forgot-password/${email}',
+              '/mail/forgot-password/${email}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -554,7 +554,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/user/change-password-by-otp',
+              '/user/change-password-by-otp',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -583,7 +583,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/user/${userId}',
+              '/user/${userId}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -615,7 +615,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/order/user',
+              '/order/user',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -643,7 +643,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/order/user/detail/${id}',
+              '/order/user/detail/${id}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -671,7 +671,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/order',
+              '/order',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -700,7 +700,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/review',
+              '/review',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -729,7 +729,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/review/${reviewID}',
+              '/review/${reviewID}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -759,7 +759,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              '/api/review/${manufacturerID}',
+              '/review/${manufacturerID}',
               queryParameters: queryParameters,
               data: _data,
             )

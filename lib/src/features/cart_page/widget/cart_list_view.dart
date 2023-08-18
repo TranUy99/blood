@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/core/model/product_detail_cart.dart';
 import 'package:mobile_store/src/features/cart_page/view_model/cart_view_model.dart';
 import 'package:mobile_store/src/features/detail_product/view_model/detail_product_view_model.dart';
@@ -11,8 +12,8 @@ import '../../../../main.dart';
 import '../../../constant/api_outside/api_image.dart';
 import '../../../constant/color/color.dart';
 import '../../../core/model/order_product_dto.dart';
-import '../../component/bloc_state/app_bar_event.dart';
 import '../../component/custom_app_bar.dart';
+import '../bloc/cart_event.dart';
 
 class CartListView extends StatefulWidget {
   const CartListView({Key? key}) : super(key: key);
@@ -27,62 +28,50 @@ class _CartListViewState extends State<CartListView> {
   final textCurrency = NumberFormat("#,###.###", "en_US");
   List<OrderProductDTO> cartList = [];
   CartViewModel cartViewModel = CartViewModel();
-  bool flag = false;
-
-  int cartListLength() {
-    int count = 0;
-    for (int i = 0; i < getUser.cartBox!.length; i++) {
-      ProductDetailCart productDetailCart = getUser.cartBox?.getAt(i);
-      count += productDetailCart.productQuantity;
-    }
-    return count;
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    setState(() {
-      flag = true;
-    });
-  }
-
+  bool isReload = true;
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: cartViewModel.cartViewModel(),
+      future: cartViewModel.getDataCartViewModel(),
       builder: (context, snapshot) {
-        return ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: getUser.cartBox?.length,
-          itemBuilder: (context, index) {
-            OrderProductDTO? orderProductDTO = snapshot.data?[index];
-            ProductDetailCart productDetailCart = getUser.cartBox?.getAt(index);
-            if (snapshot.connectionState == ConnectionState.waiting && flag == false) {
-              return const Center(
-                child: CircularProgressIndicator(),
+        if (snapshot.connectionState == ConnectionState.waiting && isReload) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          if (snapshot.hasData) {
+              isReload = false;
+            if(snapshot.data!.isNotEmpty){
+              return ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: getUser.cartBox?.length,
+                itemBuilder: (context, index) {
+                  ProductDetailCart productDetailCart =
+                      getUser.cartBox?.getAt(index);
+                  ProductDTO productDTO = snapshot.data![index];
+
+                  return cartItem(productDTO, productDetailCart, index);
+                },
               );
-            } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            } else {
-              if (snapshot.hasData) {
-
-                  return cartItem(orderProductDTO!, productDetailCart, index);
-
-              } else {
-                return const Text('No products available');
-              }
+            } else{
+              return SizedBox(
+                height: MediaQuery.of(context).size.height * 0.3,
+                child: const Center(child: Text('Cart is empty')),
+              );
             }
-          },
-        );
+          } else {
+            return const Text('No products available');
+          }
+        }
       },
     );
   }
 
-  Widget cartItem(
-      OrderProductDTO orderProductDTO, ProductDetailCart productDetailCart, int index) {
+  Widget cartItem(ProductDTO productDTO, ProductDetailCart productDetailCart, int index) {
     return Container(
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -94,8 +83,7 @@ class _CartListViewState extends State<CartListView> {
             height: MediaQuery.of(context).size.width * 0.35,
             width: MediaQuery.of(context).size.width * 0.35,
             child: CachedNetworkImage(
-              imageUrl: ApiImage()
-                  .generateImageUrl('${orderProductDTO.image}'),
+              imageUrl: ApiImage().generateImageUrl('${productDTO.imageDTOs?[0].name}'),
             ),
           ),
           Container(
@@ -108,7 +96,7 @@ class _CartListViewState extends State<CartListView> {
                 Padding(
                   padding: const EdgeInsets.only(top: 5),
                   child: Text(
-                    '${orderProductDTO.name}',
+                    '${productDTO.name}',
                     style: const TextStyle(fontSize: 20, color: kRedColor),
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -116,14 +104,14 @@ class _CartListViewState extends State<CartListView> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: Text(
-                    '${textCurrency.format(orderProductDTO.price)} đ',
+                    '${textCurrency.format(productDTO.price)} đ',
                     style: const TextStyle(color: kGreenColor, fontSize: 18),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: Text(
-                    '${orderProductDTO.memory} | ${orderProductDTO.color}',
+                    '${productDetailCart.memory} | ${productDetailCart.color}',
                     style: const TextStyle(fontSize: 15),
                   ),
                 ),
@@ -144,8 +132,7 @@ class _CartListViewState extends State<CartListView> {
                                     stock: productDetailCart.stock));
                           });
                         }
-                        CustomAppBar.appBarBloc.eventController.sink
-                            .add(AddItemToCartEvent(cartListLength()));
+                        cartViewModel.streamData();
                       },
                       child: Container(
                         height: 25,
@@ -177,10 +164,10 @@ class _CartListViewState extends State<CartListView> {
                                     productQuantity:
                                         productDetailCart.productQuantity + 1,
                                     memory: productDetailCart.memory,
-                                    color: productDetailCart.color, stock: productDetailCart.stock));
+                                    color: productDetailCart.color,
+                                    stock: productDetailCart.stock));
                           }
-                          CustomAppBar.appBarBloc.eventController.sink
-                              .add(AddItemToCartEvent(cartListLength()));
+                          cartViewModel.streamData();
                         });
                       },
                       child: Container(
@@ -197,16 +184,16 @@ class _CartListViewState extends State<CartListView> {
                     ),
                     IconButton(
                         onPressed: () {
-                          getUser.cartBox?.deleteAt(index);
-                          CustomAppBar.appBarBloc.eventController.sink
-                              .add(AddItemToCartEvent(cartListLength()));
-                          setState(() {});
-                          showTopSnackBar(
-                              Overlay.of(context),
-                              const CustomSnackBar.success(
-                                  message: 'Delete item successfully'));
-                          CustomAppBar.appBarBloc.eventController.sink
-                              .add(AddItemToCartEvent(cartListLength()));
+
+                          setState(() {
+                            getUser.cartBox?.deleteAt(index);
+                            cartViewModel.streamData();
+                            showTopSnackBar(
+                                Overlay.of(context),
+                                const CustomSnackBar.success(
+                                    message: 'Delete item successfully'));
+                          });
+
                         },
                         icon: const Icon(Icons.delete))
                   ],
