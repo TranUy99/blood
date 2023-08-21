@@ -2,7 +2,6 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_store/src/core/model/product_detail_cart.dart';
 import 'package:mobile_store/src/features/cart_page/bloc/cart_bloc.dart';
 import 'package:mobile_store/src/features/cart_page/bloc/cart_state.dart';
 import 'package:mobile_store/src/features/cart_page/view_model/cart_view_model.dart';
@@ -11,7 +10,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
 import '../../constant/color/color.dart';
-import '../../core/model/order_product_dto.dart';
 import '../category/widget/menu_button.dart';
 import '../home_page/view/navigation_home_page.dart';
 import '../search/view/search.dart';
@@ -19,7 +17,7 @@ import '../search/view/search.dart';
 class CustomAppBar extends StatefulWidget {
   const CustomAppBar({super.key});
 
-  static GetLengthCartBloc getLengthCartBloc = GetLengthCartBloc();
+  static CartBloc cartBloc = CartBloc.getLength();
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
@@ -27,19 +25,6 @@ class CustomAppBar extends StatefulWidget {
 
 class _CustomAppBarState extends State<CustomAppBar> {
   CartViewModel cartViewModel = CartViewModel();
-  List<OrderProductDTO> cartList = [];
-  int length = 0;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    setState(() {
-      length = cartViewModel.cartLength();
-    });
-  }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -128,8 +113,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       ),
                     )),
                 StreamBuilder<GetLengthCartState>(
-                  initialData: GetLengthCartState(length),
-                  stream: CustomAppBar.getLengthCartBloc.stateController.stream,
+                  initialData: cartViewModel.initialLengthCart(),
+                  stream: CustomAppBar.cartBloc.getLengthStateController.stream,
                   builder: (context, snapshot) {
                     return IconButton(
                         onPressed: () {
@@ -140,18 +125,17 @@ class _CustomAppBarState extends State<CustomAppBar> {
                         },
                         icon: successLoginState.onLoginState
                             ? Badge(
-                            label: Text('${snapshot.data?.cartListLength}'),
-                            child: const Icon(
-                              Icons.shopping_cart_outlined,
-                              color: Colors.white,
-                            ))
+                                label: Text('${snapshot.data?.cartListLength}'),
+                                child: const Icon(
+                                  Icons.shopping_cart_outlined,
+                                  color: Colors.white,
+                                ))
                             : const Icon(
-                          Icons.shopping_cart_outlined,
-                          color: Colors.white,
-                        ));
+                                Icons.shopping_cart_outlined,
+                                color: Colors.white,
+                              ));
                   },
                 )
-
               ],
             ),
           ),
@@ -213,16 +197,16 @@ PreferredSizeWidget? appBarWidget(BuildContext context, bool isBack) {
         backgroundColor: kSecondaryColor,
         leading: isBack
             ? IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: Colors.white,
-            )):
-        Image(
-            image: const AssetImage('assets/images/banner0.jpg'),
-            height: MediaQuery.of(context).size.height * 0.06),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                ))
+            : Image(
+                image: const AssetImage('assets/images/banner0.jpg'),
+                height: MediaQuery.of(context).size.height * 0.06),
         flexibleSpace: CustomAppBar()),
   );
 }

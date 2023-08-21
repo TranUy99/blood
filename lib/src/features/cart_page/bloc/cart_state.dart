@@ -16,19 +16,26 @@ class ErrorGetProductCartState extends GetProductCartState {
   ErrorGetProductCartState(this.error);
 }
 
-class GetDataCartState{}
+class GetDataCartState {}
 
-class SuccessGetDataCartState extends GetDataCartState{
+class SuccessGetDataCartState extends GetDataCartState {
   List<ProductDTO>? productDTOList;
+
   SuccessGetDataCartState(this.productDTOList);
 }
 
-class ErrorGetDataCartState extends GetDataCartState{}
+class ErrorGetDataCartState extends GetDataCartState {}
 
-class GetLengthCartState {
+class CartState {}
+
+class GetLengthCartState extends CartState{
   final int cartListLength;
 
   GetLengthCartState(this.cartListLength);
 }
 
+class GetPriceCartState extends CartState{
+  final double price;
 
+  GetPriceCartState(this.price);
+}

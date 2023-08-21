@@ -1,22 +1,16 @@
-import '../../../core/model/order_product_dto.dart';
-
-class CartEvent {}
-
-class CreateItemCart extends CartEvent{}
-
-class UpdateItemCart extends CartEvent{}
-
-class DeleteItemCart extends CartEvent{}
-
-class GetItemCart extends CartEvent{}
-
-class GetLengthCartEvent {
+class CartEvent {
 
 }
 
-class AddItemToCartEvent extends GetLengthCartEvent {
-  final int addToCartList;
+class GetLengthCartEvent extends CartEvent {
+  final int lengthCartList;
 
-  AddItemToCartEvent(this.addToCartList);
+  GetLengthCartEvent(this.lengthCartList);
+}
+
+class GetPriceCartEvent extends CartEvent {
+  final double price;
+
+  GetPriceCartEvent(this.price);
 }
 

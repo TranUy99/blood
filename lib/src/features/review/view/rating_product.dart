@@ -200,7 +200,7 @@ class _RatingProductState extends State<RatingProduct> {
                               memory: product.memory,
                               color: product.color, stock: widget.productDTO.stocks));
                     }
-                    cartViewModel.streamData();
+                    cartViewModel.streamLengthCartList();
                     showTopSnackBar(
                         Overlay.of(context),
                         const CustomSnackBar.success(

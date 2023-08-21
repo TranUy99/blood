@@ -1,4 +1,6 @@
 import 'package:mobile_store/src/core/model/order_product_dto.dart';
+import 'package:mobile_store/src/core/model/product_detail_cart.dart';
+import 'package:mobile_store/src/features/cart_page/view/cart_page.dart';
 
 import '../../../../main.dart';
 import '../../../core/model/product.dart';
@@ -10,7 +12,7 @@ import '../bloc/cart_state.dart';
 class CartViewModel {
   GetProductCartBloc getProductCartBloc = GetProductCartBloc();
   GetDataCartBloc getDataCartBloc = GetDataCartBloc();
-
+  double price = 0;
   List<OrderProductDTO> cartList = [];
 
   Future<List<OrderProductDTO>> cartViewModel() async {
@@ -27,11 +29,31 @@ class CartViewModel {
     return cartList;
   }
 
-  streamData() async {
+  streamLengthCartList() async {
     List<OrderProductDTO> list = await cartViewModel();
 
-    CustomAppBar.getLengthCartBloc.eventController.sink
-        .add(AddItemToCartEvent(list.length));
+    CustomAppBar.cartBloc.eventController.sink
+        .add(GetLengthCartEvent(list.length));
+  }
+
+  streamPriceCartList() async {
+    double totalPrice = 0;
+    List<OrderProductDTO> list = await cartViewModel();
+    for (int i = 0; i < list.length; i++) {
+      totalPrice += list[i].price!;
+    }
+
+    CartPage.cartBloc.eventController.sink.add(GetPriceCartEvent(totalPrice));
+  }
+
+  GetLengthCartState initialLengthCart() {
+    int length = 0;
+
+    for (int i = 0; i < getUser.cartBox!.length; i++) {
+      ProductDetailCart productDetailCart = getUser.cartBox!.getAt(i);
+      length += productDetailCart.productQuantity;
+    }
+    return GetLengthCartState(length);
   }
 
   Future<List<ProductDTO>?> getDataCartViewModel() async {
@@ -52,30 +74,10 @@ class CartViewModel {
 
   Future<double> totalPay() async {
     double total = 0;
-    List<OrderProductDTO> orderProductList = [];
-
-    await getProductCartBloc.getProductCartBloc();
-
-    await getProductCartBloc.state.listen((state) {
-      if (state is SuccessGetProductCartState) {
-        orderProductList = state.list;
-      } else if (state is ErrorGetProductCartState) {
-        orderProductList = [];
-      }
-    });
-
-    for (int i = 0; i < orderProductList.length; i++) {
-      total += orderProductList[i].price ?? 0;
+    cartList = await cartViewModel();
+    for (int i = 0; i < cartList.length; i++) {
+      total += cartList[i].price!;
     }
-
     return total;
-  }
-
-  int cartLength() {
-    int temp = 0;
-    cartViewModel().then((value) {
-      temp = value.length;
-    });
-    return temp;
   }
 }

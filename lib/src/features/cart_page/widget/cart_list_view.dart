@@ -12,8 +12,6 @@ import '../../../../main.dart';
 import '../../../constant/api_outside/api_image.dart';
 import '../../../constant/color/color.dart';
 import '../../../core/model/order_product_dto.dart';
-import '../../component/custom_app_bar.dart';
-import '../bloc/cart_event.dart';
 
 class CartListView extends StatefulWidget {
   const CartListView({Key? key}) : super(key: key);
@@ -43,8 +41,8 @@ class _CartListViewState extends State<CartListView> {
           return Text('Error: ${snapshot.error}');
         } else {
           if (snapshot.hasData) {
-              isReload = false;
-            if(snapshot.data!.isNotEmpty){
+            isReload = false;
+            if (snapshot.data!.isNotEmpty) {
               return ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -57,7 +55,7 @@ class _CartListViewState extends State<CartListView> {
                   return cartItem(productDTO, productDetailCart, index);
                 },
               );
-            } else{
+            } else {
               return SizedBox(
                 height: MediaQuery.of(context).size.height * 0.3,
                 child: const Center(child: Text('Cart is empty')),
@@ -71,7 +69,8 @@ class _CartListViewState extends State<CartListView> {
     );
   }
 
-  Widget cartItem(ProductDTO productDTO, ProductDetailCart productDetailCart, int index) {
+  Widget cartItem(
+      ProductDTO productDTO, ProductDetailCart productDetailCart, int index) {
     return Container(
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -83,7 +82,8 @@ class _CartListViewState extends State<CartListView> {
             height: MediaQuery.of(context).size.width * 0.35,
             width: MediaQuery.of(context).size.width * 0.35,
             child: CachedNetworkImage(
-              imageUrl: ApiImage().generateImageUrl('${productDTO.imageDTOs?[0].name}'),
+              imageUrl: ApiImage()
+                  .generateImageUrl('${productDTO.imageDTOs?[0].name}'),
             ),
           ),
           Container(
@@ -118,21 +118,21 @@ class _CartListViewState extends State<CartListView> {
                 Row(
                   children: [
                     InkWell(
-                      onTap: () {
+                      onTap: () async {
                         if (productDetailCart.productQuantity > 1) {
-                          setState(() {
-                            getUser.cartBox?.putAt(
-                                index,
-                                ProductDetailCart(
-                                    productID: productDetailCart.productID,
-                                    productQuantity:
-                                        productDetailCart.productQuantity - 1,
-                                    memory: productDetailCart.memory,
-                                    color: productDetailCart.color,
-                                    stock: productDetailCart.stock));
-                          });
+                          getUser.cartBox?.putAt(
+                              index,
+                              ProductDetailCart(
+                                  productID: productDetailCart.productID,
+                                  productQuantity:
+                                      productDetailCart.productQuantity - 1,
+                                  memory: productDetailCart.memory,
+                                  color: productDetailCart.color,
+                                  stock: productDetailCart.stock));
+                          setState(() {});
+                          await cartViewModel.streamLengthCartList();
+                          await cartViewModel.streamPriceCartList();
                         }
-                        cartViewModel.streamData();
                       },
                       child: Container(
                         height: 25,
@@ -153,22 +153,22 @@ class _CartListViewState extends State<CartListView> {
                           child: Text('${productDetailCart.productQuantity}')),
                     ),
                     InkWell(
-                      onTap: () {
-                        setState(() {
-                          if (productDetailCart.productQuantity <
-                              (productDetailCart.stock)!) {
-                            getUser.cartBox?.putAt(
-                                index,
-                                ProductDetailCart(
-                                    productID: productDetailCart.productID,
-                                    productQuantity:
-                                        productDetailCart.productQuantity + 1,
-                                    memory: productDetailCart.memory,
-                                    color: productDetailCart.color,
-                                    stock: productDetailCart.stock));
-                          }
-                          cartViewModel.streamData();
-                        });
+                      onTap: () async {
+                        if (productDetailCart.productQuantity <
+                            (productDetailCart.stock)!) {
+                          getUser.cartBox?.putAt(
+                              index,
+                              ProductDetailCart(
+                                  productID: productDetailCart.productID,
+                                  productQuantity:
+                                      productDetailCart.productQuantity + 1,
+                                  memory: productDetailCart.memory,
+                                  color: productDetailCart.color,
+                                  stock: productDetailCart.stock));
+                          setState(() {});
+                          await cartViewModel.streamLengthCartList();
+                          await cartViewModel.streamPriceCartList();
+                        }
                       },
                       child: Container(
                         height: 25,
@@ -183,17 +183,15 @@ class _CartListViewState extends State<CartListView> {
                       ),
                     ),
                     IconButton(
-                        onPressed: () {
-
-                          setState(() {
-                            getUser.cartBox?.deleteAt(index);
-                            cartViewModel.streamData();
-                            showTopSnackBar(
-                                Overlay.of(context),
-                                const CustomSnackBar.success(
-                                    message: 'Delete item successfully'));
-                          });
-
+                        onPressed: () async {
+                          getUser.cartBox?.deleteAt(index);
+                          setState(() {});
+                          await cartViewModel.streamLengthCartList();
+                          await cartViewModel.streamPriceCartList();
+                          showTopSnackBar(
+                              Overlay.of(context),
+                              const CustomSnackBar.success(
+                                  message: 'Delete item successfully'));
                         },
                         icon: const Icon(Icons.delete))
                   ],
