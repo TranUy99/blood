@@ -39,7 +39,6 @@ class _ProductScreenState extends State<ProductScreen> {
     return FutureBuilder<List<ProductDTO>>(
       future: _productViewModel.getProducts(),
       builder: (context, snapshot) {
-     
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
             child: CircularProgressIndicator(),

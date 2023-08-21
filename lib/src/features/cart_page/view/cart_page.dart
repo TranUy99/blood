@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/address/view/add_address.dart';
+import 'package:mobile_store/src/features/cart_page/bloc/cart_state.dart';
 import 'package:mobile_store/src/features/cart_page/view_model/cart_view_model.dart';
 import 'package:mobile_store/src/features/cart_page/widget/cart_list_view.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 
 import '../../../core/model/order_product_dto.dart';
+import '../bloc/cart_bloc.dart';
 import '../widget/cart_selecte_address.dart';
 import '../widget/cart_selecte_promotion.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({Key? key}) : super(key: key);
+
+  static CartBloc cartBloc = CartBloc.getPrice();
+  static CartViewModel cartViewModel1 = CartViewModel();
 
   @override
   State<CartPage> createState() => _CartPageState();
@@ -23,6 +29,7 @@ class _CartPageState extends State<CartPage> {
   int selectedPromotionIndex = 0;
   List<OrderProductDTO> orderProductDTOList = [];
   CartViewModel cartViewModel = CartViewModel();
+  final textCurrency = NumberFormat("#,###.###", "en_US");
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +38,7 @@ class _CartPageState extends State<CartPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            CartListView(),
+            const CartListView(),
             Align(
               alignment: Alignment.bottomRight,
               child: Padding(
@@ -49,20 +56,36 @@ class _CartPageState extends State<CartPage> {
                       ),
                     ),
                     const SizedBox(width: 10.0),
-                    FutureBuilder<double>(
-                      future: CartViewModel().totalPay(),
-                      builder: (context, snapshot) {
-                        return Text(
-                          '${snapshot.data}',
-                          textAlign: TextAlign.right,
-                          style: const TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                            color: kGreenColor,
-                          ),
-                        );
+                    FutureBuilder(
+                      future: cartViewModel.totalPay(),
+                      builder: (context, getData) {
+                        if (getData.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (getData.hasError) {
+                          return Text('Error: ${getData.error}');
+                        } else {
+                          return StreamBuilder<GetPriceCartState>(
+                            initialData: GetPriceCartState(getData.data!),
+                            stream: CartPage
+                                .cartBloc.getPriceStateController.stream,
+                            builder: (context, snapshot) {
+                              return Text(
+                                '${textCurrency.format(snapshot.data?.price)} đ',
+                                textAlign: TextAlign.right,
+                                style: const TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: kGreenColor,
+                                ),
+                              );
+                            },
+                          );
+                        }
                       },
-                    ),
+                    )
                   ],
                 ),
               ),
