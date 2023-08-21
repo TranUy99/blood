@@ -23,8 +23,7 @@ class GetProductCartBloc {
 
     for (int i = 0; i < getUser.cartBox!.length; i++) {
       ProductDetailCart productDetailCart = getUser.cartBox?.getAt(i);
-      productDTO = await DetailProductService.getDetailProductService(
-          productDetailCart.productID);
+      productDTO = await DetailProductService.getDetailProductService(productDetailCart.productID);
       for (int j = productDetailCart.productQuantity; j > 0; j--) {
         orderProductDTOList.add(OrderProductDTO(
           id: productDetailCart.productID,
@@ -34,6 +33,7 @@ class GetProductCartBloc {
           price: productDTO?.price,
           description: productDTO?.description,
           image: productDTO!.imageDTOs?[0].name,
+          seri: productDTO!.seriDTOs?[0].name,
         ));
       }
     }
@@ -57,8 +57,8 @@ class GetDataCartBloc {
 
     for (int i = 0; i < getUser.cartBox!.length; i++) {
       ProductDetailCart productDetailCart = getUser.cartBox?.getAt(i);
-      final productResult = await DetailProductService.getDetailProductService(
-          productDetailCart.productID);
+      final productResult =
+          await DetailProductService.getDetailProductService(productDetailCart.productID);
       listTemp.add(productResult);
     }
 
@@ -69,7 +69,7 @@ class GetDataCartBloc {
     }
   }
 
-  dispose(){
+  dispose() {
     _productStateSubject.close();
   }
 }
@@ -77,11 +77,12 @@ class GetDataCartBloc {
 class CartBloc {
   var getLengthState = GetLengthCartState(0);
   var getPriceState = GetPriceCartState(0);
+  var getSelectedPromotionState = GetSelectedPromotionState(0);
   final eventController = StreamController<CartEvent>();
-  final getLengthStateController =
-      StreamController<GetLengthCartState>.broadcast();
-  final getPriceStateController =
-  StreamController<GetPriceCartState>.broadcast();
+  final getLengthStateController = StreamController<GetLengthCartState>.broadcast();
+  final getPriceStateController = StreamController<GetPriceCartState>.broadcast();
+  final getSelectedPromotionStateController =
+      StreamController<GetSelectedPromotionState>.broadcast();
 
   CartBloc.getLength() {
     eventController.stream.listen((CartEvent event) {
@@ -92,7 +93,7 @@ class CartBloc {
     });
   }
 
-  CartBloc.getPrice(){
+  CartBloc.getPrice() {
     eventController.stream.listen((CartEvent event) {
       if (event is GetPriceCartEvent) {
         getPriceState = GetPriceCartState(event.price);
@@ -101,7 +102,7 @@ class CartBloc {
     });
   }
 
-  dispose(){
+  dispose() {
     getPriceStateController.close();
     getLengthStateController.close();
     eventController.close();

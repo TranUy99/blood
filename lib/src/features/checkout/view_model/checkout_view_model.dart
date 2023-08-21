@@ -6,7 +6,7 @@ class CheckoutViewModel {
   final CheckoutBloc _checkoutBloc = CheckoutBloc();
 
   //Add event change password and listen state
-  Future<bool> changePassword(
+  Future<bool> checkout(
       {required int? idUser,
       required int? idPromotion,
       required String? paymentMethodDTO,
@@ -25,18 +25,18 @@ class CheckoutViewModel {
     );
     await _checkoutBloc.addEvent(createOrderPressedEvent);
 
-    bool isChangePassword = false;
+    bool isCreateOrder = false;
 
     await _checkoutBloc.checkoutStateStream.listen(
       (state) {
         if (state is SuccessCheckoutState) {
-          isChangePassword = true;
+          isCreateOrder = true;
         } else if (state is FailedCheckoutState) {
-          isChangePassword = false;
+          isCreateOrder = false;
         }
       },
     );
 
-    return isChangePassword;
+    return isCreateOrder;
   }
 }

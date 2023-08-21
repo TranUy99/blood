@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:mobile_store/src/core/model/address.dart';
 import 'package:mobile_store/src/core/model/product.dart';
+import 'package:mobile_store/src/core/model/promotion.dart';
 import 'package:mobile_store/src/core/model/user.dart';
 import 'package:mobile_store/src/core/remote/request/address_request/address_change_request.dart';
 import 'package:mobile_store/src/core/remote/request/change_information_request/change_information_request.dart';
@@ -66,7 +69,7 @@ abstract class ApiService {
   Future<SignUpResponse> register(@Body() SignUpRequest register);
 
   //get new product
-  @GET('/product/related-product')
+  @GET('/product/new')
   Future<List<ProductDTO>> getProductNew();
   //get related product
   @GET('/product/related-product')
@@ -135,6 +138,12 @@ abstract class ApiService {
   Future<PromotionResponse> getPromotion(
       @Header("Authorization") String auth, @Query('no') int? no, @Query('limit') int? limit);
 
+  // Call api  id promotion
+  @GET('/promotion/{id}')
+  Future<PromotionDTO> getIdPromotion({
+    @Path("id") required int? id,
+  });
+
   @GET('/product/filter-product')
   Future<CategoryFilterResponse> productCategoryFilter(@Query('manufacturerId') int? manufacturerId,
       @Query('categoryId') int categoryId, @Query('no') int no, @Query('limit') int limit);
@@ -166,12 +175,12 @@ abstract class ApiService {
     @Path("id") int? id,
   );
 
-  //get order detail
-  @GET('/order')
-  Future<HttpResponse> createOrder(
-    @Header("Authorization") String auth,
-    @Body() OrderRequest orderRequest,
-  );
+  //create order detail
+  @POST('/order')
+  Future<HttpResponse> createOrder({
+    @Header("Authorization") required String auth,
+    @Body() required OrderRequest orderRequest,
+  });
 
   @POST('/review')
   Future<CreateReviewResponse> createReview(

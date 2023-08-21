@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:mobile_store/src/api/api_service.dart';
 import 'package:mobile_store/src/core/model/pay.dart';
@@ -17,8 +19,8 @@ class CheckOutService {
       int? idAddress,
       String? receiveDate) async {
     HttpResponse response = await ApiService(Dio()).createOrder(
-      "Bearer ${getUser.token}",
-      OrderRequest(
+      auth: 'Bearer ${getUser.token}',
+      orderRequest: OrderRequest(
         idUser,
         idPromotion,
         paymentMethodDTO,
@@ -27,10 +29,9 @@ class CheckOutService {
         idAddress,
         receiveDate,
       ),
+      
     );
-
+    
     return response;
   }
-
-
 }

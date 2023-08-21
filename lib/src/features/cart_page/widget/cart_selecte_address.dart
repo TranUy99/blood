@@ -5,8 +5,8 @@ import 'package:mobile_store/src/core/model/address.dart';
 import 'package:mobile_store/src/features/address/view_model/address_view_model.dart';
 
 class SelectedAddressCart extends StatefulWidget {
-  final int selectedAddressIndex;
-  final Function(int) onAddressSelected;
+  final int? selectedAddressIndex;
+  final Function(int?) onAddressSelected;
 
   const SelectedAddressCart({
     Key? key,

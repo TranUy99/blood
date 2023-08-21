@@ -14,3 +14,8 @@ class GetPriceCartEvent extends CartEvent {
   GetPriceCartEvent(this.price);
 }
 
+class GetSelectedPromotionEvent extends CartEvent {
+  final int? selectedPromotion;
+
+  GetSelectedPromotionEvent(this.selectedPromotion);
+}

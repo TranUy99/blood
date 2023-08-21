@@ -1,13 +1,23 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile_store/main.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
-
+import 'package:mobile_store/src/core/model/promotion.dart';
 import 'package:mobile_store/src/features/address/view_model/address_view_model.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
+import 'package:mobile_store/src/features/home_page/view/home_page.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../core/model/address.dart';
 import '../../../core/model/order_product_dto.dart';
 import '../../../core/model/status_dto.dart';
+import '../../cart_page/view_model/cart_view_model.dart';
+import '../../home_page/view/navigation_home_page.dart';
+import '../../promotion/view_model/promotion_view_model.dart';
 import '../view_model/checkout_view_model.dart';
 import '../widget/checkout_list_product.dart';
 import '../widget/payment.dart';
@@ -15,9 +25,11 @@ import '../widget/delivery_address.dart';
 
 class CheckoutPage extends StatefulWidget {
   int? idAddress;
-  int? idPromotion;
 
-  CheckoutPage({Key? key, required this.idAddress, required this.idPromotion}) : super(key: key);
+  CheckoutPage({
+    Key? key,
+    required this.idAddress,
+  }) : super(key: key);
 
   @override
   State<CheckoutPage> createState() => _CheckoutPageState();
@@ -25,12 +37,17 @@ class CheckoutPage extends StatefulWidget {
 
 class _CheckoutPageState extends State<CheckoutPage> {
   final AddressViewModel _addressViewModel = AddressViewModel();
-  CheckoutViewModel _checkoutViewModel = CheckoutViewModel();
+  final CheckoutViewModel _checkoutViewModel = CheckoutViewModel();
+  final PromotionViewModel _promotionViewModel = PromotionViewModel();
+  final CartViewModel _cartViewModel = CartViewModel();
+
   String? _paymentMethod;
   late Future<Address> _addressFuture;
-  bool _uiBuilt = false;
   late Address address;
-
+  bool _uiBuilt = false;
+  late Future<List<OrderProductDTO>> _cartFuture;
+  List<OrderProductDTO> cartList = [];
+  @override
   @override
   void initState() {
     super.initState();
@@ -38,6 +55,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
     _addressFuture.then((address) {
       setState(() {
         this.address = address;
+        _uiBuilt = true;
+      });
+    });
+
+    _cartFuture = _cartViewModel.cartViewModel();
+    _cartFuture.then((cartList) {
+      setState(() {
+        this.cartList = cartList;
         _uiBuilt = true;
       });
     });
@@ -55,8 +80,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
       );
     }
   }
-
-
 
   Widget buildUI(BuildContext context) {
     return Scaffold(
@@ -100,13 +123,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       color: kGreyColor,
                     ),
                   ),
-                  const Text(
-                    '0 USD',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: kGreyColor,
-                    ),
-                  ),
+                  // Text(
+                  //   '${promotion.discountDTO}%',
+                  //   style: const TextStyle(
+                  //     fontSize: 14,
+                  //     color: kGreyColor,
+                  //   ),
+                  // ),
                 ],
               ),
               const SizedBox(height: 10),
@@ -140,14 +163,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Text(
-                    '2025 USD',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: kRedColor,
-                    ),
-                  ),
+                  // Text(
+                  //   "${NumberFormat('#,###.###').format(totalAmount! - (totalAmount! * (promotion.discountDTO! * 0.01)))} VND ",
+                  //   style: const TextStyle(
+                  //     fontSize: 16,
+                  //     fontWeight: FontWeight.bold,
+                  //     color: kRedColor,
+                  //   ),
+                  // ),
                 ],
               ),
               const SizedBox(height: 16),
@@ -170,14 +193,40 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         height: 50.0,
                         child: ElevatedButton(
                           onPressed: () async {
-                            final createOrder = await _checkoutViewModel.changePassword(
-                                idUser: 3,
-                                idPromotion: 1,
-                                paymentMethodDTO: "Momo",
+                            final createOrder = await _checkoutViewModel.checkout(
+                                idUser: getUser.idUser,
+                                idPromotion: 3,
+                                paymentMethodDTO: "$_paymentMethod",
                                 statusDTO: StatusDTO(id: 1, name: "Active"),
-                                orderProductDTOList: [],
-                                idAddress: 5,
-                                receiveDate: "2023-08-08");
+                                orderProductDTOList: cartList,
+                                idAddress: widget.idAddress,
+                                receiveDate: "");
+                            getUser.cartBox!.deleteAll(getUser.cartBox!.keys);
+                            if (createOrder == true) {
+                              showTopSnackBar(
+                                // ignore: use_build_context_synchronously
+                                Overlay.of(context),
+                                const CustomSnackBar.success(
+                                  message: 'Order success',
+                                ),
+                              );
+                              // ignore: use_build_context_synchronously
+                              await _cartViewModel.streamLengthCartList();
+                              await _cartViewModel.streamPriceCartList();
+                              setState(() {
+                                indexScreen = 0;
+                              });
+                              Get.offAll(const NavigationHomePage());
+                            } else {
+                              showTopSnackBar(
+                                // ignore: use_build_context_synchronously
+                                Overlay.of(context),
+                                const CustomSnackBar.error(
+                                  message: 'Order Failed',
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: kGreenColor,

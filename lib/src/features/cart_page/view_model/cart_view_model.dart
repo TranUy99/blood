@@ -32,8 +32,7 @@ class CartViewModel {
   streamLengthCartList() async {
     List<OrderProductDTO> list = await cartViewModel();
 
-    CustomAppBar.cartBloc.eventController.sink
-        .add(GetLengthCartEvent(list.length));
+    CustomAppBar.cartBloc.eventController.sink.add(GetLengthCartEvent(list.length));
   }
 
   streamPriceCartList() async {

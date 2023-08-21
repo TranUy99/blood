@@ -1,5 +1,6 @@
 
 import 'package:equatable/equatable.dart';
+import 'package:mobile_store/src/core/model/promotion.dart';
 import 'package:mobile_store/src/core/remote/response/promotion_response/promotion_response.dart';
 import 'package:mobile_store/src/features/promotion/service/promotion_service.dart';
 import 'package:rxdart/rxdart.dart';
@@ -23,7 +24,19 @@ class PromotionBloc {
         _promotionStateSubject.sink.add(const FailedGetListPromotion("No promotion available"));
       }
     }
+  }
 
-    void dispose() {}
+  //get id promotion
+  Future<void> getIdPromotionEvent(PromotionEvent event) async {
+    if (event is GetIdPromotionEvent) {
+      final PromotionDTO promotion =
+          await PromotionService.getIdPromotionService(event.idPromotion);
+
+      if (promotion != null) {
+        _promotionStateSubject.sink.add(SuccessGetIdPromotionState(promotion));
+      } else {
+        _promotionStateSubject.sink.add(const FailedGetIdPromotionState("No address available"));
+      }
+    }
   }
 }
