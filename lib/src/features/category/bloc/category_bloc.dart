@@ -22,15 +22,16 @@ class CategoryFilterBloc extends CategoryBloc {
   String? message;
   List<ProductFilter>? productList = [];
 
-  Future<void> addEvent(CategoryFilterEvent event) async {
-    await _categoryFilter(
-        event.manufacturerId, event.categoryId, event.no, event.limit);
-  }
-
-  Future<void> _categoryFilter(
-      int? manufacturerId, int categoryId, int no, int limit) async {
-    final categoryFilterResult = CategoryFilterService()
-        .categoryFilterService(manufacturerId, categoryId, no, limit);
+  Future<void> categoryFilter(CategoryFilterEvent event) async {
+    final categoryFilterResult = CategoryFilterService().categoryFilterService(
+      event.manufacturerId,
+      event.categoryId,
+      '',
+      event.lowerPrice,
+      event.higherPrice,
+      event.no,
+      event.limit,
+    );
     try {
       await categoryFilterResult.then((value) {
         productList = value.contents;

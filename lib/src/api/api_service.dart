@@ -6,6 +6,7 @@ import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/core/model/promotion.dart';
 import 'package:mobile_store/src/core/model/user.dart';
 import 'package:mobile_store/src/core/remote/request/address_request/address_change_request.dart';
+import 'package:mobile_store/src/core/remote/request/category_filter_request/category_filter_request.dart';
 import 'package:mobile_store/src/core/remote/request/change_information_request/change_information_request.dart';
 import 'package:mobile_store/src/core/remote/request/change_password_request/change_password_request.dart';
 import 'package:mobile_store/src/core/remote/request/login_request/login_request.dart';
@@ -145,8 +146,10 @@ abstract class ApiService {
   });
 
   @GET('/product/filter-product')
-  Future<CategoryFilterResponse> productCategoryFilter(@Query('manufacturerId') int? manufacturerId,
-      @Query('categoryId') int categoryId, @Query('no') int no, @Query('limit') int limit);
+  Future<CategoryFilterResponse> productCategoryFilter(
+      @Body() CategoryFilterRequest categoryFilterRequest,
+      @Query('no') int no,
+      @Query('limit') int limit);
 
   @GET('/categories')
   Future<CategoryItemsResponse> getCategory(@Query('no') int no, @Query('limit') int limit);
@@ -184,13 +187,19 @@ abstract class ApiService {
 
   @POST('/review')
   Future<CreateReviewResponse> createReview(
-      @Header("Authorization") String auth, @Body() CreateReviewRequest createReviewRequest);
+      @Header("Authorization") String auth,
+      @Body() CreateReviewRequest createReviewRequest);
 
   @PUT('/review/{reviewID}')
-  Future<EditReviewResponse> editReview(@Path('reviewID') int reviewID,
-      @Header("Authorization") String auth, @Body() EditReviewRequest editReviewRequest);
+  Future<EditReviewResponse> editReview(
+      @Path('reviewID') int reviewID,
+      @Header("Authorization") String auth,
+      @Body() EditReviewRequest editReviewRequest);
 
   @GET('/review/{manufacturerID}')
   Future<ReviewResponse> getReview(
-      @Path('manufacturerID') int manufacturerID, @Query('no') int no, @Query('limit') int limit);
+      @Path('manufacturerID') int manufacturerID,
+      @Header("Authorization") String auth,
+      @Query('no') int no,
+      @Query('limit') int limit);
 }

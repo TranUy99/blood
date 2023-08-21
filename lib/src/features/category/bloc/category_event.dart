@@ -2,11 +2,14 @@ abstract class CategoryEvent {}
 
 class CategoryFilterEvent extends CategoryEvent {
   final int? manufacturerId;
-  final int categoryId;
+  final int? categoryId;
+  final int? lowerPrice;
+  final int? higherPrice;
   final int no;
   final int limit;
 
-  CategoryFilterEvent(this.manufacturerId, this.categoryId, this.no, this.limit);
+  CategoryFilterEvent(this.manufacturerId, this.categoryId,
+      this.lowerPrice, this.higherPrice, this.no, this.limit);
 }
 
 class GetCategoryEvent extends CategoryEvent {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
@@ -98,7 +99,6 @@ class _CartPageState extends State<CartPage> {
                 setState(() {
                   selectedAddressIndex = index;
                 });
-  
               },
             ),
 
@@ -126,16 +126,20 @@ class _CartPageState extends State<CartPage> {
             ),
 
 // selected promotion,
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: SelectedPromotionCard(
-                selectedPromotionIndex: selectedPromotionIndex,
-                onAddressSelected: (int? index) {
-                  setState(() {
-                    selectedPromotionIndex = index!;
-                  });
-                  
-                },
+            BlocProvider(
+              create: (context) => SelectedPromotionCubit(),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: BlocBuilder<SelectedPromotionCubit, int>(
+                  builder: (context, selectedPromotionIndex) {
+                    return SelectedPromotionCard(
+                      selectedPromotionIndex: selectedPromotionIndex,
+                      onAddressSelected: (int? index) {
+                        context.read<SelectedPromotionCubit>().setSelectedPromotionIndex(index!);
+                      },
+                    );
+                  },
+                ),
               ),
             )
           ],
@@ -181,7 +185,7 @@ class _CartPageState extends State<CartPage> {
                 child: ElevatedButton.icon(
                   onPressed: () async {
                     orderProductDTOList = await cartViewModel.cartViewModel();
-                
+
                     if (selectedAddressIndex == null ||
                         // selectedPromotionIndex == null ||
                         orderProductDTOList.isEmpty) {

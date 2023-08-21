@@ -41,7 +41,7 @@ class GetPriceCartState extends CartState {
 }
 
 class GetSelectedPromotionState extends CartState {
-  final int selectedPromotion;
+  final int? selectedPromotion;
 
   GetSelectedPromotionState(this.selectedPromotion);
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:mobile_store/src/core/model/product.dart';
 import 'package:rxdart/rxdart.dart';
@@ -9,6 +10,7 @@ import '../../../core/model/product_detail_cart.dart';
 import '../../detail_product/service/detail_product_service.dart';
 import 'cart_event.dart';
 import 'cart_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GetProductCartBloc {
   ProductDTO? productDTO;
@@ -26,15 +28,14 @@ class GetProductCartBloc {
       productDTO = await DetailProductService.getDetailProductService(productDetailCart.productID);
       for (int j = productDetailCart.productQuantity; j > 0; j--) {
         orderProductDTOList.add(OrderProductDTO(
-          id: productDetailCart.productID,
-          name: productDTO?.name,
-          color: productDetailCart.color,
-          memory: productDetailCart.memory,
-          price: productDTO?.price,
-          description: productDTO?.description,
-          image: productDTO!.imageDTOs?[0].name,
-          seri: productDTO!.seriDTOs?[0].name,
-        ));
+            id: productDetailCart.productID,
+            name: productDTO?.name,
+            color: productDetailCart.color,
+            memory: productDetailCart.memory,
+            price: productDTO?.price,
+            description: productDTO?.description,
+            image: productDTO!.imageDTOs?[0].name,
+            seri: productDTO!.seriDTOs?[0].name));
       }
     }
 
@@ -107,4 +108,14 @@ class CartBloc {
     getLengthStateController.close();
     eventController.close();
   }
+}
+
+class SelectedPromotionCubit extends Cubit<int> {
+  SelectedPromotionCubit() : super(0);
+
+  void setSelectedPromotionIndex(int index) {
+    emit(index);
+  }
+
+  int get selectedPromotionIndex => state;
 }
