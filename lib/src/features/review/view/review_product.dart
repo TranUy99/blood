@@ -3,25 +3,21 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/remote/response/review_response/review_response.dart';
-import 'package:mobile_store/src/features/detail_product/view_model/review_view_model.dart';
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
-import 'package:mobile_store/src/features/review/view/edit_review.dart';
 import 'package:mobile_store/src/features/review/view/review_written.dart';
+import 'package:mobile_store/src/features/review/view_model/review_view_model.dart';
 
 import '../../../../main.dart';
-import '../../detail_product/view/detail_product_screen.dart';
+import '../../../core/model/review_dtos.dart';
+import 'edit_review.dart';
 
 class ReviewProduct extends StatefulWidget {
   const ReviewProduct({
     super.key,
     required this.productId,
-    required this.no,
-    required this.limit,
   });
 
   final int productId;
-  final int no;
-  final int limit;
 
   @override
   State<ReviewProduct> createState() => _ReviewProductState();
@@ -30,17 +26,22 @@ class ReviewProduct extends StatefulWidget {
 class _ReviewProductState extends State<ReviewProduct> {
   final ReviewViewModel _reviewViewModel = ReviewViewModel();
   ReviewResponse? reviewResponse;
+  List<ReviewDTOs> reviewList = [];
+  int page = 0;
+  int limit = 4;
+  bool flag = true;
 
-  _getReviewData(int categoryId, int page) async {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getReviewData(page);
+  }
+
+  _getReviewData(int currentPage) async {
     reviewResponse = await _reviewViewModel.getReviewViewModel(
-        categoryId, page, widget.limit);
-    try {
-      setState(() {
-        reviewList += reviewResponse?.contents ?? [];
-      });
-    } catch (e) {
-      print(e.toString());
-    }
+        widget.productId, currentPage, limit);
+    reviewList += (reviewResponse?.contents)!;
   }
 
   @override
@@ -84,8 +85,8 @@ class _ReviewProductState extends State<ReviewProduct> {
                       );
                       setState(() {
                         reviewList = [];
-                        currentPageReview = 0;
-                        _getReviewData(widget.productId, widget.no);
+                        page = 0;
+                        _getReviewData(page);
                       });
                     },
                     child: const Text('Viết đánh giá'))
@@ -97,67 +98,120 @@ class _ReviewProductState extends State<ReviewProduct> {
   }
 
   Widget reviewListview() {
-    return ListView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) {
-        return ListTile(
-          trailing: (reviewList[index].userID == getUser.idUser &&
-                  successLoginState.onLoginState)
-              ? IconButton(
-                  icon: const Icon(Icons.edit),
-                  onPressed: () async {
-                    await showDialog(
-                      context: context,
-                      builder: (context) => EditReview(
-                          reviewID: reviewList[index].reviewID!,
-                          rating: reviewList[index].rating!,
-                          comment: reviewList[index].comment!),
-                    );
+    return FutureBuilder(
+      future:
+          _reviewViewModel.getReviewViewModel(widget.productId, page, limit),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        } else if (snapshot.hasData) {
+          return ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              if (index == reviewList.length) {
+                return InkWell(
+                  onTap: () {
                     setState(() {
-                      reviewList = [];
-                      currentPageReview = 0;
-                      _getReviewData(widget.productId, widget.no);
+                      page++;
                     });
+                    _getReviewData(page);
                   },
-                )
-              : null,
-          title: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Text('${reviewList[index].userID}'),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.1,
-                  ),
-                  RatingBar.builder(
-                    ignoreGestures: true,
-                    initialRating: reviewList[index].rating!.toDouble(),
-                    allowHalfRating: true,
-                    itemCount: 5,
-                    itemSize: 10,
-                    itemBuilder: (context, _) => const Icon(
-                      Icons.star,
-                      color: Colors.amber,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
+                    child: Center(
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.048,
+                        width: MediaQuery.of(context).size.width * 0.24,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: kGreenColor),
+                            borderRadius: BorderRadius.circular(20)),
+                        child: const Center(
+                            child: Text(
+                          'See more',
+                          style: TextStyle(color: kGreenColor),
+                        )),
+                      ),
                     ),
-                    onRatingUpdate: (double value) {},
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: [
-                  Text('${reviewList[index].comment}'),
-                ],
-              )
-            ],
-          ),
-        );
+                  ),
+                );
+              } else {
+                return Container(
+                  decoration: const BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(width: 1, color: kDarkGreyColor))),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: MediaQuery.of(context).size.height * 0.01),
+                    child: ListTile(
+                      trailing: (reviewList[index].userName ==
+                                  getUser.userDTO.fullName &&
+                              successLoginState.onLoginState)
+                          ? IconButton(
+                              icon: const Icon(Icons.edit),
+                              onPressed: () async {
+                                await showDialog(
+                                  context: context,
+                                  builder: (context) => EditReview(
+                                      reviewID: reviewList[index].reviewID!,
+                                      rating: reviewList[index].rating!,
+                                      comment: reviewList[index].comment!, productID: widget.productId,),
+                                );
+                                setState(() {
+                                  reviewList = [];
+                                  page = 0;
+                                  _getReviewData(page);
+                                });
+                              },
+                            )
+                          : null,
+                      title: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text('${reviewList[index].userName}'),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.1,
+                              ),
+                              RatingBar.builder(
+                                ignoreGestures: true,
+                                initialRating:
+                                    (reviewList[index].rating)!.toDouble(),
+                                allowHalfRating: true,
+                                itemCount: 5,
+                                itemSize: 10,
+                                itemBuilder: (context, _) => const Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                ),
+                                onRatingUpdate: (double value) {},
+                              )
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: [
+                              Text('${reviewList[index].comment}'),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }
+            },
+            itemCount: (reviewResponse!.totalPages! - 1 > page)
+                ? reviewList.length + 1
+                : reviewList.length,
+            shrinkWrap: true,
+          );
+        } else {
+          return const Text('Not have any review');
+        }
       },
-      itemCount: reviewList.length,
-      shrinkWrap: true,
     );
   }
 }

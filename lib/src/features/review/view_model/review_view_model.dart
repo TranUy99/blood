@@ -1,13 +1,9 @@
 import 'package:mobile_store/src/core/remote/response/review_response/review_response.dart';
-import 'package:mobile_store/src/features/review/bloc_state/create_review_bloc.dart';
-import 'package:mobile_store/src/features/review/bloc_state/create_review_state.dart';
-import 'package:mobile_store/src/features/review/bloc_state/edit_review_bloc.dart';
-import 'package:mobile_store/src/features/review/bloc_state/get_review_bloc.dart';
 import 'package:mobile_store/src/features/review/bloc_state/review_event.dart';
-import 'package:mobile_store/src/features/review/service/review_service.dart';
 
-import '../../review/bloc_state/edit_review_state.dart';
-import '../../review/bloc_state/get_review_state.dart';
+import '../../../../main.dart';
+import '../bloc_state/review_bloc.dart';
+import '../bloc_state/review_state.dart';
 
 class ReviewViewModel {
   final CreateReviewBloc _createReviewBloc = CreateReviewBloc();
@@ -17,8 +13,13 @@ class ReviewViewModel {
   Future<bool> createReviewViewModel(
       int productId, String comment, int rating) async {
     bool isSuccess = false;
-    await _createReviewBloc
-        .createReviewBloc(CreateReviewEvent(productId, comment, rating));
+    await _createReviewBloc.createReviewBloc(CreateReviewEvent(
+        getUser.token ?? '',
+        getUser.userDTO.fullName ?? '',
+        productId,
+        comment,
+        rating,
+        true));
 
     await _createReviewBloc.state.listen((state) {
       if (state is SuccessCreateReviewState) {
@@ -47,9 +48,17 @@ class ReviewViewModel {
     return reviewResult;
   }
 
-  Future<bool> editReviewViewModel(int reviewID, String comment, int rating) async {
+  Future<bool> editReviewViewModel(int reviewID, int productID, String comment, int rating) async {
     bool isSuccess = false;
-    await _editReviewBloc.editReviewBloc(EditReviewEvent(reviewID, comment, rating));
+    await _editReviewBloc.editReviewBloc(EditReviewEvent(
+      getUser.token ?? '',
+      reviewID,
+      getUser.userDTO.fullName ?? '',
+      productID,
+      comment,
+      rating,
+      true
+    ));
 
     await _editReviewBloc.state.listen((state) {
       if(state is SuccessEditReviewState){

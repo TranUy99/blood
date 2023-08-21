@@ -5,6 +5,9 @@ part 'create_review_request.g.dart';
 //Send email, password to api
 @JsonSerializable()
 class CreateReviewRequest {
+  @JsonKey(name: 'user_name')
+  final String? userName;
+
   @JsonKey(name: 'product_id')
   final int? productId;
 
@@ -17,7 +20,7 @@ class CreateReviewRequest {
   @JsonKey(name: 'status')
   final bool? status;
 
-  CreateReviewRequest(this.productId, this.comment, this.rating, this.status);
+  CreateReviewRequest(this.userName, this.productId, this.comment, this.rating, this.status);
 
   factory CreateReviewRequest.fromJson(Map<String, dynamic> json) =>
       _$CreateReviewRequestFromJson(json);

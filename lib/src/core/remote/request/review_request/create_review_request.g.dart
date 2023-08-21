@@ -8,6 +8,7 @@ part of 'create_review_request.dart';
 
 CreateReviewRequest _$CreateReviewRequestFromJson(Map<String, dynamic> json) =>
     CreateReviewRequest(
+      json['user_name'] as String?,
       json['product_id'] as int?,
       json['comment'] as String?,
       json['rating'] as int?,
@@ -17,6 +18,7 @@ CreateReviewRequest _$CreateReviewRequestFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$CreateReviewRequestToJson(
         CreateReviewRequest instance) =>
     <String, dynamic>{
+      'user_name': instance.userName,
       'product_id': instance.productId,
       'comment': instance.comment,
       'rating': instance.rating,

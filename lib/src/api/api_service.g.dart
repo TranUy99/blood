@@ -424,21 +424,18 @@ class _ApiService implements ApiService {
 
   @override
   Future<CategoryFilterResponse> productCategoryFilter(
-    int? manufacturerId,
-    int categoryId,
+    CategoryFilterRequest categoryFilterRequest,
     int no,
     int limit,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
-      r'manufacturerId': manufacturerId,
-      r'categoryId': categoryId,
       r'no': no,
       r'limit': limit,
     };
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    final _data = <String, dynamic>{};
+    _data.addAll(categoryFilterRequest.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<CategoryFilterResponse>(Options(
       method: 'GET',
@@ -741,6 +738,7 @@ class _ApiService implements ApiService {
   @override
   Future<ReviewResponse> getReview(
     int manufacturerID,
+    String auth,
     int no,
     int limit,
   ) async {
@@ -749,7 +747,8 @@ class _ApiService implements ApiService {
       r'no': no,
       r'limit': limit,
     };
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': auth};
+    _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<ReviewResponse>(Options(

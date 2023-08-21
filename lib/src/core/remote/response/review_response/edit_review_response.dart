@@ -4,11 +4,8 @@ part 'edit_review_response.g.dart';
 
 @JsonSerializable()
 class EditReviewResponse {
-  @JsonKey(name: 'id')
-  final int? reviewID;
-
-  @JsonKey(name: 'user_id')
-  final int? userID;
+  @JsonKey(name: 'user_name')
+  final String? userName;
 
   @JsonKey(name: 'product_id')
   final int? productID;
@@ -22,11 +19,7 @@ class EditReviewResponse {
   @JsonKey(name: 'status')
   final bool? status;
 
-  @JsonKey(name: 'errors')
-  final String? errors;
-
-  EditReviewResponse(this.reviewID, this.userID, this.productID, this.comment,
-      this.rating, this.status, this.errors);
+  EditReviewResponse(this.userName, this.productID, this.comment, this.rating, this.status);
 
   factory EditReviewResponse.fromJson(Map<String, dynamic> json) =>
       _$EditReviewResponseFromJson(json);

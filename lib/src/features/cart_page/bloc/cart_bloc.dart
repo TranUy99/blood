@@ -34,9 +34,12 @@ class GetProductCartBloc {
           price: productDTO?.price,
           description: productDTO?.description,
           image: productDTO!.imageDTOs?[0].name,
+          seri: productDTO!.seriDTOs?[0].name
         ));
       }
     }
+
+
 
     if (orderProductDTOList.isNotEmpty) {
       _productStateSubject.add(SuccessGetProductCartState(orderProductDTOList));

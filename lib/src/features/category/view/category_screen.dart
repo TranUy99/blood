@@ -45,6 +45,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
   int currentPage = 0;
   int no = 0;
   int limit = 4;
+  int lowerPrice = 0;
+  int higherPrice = 50000000;
   List<ManufacturerDTO> manufacturerList = [];
   String? manufacturerName;
   int? manufacturerId;
@@ -78,21 +80,15 @@ class _CategoryScreenState extends State<CategoryScreen> {
   }
 
   _getDataProduct(int categoryId, int page) async {
-    categoryFilterResponse = await categoryViewModel.categoryFilterViewModel(manufacturerId,
-        widget.categoryID, page, limit);
-    try {
-      setState(() {
-        products += (categoryFilterResponse?.contents) ?? [];
-      });
-    } catch (e) {
-      print('view: $e');
-    }
+    categoryFilterResponse = await categoryViewModel.categoryFilterViewModel(
+        manufacturerId, widget.categoryID, lowerPrice, higherPrice, page, 4);
+    products += await categoryFilterResponse?.contents ?? [];
+    print(categoryFilterResponse?.contents?.length);
   }
 
   _getDataManufacturer() async {
     manufacturerList =
-        await getManufacturerViewModel.getManufacturerViewModel(no, limit) ??
-            [];
+        await getManufacturerViewModel.getManufacturerViewModel(no, limit) ?? [];
     setState(() {});
   }
 
@@ -127,16 +123,14 @@ class _CategoryScreenState extends State<CategoryScreen> {
             ),
             FutureBuilder(
               future: categoryViewModel.categoryFilterViewModel(manufacturerId,
-                  widget.categoryID, 0, 10),
+                  widget.categoryID, lowerPrice, higherPrice, currentPage, limit),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
+                } else if (snapshot.hasData) {
+                  return productFilterDisplay();
                 } else {
-                  if (snapshot.hasData) {
-                    return productFilterDisplay();
-                  } else {
-                    return const Text('No product available');
-                  }
+                  return const Text('No product available');
                 }
               },
             ),
@@ -215,7 +209,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 );
               },
             ),
-            (currentPage < ((categoryFilterResponse?.totalPages) ?? 1 - 1) &&
+            (currentPage < (categoryFilterResponse!.totalPages! - 1) &&
                     products.length > 3)
                 ? const Center(
                     child: CircularProgressIndicator(),

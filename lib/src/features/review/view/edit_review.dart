@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:mobile_store/src/features/detail_product/view_model/review_view_model.dart';
+import 'package:mobile_store/src/features/review/view_model/review_view_model.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../constant/color/color.dart';
@@ -8,11 +8,13 @@ import '../../../constant/color/color.dart';
 class EditReview extends StatefulWidget {
   const EditReview(
       {Key? key,
+
       required this.reviewID,
       required this.rating,
-      required this.comment})
+      required this.comment, required this.productID})
       : super(key: key);
   final int reviewID;
+  final int productID;
   final int rating;
   final String comment;
 
@@ -84,7 +86,7 @@ class _EditReviewState extends State<EditReview> {
                     onPressed: () async {
                       bool isSuccess =
                           await _reviewViewModel.editReviewViewModel(
-                              widget.reviewID, _reviewController.text, rating);
+                              widget.reviewID, widget.productID, _reviewController.text, rating);
                       if (isSuccess) {
                         showTopSnackBar(
                             Overlay.of(context),

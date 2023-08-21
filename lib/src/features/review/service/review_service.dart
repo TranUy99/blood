@@ -9,23 +9,38 @@ import '../../../core/remote/response/review_response/create_review_response.dar
 
 class ReviewService {
   Future<EditReviewResponse> editReviewService(
-      int reviewID, String token, String comment, int rating, bool status) async {
-    EditReviewResponse reviewResult = await ApiService(dio.Dio())
-        .editReview(reviewID, 'Bearer $token', EditReviewRequest(comment, rating, status));
+      String token,
+      String userName,
+      int productId,
+      int reviewID,
+      String comment,
+      int rating,
+      bool status) async {
+    EditReviewResponse reviewResult = await ApiService(dio.Dio()).editReview(
+        reviewID,
+        'Bearer $token',
+        EditReviewRequest(userName, productId, comment, rating, status));
 
     return reviewResult;
   }
 
   Future<CreateReviewResponse> createReviewService(
-      String token, int productId, String comment, int rating, bool status) async {
-
+      String token,
+      String userName,
+      int productId,
+      String comment,
+      int rating,
+      bool status) async {
     CreateReviewResponse createReviewResult = await ApiService(dio.Dio())
-        .createReview('Bearer $token', CreateReviewRequest(productId, comment, rating, status));
+        .createReview('Bearer $token',
+            CreateReviewRequest(userName, productId, comment, rating, status));
     return createReviewResult;
   }
 
-  Future<ReviewResponse> getReviewService(int manufacturerID, int no, int limit) async {
-    ReviewResponse reviewResult = await ApiService(dio.Dio()).getReview(manufacturerID, no, limit);
+  Future<ReviewResponse> getReviewService(String token,
+      int manufacturerID, int no, int limit) async {
+    ReviewResponse reviewResult =
+        await ApiService(dio.Dio()).getReview(manufacturerID, 'Bearer $token', no, limit);
     return reviewResult;
   }
 }

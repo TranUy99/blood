@@ -5,6 +5,11 @@ part 'edit_review_request.g.dart';
 //Send email, password to api
 @JsonSerializable()
 class EditReviewRequest {
+  @JsonKey(name: 'user_name')
+  final String? userName;
+
+  @JsonKey(name: 'product_id')
+  final int? productId;
 
   @JsonKey(name: 'comment')
   final String? comment;
@@ -15,7 +20,7 @@ class EditReviewRequest {
   @JsonKey(name: 'status')
   final bool? status;
 
-  EditReviewRequest(this.comment, this.rating, this.status);
+  EditReviewRequest(this.userName, this.productId, this.comment, this.rating, this.status);
 
   factory EditReviewRequest.fromJson(Map<String, dynamic> json) =>
       _$EditReviewRequestFromJson(json);
