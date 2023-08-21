@@ -12,8 +12,9 @@ SuccessLoginState successLoginState = SuccessLoginState(false, false);
 class LoginBloc {
   String? message;
   bool verifiedStatus = false;
-  int? id;
   String? error;
+  String? token;
+
   final _stateController = BehaviorSubject<LoginState>();
   Stream<LoginState> get state => _stateController.stream;
 
@@ -31,6 +32,7 @@ class LoginBloc {
       await loginResult.then((value) {
         message = value.message;
         error = value.error;
+        token = value.token;
         getUser.idUser = value.idUser!;
         getUser.token = value.token;
         getUser.email = email;
@@ -47,8 +49,8 @@ class LoginBloc {
     } catch (e) {
       error = '$e';
     }
-    print('error: $error');
-    if (error == null) {
+
+    if (token != null) {
       if (verifiedStatus) {
         _stateController.add(successLoginState = SuccessLoginState(true, true));
       } else {

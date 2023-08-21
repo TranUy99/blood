@@ -3,35 +3,43 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_store/src/core/model/product_detail_cart.dart';
-import 'package:mobile_store/src/features/component/bloc_state/app_bar_state.dart';
+import 'package:mobile_store/src/features/cart_page/bloc/cart_bloc.dart';
+import 'package:mobile_store/src/features/cart_page/bloc/cart_state.dart';
+import 'package:mobile_store/src/features/cart_page/view_model/cart_view_model.dart';
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
 import '../../constant/color/color.dart';
+import '../../core/model/order_product_dto.dart';
 import '../category/widget/menu_button.dart';
 import '../home_page/view/navigation_home_page.dart';
 import '../search/view/search.dart';
-import 'bloc_state/app_bar_bloc.dart';
 
 class CustomAppBar extends StatefulWidget {
   const CustomAppBar({super.key});
 
-  static AppBarBloc appBarBloc = AppBarBloc();
+  static GetLengthCartBloc getLengthCartBloc = GetLengthCartBloc();
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
-  int cartListLength(){
-    int count = 0;
-    for(int i=0; i<getUser.cartBox!.length; i++){
-      ProductDetailCart productDetailCart = getUser.cartBox?.getAt(i);
-      count += productDetailCart.productQuantity;
-    }
-    return count;
+  CartViewModel cartViewModel = CartViewModel();
+  List<OrderProductDTO> cartList = [];
+  int length = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      length = cartViewModel.cartLength();
+    });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -119,9 +127,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
                         ]),
                       ),
                     )),
-                StreamBuilder<AppBarState>(
-                  initialData: AppBarState(cartListLength()),
-                  stream: CustomAppBar.appBarBloc.stateController.stream,
+                StreamBuilder<GetLengthCartState>(
+                  initialData: GetLengthCartState(length),
+                  stream: CustomAppBar.getLengthCartBloc.stateController.stream,
                   builder: (context, snapshot) {
                     return IconButton(
                         onPressed: () {
@@ -143,6 +151,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                         ));
                   },
                 )
+
               ],
             ),
           ),

@@ -5,8 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:mobile_store/main.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/model/product.dart';
-import 'package:mobile_store/src/features/component/bloc_state/app_bar_event.dart';
-import 'package:mobile_store/src/features/component/custom_app_bar.dart';
+import 'package:mobile_store/src/features/cart_page/view_model/cart_view_model.dart';
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -25,15 +24,7 @@ class RatingProduct extends StatefulWidget {
 class _RatingProductState extends State<RatingProduct> {
   String selectedOption = '';
   String selectedColor = '';
-
-  int cartListLength(){
-    int count = 0;
-    for(int i=0; i<getUser.cartBox!.length; i++){
-      ProductDetailCart productDetailCart = getUser.cartBox?.getAt(i);
-      count += productDetailCart.productQuantity;
-    }
-    return count;
-  }
+  CartViewModel cartViewModel = CartViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -209,8 +200,7 @@ class _RatingProductState extends State<RatingProduct> {
                               memory: product.memory,
                               color: product.color, stock: widget.productDTO.stocks));
                     }
-                    CustomAppBar.appBarBloc.eventController.sink
-                        .add(AddItemToCartEvent(cartListLength()));
+                    cartViewModel.streamData();
                     showTopSnackBar(
                         Overlay.of(context),
                         const CustomSnackBar.success(

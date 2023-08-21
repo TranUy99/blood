@@ -7,3 +7,4 @@ class ApiImage {
     return baseUrl + encodedFileName;
   }
 }
+

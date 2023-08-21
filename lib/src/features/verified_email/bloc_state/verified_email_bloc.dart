@@ -24,6 +24,7 @@ class VerifiedEmailBloc {
       await sendEmailResult.then((value) {
         errors = value.errors;
         message = value.message;
+
       });
     } catch (e) {
       errors = '$e';
@@ -48,12 +49,13 @@ class VerifiedEmailBloc {
     try {
       await activeOTPResult.then((value) {
         message = value.message;
+
       });
     } catch (e) {
       print('Failed to get data');
     }
 
-    if (message == null) {
+    if (message != null) {
       _verifiedEmailStateController.sink.add(SuccessVerifiedEmailState());
     } else {
       _verifiedEmailStateController.sink.add(ErrorVerifiedEmailState('Failed to active OTP'));

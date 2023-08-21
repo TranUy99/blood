@@ -18,7 +18,9 @@ import 'package:mobile_store/src/core/remote/response/promotion_response/promoti
 import 'package:mobile_store/src/core/remote/response/review_response/edit_review_response.dart';
 import 'package:mobile_store/src/core/remote/response/search_response/search_response.dart';
 import 'package:retrofit/retrofit.dart';
+
 import '../core/model/order_detail.dart';
+import '../core/model/review_dtos.dart';
 import '../core/remote/request/address_request/address_create_request.dart';
 import '../core/remote/request/forgot_password_request/forgot_password_request.dart';
 import '../core/remote/request/order_request/order_request.dart';
@@ -36,9 +38,18 @@ import '../core/remote/response/sign_up_response/sign_up_response.dart';
 
 part 'api_service.g.dart';
 
+<<<<<<< HEAD
 @RestApi(baseUrl: 'http://45.117.170.206:60/apis')
 abstract class ApiService {
   // static const String baseUrl = 'http://192.168.1.42:8085/api';
+=======
+//Base address
+@RestApi(baseUrl: 'http://45.117.170.206:60/apis')
+// @RestApi(baseUrl: 'http://45.117.170.206:8085')
+
+abstract class ApiService {
+
+>>>>>>> 09ea1a93d0a2cfbcbc98b14e24612b50e33346ed
   factory ApiService(Dio dio) {
     dio.options = BaseOptions(
         validateStatus: (status) => true,
@@ -97,12 +108,15 @@ abstract class ApiService {
   Future<List<Address>> getAddress({
     @Header("Authorization") required String auth,
   });
+
   // Call api  get address
   @GET('/address/{id}')
   Future<Address> getIdAddress({
     @Header("Authorization") required String auth,
     @Path("id") required int? id,
   });
+
+
   // Call api create address
   @POST('/address')
   Future<AddressResponse> createAddress({
@@ -157,16 +171,25 @@ abstract class ApiService {
 //get order detail
   @GET('/order/user/detail/{id}')
   Future<OrderDetailDTO> getOrderDetail(
-    @Header("Authorization") String auth,
-    @Path("id") int? id,
-  );
-//get order detail
+      @Header("Authorization") String auth,
+      @Path("id") int? id,
+      );
+
+  //get order detail
   @GET('/order')
   Future<HttpResponse> createOrder(
+<<<<<<< HEAD
     @Header("Authorization") String auth,
     @Body() OrderRequest orderRequest,
   );
   //create review
+=======
+      @Header("Authorization") String auth,
+      @Body() OrderRequest orderRequest,
+      );
+
+
+>>>>>>> 09ea1a93d0a2cfbcbc98b14e24612b50e33346ed
   @POST('/review')
   Future<CreateReviewResponse> createReview(
       @Header("Authorization") String auth, @Body() CreateReviewRequest createReviewRequest);
@@ -184,3 +207,4 @@ abstract class ApiService {
   Future<List<ProductDTO>> getRelatedProduct(
       @Query('productId') int productId, @Query('quantity') int quantity);
 }
+

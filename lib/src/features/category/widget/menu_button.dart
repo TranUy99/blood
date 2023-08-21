@@ -14,7 +14,7 @@ class _MenuButtonState extends State<MenuButton> {
   GetCategoryViewModel getCategoryViewModel = GetCategoryViewModel();
   List<CategoriesDTO> categoryList = [];
   int no = 0;
-  int limit = 4;
+  int limit = 10;
 
   _getData() async {
     categoryList =
