@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dio/dio.dart';
 import 'package:mobile_store/src/core/model/address.dart';
 import 'package:mobile_store/src/core/model/product.dart';
@@ -34,12 +36,9 @@ import '../core/remote/response/sign_up_response/sign_up_response.dart';
 
 part 'api_service.g.dart';
 
-// //Base address
-// @RestApi(baseUrl: 'http://192.168.1.42:8085/api')
-// // @RestApi(baseUrl: 'http://45.117.170.206:8085')
-
+@RestApi(baseUrl: 'http://45.117.170.206:60/apis')
 abstract class ApiService {
-  static const String baseUrl = 'http://192.168.1.42:8085/api';  
+  // static const String baseUrl = 'http://192.168.1.42:8085/api';
   factory ApiService(Dio dio) {
     dio.options = BaseOptions(
         validateStatus: (status) => true,
@@ -70,7 +69,7 @@ abstract class ApiService {
   Future<List<ProductDTO>> getProductNew();
 
   //Get all information about product
-  @GET('/api/product/detail/{id}')
+  @GET('/product/detail/{id}')
   Future<ProductDTO> getDetailProduct(@Path('id') int id);
 
   //search product with namme
@@ -144,7 +143,7 @@ abstract class ApiService {
   @GET('/mail/forgot-password/{email}')
   Future<SendEmailForgotPasswordResponse> sendEmailForgotPassword(@Path('email') String email);
 
-  @POST('/api/user/change-password-by-otp')
+  @POST('/user/change-password-by-otp')
   Future<ForgotPasswordResponse> forgotPassword(
       @Body() ForgotPasswordRequest forgotPasswordRequest);
 
@@ -167,10 +166,11 @@ abstract class ApiService {
     @Header("Authorization") String auth,
     @Body() OrderRequest orderRequest,
   );
+  //create review
   @POST('/review')
   Future<CreateReviewResponse> createReview(
       @Header("Authorization") String auth, @Body() CreateReviewRequest createReviewRequest);
-
+//edit review
   @PUT('/review/{reviewID}')
   Future<EditReviewResponse> editReview(@Path('reviewID') int reviewID,
       @Header("Authorization") String auth, @Body() EditReviewRequest editReviewRequest);
@@ -178,4 +178,9 @@ abstract class ApiService {
   @GET('/review/{manufacturerID}')
   Future<ReviewResponse> getReview(
       @Path('manufacturerID') int manufacturerID, @Query('no') int no, @Query('limit') int limit);
+
+//get related product
+  @GET('/product/related-product')
+  Future<List<ProductDTO>> getRelatedProduct(
+      @Query('productId') int productId, @Query('quantity') int quantity);
 }

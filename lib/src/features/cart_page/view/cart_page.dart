@@ -33,7 +33,7 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(context, true),
+      appBar: appBarWidget(context, false),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -103,7 +103,7 @@ class _CartPageState extends State<CartPage> {
 
 // selected promotion,
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(left: 10),
               child: SelectedPromotionCard(
                 selectedPromotionIndex: selectedPromotionIndex,
                 onAddressSelected: (int? index) {

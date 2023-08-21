@@ -32,8 +32,7 @@ class _ReviewProductState extends State<ReviewProduct> {
   ReviewResponse? reviewResponse;
 
   _getReviewData(int categoryId, int page) async {
-    reviewResponse = await _reviewViewModel.getReviewViewModel(
-        categoryId, page, widget.limit);
+    reviewResponse = await _reviewViewModel.getReviewViewModel(categoryId, page, widget.limit);
     try {
       setState(() {
         reviewList += reviewResponse?.contents ?? [];
@@ -49,8 +48,8 @@ class _ReviewProductState extends State<ReviewProduct> {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         width: MediaQuery.of(context).size.width * 1,
-        decoration: const BoxDecoration(
-            border: Border(top: BorderSide(color: kGreyColor, width: 0.8))),
+        decoration:
+            const BoxDecoration(border: Border(top: BorderSide(color: kGreyColor, width: 0.8))),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -60,9 +59,7 @@ class _ReviewProductState extends State<ReviewProduct> {
             ),
             Center(
               child: Text(
-                AppLocalizations.of(context)!
-                    .reviewOfCustomerBoughtTheProduct
-                    .toUpperCase(),
+                AppLocalizations.of(context)!.reviewOfCustomerBoughtTheProduct.toUpperCase(),
                 style: const TextStyle(
                   color: kBlackColor,
                   fontWeight: FontWeight.bold,
@@ -79,8 +76,7 @@ class _ReviewProductState extends State<ReviewProduct> {
                     onPressed: () async {
                       await showDialog(
                         context: context,
-                        builder: (context) =>
-                            ReviewWritten(productId: widget.productId),
+                        builder: (context) => ReviewWritten(productId: widget.productId),
                       );
                       setState(() {
                         reviewList = [];
@@ -101,8 +97,7 @@ class _ReviewProductState extends State<ReviewProduct> {
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return ListTile(
-          trailing: (reviewList[index].userID == getUser.idUser &&
-                  successLoginState.onLoginState)
+          trailing: (reviewList[index].userID == getUser.idUser && successLoginState.onLoginState)
               ? IconButton(
                   icon: const Icon(Icons.edit),
                   onPressed: () async {

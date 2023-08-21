@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import '../../../core/model/promotion.dart';
 import '../../../core/remote/response/promotion_response/promotion_response.dart';
@@ -55,50 +54,53 @@ class _SelectedPromotionCardState extends State<SelectedPromotionCard> {
   }
 
   Widget buildUI(BuildContext context) {
-     final List<int?> promotionNames =
-                    promotionList.map((promotion) => promotion.discountDTO).toList();
+
     return Row(children: [
       Text(AppLocalizations.of(context)!.discount.toUpperCase(),
           style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-      const SizedBox(
-        width: 100
-      ),
+      const SizedBox(width: 50),
       SizedBox(
           height: 50,
+          width: 220,
           child: DropdownButtonHideUnderline(
-              child: DropdownButton<int?>(
-            menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
-            hint: const Text("Promotion"),
-            value: promotion?.discountDTO,
-            onChanged: (value) {
-              setState(() {
-                promotion =
-                    promotionList.firstWhere((promotion) => promotion.discountDTO == value);
-              });
-
-              if (promotion != null && promotion is PromotionDTO) {
+            child: DropdownButton<String>(
+              menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
+              hint: const Text("Promotion"),
+              value: promotion?.discountCodeDTO,
+              onChanged: (value) {
                 setState(() {
-                  widget.selectedPromotionIndex = promotion?.id;
-                  widget.onAddressSelected(promotion?.id!);
+                  promotion =
+                      promotionList.firstWhere((promotion) => promotion.discountCodeDTO == value);
                 });
-              }
-            },
-            items: promotionNames
-                .map((name) => DropdownMenuItem(
-                      value: name,
-                      child:  Row(
-                        children: [
-                        
-                          HexagonPage(
-                            height: MediaQuery.of(context).size.height * 0.07,
-                            discount: name,
+
+                if (promotion != null && promotion is PromotionDTO) {
+                  setState(() {
+                    widget.selectedPromotionIndex = promotion?.id;
+                    widget.onAddressSelected(promotion?.id!);
+                  });
+                }
+              },
+              items: promotionList
+                  .map((promotion) => DropdownMenuItem(
+                        value: promotion.discountCodeDTO,
+                        child: SizedBox(
+                          width: 190,
+                          child: Row(
+                            children: [
+                              HexagonPage(
+                                height: MediaQuery.of(context).size.height * 0.07,
+                                discount: promotion.discountDTO, // Chuyển discountDTO thành chuỗi
+                              ),
+                              const Text(
+                                '   discount for orders ',
+                              ),
+                            ],
                           ),
-                          
-                        ],
-                      ),
-                    ))
-                .toList(),
-          )))
+                        ),
+                      ))
+                  .toList(),
+            ),
+          ))
     ]);
   }
 }

@@ -18,7 +18,6 @@ class ReviewService {
 
   Future<CreateReviewResponse> createReviewService(
       String token, int productId, String comment, int rating, bool status) async {
-
     CreateReviewResponse createReviewResult = await ApiService(dio.Dio())
         .createReview('Bearer $token', CreateReviewRequest(productId, comment, rating, status));
     return createReviewResult;

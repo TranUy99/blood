@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
 import 'package:mobile_store/src/features/detail_product/view_model/detail_product_view_model.dart';
-import 'package:mobile_store/src/features/detail_product/widget/configuration_product.dart';
+
 import 'package:mobile_store/src/features/detail_product/widget/image_product.dart';
 import 'package:mobile_store/src/features/detail_product/widget/product_information.dart';
 
@@ -11,6 +11,7 @@ import '../../../core/remote/response/review_response/review_response.dart';
 import '../../review/view/rating_product.dart';
 import '../../review/view/review_product.dart';
 import '../view_model/review_view_model.dart';
+import '../widget/another_product.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final int idProduct;
@@ -69,7 +70,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         print(e);
       }
     }
-    print('$currentPageReview - ${reviewResponse?.totalPages}');
+    
   }
 
   _getReviewData(int categoryId, int page) async {
@@ -125,7 +126,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 no: no,
                 limit: limit,
               ),
-              // const AnotherProduct(),
+              AnotherProduct(productId: widget.idProduct),
             ],
           )),
     );

@@ -6,3 +6,10 @@ class GetDetailProductEvent extends DetailProductEvent {
 
   GetDetailProductEvent(this.id);
 }
+
+
+class GetRelatedProductEvent extends DetailProductEvent {
+  final int id;
+
+  GetRelatedProductEvent(this.id);
+}
