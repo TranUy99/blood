@@ -1,34 +1,34 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile_store/main.dart';
-import 'package:mobile_store/src/constant/color/color.dart';
-import 'package:mobile_store/src/core/model/promotion.dart';
-import 'package:mobile_store/src/features/address/view_model/address_view_model.dart';
-import 'package:mobile_store/src/features/component/custom_app_bar.dart';
-import 'package:mobile_store/src/features/home_page/view/home_page.dart';
+import 'package:mobile_store/src/core/model/address.dart';
+import 'package:mobile_store/src/core/model/order_product_dto.dart';
+import 'package:mobile_store/src/features/cart_page/bloc/cart_bloc.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
-import '../../../core/model/address.dart';
-import '../../../core/model/order_product_dto.dart';
+
+import '../../../../main.dart';
+import '../../../constant/color/color.dart';
+import '../../../core/model/promotion.dart';
 import '../../../core/model/status_dto.dart';
+import '../../address/view_model/address_view_model.dart';
 import '../../cart_page/view_model/cart_view_model.dart';
+import '../../component/custom_app_bar.dart';
 import '../../home_page/view/navigation_home_page.dart';
 import '../../promotion/view_model/promotion_view_model.dart';
 import '../view_model/checkout_view_model.dart';
 import '../widget/checkout_list_product.dart';
-import '../widget/payment.dart';
 import '../widget/delivery_address.dart';
+import '../widget/payment.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CheckoutPage extends StatefulWidget {
-  int? idAddress;
-
-  CheckoutPage({
+  const CheckoutPage({
     Key? key,
-    required this.idAddress,
   }) : super(key: key);
 
   @override
@@ -42,26 +42,37 @@ class _CheckoutPageState extends State<CheckoutPage> {
   final CartViewModel _cartViewModel = CartViewModel();
 
   String? _paymentMethod;
-  late Future<Address> _addressFuture;
-  late Address address;
-  bool _uiBuilt = false;
+
   late Future<List<OrderProductDTO>> _cartFuture;
   List<OrderProductDTO> cartList = [];
-  @override
+  late Future<PromotionDTO> _promotionFuture;
+  late PromotionDTO promotion;
+  late Future<Address> _addressFuture;
+  late Address address;
+
+  bool _uiBuilt = false;
+
   @override
   void initState() {
     super.initState();
-    _addressFuture = _addressViewModel.getIdAddress(widget.idAddress);
-    _addressFuture.then((address) {
-      setState(() {
-        this.address = address;
-        _uiBuilt = true;
-      });
-    });
 
-    _cartFuture = _cartViewModel.cartViewModel();
-    _cartFuture.then((cartList) {
+    final selectedPromotionCubit = context.read<SelectedPromotionCubit>();
+    final selectedPromotionId = selectedPromotionCubit.state;
+    final selectedAddressCubit = context.read<SelectedAddressCubit>();
+    final selectedAddressId = selectedAddressCubit.state;
+
+    final promotionFuture = _promotionViewModel.getIdPromotion(selectedPromotionId);
+    final addressFuture = _addressViewModel.getIdAddress(selectedAddressId);
+    final cartFuture = _cartViewModel.cartViewModel();
+
+    Future.wait([promotionFuture, addressFuture, cartFuture]).then((results) {
+      final promotion = results[0] as PromotionDTO;
+      final address = results[1] as Address;
+      final cartList = results[2] as List<OrderProductDTO>;
+
       setState(() {
+        this.promotion = promotion;
+        this.address = address;
         this.cartList = cartList;
         _uiBuilt = true;
       });
@@ -123,13 +134,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       color: kGreyColor,
                     ),
                   ),
-                  // Text(
-                  //   '${promotion.discountDTO}%',
-                  //   style: const TextStyle(
-                  //     fontSize: 14,
-                  //     color: kGreyColor,
-                  //   ),
-                  // ),
+                  Text(
+                    '${promotion.discountDTO}%',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: kGreyColor,
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 10),
@@ -195,11 +206,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           onPressed: () async {
                             final createOrder = await _checkoutViewModel.checkout(
                                 idUser: getUser.idUser,
-                                idPromotion: 3,
+                                idPromotion: promotion.id,
                                 paymentMethodDTO: "$_paymentMethod",
                                 statusDTO: StatusDTO(id: 1, name: "Active"),
                                 orderProductDTOList: cartList,
-                                idAddress: widget.idAddress,
+                                idAddress: address.id,
                                 receiveDate: "");
                             getUser.cartBox!.deleteAll(getUser.cartBox!.keys);
                             if (createOrder == true) {

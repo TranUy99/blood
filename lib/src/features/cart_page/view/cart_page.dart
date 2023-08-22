@@ -93,14 +93,7 @@ class _CartPageState extends State<CartPage> {
               ),
             ),
 // selected address
-            SelectedAddressCart(
-              selectedAddressIndex: selectedAddressIndex,
-              onAddressSelected: (int? index) {
-                setState(() {
-                  selectedAddressIndex = index;
-                });
-              },
-            ),
+            const SelectedAddressCart(),
 
 // Add another address ,
             Align(
@@ -126,22 +119,10 @@ class _CartPageState extends State<CartPage> {
             ),
 
 // selected promotion,
-            BlocProvider(
-              create: (context) => SelectedPromotionCubit(),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: BlocBuilder<SelectedPromotionCubit, int>(
-                  builder: (context, selectedPromotionIndex) {
-                    return SelectedPromotionCard(
-                      selectedPromotionIndex: selectedPromotionIndex,
-                      onAddressSelected: (int? index) {
-                        context.read<SelectedPromotionCubit>().setSelectedPromotionIndex(index!);
-                      },
-                    );
-                  },
-                ),
-              ),
-            )
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SelectedPromotionCard(),
+            ),
           ],
         ),
       ),
@@ -202,9 +183,7 @@ class _CartPageState extends State<CartPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CheckoutPage(
-                            idAddress: selectedAddressIndex,
-                          ),
+                          builder: (context) => const CheckoutPage(),
                         ),
                       );
                     }

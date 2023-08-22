@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/core/model/address.dart';
 import 'package:mobile_store/src/features/address/view_model/address_view_model.dart';
+import 'package:mobile_store/src/features/cart_page/bloc/cart_bloc.dart';
 
 class SelectedAddressCart extends StatefulWidget {
-  final int? selectedAddressIndex;
-  final Function(int?) onAddressSelected;
-
   const SelectedAddressCart({
     Key? key,
-    required this.selectedAddressIndex,
-    required this.onAddressSelected,
   }) : super(key: key);
 
   @override
@@ -33,7 +30,6 @@ class _SelectedAddressCartState extends State<SelectedAddressCart> {
         } else {
           if (snapshot.hasData) {
             addressList = snapshot.data!;
-            // Build UI using the retrieved products
             return Column(children: [
               buildUI(context),
             ]);
@@ -51,45 +47,51 @@ class _SelectedAddressCartState extends State<SelectedAddressCart> {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
-          child: Text(AppLocalizations.of(context)!.address.toUpperCase(),
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+          child: Text(
+            AppLocalizations.of(context)!.address.toUpperCase(),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          ),
         ),
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: addressList.length,
-          itemBuilder: (context, index) {
-            addressList[index].defaults;
-            return RadioListTile(
-              value: addressList[index].id!,
-              groupValue: widget.selectedAddressIndex,
-              onChanged: (int? value) {
-                widget.onAddressSelected(value!);
+        BlocBuilder<SelectedAddressCubit, int>(
+          builder: (context, selectedAddressId) {
+            return ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: addressList.length,
+              itemBuilder: (context, index) {
+                final address = addressList[index];
+                return RadioListTile(
+                  value: selectedAddressId == 0 ? addressList[index].id! : selectedAddressId,
+                  groupValue: selectedAddressId,
+                  onChanged: (value) {
+                    context.read<SelectedAddressCubit>().setSelectedAddressIndex(value);
+                  },
+                  activeColor: kGreenColor,
+                  title: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: address.nameReceiver,
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
+                        ),
+                        TextSpan(
+                          text: ' | ${address.phoneReceiver}',
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  subtitle: Text(' ${address.location}'),
+                );
               },
-              activeColor: kGreenColor,
-              title: RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: addressList[index].nameReceiver,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                      ),
-                    ),
-                    TextSpan(
-                      text: ' | ${addressList[index].phoneReceiver}',
-                      style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black54,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              subtitle: Text(' ${addressList[index].location}'),
             );
           },
         ),

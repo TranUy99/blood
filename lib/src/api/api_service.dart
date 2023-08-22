@@ -74,7 +74,8 @@ abstract class ApiService {
   Future<List<ProductDTO>> getProductNew();
   //get related product
   @GET('/product/related-product')
-  Future<List<ProductDTO>> getRelatedProduct(int? productId, int? quantity);
+  Future<List<ProductDTO>> getRelatedProduct(
+      @Query('productId') int productId, @Query('quantity') int quantity);
   //Get all information about product
   @GET('/product/detail/{id}')
   Future<ProductDTO> getDetailProduct(@Path('id') int id);

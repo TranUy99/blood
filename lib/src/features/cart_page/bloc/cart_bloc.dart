@@ -115,7 +115,14 @@ class SelectedPromotionCubit extends Cubit<int> {
 
   void setSelectedPromotionIndex(int index) {
     emit(index);
+    
   }
+}
 
-  int get selectedPromotionIndex => state;
+class SelectedAddressCubit extends Cubit<int> {
+  SelectedAddressCubit() : super(0);
+
+  void setSelectedAddressIndex(int? index) {
+    emit(index!);
+  }
 }

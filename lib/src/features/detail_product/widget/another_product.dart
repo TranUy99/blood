@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/model/product.dart';
@@ -32,6 +34,7 @@ class _AnotherProductState extends State<AnotherProduct> {
 
   @override
   Widget build(BuildContext context) {
+    log("message ${widget.productId}");
     return FutureBuilder<List<ProductDTO>>(
       future: detailProductViewModel.getRelatedProduct(widget.productId),
       builder: (context, snapshot) {
@@ -57,21 +60,20 @@ class _AnotherProductState extends State<AnotherProduct> {
   Widget buildUI(BuildContext context) {
     return Column(
       children: [
-    
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.4,
           child: Scrollbar(
             thickness: 8.0,
             radius: const Radius.circular(20.0),
             child: ListView.builder(
-              scrollDirection: Axis.horizontal, 
+              scrollDirection: Axis.horizontal,
               itemCount: products.length,
               itemBuilder: (context, index) {
                 final product = products[index];
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    width: MediaQuery.of(context).size.width * 0.5, 
+                    width: MediaQuery.of(context).size.width * 0.5,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(

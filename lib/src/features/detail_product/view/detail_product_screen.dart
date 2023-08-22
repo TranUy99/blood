@@ -5,12 +5,9 @@ import 'package:mobile_store/src/features/detail_product/view_model/detail_produ
 
 import 'package:mobile_store/src/features/detail_product/widget/image_product.dart';
 import 'package:mobile_store/src/features/detail_product/widget/product_information.dart';
-
-import '../../../core/model/review_dtos.dart';
-import '../../../core/remote/response/review_response/review_response.dart';
 import '../../review/view/rating_product.dart';
 import '../../review/view/review_product.dart';
-import '../../review/view_model/review_view_model.dart';
+import '../widget/another_product.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final int idProduct;
@@ -66,7 +63,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ReviewProduct(
             productId: widget.idProduct,
           ),
-          // AnotherProduct(productId: widget.idProduct),
+          AnotherProduct(productId: widget.idProduct),
         ],
       )),
     );

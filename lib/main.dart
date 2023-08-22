@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:mobile_store/languages/language_contanst.dart';
 import 'package:mobile_store/src/constant/utils/get_user.dart';
 import 'package:mobile_store/src/core/model/product_detail_cart.dart';
+import 'package:mobile_store/src/features/cart_page/bloc/cart_bloc.dart';
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 import 'package:mobile_store/src/features/login/service/login_service.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'src/core/network/network_binding.dart';
@@ -77,14 +80,24 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-        initialBinding: NetworkBinding(),
-        debugShowCheckedModeBanner: false,
-        title: "Mobile Store",
-        theme: ThemeData(fontFamily: 'Poppins'),
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        locale: _locale,
-        home: const NavigationHomePage());
+    return MultiProvider(
+      providers: [
+        BlocProvider<SelectedPromotionCubit>(
+          create: (context) => SelectedPromotionCubit(),
+        ),
+        BlocProvider<SelectedAddressCubit>(
+          create: (context) => SelectedAddressCubit(),
+        ),
+      ],
+      child: GetMaterialApp(
+          initialBinding: NetworkBinding(),
+          debugShowCheckedModeBanner: false,
+          title: "Mobile Store",
+          theme: ThemeData(fontFamily: 'Poppins'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: _locale,
+          home: const NavigationHomePage()),
+    );
   }
 }

@@ -34,7 +34,7 @@ class DetailProductBloc {
     try {
       final List<ProductDTO> products =
           await DetailProductService.getRelatedProductService(event.id);
-      log("message ${products.length} ");
+     
       if (products != []) {
         _productStateSubject.sink.add(RelatedProductLoadedState(products));
       } else {
