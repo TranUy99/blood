@@ -103,110 +103,116 @@ class _ReviewProductState extends State<ReviewProduct> {
           _reviewViewModel.getReviewViewModel(widget.productId, page, limit),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasData) {
-          return ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              if (index == reviewList.length) {
-                return InkWell(
-                  onTap: () {
-                    setState(() {
-                      page++;
-                    });
-                    _getReviewData(page);
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
-                    child: Center(
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.048,
-                        width: MediaQuery.of(context).size.width * 0.24,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: kGreenColor),
-                            borderRadius: BorderRadius.circular(20)),
-                        child: const Center(
-                            child: Text(
-                          'See more',
-                          style: TextStyle(color: kGreenColor),
-                        )),
-                      ),
-                    ),
-                  ),
-                );
-              } else {
-                return Container(
-                  decoration: const BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(width: 1, color: kDarkGreyColor))),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: MediaQuery.of(context).size.height * 0.01),
-                    child: ListTile(
-                      trailing: (reviewList[index].userName ==
-                                  getUser.userDTO.fullName &&
-                              successLoginState.onLoginState)
-                          ? IconButton(
-                              icon: const Icon(Icons.edit),
-                              onPressed: () async {
-                                await showDialog(
-                                  context: context,
-                                  builder: (context) => EditReview(
+          return Column(
+            children: [
+              ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return Container(
+                    decoration: const BoxDecoration(
+                        border: Border(
+                            bottom:
+                                BorderSide(width: 1, color: kDarkGreyColor))),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: MediaQuery.of(context).size.height * 0.01),
+                      child: ListTile(
+                        trailing: (reviewList[index].userName ==
+                                    getUser.userDTO.fullName &&
+                                successLoginState.onLoginState)
+                            ? IconButton(
+                                icon: const Icon(Icons.edit),
+                                onPressed: () async {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (context) => EditReview(
                                       reviewID: reviewList[index].reviewID!,
                                       rating: reviewList[index].rating!,
-                                      comment: reviewList[index].comment!, productID: widget.productId,),
-                                );
-                                setState(() {
-                                  reviewList = [];
-                                  page = 0;
-                                  _getReviewData(page);
-                                });
-                              },
-                            )
-                          : null,
-                      title: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text('${reviewList[index].userName}'),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.1,
-                              ),
-                              RatingBar.builder(
-                                ignoreGestures: true,
-                                initialRating:
-                                    (reviewList[index].rating)!.toDouble(),
-                                allowHalfRating: true,
-                                itemCount: 5,
-                                itemSize: 10,
-                                itemBuilder: (context, _) => const Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                ),
-                                onRatingUpdate: (double value) {},
+                                      comment: reviewList[index].comment!,
+                                      productID: widget.productId,
+                                    ),
+                                  );
+                                  setState(() {
+                                    reviewList = [];
+                                    page = 0;
+                                    _getReviewData(page);
+                                  });
+                                },
                               )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              Text('${reviewList[index].comment}'),
-                            ],
-                          )
-                        ],
+                            : null,
+                        title: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text('${reviewList[index].userName}'),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.1,
+                                ),
+                                RatingBar.builder(
+                                  ignoreGestures: true,
+                                  initialRating:
+                                      (reviewList[index].rating)!.toDouble(),
+                                  allowHalfRating: true,
+                                  itemCount: 5,
+                                  itemSize: 10,
+                                  itemBuilder: (context, _) => const Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                  ),
+                                  onRatingUpdate: (double value) {},
+                                )
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                Text('${reviewList[index].comment}'),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              }
-            },
-            itemCount: (reviewResponse!.totalPages! - 1 > page)
-                ? reviewList.length + 1
-                : reviewList.length,
-            shrinkWrap: true,
+                  );
+                },
+                itemCount: reviewList.length,
+                shrinkWrap: true,
+              ),
+              (page == (snapshot.data?.totalPages)! - 1)
+                  ? SizedBox.shrink()
+                  : InkWell(
+                      onTap: () {
+                        setState(() {
+                          page++;
+                        });
+                        _getReviewData(page);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.01),
+                        child: Center(
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.048,
+                            width: MediaQuery.of(context).size.width * 0.24,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: kGreenColor),
+                                borderRadius: BorderRadius.circular(20)),
+                            child: const Center(
+                                child: Text(
+                              'See more',
+                              style: TextStyle(color: kGreenColor),
+                            )),
+                          ),
+                        ),
+                      ),
+                    ),
+            ],
           );
         } else {
           return const Text('Not have any review');
