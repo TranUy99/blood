@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:mobile_store/src/core/model/product.dart';
 import 'package:rxdart/rxdart.dart';
 
