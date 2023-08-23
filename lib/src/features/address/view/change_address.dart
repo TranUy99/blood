@@ -9,6 +9,7 @@ import 'package:mobile_store/src/features/home_page/view/navigation_home_page.da
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import 'dart:developer';
 
 // ignore: must_be_immutable
 class ChangeAddressScreen extends StatefulWidget {
@@ -32,15 +33,15 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
   TextEditingController textPhoneController = TextEditingController();
   TextEditingController textNameController = TextEditingController();
   List<Province> provinceList = [];
-  String? newProvince;
+
   Province? selectedProvince;
   String? provinceId = "";
   List<District> districtList = [];
-  String? newDistrict;
+
   District? selectedDistrict;
   String? districtId = "";
   List<Ward> wardList = [];
-  String? newWard;
+  String? wardId = "";
   Ward? selectedWard;
   bool errorAddress = false;
   String errorAddressText = '';
@@ -48,9 +49,12 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
   String errorPhoneText = '';
   bool errorName = false;
   String errorNameText = '';
-bool isDefault = false;
+  bool isDefault = false;
   final AddressViewModel _addressViewModel = AddressViewModel();
-
+  String provinceName = "";
+  String districtName = "";
+  String? wardName;
+  @override
   void initState() {
     super.initState();
     textNameController.text = '${widget.name}';
@@ -63,6 +67,71 @@ bool isDefault = false;
     String extractedAddress = address.substring(start, end).trim();
 
     textAddressController.text = extractedAddress;
+
+    List<String> addressParts = address.split(",");
+    provinceName = addressParts.last.trim();
+    districtName = addressParts[2].trim();
+    wardName = addressParts[1].trim();
+    _getProvinces();
+  }
+
+  // Hàm để lấy danh sách tỉnh/thành phố
+
+  Future<void> _getProvinces() async {
+    try {
+      List<Province> provinces = await _addressViewModel.getProvince();
+      setState(() {
+        provinceList = provinces;
+        selectedProvince = provinceList.firstWhere(
+          (province) => province.province_name == provinceName,
+        );
+        if (selectedProvince != null) {
+          provinceId = selectedProvince?.province_id;
+          _getDistricts(provinceId!);
+        }
+      });
+    } catch (error) {
+      print("Error fetching provinces: $error");
+    }
+  }
+
+  Future<void> _getDistricts(String provinceId) async {
+    try {
+      if (provinceId != "" && provinceId!.isNotEmpty) {
+        List<District> districts = await _addressViewModel.getDistrict(provinceId);
+        setState(() {
+          districtList = districts;
+          selectedDistrict = districtList.firstWhere(
+            (district) => district.district_name == districtName,
+          );
+          if (selectedDistrict != null) {
+            districtId = selectedDistrict?.district_id;
+            _getWards(districtId!);
+          }
+        });
+      }
+    } catch (error) {
+      print("Error fetching districts: $error");
+    }
+  }
+
+  Future<void> _getWards(String districtId) async {
+    try {
+      if (districtId != "" && districtId.isNotEmpty) {
+        List<Ward> wards = await _addressViewModel.getWard(districtId);
+        setState(() {
+          wardList = wards;
+          selectedWard = wardList.firstWhere(
+            (ward) => ward.ward_name == wardName,
+          );
+          if (selectedWard != null) {
+            wardId = selectedWard?.ward_id;
+          }
+        });
+      }
+    } catch (error) {
+      print("Error fetching districts: $error");
+    }
   }
 
   @override
@@ -96,24 +165,14 @@ bool isDefault = false;
                   const SizedBox(height: 5),
 
                   //get province
-                  FutureBuilder<List<Province>>(
-                    future: _addressViewModel.getProvince(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        final List<Province> provinces = snapshot.data!;
-                        final List<String> provinceNames =
-                            provinces.map((province) => province.province_name ?? "").toList();
-
-                        // Remove duplicate entries using Set
-                        final uniqueProvinceNames = provinceNames.toSet().toList();
-
-                        return DropdownButton<String>(
+                  provinceList.isNotEmpty
+                      ? DropdownButton<String>(
                           menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
-                          hint: Text("Province"),
+                          hint: const Text("Province"),
                           value: selectedProvince?.province_name,
                           onChanged: (name) {
                             setState(() {
-                              selectedProvince = provinces
+                              selectedProvince = provinceList
                                   .firstWhere((province) => province.province_name == name);
                               selectedDistrict = null;
                               selectedWard = null;
@@ -121,25 +180,20 @@ bool isDefault = false;
 
                             if (selectedProvince != null && selectedProvince is Province) {
                               setState(() {
-                                newProvince = selectedProvince?.province_name ?? "";
+                                provinceName = selectedProvince?.province_name ?? "";
                                 provinceId = selectedProvince?.province_id;
                               });
                             }
                           },
-                          items: uniqueProvinceNames
-                              .map((name) => DropdownMenuItem(
-                                    value: name,
-                                    child: Text(name),
+                          items: provinceList
+                              .map((province) => DropdownMenuItem(
+                                    value: province.province_name,
+                                    child: Text(province.province_name!),
                                   ))
                               .toList(),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text("Error: ${snapshot.error}"));
-                      } else {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                    },
-                  ),
+                        )
+                      : const Center(child: CircularProgressIndicator()),
+
                   const SizedBox(height: 16.0),
 
                   //get district
@@ -155,7 +209,7 @@ bool isDefault = false;
                                   .toList();
                               return DropdownButton<String>(
                                 menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
-                                hint: Text("District"),
+                                hint: const Text("District"),
                                 value: selectedDistrict?.district_name,
                                 onChanged: (name) {
                                   setState(() {
@@ -166,7 +220,7 @@ bool isDefault = false;
 
                                   if (selectedDistrict != null && selectedDistrict is District) {
                                     setState(() {
-                                      newDistrict = selectedDistrict?.district_name ?? "";
+                                      districtName = selectedDistrict?.district_name ?? "";
                                       districtId = selectedDistrict?.district_id;
                                     });
                                   }
@@ -186,6 +240,8 @@ bool isDefault = false;
                           },
                         ),
 
+
+
                   const SizedBox(height: 16.0),
 
                   //get ward
@@ -201,7 +257,7 @@ bool isDefault = false;
 
                               return DropdownButton<String>(
                                 menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
-                                hint: Text("Ward"),
+                                hint: const Text("Ward"),
                                 value: selectedWard?.ward_name,
                                 onChanged: (name) {
                                   setState(() {
@@ -211,7 +267,7 @@ bool isDefault = false;
 
                                   if (selectedWard != null && selectedWard is Ward) {
                                     setState(() {
-                                      newWard = selectedWard?.ward_name ?? "";
+                                      wardName = selectedWard?.ward_name ?? "";
                                     });
                                   }
                                 },
@@ -247,7 +303,6 @@ bool isDefault = false;
                     onToggle: (index) {
                       setState(() {
                         isDefault = index == 0;
-                      
                       });
                     },
                   ),
@@ -341,14 +396,14 @@ bool isDefault = false;
                     ElevatedButton(
                       onPressed: () async {
                         String addressHome = textAddressController.text;
-                        String address = ('$addressHome,$newWard ,$newDistrict ,$newProvince');
+                        String address = ('$addressHome,$wardName ,$districtName ,$provinceName');
                         String phone = textPhoneController.text;
                         String name = textNameController.text;
 
                         if (addressHome.isNotEmpty &&
-                            newProvince!.isNotEmpty &&
-                            newWard!.isNotEmpty &&
-                            newDistrict!.isNotEmpty &&
+                            wardName!.isNotEmpty &&
+                            districtName.isNotEmpty &&
+                            provinceName.isNotEmpty &&
                             phone.isNotEmpty &&
                             name.isNotEmpty) {
                           final createAddress = await _addressViewModel.changeAddress(

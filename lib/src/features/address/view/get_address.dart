@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/model/address.dart';
 import 'package:mobile_store/src/features/address/view/change_address.dart';
 import 'package:mobile_store/src/features/address/view/delete_address.dart';
