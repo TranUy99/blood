@@ -10,7 +10,7 @@ class CategoryViewModel {
   final CategoryFilterBloc _categoryFilterBloc = CategoryFilterBloc();
 
   Future<CategoryFilterResponse?> categoryFilterViewModel(int? manufacturerId,
-      int categoryId, int lowerPrice, int higherPrice, int no, int limit) async {
+      int categoryId, int? lowerPrice, int? higherPrice, int no, int limit) async {
 
     CategoryFilterResponse? categoryFilterResponse;
     await _categoryFilterBloc.categoryFilter(CategoryFilterEvent(

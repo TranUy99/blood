@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/remote/response/review_response/review_response.dart';
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
-import 'package:mobile_store/src/features/review/view/review_written.dart';
+import 'package:mobile_store/src/features/review/view_model/extended_review.dart';
 import 'package:mobile_store/src/features/review/view_model/review_view_model.dart';
+import 'package:mobile_store/src/features/review/view_model/review_written.dart';
 
 import '../../../../main.dart';
 import '../../../core/model/review_dtos.dart';
-import 'edit_review.dart';
+import '../view_model/edit_review.dart';
 
 class ReviewProduct extends StatefulWidget {
   const ReviewProduct({
@@ -39,9 +41,9 @@ class _ReviewProductState extends State<ReviewProduct> {
   }
 
   _getReviewData(int currentPage) async {
-    reviewResponse =
-        await _reviewViewModel.getReviewViewModel(widget.productId, currentPage, limit);
-    reviewList += (reviewResponse?.contents)!;
+    reviewResponse = await _reviewViewModel.getReviewViewModel(
+        widget.productId, currentPage, limit);
+    reviewList = (reviewResponse?.contents)!;
   }
 
   @override
@@ -184,10 +186,7 @@ class _ReviewProductState extends State<ReviewProduct> {
                   ? SizedBox.shrink()
                   : InkWell(
                       onTap: () {
-                        setState(() {
-                          page++;
-                        });
-                        _getReviewData(page);
+                        Get.to(ExtendedReview(productId: widget.productId,));
                       },
                       child: Padding(
                         padding: EdgeInsets.only(
