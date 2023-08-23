@@ -200,7 +200,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     errorSendEmail = true;
                     errorTextSendEmail = (textEmailController.text == '')
                         ? 'Enter your email'
-                        : 'Incorrect email';
+                        : 'Wrong email';
                   });
                   print(errorTextSendEmail);
                 } else {
