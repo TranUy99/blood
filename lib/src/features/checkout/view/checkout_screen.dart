@@ -43,11 +43,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   String? _paymentMethod;
 
-  late Future<List<OrderProductDTO>> _cartFuture;
   List<OrderProductDTO> cartList = [];
-  late Future<PromotionDTO> _promotionFuture;
   late PromotionDTO promotion;
-  late Future<Address> _addressFuture;
+
   late Address address;
 
   bool _uiBuilt = false;
@@ -135,7 +133,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     ),
                   ),
                   Text(
-                    '${promotion.discountDTO}%',
+                    '${promotion.discountDTO ?? 0}%',
                     style: const TextStyle(
                       fontSize: 14,
                       color: kGreyColor,
@@ -174,16 +172,27 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  // Text(
-                  //   "${NumberFormat('#,###.###').format(totalAmount! - (totalAmount! * (promotion.discountDTO! * 0.01)))} VND ",
-                  //   style: const TextStyle(
-                  //     fontSize: 16,
-                  //     fontWeight: FontWeight.bold,
-                  //     color: kRedColor,
-                  //   ),
-                  // ),
+                  if (promotion.discountDTO != null)
+                    Text(
+                      "${NumberFormat('#,###.###').format(totalAmount! - (totalAmount! * (promotion.discountDTO! * 0.01)))} VND ",
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: kRedColor,
+                      ),
+                    )
+                  else
+                    Text(
+                      "${NumberFormat('#,###.###').format(totalAmount!)} VND ",
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: kRedColor,
+                      ),
+                    ),
                 ],
               ),
+
               const SizedBox(height: 16),
               PaymentMethod(
                 paymentMethod: _paymentMethod,
@@ -215,17 +224,19 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             getUser.cartBox!.deleteAll(getUser.cartBox!.keys);
                             if (createOrder == true) {
                               showTopSnackBar(
-                                // ignore: use_build_context_synchronously
                                 Overlay.of(context),
                                 const CustomSnackBar.success(
                                   message: 'Order success',
                                 ),
                               );
+
                               // ignore: use_build_context_synchronously
                               await _cartViewModel.streamLengthCartList();
                               await _cartViewModel.streamPriceCartList();
                               setState(() {
                                 indexScreen = 0;
+                                context.read<SelectedPromotionCubit>().resetState();
+                                context.read<SelectedAddressCubit>().resetState();
                               });
                               Get.offAll(const NavigationHomePage());
                             } else {

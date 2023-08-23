@@ -115,7 +115,10 @@ class SelectedPromotionCubit extends Cubit<int> {
 
   void setSelectedPromotionIndex(int index) {
     emit(index);
-    
+  }
+
+  void resetState() {
+    emit(0); 
   }
 }
 
@@ -124,5 +127,9 @@ class SelectedAddressCubit extends Cubit<int> {
 
   void setSelectedAddressIndex(int? index) {
     emit(index!);
+  }
+
+  void resetState() {
+    emit(0);
   }
 }

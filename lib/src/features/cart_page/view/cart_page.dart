@@ -17,6 +17,7 @@ import '../../checkout/view/checkout_screen.dart';
 import '../bloc/cart_bloc.dart';
 import '../widget/cart_selecte_address.dart';
 import '../widget/cart_selecte_promotion.dart';
+import 'dart:developer';
 
 class CartPage extends StatefulWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -165,9 +166,12 @@ class _CartPageState extends State<CartPage> {
                 padding: const EdgeInsets.only(right: 20.0, bottom: 10.0),
                 child: ElevatedButton.icon(
                   onPressed: () async {
+                    final selectedAddressCubit = context.read<SelectedAddressCubit>();
+                    final selectedAddressId = selectedAddressCubit.state;
+                  
                     orderProductDTOList = await cartViewModel.cartViewModel();
 
-                    if (selectedAddressIndex == null ||
+                    if (selectedAddressId == 0 ||
                         // selectedPromotionIndex == null ||
                         orderProductDTOList.isEmpty) {
                       showTopSnackBar(
