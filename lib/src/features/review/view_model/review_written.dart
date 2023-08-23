@@ -73,7 +73,9 @@ class _ReviewWrittenState extends State<ReviewWritten> {
                 ),
                 ElevatedButton(
                     onPressed: () async {
-                      bool isSuccess = await _reviewViewModel.createReviewViewModel(widget.productId, _reviewController.text, rating);
+                      bool isSuccess =
+                          await _reviewViewModel.createReviewViewModel(
+                              widget.productId, _reviewController.text, rating);
                       if(isSuccess){
                         showTopSnackBar(
                             Overlay.of(context),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/address/view/add_address.dart';
@@ -139,12 +141,10 @@ class _CartPageState extends State<CartPage> {
                 padding: const EdgeInsets.only(left: 20.0, bottom: 10.0),
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const NavigationHomePage(),
-                      ),
-                    );
+                    setState(() {
+                      indexScreen = 0;
+                      Get.offAll(const NavigationHomePage());
+                    });
                   },
                   icon: const Icon(Icons.arrow_back_rounded),
                   label: Text(

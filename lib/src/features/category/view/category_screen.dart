@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mobile_store/src/core/remote/response/product_filter_response/category_filter_response.dart';
 import 'package:mobile_store/src/features/category/view_model/category_view_model.dart';
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
@@ -34,23 +35,23 @@ class _CategoryScreenState extends State<CategoryScreen> {
   CustomPopupMenuController pricePopupMenuController =
       CustomPopupMenuController();
   List<String> priceRange = [
-    'Under 500 USD',
-    '500 - 1000 USD',
-    '1000 - 1500 USD',
-    '1500 - 2000 USD',
-    '2000 - 2500 USD',
-    '2500 - 3000 USD'
+    'Under 5Tr',
+    '5Tr - 10Tr',
+    '10Tr - 20Tr',
+    '20Tr - 30Tr',
+    'Over 30Tr'
   ];
   List<ProductFilter> products = [];
   int currentPage = 0;
   int no = 0;
   int limit = 4;
-  int lowerPrice = 0;
-  int higherPrice = 50000000;
+  int? lowerPrice;
+  int? higherPrice;
   List<ManufacturerDTO> manufacturerList = [];
   String? manufacturerName;
   int? manufacturerId;
-  String? priceFilter;
+  int? priceFilterIndex;
+  final textCurrency = NumberFormat("#,###.###", "en_US");
 
   @override
   void initState() {
@@ -116,7 +117,11 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       manufacturerMenuItems, manufacturerPopupMenuController),
                   SizedBox(width: MediaQuery.of(context).size.width * 0.02),
                   productFilter(
-                      priceFilter ?? 'Price', 0.4, priceMenuItems,
+                      (priceFilterIndex == null)
+                          ? 'Price'
+                          : priceRange[priceFilterIndex!],
+                      0.4,
+                      priceMenuItems,
                       pricePopupMenuController)
                 ],
               ),
@@ -196,7 +201,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                     fontSize: 20,
                                     color: kRedColor,
                                     fontFamily: 'sans-serif')),
-                            Text('${product.price}',
+                            Text('${textCurrency.format(product.price)} đ',
                                 style: const TextStyle(
                                     fontSize: 20,
                                     color: kGreenColor,
@@ -328,20 +333,68 @@ class _CategoryScreenState extends State<CategoryScreen> {
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
-              if(priceFilter == priceRange[index]){
-                priceFilter = null;
-              }else{
-                priceFilter = priceRange[index];
-              }
-              setState(() {
+              if (priceFilterIndex == index) {
+                setState(() {
+                  priceFilterIndex = null;
+                  lowerPrice = null;
+                  higherPrice = null;
+                  currentPage = 0;
+                  products = [];
+                });
+                _getDataProduct(widget.categoryID, currentPage);
+              } else {
+                priceFilterIndex = index;
+                switch (priceFilterIndex) {
+                  case 0:
+                    {
+                      lowerPrice = 0;
+                      higherPrice = 5000000;
+                    }
+                    break;
+                  case 1:
+                    {
+                      lowerPrice = 5000000;
+                      higherPrice = 10000000;
+                    }
+                    break;
+                  case 2:
+                    {
+                      lowerPrice = 10000000;
+                      higherPrice = 20000000;
+                    }
+                    break;
+                  case 3:
+                    {
+                      lowerPrice = 20000000;
+                      higherPrice = 30000000;
+                    }
+                    break;
+                  case 4:
+                    {
+                      lowerPrice = 30000000;
+                      higherPrice = 1000000000;
+                    }
+                    break;
+                  default:
+                    {
+                      lowerPrice = null;
+                      higherPrice = null;
+                    }
+                    break;
+                }
 
-              });
-            
+                currentPage = 0;
+                products = [];
+                setState(() {});
+                _getDataProduct(widget.categoryID, currentPage);
+              }
+              print('$lowerPrice - $higherPrice - $priceFilterIndex');
+
               pricePopupMenuController.hideMenu();
             },
             child: Container(
               decoration: BoxDecoration(
-                border: (priceFilter == priceRange[index])
+                border: (priceFilterIndex == index)
                     ? Border.all(color: Colors.red)
                     : Border.all(),
                 borderRadius: BorderRadius.circular(5),
