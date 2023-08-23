@@ -25,7 +25,7 @@ class GetReviewBloc {
     try {
       await getReviewResult.then((value) {
         totalItems = value.totalItems ?? 0;
-        print(totalItems);
+       
       });
       reviewResponse = await getReviewResult;
     } catch (e) {

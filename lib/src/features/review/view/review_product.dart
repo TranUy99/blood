@@ -39,8 +39,8 @@ class _ReviewProductState extends State<ReviewProduct> {
   }
 
   _getReviewData(int currentPage) async {
-    reviewResponse = await _reviewViewModel.getReviewViewModel(
-        widget.productId, currentPage, limit);
+    reviewResponse =
+        await _reviewViewModel.getReviewViewModel(widget.productId, currentPage, limit);
     reviewList += (reviewResponse?.contents)!;
   }
 
@@ -50,8 +50,8 @@ class _ReviewProductState extends State<ReviewProduct> {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         width: MediaQuery.of(context).size.width * 1,
-        decoration: const BoxDecoration(
-            border: Border(top: BorderSide(color: kGreyColor, width: 0.8))),
+        decoration:
+            const BoxDecoration(border: Border(top: BorderSide(color: kGreyColor, width: 0.8))),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -61,9 +61,7 @@ class _ReviewProductState extends State<ReviewProduct> {
             ),
             Center(
               child: Text(
-                AppLocalizations.of(context)!
-                    .reviewOfCustomerBoughtTheProduct
-                    .toUpperCase(),
+                AppLocalizations.of(context)!.reviewOfCustomerBoughtTheProduct.toUpperCase(),
                 style: const TextStyle(
                   color: kBlackColor,
                   fontWeight: FontWeight.bold,
@@ -80,8 +78,7 @@ class _ReviewProductState extends State<ReviewProduct> {
                     onPressed: () async {
                       await showDialog(
                         context: context,
-                        builder: (context) =>
-                            ReviewWritten(productId: widget.productId),
+                        builder: (context) => ReviewWritten(productId: widget.productId),
                       );
                       setState(() {
                         reviewList = [];
@@ -99,8 +96,7 @@ class _ReviewProductState extends State<ReviewProduct> {
 
   Widget reviewListview() {
     return FutureBuilder(
-      future:
-          _reviewViewModel.getReviewViewModel(widget.productId, page, limit),
+      future: _reviewViewModel.getReviewViewModel(widget.productId, page, limit),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());

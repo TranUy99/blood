@@ -19,3 +19,18 @@ class ProductErrorState extends DetailProductState {
 
   ProductErrorState(this.errorMessage);
 }
+
+
+//Loading state success
+class RelatedProductLoadedState extends DetailProductState {
+  final List<ProductDTO> relatedProduct;
+
+  RelatedProductLoadedState(this.relatedProduct);
+}
+
+//Loading state failed
+class RelatedProductErrorState extends DetailProductState {
+  final String errorMessage;
+
+  RelatedProductErrorState(this.errorMessage);
+}

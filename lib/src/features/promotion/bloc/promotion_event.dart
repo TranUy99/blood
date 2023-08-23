@@ -12,3 +12,12 @@ class GetPromotionEvent extends PromotionEvent {
 
   const GetPromotionEvent( this.no,this.limit,);
 }
+
+
+class GetIdPromotionEvent extends PromotionEvent {
+  final int? idPromotion;
+
+  const GetIdPromotionEvent(
+    this.idPromotion,
+  );
+}

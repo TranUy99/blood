@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
 import 'package:mobile_store/src/features/detail_product/view_model/detail_product_view_model.dart';
-import 'package:mobile_store/src/features/detail_product/widget/configuration_product.dart';
+
 import 'package:mobile_store/src/features/detail_product/widget/image_product.dart';
 import 'package:mobile_store/src/features/detail_product/widget/product_information.dart';
-
-import '../../../core/model/review_dtos.dart';
-import '../../../core/remote/response/review_response/review_response.dart';
 import '../../review/view/rating_product.dart';
 import '../../review/view/review_product.dart';
-import '../../review/view_model/review_view_model.dart';
+import '../widget/another_product.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final int idProduct;
@@ -28,7 +25,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   DetailProductViewModel detailProductViewModel = DetailProductViewModel();
 
   late ProductDTO product;
-
 
   @override
   Widget build(BuildContext context) {
@@ -58,18 +54,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       appBar: appBarWidget(context, true),
       body: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ImageProduct(productDTO: product),
-              RatingProduct(productDTO: product),
-              // const ConfigurationProduct(),
-              ProductInformation(productDTO: product),
-              ReviewProduct(
-                productId: widget.idProduct,
-              ),
-              // const AnotherProduct(),
-            ],
-          )),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ImageProduct(productDTO: product),
+          RatingProduct(productDTO: product),
+          // const ConfigurationProduct(),
+          ProductInformation(productDTO: product),
+          ReviewProduct(
+            productId: widget.idProduct,
+          ),
+          AnotherProduct(productId: widget.idProduct),
+        ],
+      )),
     );
   }
 }

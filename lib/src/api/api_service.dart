@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:mobile_store/src/core/model/address.dart';
 import 'package:mobile_store/src/core/model/product.dart';
+import 'package:mobile_store/src/core/model/promotion.dart';
 import 'package:mobile_store/src/core/model/user.dart';
 import 'package:mobile_store/src/core/remote/request/address_request/address_change_request.dart';
 import 'package:mobile_store/src/core/remote/request/category_filter_request/category_filter_request.dart';
@@ -41,7 +44,6 @@ part 'api_service.g.dart';
 // @RestApi(baseUrl: 'http://45.117.170.206:8085')
 
 abstract class ApiService {
-
   factory ApiService(Dio dio) {
     dio.options = BaseOptions(
         validateStatus: (status) => true,
@@ -70,7 +72,10 @@ abstract class ApiService {
   //get new product
   @GET('/product/new')
   Future<List<ProductDTO>> getProductNew();
-
+  //get related product
+  @GET('/product/related-product')
+  Future<List<ProductDTO>> getRelatedProduct(
+      @Query('productId') int productId, @Query('quantity') int quantity);
   //Get all information about product
   @GET('/product/detail/{id}')
   Future<ProductDTO> getDetailProduct(@Path('id') int id);
@@ -108,7 +113,6 @@ abstract class ApiService {
     @Path("id") required int? id,
   });
 
-
   // Call api create address
   @POST('/address')
   Future<AddressResponse> createAddress({
@@ -135,6 +139,12 @@ abstract class ApiService {
   @GET('/promotion')
   Future<PromotionResponse> getPromotion(
       @Header("Authorization") String auth, @Query('no') int? no, @Query('limit') int? limit);
+
+  // Call api  id promotion
+  @GET('/promotion/{id}')
+  Future<PromotionDTO> getIdPromotion({
+    @Path("id") required int? id,
+  });
 
   @GET('/product/filter-product')
   Future<CategoryFilterResponse> productCategoryFilter(
@@ -165,17 +175,16 @@ abstract class ApiService {
 //get order detail
   @GET('/order/user/detail/{id}')
   Future<OrderDetailDTO> getOrderDetail(
-      @Header("Authorization") String auth,
-      @Path("id") int? id,
-      );
+    @Header("Authorization") String auth,
+    @Path("id") int? id,
+  );
 
-  //get order detail
-  @GET('/order')
-  Future<HttpResponse> createOrder(
-      @Header("Authorization") String auth,
-      @Body() OrderRequest orderRequest,
-      );
-
+  //create order detail
+  @POST('/order')
+  Future<HttpResponse> createOrder({
+    @Header("Authorization") required String auth,
+    @Body() required OrderRequest orderRequest,
+  });
 
   @POST('/review')
   Future<CreateReviewResponse> createReview(
@@ -195,4 +204,3 @@ abstract class ApiService {
       @Query('no') int no,
       @Query('limit') int limit);
 }
-

@@ -28,14 +28,20 @@ class ErrorGetDataCartState extends GetDataCartState {}
 
 class CartState {}
 
-class GetLengthCartState extends CartState{
+class GetLengthCartState extends CartState {
   final int cartListLength;
 
   GetLengthCartState(this.cartListLength);
 }
 
-class GetPriceCartState extends CartState{
+class GetPriceCartState extends CartState {
   final double price;
 
   GetPriceCartState(this.price);
+}
+
+class GetSelectedPromotionState extends CartState {
+  final int? selectedPromotion;
+
+  GetSelectedPromotionState(this.selectedPromotion);
 }

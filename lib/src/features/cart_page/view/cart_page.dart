@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
@@ -8,8 +9,11 @@ import 'package:mobile_store/src/features/cart_page/view_model/cart_view_model.d
 import 'package:mobile_store/src/features/cart_page/widget/cart_list_view.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../core/model/order_product_dto.dart';
+import '../../checkout/view/checkout_screen.dart';
 import '../bloc/cart_bloc.dart';
 import '../widget/cart_selecte_address.dart';
 import '../widget/cart_selecte_promotion.dart';
@@ -25,8 +29,8 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  int selectedAddressIndex = 0;
-  int selectedPromotionIndex = 0;
+  int? selectedAddressIndex = 0;
+  int? selectedPromotionIndex = 0;
   List<OrderProductDTO> orderProductDTOList = [];
   CartViewModel cartViewModel = CartViewModel();
   final textCurrency = NumberFormat("#,###.###", "en_US");
@@ -59,8 +63,7 @@ class _CartPageState extends State<CartPage> {
                     FutureBuilder(
                       future: cartViewModel.totalPay(),
                       builder: (context, getData) {
-                        if (getData.connectionState ==
-                            ConnectionState.waiting) {
+                        if (getData.connectionState == ConnectionState.waiting) {
                           return const Center(
                             child: CircularProgressIndicator(),
                           );
@@ -69,8 +72,7 @@ class _CartPageState extends State<CartPage> {
                         } else {
                           return StreamBuilder<GetPriceCartState>(
                             initialData: GetPriceCartState(getData.data!),
-                            stream: CartPage
-                                .cartBloc.getPriceStateController.stream,
+                            stream: CartPage.cartBloc.getPriceStateController.stream,
                             builder: (context, snapshot) {
                               return Text(
                                 '${textCurrency.format(snapshot.data?.price)} đ',
@@ -91,14 +93,7 @@ class _CartPageState extends State<CartPage> {
               ),
             ),
 // selected address
-            SelectedAddressCart(
-              selectedAddressIndex: selectedAddressIndex!,
-              onAddressSelected: (int index) {
-                setState(() {
-                  selectedAddressIndex = index;
-                });
-              },
-            ),
+            const SelectedAddressCart(),
 
 // Add another address ,
             Align(
@@ -126,45 +121,7 @@ class _CartPageState extends State<CartPage> {
 // selected promotion,
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: SelectedPromotionCard(
-                selectedPromotionIndex: selectedPromotionIndex,
-                onAddressSelected: (int? index) {
-                  setState(() {
-                    selectedPromotionIndex = index!;
-                  });
-                },
-              ),
-            ),
-
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 20.0, bottom: 10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      AppLocalizations.of(context)!.total,
-                      textAlign: TextAlign.right,
-                      style: const TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(width: 10.0),
-                    const Text(
-                      '3297 USD',
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                        color: kGreenColor,
-                      ),
-                    )
-                  ],
-                ),
-              ),
+              child: SelectedPromotionCard(),
             ),
           ],
         ),
@@ -208,17 +165,27 @@ class _CartPageState extends State<CartPage> {
                 padding: const EdgeInsets.only(right: 20.0, bottom: 10.0),
                 child: ElevatedButton.icon(
                   onPressed: () async {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => const CheckoutPage(),
-                    //   ),
-                    // );
-                    // ProductDetailCart productDetailCart = getUser.cartBox;
                     orderProductDTOList = await cartViewModel.cartViewModel();
 
-                    for (int i = 0; i < orderProductDTOList.length; i++) {
-                      print(orderProductDTOList[i].name);
+                    if (selectedAddressIndex == null ||
+                        // selectedPromotionIndex == null ||
+                        orderProductDTOList.isEmpty) {
+                      showTopSnackBar(
+                        // ignore: use_build_context_synchronously
+                        Overlay.of(context),
+                        const CustomSnackBar.error(
+                          message: 'Please fill in all fields',
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    } else {
+                      // ignore: use_build_context_synchronously
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CheckoutPage(),
+                        ),
+                      );
                     }
                   },
                   icon: const Icon(Icons.shopping_cart),
