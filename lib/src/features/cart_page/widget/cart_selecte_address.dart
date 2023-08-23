@@ -61,9 +61,12 @@ class _SelectedAddressCartState extends State<SelectedAddressCart> {
               itemBuilder: (context, index) {
                 final address = addressList[index];
                 return RadioListTile(
-                  value: selectedAddressId == 0 ? addressList[index].id! : selectedAddressId,
+                  value: addressList[index].id!,
                   groupValue: selectedAddressId,
                   onChanged: (value) {
+                    setState(() {
+                      selectedAddressId = value!;
+                    });
                     context.read<SelectedAddressCubit>().setSelectedAddressIndex(value);
                   },
                   activeColor: kGreenColor,
