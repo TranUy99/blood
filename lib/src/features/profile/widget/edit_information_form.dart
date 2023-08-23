@@ -31,7 +31,8 @@ class _EditInformationFormState extends State<EditInformationForm> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _dateOfbirthController = TextEditingController();
-  final ChangeInformationViewModel changeInformationViewModel = ChangeInformationViewModel();
+  final ChangeInformationViewModel changeInformationViewModel =
+      ChangeInformationViewModel();
 
   DateTime? dateOfBirth;
   int? _selectedGender;
@@ -79,7 +80,8 @@ class _EditInformationFormState extends State<EditInformationForm> {
       content: SingleChildScrollView(
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Padding(
-            padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.02),
+            padding: EdgeInsets.symmetric(
+                vertical: MediaQuery.of(context).size.height * 0.02),
             child: const Text('Edit information',
                 style: TextStyle(
                   color: Colors.black,
@@ -92,7 +94,7 @@ class _EditInformationFormState extends State<EditInformationForm> {
           dropdownGender(),
         ]),
       ),
-      actions: <Widget>[
+      actions: [
         ElevatedButton(
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
@@ -113,19 +115,35 @@ class _EditInformationFormState extends State<EditInformationForm> {
                 return;
               }
 
-              UserDTO userInformation = await changeInformationViewModel.changeInformationViewModel(
-                fullNameText,
-                _selectedGender!,
-                birthdayFormat,
-              );
-              setState(() {
-                getUser.userDTO = userInformation;
-              });
-              setState(() {
-                getUser.userDTO = userInformation;
-                indexScreen = 2;
-              });
-              Get.offAll(const NavigationHomePage());
+              if (fullNameText != '' &&
+                  dateOfBirth != null &&
+                  _selectedGender != null) {
+                UserDTO userInformation =
+                    await changeInformationViewModel.changeInformationViewModel(
+                  fullNameText,
+                  _selectedGender!,
+                  birthdayFormat,
+                );
+
+                setState(() {
+                  getUser.userDTO = userInformation;
+                  indexScreen = 2;
+                });
+                showTopSnackBar(
+                  Overlay.of(context),
+                  const CustomSnackBar.success(
+                    message: 'Change information successfully',
+                  ),
+                );
+                Get.offAll(const NavigationHomePage());
+              } else {
+                showTopSnackBar(
+                  Overlay.of(context),
+                  const CustomSnackBar.error(
+                    message: 'Please enter all field ',
+                  ),
+                );
+              }
             },
             child: const Text('Save')),
         ElevatedButton(
@@ -133,7 +151,7 @@ class _EditInformationFormState extends State<EditInformationForm> {
             Navigator.of(context).pop();
           },
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+            backgroundColor: MaterialStateProperty.all(Colors.red),
           ),
           child: const Text('Cancel'),
         ),
@@ -143,7 +161,8 @@ class _EditInformationFormState extends State<EditInformationForm> {
 
   Widget textInputFieldFullName() {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01),
+      padding: EdgeInsets.symmetric(
+          vertical: MediaQuery.of(context).size.height * 0.01),
       child: TextField(
         controller: _nameController,
         onChanged: (value) {
@@ -174,13 +193,15 @@ class _EditInformationFormState extends State<EditInformationForm> {
 
   Widget dayOfBirthPicker() {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.02),
+      padding: EdgeInsets.symmetric(
+          vertical: MediaQuery.of(context).size.height * 0.02),
       child: InkWell(
         onTap: () {
           _showBirthdayPicker(context);
         },
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.02),
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.02),
           height: MediaQuery.of(context).size.height * 0.07,
           decoration: BoxDecoration(
             border: Border.all(width: 0.5),
@@ -194,7 +215,7 @@ class _EditInformationFormState extends State<EditInformationForm> {
                       ? '${dateOfBirth?.day}-${dateOfBirth?.month}-${dateOfBirth?.year}'
                       : 'Date of birth',
                   textAlign: TextAlign.center),
-              Container(
+              SizedBox(
                 height: MediaQuery.of(context).size.height * 0.03,
                 child: Image.asset(
                   'assets/icon/calendar_icon.png',
@@ -210,7 +231,8 @@ class _EditInformationFormState extends State<EditInformationForm> {
 
   Widget dropdownGender() {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.02),
+      padding: EdgeInsets.symmetric(
+          vertical: MediaQuery.of(context).size.height * 0.02),
       child: DropdownButtonFormField<int>(
         value: _selectedGender,
         onChanged: (value) => setState(() => _selectedGender = value),

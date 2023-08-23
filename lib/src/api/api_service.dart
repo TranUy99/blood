@@ -91,7 +91,7 @@ abstract class ApiService {
 
   //Verify whether the OTP matches the one sent to the email
   @GET('/user/active-otp')
-  Future<ActiveOTPResponse> activeOTP(@Query('activeOTP') String activeOTP);
+  Future<HttpResponse> activeOTP(@Query('activeOTP') String activeOTP);
 
   //Call Api to change password
   @PUT('/user/change-password-by-token')

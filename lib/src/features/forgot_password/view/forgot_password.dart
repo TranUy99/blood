@@ -61,6 +61,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   child:
                       Text('Forgot password'.toUpperCase(), style: titleText)),
               isSendEmail ? verifiedOTPPage() : sendEmailPage(),
+
             ],
           ),
         ),
@@ -107,13 +108,22 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               padding: EdgeInsets.symmetric(
                   vertical: MediaQuery.of(context).size.height * 0.03),
               child: TextField(
+                maxLength: 32,
                 onChanged: (value) {
                   setState(() {
                     if (Validate.checkInvalidateNewPassword(value)) {
                       errorPassword = true;
                       errorTextPassword = textPasswordController.text.isEmpty
                           ? 'Please enter password'
-                          : 'Incorrect password';
+                          : (RegExp(r'^(?=.*[A-Z])(?=.*\d).+$')
+                                      .hasMatch(textPasswordController.text) ==
+                                  false)
+                              ? 'Please enter at least 1 uppercase letter and 1 number'
+                              : (RegExp(r'^.{8,32}$').hasMatch(
+                                          textPasswordController.text) ==
+                                      false)
+                                  ? 'Password length between 8 to 32'
+                                  : 'Incorrect password';
                     } else {
                       errorPassword = false;
                     }
