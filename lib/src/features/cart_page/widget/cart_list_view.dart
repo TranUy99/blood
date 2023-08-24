@@ -51,11 +51,15 @@ class _CartListViewState extends State<CartListView> {
                   children: [
                     ElevatedButton(onPressed: () {
 
-                    }, child: const Row(
-                      children: [
-                        Icon(Icons.close),
-                        Text('Clear cart'),
-                      ],
+                    }, child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.25,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Icon(Icons.cancel_rounded),
+                          Text('Clear cart'),
+                        ],
+                      ),
                     )),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01),
@@ -92,9 +96,10 @@ class _CartListViewState extends State<CartListView> {
   Widget cartItem(
       ProductDTO productDTO, ProductDetailCart productDetailCart, int index) {
     return Container(
-
+      margin: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.005),
       decoration: BoxDecoration(
-          border: Border.all(), borderRadius: BorderRadius.circular(10)),
+          border: Border.all(color: kDarkGreyColor),
+          borderRadius: BorderRadius.circular(10)),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
