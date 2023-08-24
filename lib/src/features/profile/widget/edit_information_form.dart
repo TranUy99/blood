@@ -9,6 +9,8 @@ import 'package:mobile_store/src/features/profile/view_model/change_information_
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../../constant/color/color.dart';
+
 // ignore: must_be_immutable
 class EditInformationForm extends StatefulWidget {
   String? fullName;

@@ -7,6 +7,7 @@ import 'package:mobile_store/src/features/cart_page/bloc/cart_state.dart';
 import 'package:mobile_store/src/features/cart_page/view_model/cart_view_model.dart';
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../main.dart';
 import '../../constant/color/color.dart';
@@ -83,7 +84,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                               child: AnimatedTextKit(
                                 animatedTexts: [
                                   TyperAnimatedText(
-                                    'Search...',
+                                    '${AppLocalizations.of(context)?.search}...',
                                     speed: const Duration(milliseconds: 200),
                                   ),
                                   TyperAnimatedText(
@@ -171,9 +172,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                     builder: (context) =>
                                         const NavigationHomePage()));
                           },
-                          child: const Text(
-                            'Log out',
-                            style: TextStyle(
+                          child: Text(
+                            '${AppLocalizations.of(context)?.logout}',
+                            style: const TextStyle(
                               color: kRedColor,
                               fontSize: 15,
                             ),

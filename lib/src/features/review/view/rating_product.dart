@@ -2,15 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile_store/main.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/features/cart_page/view_model/cart_view_model.dart';
-import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
-
-import '../../../core/model/product_detail_cart.dart';
 
 class RatingProduct extends StatefulWidget {
   final ProductDTO productDTO;
@@ -167,62 +161,14 @@ class _RatingProductState extends State<RatingProduct> {
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               onPressed: () async {
-                int? flag;
-                String? memory;
-                String? color;
-
-                if(successLoginState.onLoginState){
-                  if (selectedOption != '' && selectedColor != '') {
-                    for (int i = 0; i < getUser.cartBox!.length; i++) {
-                      ProductDetailCart product = getUser.cartBox?.getAt(i);
-                      if (widget.productDTO.id == product.productID &&
-                          selectedOption == product.memory &&
-                          selectedColor == product.color) {
-                        flag = i;
-                        memory = selectedOption;
-                        color = selectedColor;
-                      }
-                    }
-                    if (flag == null && memory == null && color == null) {
-                      getUser.cartBox?.add(ProductDetailCart(
-                          productID: widget.productDTO.id ?? 0,
-                          productQuantity: 1,
-                          memory: selectedOption,
-                          color: selectedColor, stock: widget.productDTO.stocks));
-                    } else {
-                      ProductDetailCart product =
-                          getUser.cartBox?.getAt(flag ?? 0);
-                      getUser.cartBox?.putAt(
-                          flag ?? 0,
-                          ProductDetailCart(
-                              productID: widget.productDTO.id ?? 0,
-                              productQuantity: product.productQuantity + 1,
-                              memory: product.memory,
-                              color: product.color, stock: widget.productDTO.stocks));
-                    }
-                    cartViewModel.streamLengthCartList();
-                    showTopSnackBar(
-                        Overlay.of(context),
-                        const CustomSnackBar.success(
-                            message: 'Add to cart successfully'));
-                  } else {
-                    showTopSnackBar(
-                        Overlay.of(context),
-                        const CustomSnackBar.error(
-                            message: 'Please choose memory or color option'));
-                  }
-                }else{
-                  showTopSnackBar(
-                      Overlay.of(context),
-                      const CustomSnackBar.error(
-                          message: 'You are not login yet'));
-                }
+                cartViewModel.addToCart(
+                    context, selectedOption, selectedColor, widget.productDTO);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: kGreenColor,
               ),
               child: Text(
-                AppLocalizations.of(context)!.buyNow.toUpperCase(),
+                AppLocalizations.of(context)!.addToCart.toUpperCase(),
                 style: const TextStyle(
                   color: kWhiteColor,
                   fontWeight: FontWeight.bold,

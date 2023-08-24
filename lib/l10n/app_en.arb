@@ -1,7 +1,7 @@
 {
   "homePage": "Home Page",
   "personalInformation": "Personal Information",
-  "news": "New" ,
+
   "clearCart": "Clear cart",
   "temporaryprice": "Temporary price",
   "discount": "Discount",
@@ -52,7 +52,7 @@
   "notification" : "Notification",
   "close": "Close",
   "seeMore": "See more",
-  "homePage": "Home Page",
+  "home": "Home",
   "personalInformation": "Personal Information",
   "fullName": "Full name",
   "phoneNumber": "Phone number",
@@ -71,6 +71,19 @@
   "agreeToTermAndConditions": "Agree to term and conditions",
   "dontAccount": "Don't have an account",
   "alreadyHaveAnAccount": "Already have an account",
-  "logout": "Log out"
-  
+  "logout": "Log out",
+  "noProductsAvailable": "No products available",
+  "error" : "Error",
+  "news": "New",
+  "m" : "m",
+  "over": "Over",
+  "under": "Under",
+  "manufacturer": "Manufacturer",
+  "priceRange": "Price Range",
+  "addToCart": "Add To Cart",
+  "notLoginYet": "Not Login Yet",
+  "search": "Search",
+  "office": "Office",
+  "save": "Save",
+  "close": "Close"
 }
