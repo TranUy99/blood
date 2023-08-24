@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/constant/utils/validate.dart';
@@ -10,6 +9,7 @@ import 'package:mobile_store/src/features/address/view_model/address_view_model.
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddAddressScreen extends StatefulWidget {
   const AddAddressScreen({super.key});
@@ -68,8 +68,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.005),
-                    child: const Text('DELIVERY ADDRESS',
-                        style: TextStyle(
+                    child: Text('${AppLocalizations.of(context)?.deliveryAdress.toUpperCase()}',
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -88,7 +88,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                           const SizedBox(
                             width: 6,
                           ),
-                          const Text('HOME'),
+                          Text('${AppLocalizations.of(context)?.home}'.toUpperCase()),
                         ],
                       ),
                       const SizedBox(width: 20),
@@ -101,7 +101,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                           const SizedBox(
                             width: 6,
                           ),
-                          const Text('OFFICE'),
+                          Text('${AppLocalizations.of(context)?.office}'.toUpperCase()),
                         ],
                       )
                     ],
@@ -383,7 +383,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(kGreenColor),
                       ),
-                      child: const Text('Save'),
+                      child: Text('${AppLocalizations.of(context)?.save}'),
                     ),
                     const SizedBox(width: 40),
                     ElevatedButton(
@@ -393,7 +393,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(kRedColor),
                       ),
-                      child: const Text('Close'),
+                      child: Text('${AppLocalizations.of(context)?.close}'),
                     ),
                   ]),
                 ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../component/primary_button.dart';
 import 'login.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotLogin extends StatefulWidget {
   const NotLogin({Key? key}) : super(key: key);
@@ -21,9 +22,9 @@ class _NotLoginState extends State<NotLogin> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
-            'Not login yet',
-            style: TextStyle(fontSize: 60),
+          Text(
+            '${AppLocalizations.of(context)?.notLoginYet}',
+            style: TextStyle(fontSize: 40),
           ),
           Padding(
             padding:
@@ -41,7 +42,7 @@ class _NotLoginState extends State<NotLogin> {
                       builder: (context) => const LogInScreen(),
                     ));
               },
-              child: const PrimaryButton(buttonText: 'Login')),
+              child: PrimaryButton(buttonText: '${AppLocalizations.of(context)?.logIn}')),
         ],
       ),
     );

@@ -47,18 +47,21 @@ class VerifiedEmailBloc {
     String? message;
     final activeOTPResult = VerifiedEmailService.activeOTPService(activeOTP);
     try {
-      await activeOTPResult.then((value) {
-        message = value.message;
 
-      });
+        message = await activeOTPResult;
+
+
     } catch (e) {
-      print('Failed to get data');
+      message = e.toString();
     }
 
-    if (message != null) {
+    print('message $message');
+
+    if (message == '200') {
       _verifiedEmailStateController.sink.add(SuccessVerifiedEmailState());
     } else {
-      _verifiedEmailStateController.sink.add(ErrorVerifiedEmailState('Failed to active OTP'));
+      _verifiedEmailStateController.sink
+          .add(ErrorVerifiedEmailState('Failed to active OTP'));
     }
   }
 

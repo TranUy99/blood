@@ -23,7 +23,7 @@ class AddressService {
       final List<dynamic> results = json['results'];
       final List<Province> provinces =
           results.map<Province>((province) => Province.fromJson(province)).toList();
-
+      print("$provinces");
       return provinces;
     } catch (e) {
       return [];

@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:mobile_store/src/core/remote/response/product_filter_response/category_filter_response.dart';
 import 'package:mobile_store/src/features/category/view_model/category_view_model.dart';
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../constant/api_outside/api_image.dart';
 import '../../../constant/color/color.dart';
@@ -34,13 +35,14 @@ class _CategoryScreenState extends State<CategoryScreen> {
       CustomPopupMenuController();
   CustomPopupMenuController pricePopupMenuController =
       CustomPopupMenuController();
-  List<String> priceRange = [
-    'Under 5Tr',
-    '5Tr - 10Tr',
-    '10Tr - 20Tr',
-    '20Tr - 30Tr',
-    'Over 30Tr'
+  List<String> priceRange(BuildContext context) => [
+    '${AppLocalizations.of(context)?.under} 5${AppLocalizations.of(context)?.m}',
+    '5${AppLocalizations.of(context)?.m} - 10${AppLocalizations.of(context)?.m}',
+    '10${AppLocalizations.of(context)?.m} - 20${AppLocalizations.of(context)?.m}',
+    '20${AppLocalizations.of(context)?.m} - 30${AppLocalizations.of(context)?.m}',
+    '${AppLocalizations.of(context)?.over} 30${AppLocalizations.of(context)?.m}'
   ];
+
   List<ProductFilter> products = [];
   int currentPage = 0;
   int no = 0;
@@ -52,6 +54,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   int? manufacturerId;
   int? priceFilterIndex;
   final textCurrency = NumberFormat("#,###.###", "en_US");
+  bool isLoad = true;
 
   @override
   void initState() {
@@ -82,7 +85,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   _getDataProduct(int categoryId, int page) async {
     categoryFilterResponse = await categoryViewModel.categoryFilterViewModel(
-        manufacturerId, widget.categoryID, lowerPrice, higherPrice, page, 4);
+        manufacturerId, widget.categoryID, lowerPrice, higherPrice, page, limit);
     products += await categoryFilterResponse?.contents ?? [];
     print(categoryFilterResponse?.contents?.length);
   }
@@ -113,14 +116,14 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   horizontal: MediaQuery.of(context).size.width * 0.02),
               child: Row(
                 children: [
-                  productFilter(manufacturerName ?? 'Manufacturer', 0.4,
+                  productFilterBar(manufacturerName ?? '${AppLocalizations.of(context)?.manufacturer}',
                       manufacturerMenuItems, manufacturerPopupMenuController),
                   SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                  productFilter(
+                  productFilterBar(
                       (priceFilterIndex == null)
-                          ? 'Price'
-                          : priceRange[priceFilterIndex!],
-                      0.4,
+                          ? '${AppLocalizations.of(context)?.priceRange}'
+                          : priceRange(context)[priceFilterIndex!],
+
                       priceMenuItems,
                       pricePopupMenuController)
                 ],
@@ -130,12 +133,17 @@ class _CategoryScreenState extends State<CategoryScreen> {
               future: categoryViewModel.categoryFilterViewModel(manufacturerId,
                   widget.categoryID, lowerPrice, higherPrice, currentPage, limit),
               builder: (context, snapshot) {
-                if (snapshot.hasError) {
+                isLoad = false;
+                if (snapshot.connectionState == ConnectionState.waiting && isLoad) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else if (snapshot.hasData) {
                   return productFilterDisplay();
                 } else {
-                  return const Text('No product available');
+                  return Text('${AppLocalizations.of(context)?.noProductsAvailable}');
                 }
               },
             ),
@@ -226,9 +234,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
     );
   }
 
-  Widget productFilter(
+  Widget productFilterBar(
       String title,
-      double sizeWidth,
       Widget Function() menuItem,
       CustomPopupMenuController customPopupMenuController) {
     return CustomPopupMenu(
@@ -240,13 +247,17 @@ class _CategoryScreenState extends State<CategoryScreen> {
         pressType: PressType.singleClick,
         child: Container(
           height: MediaQuery.of(context).size.height * 0.04,
-          width: MediaQuery.of(context).size.width * sizeWidth,
+
           decoration: BoxDecoration(
               border: Border.all(), borderRadius: BorderRadius.circular(5)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text(title),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.02),
+                child: Text(title,),
+              ),
               const Icon(Icons.arrow_drop_down_outlined),
             ],
           ),
@@ -329,7 +340,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
           mainAxisSpacing: MediaQuery.of(context).size.height * 0.01,
         ),
         shrinkWrap: true,
-        itemCount: priceRange.length,
+        itemCount: priceRange(context).length,
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
@@ -400,7 +411,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 borderRadius: BorderRadius.circular(5),
               ),
               child: Center(
-                child: Text(priceRange[index]),
+                child: Text(priceRange(context)[index]),
               ),
             ),
           );

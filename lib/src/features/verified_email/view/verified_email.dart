@@ -27,17 +27,14 @@ class _VerifiedEmailState extends State<VerifiedEmail> {
   bool resentEmail = false;
 
   _sendEmail() async {
-    try{
+    try {
       String? email = getUser.email;
       bool isSend = await verifiedEmailViewModel.sendEmail(email!);
-     if( isSend  == false){
-       showTopSnackBar(
-           Overlay.of(context),
-           const CustomSnackBar.error(
-               message: 'Can not send OTP'));
-     }
-
-    }catch(e){
+      if (isSend == false) {
+        showTopSnackBar(Overlay.of(context),
+            const CustomSnackBar.error(message: 'Can not send OTP'));
+      }
+    } catch (e) {
       print('Send email error: $e');
     }
   }
@@ -51,7 +48,8 @@ class _VerifiedEmailState extends State<VerifiedEmail> {
 
   @override
   Widget build(BuildContext context) {
-    CountdownController countdownController = CountdownController(autoStart: true);
+    CountdownController countdownController =
+        CountdownController(autoStart: true);
 
     return Scaffold(
       body: SafeArea(
@@ -68,8 +66,8 @@ class _VerifiedEmailState extends State<VerifiedEmail> {
                         Text('Verified Email'.toUpperCase(), style: titleText)),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                      vertical: MediaQuery.of(context).size.height * 0.05,
-                      horizontal: MediaQuery.of(context).size.width * 0.25),
+                    vertical: MediaQuery.of(context).size.height * 0.05,
+                  ),
                   child: TextField(
                     textAlign: TextAlign.center,
                     maxLength: 4,

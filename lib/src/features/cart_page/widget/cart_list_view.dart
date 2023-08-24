@@ -43,17 +43,53 @@ class _CartListViewState extends State<CartListView> {
           if (snapshot.hasData) {
             isReload = false;
             if (snapshot.data!.isNotEmpty) {
-              return ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: getUser.cartBox?.length,
-                itemBuilder: (context, index) {
-                  ProductDetailCart productDetailCart =
-                      getUser.cartBox?.getAt(index);
-                  ProductDTO productDTO = snapshot.data![index];
+              return Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.02, vertical: MediaQuery.of(context).size.height * 0.02),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                        onPressed: () async {
+                          getUser.cartBox?.deleteAll(getUser.cartBox!.keys);
+                          setState(() {});
+                          await cartViewModel.streamLengthCartList();
+                          await cartViewModel.streamPriceCartList();
+                          showTopSnackBar(
+                              Overlay.of(context),
+                              const CustomSnackBar.success(
+                                  message: 'Delete all items successfully'));
+                        },
+                        style: const ButtonStyle(
+                            backgroundColor:
+                                MaterialStatePropertyAll(kRedColor)),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.25,
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Icon(Icons.cancel_rounded),
+                              Text('Clear cart'),
+                            ],
+                          ),
+                        )),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: getUser.cartBox?.length,
+                        itemBuilder: (context, index) {
+                          ProductDetailCart productDetailCart =
+                              getUser.cartBox?.getAt(index);
+                          ProductDTO productDTO = snapshot.data![index];
 
-                  return cartItem(productDTO, productDetailCart, index);
-                },
+                          return cartItem(productDTO, productDetailCart, index);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               );
             } else {
               return SizedBox(
@@ -72,9 +108,10 @@ class _CartListViewState extends State<CartListView> {
   Widget cartItem(
       ProductDTO productDTO, ProductDetailCart productDetailCart, int index) {
     return Container(
-      margin: const EdgeInsets.all(10),
+      margin: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.005),
       decoration: BoxDecoration(
-          border: Border.all(), borderRadius: BorderRadius.circular(10)),
+          border: Border.all(color: kDarkGreyColor),
+          borderRadius: BorderRadius.circular(10)),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -132,6 +169,15 @@ class _CartListViewState extends State<CartListView> {
                           setState(() {});
                           await cartViewModel.streamLengthCartList();
                           await cartViewModel.streamPriceCartList();
+                        } else{
+                          getUser.cartBox?.deleteAt(index);
+                          setState(() {});
+                          await cartViewModel.streamLengthCartList();
+                          await cartViewModel.streamPriceCartList();
+                          showTopSnackBar(
+                              Overlay.of(context),
+                              const CustomSnackBar.success(
+                                  message: 'Delete item successfully'));
                         }
                       },
                       child: Container(
@@ -193,7 +239,7 @@ class _CartListViewState extends State<CartListView> {
                               const CustomSnackBar.success(
                                   message: 'Delete item successfully'));
                         },
-                        icon: const Icon(Icons.delete))
+                        icon: const Icon(Icons.delete, color: kRedColor,))
                   ],
                 )
               ],

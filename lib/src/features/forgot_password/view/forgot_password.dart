@@ -25,12 +25,16 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController textEmailController = TextEditingController();
   final TextEditingController textOTPController = TextEditingController();
   final TextEditingController textPasswordController = TextEditingController();
+  final TextEditingController textRePasswordController =
+      TextEditingController();
   bool errorSendEmail = false;
   String errorTextSendEmail = '';
   bool errorOTP = false;
   String errorTextOTP = '';
   bool errorPassword = false;
   String errorTextPassword = '';
+  bool errorRePassword = false;
+  String errorTextRePassword = '';
   String email = '';
 
   _sendEmail(String emailSent, String errorMessage) async {
@@ -47,21 +51,33 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    textPasswordController.dispose();
+    textOTPController.dispose();
+    textEmailController.dispose();
+    textRePasswordController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.05),
-          child: Column(
-            children: [
-              Padding(
-                  padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.04),
-                  child:
-                      Text('Forgot password'.toUpperCase(), style: titleText)),
-              isSendEmail ? verifiedOTPPage() : sendEmailPage(),
-            ],
+        child: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.05),
+            child: Column(
+              children: [
+                Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: MediaQuery.of(context).size.height * 0.05),
+                    child: Text('Forgot password'.toUpperCase(),
+                        style: titleText)),
+                isSendEmail ? verifiedOTPPage() : sendEmailPage(),
+              ],
+            ),
           ),
         ),
       ),
@@ -77,9 +93,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           children: [
             Padding(
               padding: EdgeInsets.symmetric(
-                  vertical: MediaQuery.of(context).size.height * 0.03,
-                  horizontal: MediaQuery.of(context).size.width * 0.25),
+                  vertical: MediaQuery.of(context).size.height * 0.02),
               child: TextField(
+                cursorColor: kGreenColor,
                 textAlign: TextAlign.center,
                 maxLength: 4,
                 onChanged: (value) {
@@ -92,28 +108,36 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     }
                   });
                 },
-                style: const TextStyle(fontSize: 25),
                 controller: textOTPController,
                 decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
                   errorText: errorOTP ? errorTextOTP : null,
                   hintText: 'OTP number',
-                  hintStyle: const TextStyle(color: kTextFieldColor),
-                  focusedBorder: const UnderlineInputBorder(
+                  focusedBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: kGreenColor)),
                 ),
               ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
-                  vertical: MediaQuery.of(context).size.height * 0.03),
+                  vertical: MediaQuery.of(context).size.height * 0.02),
               child: TextField(
+                maxLength: 32,
                 onChanged: (value) {
                   setState(() {
                     if (Validate.checkInvalidateNewPassword(value)) {
                       errorPassword = true;
                       errorTextPassword = textPasswordController.text.isEmpty
                           ? 'Please enter password'
-                          : 'Incorrect password';
+                          : (RegExp(r'^(?=.*[A-Z])(?=.*\d).+$')
+                                      .hasMatch(textPasswordController.text) ==
+                                  false)
+                              ? 'Please enter at least 1 uppercase letter and 1 number'
+                              : (RegExp(r'^.{8,32}$').hasMatch(
+                                          textPasswordController.text) ==
+                                      false)
+                                  ? 'Password length between 8 to 32'
+                                  : 'Incorrect password';
                     } else {
                       errorPassword = false;
                     }
@@ -124,12 +148,38 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 decoration: InputDecoration(
                     errorText: errorPassword ? errorTextPassword : null,
                     hintText: 'Password',
-                    hintStyle: const TextStyle(color: kTextFieldColor),
-                    focusedBorder: const UnderlineInputBorder(
+                    focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: kGreenColor)),
+                    border: const OutlineInputBorder(),
                     suffixIcon: obscureChange()),
               ),
-            )
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  vertical: MediaQuery.of(context).size.height * 0.02),
+              child: TextField(
+                obscureText: obscure,
+                controller: textRePasswordController,
+                onChanged: (value) {
+                  if (value == textPasswordController.text) {
+                    errorRePassword = false;
+                  } else {
+                    errorTextRePassword = textRePasswordController.text.isEmpty
+                        ? 'Please enter password again'
+                        : 'Password does not match';
+                    errorRePassword = true;
+                  }
+                  setState(() {});
+                },
+                decoration: InputDecoration(
+                    errorText: errorRePassword ? errorTextRePassword : null,
+                    hintText: 'Re-enter Password',
+                    focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: kGreenColor)),
+                    border: const OutlineInputBorder(),
+                    suffixIcon: obscureChange()),
+              ),
+            ),
           ],
         ),
         resentEmail
@@ -143,7 +193,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     });
                     countdownController.restart();
                   },
-                  child: const Text('Press here'),
+                  child: const Text('Press here',
+                      style: TextStyle(color: kGreenColor)),
                 )
               ])
             : Countdown(
@@ -163,15 +214,24 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
           child: InkWell(
             onTap: () async {
-              bool isChange =
-                  await _forgotPasswordViewModel.forgotPasswordViewModel(
-                      textOTPController.text, textPasswordController.text);
-              if (isChange) {
-                showTopSnackBar(
-                    Overlay.of(context),
-                    const CustomSnackBar.success(
-                        message: 'Change password successfully'));
-                Navigator.pop(context);
+              if (errorOTP == false &&
+                  errorPassword == false &&
+                  errorRePassword == false) {
+                bool isChange =
+                    await _forgotPasswordViewModel.forgotPasswordViewModel(
+                        textOTPController.text, textPasswordController.text);
+                if (isChange) {
+                  showTopSnackBar(
+                      Overlay.of(context),
+                      const CustomSnackBar.success(
+                          message: 'Change password successfully'));
+                  Navigator.pop(context);
+                } else {
+                  showTopSnackBar(
+                      Overlay.of(context),
+                      const CustomSnackBar.error(
+                          message: 'Change password failed'));
+                }
               } else {
                 showTopSnackBar(
                     Overlay.of(context),
@@ -200,7 +260,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     errorSendEmail = true;
                     errorTextSendEmail = (textEmailController.text == '')
                         ? 'Enter your email'
-                        : 'Incorrect email';
+                        : 'Wrong email';
                   });
                   print(errorTextSendEmail);
                 } else {
