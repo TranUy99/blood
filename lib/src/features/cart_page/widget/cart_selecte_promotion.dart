@@ -10,6 +10,8 @@ import '../../promotion/view_model/promotion_view_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../bloc/cart_bloc.dart';
+import '../bloc/cart_state.dart';
+import '../view/cart_page.dart';
 import '../view_model/cart_view_model.dart';
 
 class SelectedPromotionCard extends StatefulWidget {
@@ -27,13 +29,12 @@ class _SelectedPromotionCardState extends State<SelectedPromotionCard> {
   int currentPage = 0;
   int limit = 2;
   bool isLoading = false;
-  double price = 0;
+
   final textCurrency = NumberFormat("#,###.###", "en_US");
   @override
   void initState() {
     super.initState();
     _loadPromotionData();
-    _fetchTotalPrice();
   }
 
   void _deleteSelectedPromotion() {
@@ -49,13 +50,6 @@ class _SelectedPromotionCardState extends State<SelectedPromotionCard> {
         promotionList = response.contents!;
       });
     }
-  }
-
-  Future<void> _fetchTotalPrice() async {
-    final double total = await cartViewModel.totalPay();
-    setState(() {
-      price = total;
-    });
   }
 
   @override
@@ -79,63 +73,86 @@ class _SelectedPromotionCardState extends State<SelectedPromotionCard> {
           padding: const EdgeInsets.only(left: 25),
           child: BlocBuilder<SelectedPromotionCubit, int>(
             builder: (context, selectedPromotionId) {
-              final eligiblePromotions =
-                  promotionList.where((promotion) => promotion.totalPurchaseDTO! < price).toList();
-
-              return Row(
-                children: [
-                  DropdownButtonHideUnderline(
-                    child: DropdownButton<int>(
-                      menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
-                      hint: const Text("Promotion"),
-                      value: selectedPromotionId == 0 ? promotion?.id : selectedPromotionId,
-                      onChanged: (value) {
-                        if (value == 0) {
-                          _deleteSelectedPromotion();
-                        } else {
-                          promotion =
-                              eligiblePromotions.firstWhere((promotion) => promotion.id == value);
-                          context.read<SelectedPromotionCubit>().setSelectedPromotionIndex(value!);
-                        }
-                      },
-                      items: eligiblePromotions
-                          .map(
-                            (promotion) => DropdownMenuItem<int>(
-                              value: promotion.id,
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.65,
-                                child: Row(
-                                  children: [
-                                    HexagonPage(
-                                      height: MediaQuery.of(context).size.height * 0.07,
-                                      discount: promotion.discountDTO,
-                                    ),
-                                    Flexible(
-                                      child: Text(
-                                        '  discount upto${textCurrency.format(promotion.totalPurchaseDTO)} Vnd',
-                                        overflow: TextOverflow.ellipsis,
+              return FutureBuilder(
+                future: cartViewModel.totalPay(),
+                builder: (context, getData) {
+                  if (getData.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (getData.hasError) {
+                    return Text('Error: ${getData.error}');
+                  } else {
+                    return StreamBuilder<GetPriceCartState>(
+                      initialData: GetPriceCartState(getData.data!),
+                      stream: CartPage.cartBloc.getPriceStateController.stream,
+                      builder: (context, snapshot) {
+                        double? price = snapshot.data?.price;
+                        final eligiblePromotions = promotionList
+                            .where((promotion) => promotion.totalPurchaseDTO! < price!)
+                            .toList();
+                        return Row(
+                          children: [
+                            DropdownButtonHideUnderline(
+                              child: DropdownButton<int>(
+                                menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
+                                hint: const Text("Promotion"),
+                                value:
+                                    selectedPromotionId == 0 ? promotion?.id : selectedPromotionId,
+                                onChanged: (value) {
+                                  if (value == 0) {
+                                    _deleteSelectedPromotion();
+                                  } else {
+                                    promotion = eligiblePromotions
+                                        .firstWhere((promotion) => promotion.id == value);
+                                    context
+                                        .read<SelectedPromotionCubit>()
+                                        .setSelectedPromotionIndex(value!);
+                                  }
+                                },
+                                items: eligiblePromotions
+                                    .map(
+                                      (promotion) => DropdownMenuItem<int>(
+                                        value: promotion.id,
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context).size.width * 0.65,
+                                          child: Row(
+                                            children: [
+                                              HexagonPage(
+                                                height: MediaQuery.of(context).size.height * 0.07,
+                                                discount: promotion.discountDTO,
+                                              ),
+                                              Flexible(
+                                                child: Text(
+                                                  '  discount upto ${textCurrency.format(promotion.maxGetDTO)} Vnd',
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
+                                    )
+                                    .toList(),
                               ),
                             ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                  selectedPromotionId != 0
-                      ? IconButton(
-                          icon: const Icon(
-                            Icons.cancel_outlined,
-                            color: kRedColor,
-                          ),
-                          onPressed: () {
-                            _deleteSelectedPromotion();
-                          },
-                        )
-                      : Container()
-                ],
+                            selectedPromotionId != 0
+                                ? IconButton(
+                                    icon: const Icon(
+                                      Icons.cancel_outlined,
+                                      color: kRedColor,
+                                    ),
+                                    onPressed: () {
+                                      _deleteSelectedPromotion();
+                                    },
+                                  )
+                                : Container()
+                          ],
+                        );
+                      },
+                    );
+                  }
+                },
               );
             },
           ),

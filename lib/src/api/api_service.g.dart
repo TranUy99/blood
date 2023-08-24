@@ -141,7 +141,7 @@ class _ApiService implements ApiService {
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     var value =
         _result.data!.map((dynamic i) => ProductDTO.fromJson(i as Map<String, dynamic>)).toList();
-    log("api ${_result.statusCode}");
+
     return value;
   }
 
