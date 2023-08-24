@@ -49,18 +49,30 @@ class _CartListViewState extends State<CartListView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    ElevatedButton(onPressed: () {
-
-                    }, child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.25,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Icon(Icons.cancel_rounded),
-                          Text('Clear cart'),
-                        ],
-                      ),
-                    )),
+                    ElevatedButton(
+                        onPressed: () async {
+                          getUser.cartBox?.deleteAll(getUser.cartBox!.keys);
+                          setState(() {});
+                          await cartViewModel.streamLengthCartList();
+                          await cartViewModel.streamPriceCartList();
+                          showTopSnackBar(
+                              Overlay.of(context),
+                              const CustomSnackBar.success(
+                                  message: 'Delete all items successfully'));
+                        },
+                        style: const ButtonStyle(
+                            backgroundColor:
+                                MaterialStatePropertyAll(kRedColor)),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.25,
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Icon(Icons.cancel_rounded),
+                              Text('Clear cart'),
+                            ],
+                          ),
+                        )),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01),
                       child: ListView.builder(
