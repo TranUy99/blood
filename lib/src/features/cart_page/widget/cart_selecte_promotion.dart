@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import '../../../core/model/promotion.dart';
 import '../../profile/widget/hexagon_discount.dart';
@@ -7,6 +10,7 @@ import '../../promotion/view_model/promotion_view_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../bloc/cart_bloc.dart';
+import '../view_model/cart_view_model.dart';
 
 class SelectedPromotionCard extends StatefulWidget {
   SelectedPromotionCard({Key? key}) : super(key: key);
@@ -17,16 +21,25 @@ class SelectedPromotionCard extends StatefulWidget {
 
 class _SelectedPromotionCardState extends State<SelectedPromotionCard> {
   PromotionViewModel promotionViewModel = PromotionViewModel();
+  CartViewModel cartViewModel = CartViewModel();
   List<PromotionDTO> promotionList = [];
   PromotionDTO? promotion;
   int currentPage = 0;
   int limit = 2;
   bool isLoading = false;
-
+  double price = 0;
+  final textCurrency = NumberFormat("#,###.###", "en_US");
   @override
   void initState() {
     super.initState();
     _loadPromotionData();
+    _fetchTotalPrice();
+  }
+
+  void _deleteSelectedPromotion() {
+    context.read<SelectedPromotionCubit>().resetState();
+
+    promotion = null;
   }
 
   Future<void> _loadPromotionData() async {
@@ -38,10 +51,11 @@ class _SelectedPromotionCardState extends State<SelectedPromotionCard> {
     }
   }
 
-  void _deleteSelectedPromotion() {
-    context.read<SelectedPromotionCubit>().resetState();
-
-    promotion = null;
+  Future<void> _fetchTotalPrice() async {
+    final double total = await cartViewModel.totalPay();
+    setState(() {
+      price = total;
+    });
   }
 
   @override
@@ -50,50 +64,58 @@ class _SelectedPromotionCardState extends State<SelectedPromotionCard> {
   }
 
   Widget buildUI(BuildContext context) {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          AppLocalizations.of(context)!.discount.toUpperCase(),
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Text(
+            AppLocalizations.of(context)!.discount.toUpperCase(),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          ),
         ),
-        const SizedBox(width: 50),
-        BlocBuilder<SelectedPromotionCubit, int>(
-          builder: (context, selectedPromotionId) {
-            return Row(
-              children: [
-                SizedBox(
-                  height: 50,
-                  width: 200,
-                  child: DropdownButtonHideUnderline(
+        const SizedBox(height: 10),
+        Padding(
+          padding: const EdgeInsets.only(left: 25),
+          child: BlocBuilder<SelectedPromotionCubit, int>(
+            builder: (context, selectedPromotionId) {
+              final eligiblePromotions =
+                  promotionList.where((promotion) => promotion.totalPurchaseDTO! < price).toList();
+
+              return Row(
+                children: [
+                  DropdownButtonHideUnderline(
                     child: DropdownButton<int>(
                       menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
                       hint: const Text("Promotion"),
-                      value: selectedPromotionId == 0
-                          ? promotion?.id
-                          : selectedPromotionId, // Set initial value to promotion's id
+                      value: selectedPromotionId == 0 ? promotion?.id : selectedPromotionId,
                       onChanged: (value) {
                         if (value == 0) {
-                          // Xóa promotion đã chọn
                           _deleteSelectedPromotion();
                         } else {
                           promotion =
-                              promotionList.firstWhere((promotion) => promotion.id == value);
+                              eligiblePromotions.firstWhere((promotion) => promotion.id == value);
                           context.read<SelectedPromotionCubit>().setSelectedPromotionIndex(value!);
                         }
                       },
-                      items: promotionList
+                      items: eligiblePromotions
                           .map(
                             (promotion) => DropdownMenuItem<int>(
                               value: promotion.id,
                               child: SizedBox(
-                                width: 160,
+                                width: MediaQuery.of(context).size.width * 0.65,
                                 child: Row(
                                   children: [
                                     HexagonPage(
                                       height: MediaQuery.of(context).size.height * 0.07,
                                       discount: promotion.discountDTO,
                                     ),
-                                    const Text('  discount order'),
+                                    Flexible(
+                                      child: Text(
+                                        '  discount upto${textCurrency.format(promotion.totalPurchaseDTO)} Vnd',
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -102,24 +124,21 @@ class _SelectedPromotionCardState extends State<SelectedPromotionCard> {
                           .toList(),
                     ),
                   ),
-                ),
-                selectedPromotionId != 0
-                    ? IconButton(
-                        icon: const Icon(
-                          Icons.cancel_outlined,
-                          color: kRedColor,
-                        ),
-                        onPressed: () {
-                          // Gọi hàm để xóa promotion đã chọn ở đây
-                          _deleteSelectedPromotion();
-                        },
-                      )
-                    : SizedBox(
-                        height: 20,
-                      )
-              ],
-            );
-          },
+                  selectedPromotionId != 0
+                      ? IconButton(
+                          icon: const Icon(
+                            Icons.cancel_outlined,
+                            color: kRedColor,
+                          ),
+                          onPressed: () {
+                            _deleteSelectedPromotion();
+                          },
+                        )
+                      : Container()
+                ],
+              );
+            },
+          ),
         ),
       ],
     );

@@ -37,9 +37,13 @@ class _CartPageState extends State<CartPage> {
   List<OrderProductDTO> orderProductDTOList = [];
   CartViewModel cartViewModel = CartViewModel();
   final textCurrency = NumberFormat("#,###.###", "en_US");
+  double price = 0;
+
+
 
   @override
   Widget build(BuildContext context) {
+  
     return Scaffold(
       appBar: appBarWidget(context, false),
       body: SingleChildScrollView(
@@ -168,7 +172,7 @@ class _CartPageState extends State<CartPage> {
                   onPressed: () async {
                     final selectedAddressCubit = context.read<SelectedAddressCubit>();
                     final selectedAddressId = selectedAddressCubit.state;
-                  
+
                     orderProductDTOList = await cartViewModel.cartViewModel();
 
                     if (selectedAddressId == 0 ||

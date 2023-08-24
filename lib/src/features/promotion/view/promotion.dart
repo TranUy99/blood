@@ -16,7 +16,7 @@ class _PromotionState extends State<Promotion> {
   List<PromotionDTO> promotionList = [];
   PromotionResponse? promotionResponse;
   int currentPage = 0;
-  int limit = 7;
+  int limit = 8;
   bool isLoading = false;
 
   @override

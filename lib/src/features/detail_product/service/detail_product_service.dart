@@ -15,7 +15,7 @@ class DetailProductService {
 
   static Future<List<ProductDTO>> getRelatedProductService(int idProduct) async {
     List<ProductDTO> response = await ApiService(dio.Dio()).getRelatedProduct(idProduct, 6);
-    log("service $response");
+   
     return response;
   }
 }
