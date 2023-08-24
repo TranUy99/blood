@@ -58,7 +58,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
     final selectedPromotionId = selectedPromotionCubit.state;
     final selectedAddressCubit = context.read<SelectedAddressCubit>();
     final selectedAddressId = selectedAddressCubit.state;
-    log("checkout $selectedAddressId");
+   
     final promotionFuture = _promotionViewModel.getIdPromotion(selectedPromotionId);
     final addressFuture = _addressViewModel.getIdAddress(selectedAddressId);
     final cartFuture = _cartViewModel.cartViewModel();

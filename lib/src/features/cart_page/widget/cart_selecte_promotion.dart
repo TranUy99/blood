@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_store/src/constant/color/color.dart';
 import '../../../core/model/promotion.dart';
 import '../../profile/widget/hexagon_discount.dart';
 import '../../promotion/view_model/promotion_view_model.dart';
@@ -37,6 +38,12 @@ class _SelectedPromotionCardState extends State<SelectedPromotionCard> {
     }
   }
 
+  void _deleteSelectedPromotion() {
+    context.read<SelectedPromotionCubit>().resetState();
+
+    promotion = null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return buildUI(context);
@@ -52,46 +59,65 @@ class _SelectedPromotionCardState extends State<SelectedPromotionCard> {
         const SizedBox(width: 50),
         BlocBuilder<SelectedPromotionCubit, int>(
           builder: (context, selectedPromotionId) {
-            return SizedBox(
-              height: 50,
-              width: 220,
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<int>(
-                  menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
-                  hint: const Text("Promotion"),
-                  value: selectedPromotionId == 0
-                      ? promotion?.id
-                      : selectedPromotionId, // Set initial value to promotion's id
-                  onChanged: (value) {
-                    promotion = promotionList.firstWhere((promotion) => promotion.id == value);
-
-                    setState(() {
-                      context.read<SelectedPromotionCubit>().setSelectedPromotionIndex(value!);
-                    });
-                  },
-                  items: promotionList
-                      .map(
-                        (promotion) => DropdownMenuItem<int>(
-                          value: promotion.id,
-                          child: SizedBox(
-                            width: 190,
-                            child: Row(
-                              children: [
-                                HexagonPage(
-                                  height: MediaQuery.of(context).size.height * 0.07,
-                                  discount: promotion.discountDTO,
+            return Row(
+              children: [
+                SizedBox(
+                  height: 50,
+                  width: 200,
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<int>(
+                      menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
+                      hint: const Text("Promotion"),
+                      value: selectedPromotionId == 0
+                          ? promotion?.id
+                          : selectedPromotionId, // Set initial value to promotion's id
+                      onChanged: (value) {
+                        if (value == 0) {
+                          // Xóa promotion đã chọn
+                          _deleteSelectedPromotion();
+                        } else {
+                          promotion =
+                              promotionList.firstWhere((promotion) => promotion.id == value);
+                          context.read<SelectedPromotionCubit>().setSelectedPromotionIndex(value!);
+                        }
+                      },
+                      items: promotionList
+                          .map(
+                            (promotion) => DropdownMenuItem<int>(
+                              value: promotion.id,
+                              child: SizedBox(
+                                width: 160,
+                                child: Row(
+                                  children: [
+                                    HexagonPage(
+                                      height: MediaQuery.of(context).size.height * 0.07,
+                                      discount: promotion.discountDTO,
+                                    ),
+                                    const Text('  discount order'),
+                                  ],
                                 ),
-                                const Text(
-                                  '   discount for orders ',
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-                      )
-                      .toList(),
+                          )
+                          .toList(),
+                    ),
+                  ),
                 ),
-              ),
+                selectedPromotionId != 0
+                    ? IconButton(
+                        icon: const Icon(
+                          Icons.cancel_outlined,
+                          color: kRedColor,
+                        ),
+                        onPressed: () {
+                          // Gọi hàm để xóa promotion đã chọn ở đây
+                          _deleteSelectedPromotion();
+                        },
+                      )
+                    : SizedBox(
+                        height: 20,
+                      )
+              ],
             );
           },
         ),
