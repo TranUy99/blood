@@ -1,10 +1,12 @@
-import 'dart:developer';
 
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/features/detail_product/view/detail_product_screen.dart';
 import 'package:mobile_store/src/features/home_page/bloc/product_bloc.dart';
+import '../../../constant/api_outside/api_image.dart';
 import '../view_model/detail_product_view_model.dart';
 
 class AnotherProduct extends StatefulWidget {
@@ -41,7 +43,7 @@ class _AnotherProductState extends State<AnotherProduct> {
             child: CircularProgressIndicator(),
           );
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return Container();
         } else {
           if (snapshot.hasData) {
             products = snapshot.data!;
@@ -56,6 +58,7 @@ class _AnotherProductState extends State<AnotherProduct> {
   }
 
   Widget buildUI(BuildContext context) {
+  
     return Column(
       children: [
         SizedBox(
@@ -92,13 +95,14 @@ class _AnotherProductState extends State<AnotherProduct> {
                         decoration: BoxDecoration(border: Border.all()),
                         child: Column(
                           children: [
-                            // SizedBox(
-                            //   height: MediaQuery.of(context).size.height * 0.25,
-                            //   child: Image(
-                            //     image: AssetImage(product.imageDTOs!.name!),
-                            //     height: 20,
-                            //   ),
-                            // ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.25,
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    ApiImage().generateImageUrl('${product.imageDTOs![0].name}'),
+                                height: 20,
+                              ),
+                            ),
                             Column(
                               children: [
                                 Text('${product.name}',

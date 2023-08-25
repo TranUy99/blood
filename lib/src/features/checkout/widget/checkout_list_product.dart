@@ -95,7 +95,7 @@ class _CheckoutListViewState extends State<CheckoutList> {
                               ),
                             ),
                             Text(
-                              '${snapshot.data!.colorDTOs!.first.name}',
+                              '${productDetailCart.color}',
                               style: const TextStyle(
                                 fontSize: 14,
                                 color: kGreyColor,
@@ -128,13 +128,7 @@ class _CheckoutListViewState extends State<CheckoutList> {
           );
         },
       ),
-      // Text(
-      //   'Total Amount: ${NumberFormat('#,###.###').format(totalAmount)} VND',
-      //   style: const TextStyle(
-      //     fontSize: 18,
-      //     fontWeight: FontWeight.bold,
-      //   ),
-      // ),
+    
     ]);
   }
 }

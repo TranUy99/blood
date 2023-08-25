@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mobile_store/src/core/model/promotion.dart';
 import 'package:mobile_store/src/core/remote/response/promotion_response/promotion_response.dart';
 import 'package:mobile_store/src/features/profile/widget/hexagon_discount.dart';
@@ -18,7 +19,7 @@ class _PromotionState extends State<Promotion> {
   int currentPage = 0;
   int limit = 8;
   bool isLoading = false;
-
+  final formatPrice = NumberFormat("#,###.###", "en_US");
   @override
   void initState() {
     _loadData(currentPage);
@@ -76,17 +77,13 @@ class _PromotionState extends State<Promotion> {
                       ],
                     ),
                     title: Text(
-                      '${promotion.discountDTO}% discount for orders under ${promotion.totalPurchaseDTO}\$, for customers who bought ${promotion.maxGetDTO}\$ ',
+                      '${promotion.discountDTO}% discount for orders under ${formatPrice.format(promotion.totalPurchaseDTO)}\ VND, for customers who bought ${formatPrice.format(promotion.maxGetDTO)}\VND ',
                     ),
                   ),
                 );
               } else if (index == promotionList.length && isLoading) {
                 // Render loading indicator
-                return const Center(
-                  child: CircularProgressIndicator(
-                    strokeWidth: 1.5,
-                  ),
-                );
+                return const SizedBox();
               } else {
                 // Reached the end of the list
                 return const SizedBox();

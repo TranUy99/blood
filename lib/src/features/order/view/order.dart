@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -66,6 +68,9 @@ class _OrderState extends State<OrderView> {
             itemBuilder: (BuildContext context, int index) {
               if (index < orderList.length) {
                 final order = orderList[index];
+                DateTime dateTime = DateTime.parse(order.receiveDate!);
+                String formattedDate =
+                    "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
 
                 return Container(
                   padding:
@@ -92,13 +97,21 @@ class _OrderState extends State<OrderView> {
                             children: [
                               SizedBox(
                                 width: 200,
-                                child: Text(
-                                  "${order.productOrderDTO!.name} and 2 another product ",
-                                  style: const TextStyle(
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
+                                child: order.quantity != 0
+                                    ? Text(
+                                        "${order.productOrderDTO!.name} and ${order.quantity} another product ",
+                                        style: const TextStyle(
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )
+                                    : Text(
+                                        "${order.productOrderDTO!.name} product ",
+                                        style: const TextStyle(
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
                               ),
                               const SizedBox(
                                 height: 10,
@@ -116,7 +129,7 @@ class _OrderState extends State<OrderView> {
                                     ),
                                   ),
                                   Text(
-                                    '${order.receiveDate}',
+                                    formattedDate,
                                     style: const TextStyle(
                                       fontSize: 12.0,
                                       fontWeight: FontWeight.w300,

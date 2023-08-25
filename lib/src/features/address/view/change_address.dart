@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
-import 'package:mobile_store/src/constant/utils/validate.dart';
 import 'package:mobile_store/src/core/model/district.dart';
 import 'package:mobile_store/src/core/model/province.dart';
 import 'package:mobile_store/src/core/model/ward.dart';
@@ -9,7 +8,11 @@ import 'package:mobile_store/src/features/home_page/view/navigation_home_page.da
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:toggle_switch/toggle_switch.dart';
-import 'dart:developer';
+import '../widget/address_district.dart';
+import '../widget/address_form.dart';
+import '../widget/address_name_form.dart';
+import '../widget/address_province.dart';
+import '../widget/addresss_phone.dart';
 
 // ignore: must_be_immutable
 class ChangeAddressScreen extends StatefulWidget {
@@ -97,7 +100,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
 
   Future<void> _getDistricts(String provinceId) async {
     try {
-      if (provinceId != "" && provinceId!.isNotEmpty) {
+      if (provinceId != "" && provinceId.isNotEmpty) {
         List<District> districts = await _addressViewModel.getDistrict(provinceId);
         setState(() {
           districtList = districts;
@@ -166,31 +169,18 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
 
                   //get province
                   provinceList.isNotEmpty
-                      ? DropdownButton<String>(
-                          menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
-                          hint: const Text("Province"),
-                          value: selectedProvince?.province_name,
-                          onChanged: (name) {
+                      ? ProvinceForm(
+                          provinceList: provinceList,
+                          selectedProvince: selectedProvince,
+                          selectedDistrict: selectedDistrict,
+                          selectedWard: selectedWard,
+                          onProvinceChanged: (province) {
                             setState(() {
-                              selectedProvince = provinceList
-                                  .firstWhere((province) => province.province_name == name);
-                              selectedDistrict = null;
-                              selectedWard = null;
+                              selectedProvince = province;
+                              provinceName = province!.province_name!;
+                              provinceId = province.province_id!;
                             });
-
-                            if (selectedProvince != null && selectedProvince is Province) {
-                              setState(() {
-                                provinceName = selectedProvince?.province_name ?? "";
-                                provinceId = selectedProvince?.province_id;
-                              });
-                            }
                           },
-                          items: provinceList
-                              .map((province) => DropdownMenuItem(
-                                    value: province.province_name,
-                                    child: Text(province.province_name!),
-                                  ))
-                              .toList(),
                         )
                       : const Center(child: CircularProgressIndicator()),
 
@@ -199,48 +189,14 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                   //get district
                   provinceId == ""
                       ? const Text("Ban phai chon thanh pho")
-                      : FutureBuilder<List<District>>(
-                          future: _addressViewModel.getDistrict("$provinceId"),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              final List<District> districts = snapshot.data!;
-                              final List<String> districtNames = districts
-                                  .map((district) => district.district_name ?? "")
-                                  .toList();
-                              return DropdownButton<String>(
-                                menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
-                                hint: const Text("District"),
-                                value: selectedDistrict?.district_name,
-                                onChanged: (name) {
-                                  setState(() {
-                                    selectedDistrict = districts
-                                        .firstWhere((district) => district.district_name == name);
-                                    selectedWard = null;
-                                  });
-
-                                  if (selectedDistrict != null && selectedDistrict is District) {
-                                    setState(() {
-                                      districtName = selectedDistrict?.district_name ?? "";
-                                      districtId = selectedDistrict?.district_id;
-                                    });
-                                  }
-                                },
-                                items: districtNames
-                                    .map((name) => DropdownMenuItem(
-                                          value: name,
-                                          child: Text(name),
-                                        ))
-                                    .toList(),
-                              );
-                            } else if (snapshot.hasError) {
-                              return Center(child: Text("Error: ${snapshot.error}"));
-                            } else {
-                              return const Center(child: CircularProgressIndicator());
-                            }
+                      : DistrictForm(
+                          provinceId: provinceId,
+                          selectedDistrict: selectedDistrict,
+                          onDistrictChanged: (district) {
+                            // Xử lý khi người dùng thay đổi quận/huyện
+                            selectedDistrict = district;
                           },
                         ),
-
-
 
                   const SizedBox(height: 16.0),
 
@@ -306,90 +262,11 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                       });
                     },
                   ),
-                  TextFormField(
-                    controller: textAddressController,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      errorText: errorAddress ? errorAddressText : null,
-                      hintText: "Nhan dia chi cua ban",
-                      hintStyle: const TextStyle(color: kTextFieldColor),
-                      focusedBorder:
-                          const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        if (value.isEmpty) {
-                          errorAddress = true;
-                          errorAddressText = 'Địa chỉ không được để trống';
-                        } else if (value.startsWith(' ')) {
-                          errorAddress = true;
-                          errorAddressText = 'Không có dấu cách ở đầu';
-                        } else if (value.endsWith(' ')) {
-                          errorAddress = true;
-                          errorAddressText = 'Không có dấu cách cuối';
-                        } else {
-                          errorAddress = false;
-                          errorAddressText = '';
-                        }
-                      });
-                    },
+                  BuildAddressForm(textAddressController: textAddressController),
+                  BuildNameAddressForm(
+                    textNameController: textNameController,
                   ),
-                  TextFormField(
-                    controller: textNameController,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      errorText: errorName ? errorNameText : null,
-                      hintText: "Nhan tên người nhận",
-                      hintStyle: const TextStyle(color: kTextFieldColor),
-                      focusedBorder:
-                          const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        if (value.isEmpty || Validate.validName(value)) {
-                          errorName = true;
-                          errorNameText = value.isEmpty
-                              ? 'Tên không được để trống'
-                              : value.startsWith(' ')
-                                  ? 'Không có dấu cách ở đầu'
-                                  : value.endsWith(' ')
-                                      ? 'Không có dấu cách cuối'
-                                      : 'Không được nhập số hoặc ký tự đặc biệt';
-                        } else {
-                          errorName = false;
-                          errorNameText = '';
-                        }
-                      });
-                    },
-                  ),
-                  TextFormField(
-                    controller: textPhoneController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      errorText: errorPhone ? errorPhoneText : null,
-                      hintText: "Nhan so dien thoai cua ban",
-                      hintStyle: const TextStyle(color: kTextFieldColor),
-                      focusedBorder:
-                          const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        if (value.isEmpty || Validate.invalidateMobile(value)) {
-                          errorPhone = true;
-                          errorPhoneText = value.isEmpty
-                              ? 'Số điện thoại không được để trống'
-                              : value.startsWith(' ')
-                                  ? 'Không có dấu cách ở đầu'
-                                  : value.endsWith(' ')
-                                      ? 'Không có dấu cách cuối'
-                                      : 'Số điện thoại phải 10 số';
-                        } else {
-                          errorPhone = false;
-                          errorPhoneText = '';
-                        }
-                      });
-                    },
-                  ),
+                  BuildAddressPhoneForm(textPhoneController: textPhoneController),
 
                   const SizedBox(height: 16.0),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [

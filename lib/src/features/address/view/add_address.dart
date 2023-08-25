@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
-import 'package:mobile_store/src/constant/utils/validate.dart';
 import 'package:mobile_store/src/core/model/district.dart';
 import 'package:mobile_store/src/core/model/province.dart';
 import 'package:mobile_store/src/core/model/ward.dart';
 import 'package:mobile_store/src/features/address/view_model/address_view_model.dart';
-
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../widget/address_form.dart';
+import '../widget/address_name_form.dart';
+import '../widget/addresss_phone.dart';
 
 class AddAddressScreen extends StatefulWidget {
   const AddAddressScreen({super.key});
@@ -68,7 +69,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.005),
-                    child: Text('${AppLocalizations.of(context)?.deliveryAdress.toUpperCase()}',
+                    child: Text('${AppLocalizations.of(context)?.deliveryAddress.toUpperCase()}',
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 18,
@@ -122,7 +123,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
                         return DropdownButton<String>(
                           menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
-                          hint: Text("Province"),
+                          hint: const Text("Province"),
                           value: selectedProvince?.province_name,
                           onChanged: (name) {
                             setState(() {
@@ -214,7 +215,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
                               return DropdownButton<String>(
                                 menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
-                                hint: Text("Ward"),
+                                hint: const Text("Ward"),
                                 value: selectedWard?.ward_name,
                                 onChanged: (name) {
                                   setState(() {
@@ -244,90 +245,11 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         ),
                   const SizedBox(height: 16.0),
 
-                  TextFormField(
-                    controller: textAddressController,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      errorText: errorAddress ? errorAddressText : null,
-                      hintText: "Nhan dia chi cua ban",
-                      hintStyle: const TextStyle(color: kTextFieldColor),
-                      focusedBorder:
-                          const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        if (value.isEmpty) {
-                          errorAddress = true;
-                          errorAddressText = 'Địa chỉ không được để trống';
-                        } else if (value.startsWith(' ')) {
-                          errorAddress = true;
-                          errorAddressText = 'Không có dấu cách ở đầu';
-                        } else if (value.endsWith(' ')) {
-                          errorAddress = true;
-                          errorAddressText = 'Không có dấu cách cuối';
-                        } else {
-                          errorAddress = false;
-                          errorAddressText = '';
-                        }
-                      });
-                    },
+                  BuildAddressForm(textAddressController: textAddressController),
+                  BuildNameAddressForm(
+                    textNameController: textNameController,
                   ),
-                  TextFormField(
-                    controller: textNameController,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      errorText: errorName ? errorNameText : null,
-                      hintText: "Nhan tên người nhận",
-                      hintStyle: const TextStyle(color: kTextFieldColor),
-                      focusedBorder:
-                          const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        if (value.isEmpty || Validate.validName(value)) {
-                          errorName = true;
-                          errorNameText = value.isEmpty
-                              ? 'Tên không được để trống'
-                              : value.startsWith(' ')
-                                  ? 'Không có dấu cách ở đầu'
-                                  : value.endsWith(' ')
-                                      ? 'Không có dấu cách cuối'
-                                      : 'Không được nhập số hoặc ký tự đặc biệt';
-                        } else {
-                          errorName = false;
-                          errorNameText = '';
-                        }
-                      });
-                    },
-                  ),
-                  TextFormField(
-                    controller: textPhoneController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      errorText: errorPhone ? errorPhoneText : null,
-                      hintText: "Nhan so dien thoai cua ban",
-                      hintStyle: const TextStyle(color: kTextFieldColor),
-                      focusedBorder:
-                          const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        if (value.isEmpty || Validate.invalidateMobile(value)) {
-                          errorPhone = true;
-                          errorPhoneText = value.isEmpty
-                              ? 'Số điện thoại không được để trống'
-                              : value.startsWith(' ')
-                                  ? 'Không có dấu cách ở đầu'
-                                  : value.endsWith(' ')
-                                      ? 'Không có dấu cách cuối'
-                                      : 'Số điện thoại phải 10 số';
-                        } else {
-                          errorPhone = false;
-                          errorPhoneText = '';
-                        }
-                      });
-                    },
-                  ),
+                  BuildAddressPhoneForm(textPhoneController: textPhoneController),
 
                   const SizedBox(height: 16.0),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [

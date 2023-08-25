@@ -19,7 +19,6 @@ import '../../checkout/view/checkout_screen.dart';
 import '../bloc/cart_bloc.dart';
 import '../widget/cart_selecte_address.dart';
 import '../widget/cart_selecte_promotion.dart';
-import 'dart:developer';
 
 class CartPage extends StatefulWidget {
   const CartPage({Key? key}) : super(key: key);

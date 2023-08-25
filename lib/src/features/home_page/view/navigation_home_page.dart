@@ -5,9 +5,7 @@ import 'package:mobile_store/src/core/network/network_manager.dart';
 import 'package:mobile_store/src/features/cart_page/view/cart_page.dart';
 import 'package:mobile_store/src/features/home_page/view/home_page.dart';
 import 'package:mobile_store/src/features/profile/view/profile_page.dart';
-
 import '../../login/bloc/login_bloc.dart';
-import '../../login/view/login.dart';
 import '../../login/view/not_login.dart';
 
 class NavigationHomePage extends StatefulWidget {

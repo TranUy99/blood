@@ -152,6 +152,7 @@ class _ExtendedReviewState extends State<ExtendedReview> {
                           : Text('All review are shown'),
                     );
                   }
+                  return null;
                 },
                 itemCount: reviewList.length + 1,
                 shrinkWrap: true,
