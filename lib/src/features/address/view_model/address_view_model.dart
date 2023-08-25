@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:mobile_store/src/core/model/address.dart';
 import 'package:mobile_store/src/core/model/district.dart';
 import 'package:mobile_store/src/core/model/province.dart';
@@ -147,6 +146,7 @@ class AddressViewModel {
   //add event and listen change address state
   Future<bool?> changeAddress(String location, String type, String phoneReceiver,
       String nameReceiver, int? id, bool? defaults) async {
+   
     bool isChangeAddress = false;
 
     final createAddressEvent =
@@ -179,7 +179,7 @@ class AddressViewModel {
         isDeleteAddress = false;
       }
     });
- 
+
     return isDeleteAddress;
   }
 }

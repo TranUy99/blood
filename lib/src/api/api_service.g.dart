@@ -390,6 +390,7 @@ class _ApiService implements ApiService {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = AddressResponse.fromJson(_result.data!);
+    log("${_result.data}");
     return value;
   }
 

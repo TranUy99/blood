@@ -29,7 +29,7 @@ class DeliveryAddress extends StatelessWidget {
               ),
               const SizedBox(width: 8.0),
               Text(
-                AppLocalizations.of(context)!.deliveryAdress,
+                AppLocalizations.of(context)!.deliveryAddress,
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,

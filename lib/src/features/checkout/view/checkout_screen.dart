@@ -58,7 +58,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
     final selectedPromotionId = selectedPromotionCubit.state;
     final selectedAddressCubit = context.read<SelectedAddressCubit>();
     final selectedAddressId = selectedAddressCubit.state;
-   
+
     final promotionFuture = _promotionViewModel.getIdPromotion(selectedPromotionId);
     final addressFuture = _addressViewModel.getIdAddress(selectedAddressId);
     final cartFuture = _cartViewModel.cartViewModel();
@@ -91,6 +91,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
   }
 
   Widget buildUI(BuildContext context) {
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('dd-MM-yyyy').format(now);
     return Scaffold(
         appBar: appBarWidget(context, true),
         body: SingleChildScrollView(
@@ -132,13 +134,19 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       color: kGreyColor,
                     ),
                   ),
-                  Text(
-                    '${promotion.discountDTO ?? 0}%',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: kGreyColor,
-                    ),
-                  ),
+                  if (promotion.discountDTO != null)
+                    if ((totalAmount! * (promotion.discountDTO! * 0.01)) > promotion.maxGetDTO!)
+                      Text(
+                        "${NumberFormat('#,###.###').format(promotion.maxGetDTO!)} VND ",
+                      )
+                    else
+                      Text(
+                        '${promotion.discountDTO}%',
+                      )
+                  else
+                    const Text(
+                      '0%',
+                    )
                 ],
               ),
               const SizedBox(height: 10),
@@ -173,14 +181,24 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     ),
                   ),
                   if (promotion.discountDTO != null)
-                    Text(
-                      "${NumberFormat('#,###.###').format(totalAmount! - (totalAmount! * (promotion.discountDTO! * 0.01)))} VND ",
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: kRedColor,
-                      ),
-                    )
+                    if ((totalAmount! * (promotion.discountDTO! * 0.01)) > promotion.maxGetDTO!)
+                      Text(
+                        "${NumberFormat('#,###.###').format(totalAmount! - promotion.maxGetDTO!)} VND ",
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: kRedColor,
+                        ),
+                      )
+                    else
+                      Text(
+                        "${NumberFormat('#,###.###').format(totalAmount! - (totalAmount! * (promotion.discountDTO! * 0.01)))} VND ",
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: kRedColor,
+                        ),
+                      )
                   else
                     Text(
                       "${NumberFormat('#,###.###').format(totalAmount!)} VND ",
@@ -215,13 +233,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           onPressed: () async {
                             final createOrder = await _checkoutViewModel.checkout(
                                 idUser: getUser.idUser,
-                                idPromotion: promotion.id,
+                                idPromotion: promotion.id ?? 0,
                                 paymentMethodDTO: "$_paymentMethod",
                                 statusDTO: StatusDTO(id: 1, name: "Active"),
                                 orderProductDTOList: cartList,
                                 idAddress: address.id,
-                                receiveDate: "");
-                            getUser.cartBox!.deleteAll(getUser.cartBox!.keys);
+                                receiveDate: formattedDate);
+
                             if (createOrder == true) {
                               showTopSnackBar(
                                 Overlay.of(context),
@@ -237,6 +255,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                 indexScreen = 0;
                                 context.read<SelectedPromotionCubit>().resetState();
                                 context.read<SelectedAddressCubit>().resetState();
+                                getUser.cartBox!.deleteAll(getUser.cartBox!.keys);
                               });
                               Get.offAll(const NavigationHomePage());
                             } else {

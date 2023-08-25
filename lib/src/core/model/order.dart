@@ -19,9 +19,10 @@ class Order {
 
   @JsonKey(name: 'productOrderDTO')
   final OrderProductDTO? productOrderDTO;
-
+  @JsonKey(name: 'quantity')
+  final int? quantity;
   Order(
-      {this.id, this.total, this.productOrderDTO, this.receiveDate,
+      {this.id, this.total, this.productOrderDTO, this.receiveDate, this.quantity,
       this.statusDTO});
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
 

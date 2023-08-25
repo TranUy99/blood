@@ -214,6 +214,11 @@ class _CartListViewState extends State<CartListView> {
                           setState(() {});
                           await cartViewModel.streamLengthCartList();
                           await cartViewModel.streamPriceCartList();
+                        } else{
+                          showTopSnackBar(
+                              Overlay.of(context),
+                              const CustomSnackBar.info(
+                                  message: 'Maximum number of products'));
                         }
                       },
                       child: Container(

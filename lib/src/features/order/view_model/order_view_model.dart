@@ -1,8 +1,6 @@
 import 'dart:async';
-
 import 'package:mobile_store/src/core/model/order_detail.dart';
 import 'package:mobile_store/src/core/remote/response/order_response/order_response.dart';
-
 import '../bloc/order_bloc.dart';
 import '../bloc/order_event.dart';
 import '../bloc/order_state.dart';
@@ -11,6 +9,7 @@ class OrderViewModel {
   final OrderBloc _orderBloc = OrderBloc();
 
   Future<OrderResponse?> getOrder(int no, int limit) async {
+  
     OrderResponse? orderResponse;
     final orderEvent = GetOrderEvent(no, limit);
 
