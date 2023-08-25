@@ -85,5 +85,7 @@
   "search": "Search",
   "office": "Office",
   "save": "Save",
-  "close": "Close"
+  "close": "Close",
+  "changePassword": "Change password",
+  "province": "Province"
 }

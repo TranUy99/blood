@@ -84,5 +84,7 @@
   "search": "Tìm kiếm",
   "office": "Văn phòng",
   "save": "Lưu",
-   "close": "Đóng"
+   "close": "Đóng",
+   "changePassword": "Đổi mật khẩu",
+   "province": "Tỉnh/Thành phố"
 }

@@ -5,6 +5,7 @@ import 'package:mobile_store/src/constant/utils/validate.dart';
 import 'package:mobile_store/src/features/change_password/view_model/change_password_view_model.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({Key? key}) : super(key: key);
@@ -43,8 +44,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             children: [
               Padding(
                 padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
-                child: const Text('CHANGE PASSWORD',
-                    style: TextStyle(
+                child: Text('${AppLocalizations.of(context)?.changePassword}'.toUpperCase(),
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,

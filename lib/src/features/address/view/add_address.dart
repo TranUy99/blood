@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/constant/utils/validate.dart';
 import 'package:mobile_store/src/core/model/district.dart';
 import 'package:mobile_store/src/core/model/province.dart';
 import 'package:mobile_store/src/core/model/ward.dart';
 import 'package:mobile_store/src/features/address/view_model/address_view_model.dart';
-
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddAddressScreen extends StatefulWidget {
   const AddAddressScreen({super.key});
@@ -56,8 +55,10 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
       content: Builder(builder: (BuildContext context) {
         final double maxHeight = MediaQuery.of(context).size.height * 0.7;
         final viewInsets = MediaQuery.of(context).viewInsets;
-        final double availableHeight = MediaQuery.of(context).size.height - viewInsets.bottom;
-        final double contentHeight = availableHeight < maxHeight ? availableHeight : maxHeight;
+        final double availableHeight =
+            MediaQuery.of(context).size.height - viewInsets.bottom;
+        final double contentHeight =
+            availableHeight < maxHeight ? availableHeight : maxHeight;
         return SizedBox(
           height: contentHeight,
           child: SingleChildScrollView(
@@ -67,8 +68,10 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.005),
-                    child: Text('${AppLocalizations.of(context)?.deliveryAdress.toUpperCase()}',
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.005),
+                    child: Text(
+                        '${AppLocalizations.of(context)?.deliveryAdress.toUpperCase()}',
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 18,
@@ -88,7 +91,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                           const SizedBox(
                             width: 6,
                           ),
-                          Text('${AppLocalizations.of(context)?.home}'.toUpperCase()),
+                          Text('${AppLocalizations.of(context)?.home}'
+                              .toUpperCase()),
                         ],
                       ),
                       const SizedBox(width: 20),
@@ -101,7 +105,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                           const SizedBox(
                             width: 6,
                           ),
-                          Text('${AppLocalizations.of(context)?.office}'.toUpperCase()),
+                          Text('${AppLocalizations.of(context)?.office}'
+                              .toUpperCase()),
                         ],
                       )
                     ],
@@ -114,27 +119,33 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         final List<Province> provinces = snapshot.data!;
-                        final List<String> provinceNames =
-                            provinces.map((province) => province.province_name ?? "").toList();
+                        final List<String> provinceNames = provinces
+                            .map((province) => province.province_name ?? "")
+                            .toList();
 
                         // Remove duplicate entries using Set
-                        final uniqueProvinceNames = provinceNames.toSet().toList();
+                        final uniqueProvinceNames =
+                            provinceNames.toSet().toList();
 
                         return DropdownButton<String>(
-                          menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
-                          hint: Text("Province"),
+                          menuMaxHeight:
+                              MediaQuery.of(context).size.height * 0.5,
+                          hint:
+                              Text("${AppLocalizations.of(context)?.province}"),
                           value: selectedProvince?.province_name,
                           onChanged: (name) {
                             setState(() {
-                              selectedProvince = provinces
-                                  .firstWhere((province) => province.province_name == name);
+                              selectedProvince = provinces.firstWhere(
+                                  (province) => province.province_name == name);
                               selectedDistrict = null;
                               selectedWard = null;
                             });
 
-                            if (selectedProvince != null && selectedProvince is Province) {
+                            if (selectedProvince != null &&
+                                selectedProvince is Province) {
                               setState(() {
-                                newProvince = selectedProvince?.province_name ?? "";
+                                newProvince =
+                                    selectedProvince?.province_name ?? "";
                                 provinceId = selectedProvince?.province_id;
                               });
                             }
@@ -164,23 +175,29 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                             if (snapshot.hasData) {
                               final List<District> districts = snapshot.data!;
                               final List<String> districtNames = districts
-                                  .map((district) => district.district_name ?? "")
+                                  .map((district) =>
+                                      district.district_name ?? "")
                                   .toList();
                               return DropdownButton<String>(
-                                menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
+                                menuMaxHeight:
+                                    MediaQuery.of(context).size.height * 0.5,
                                 hint: Text("District"),
                                 value: selectedDistrict?.district_name,
                                 onChanged: (name) {
                                   setState(() {
-                                    selectedDistrict = districts
-                                        .firstWhere((district) => district.district_name == name);
+                                    selectedDistrict = districts.firstWhere(
+                                        (district) =>
+                                            district.district_name == name);
                                     selectedWard = null;
                                   });
 
-                                  if (selectedDistrict != null && selectedDistrict is District) {
+                                  if (selectedDistrict != null &&
+                                      selectedDistrict is District) {
                                     setState(() {
-                                      newDistrict = selectedDistrict?.district_name ?? "";
-                                      districtId = selectedDistrict?.district_id;
+                                      newDistrict =
+                                          selectedDistrict?.district_name ?? "";
+                                      districtId =
+                                          selectedDistrict?.district_id;
                                     });
                                   }
                                 },
@@ -192,9 +209,11 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                     .toList(),
                               );
                             } else if (snapshot.hasError) {
-                              return Center(child: Text("Error: ${snapshot.error}"));
+                              return Center(
+                                  child: Text("Error: ${snapshot.error}"));
                             } else {
-                              return const Center(child: CircularProgressIndicator());
+                              return const Center(
+                                  child: CircularProgressIndicator());
                             }
                           },
                         ),
@@ -209,20 +228,23 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               final List<Ward> wards = snapshot.data!;
-                              final List<String> wardNames =
-                                  wards.map((ward) => ward.ward_name ?? "").toList();
+                              final List<String> wardNames = wards
+                                  .map((ward) => ward.ward_name ?? "")
+                                  .toList();
 
                               return DropdownButton<String>(
-                                menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
+                                menuMaxHeight:
+                                    MediaQuery.of(context).size.height * 0.5,
                                 hint: Text("Ward"),
                                 value: selectedWard?.ward_name,
                                 onChanged: (name) {
                                   setState(() {
-                                    selectedWard =
-                                        wards.firstWhere((ward) => ward.ward_name == name);
+                                    selectedWard = wards.firstWhere(
+                                        (ward) => ward.ward_name == name);
                                   });
 
-                                  if (selectedWard != null && selectedWard is Ward) {
+                                  if (selectedWard != null &&
+                                      selectedWard is Ward) {
                                     setState(() {
                                       newWard = selectedWard?.ward_name ?? "";
                                     });
@@ -230,15 +252,15 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                 },
                                 items: wardNames
                                     .map((name) => DropdownMenuItem(
-                                          value: name,
-                                          child: Text(name),
-                                        ))
+                                        value: name, child: Text(name)))
                                     .toList(),
                               );
                             } else if (snapshot.hasError) {
-                              return Center(child: Text("Error: ${snapshot.error}"));
+                              return Center(
+                                  child: Text("Error: ${snapshot.error}"));
                             } else {
-                              return const Center(child: CircularProgressIndicator());
+                              return const Center(
+                                  child: CircularProgressIndicator());
                             }
                           },
                         ),
@@ -251,8 +273,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       errorText: errorAddress ? errorAddressText : null,
                       hintText: "Nhan dia chi cua ban",
                       hintStyle: const TextStyle(color: kTextFieldColor),
-                      focusedBorder:
-                          const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
+                      focusedBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(color: kGreenColor)),
                     ),
                     onChanged: (value) {
                       setState(() {
@@ -279,8 +301,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       errorText: errorName ? errorNameText : null,
                       hintText: "Nhan tên người nhận",
                       hintStyle: const TextStyle(color: kTextFieldColor),
-                      focusedBorder:
-                          const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
+                      focusedBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(color: kGreenColor)),
                     ),
                     onChanged: (value) {
                       setState(() {
@@ -307,8 +329,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       errorText: errorPhone ? errorPhoneText : null,
                       hintText: "Nhan so dien thoai cua ban",
                       hintStyle: const TextStyle(color: kTextFieldColor),
-                      focusedBorder:
-                          const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
+                      focusedBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(color: kGreenColor)),
                     ),
                     onChanged: (value) {
                       setState(() {
@@ -334,7 +356,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                     ElevatedButton(
                       onPressed: () async {
                         String addressHome = textAddressController.text;
-                        String address = ('$addressHome,$newWard ,$newDistrict ,$newProvince');
+                        String address =
+                            ('$addressHome,$newWard ,$newDistrict ,$newProvince');
                         String phone = textPhoneController.text;
                         String name = textNameController.text;
 
@@ -344,14 +367,15 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                             newDistrict!.isNotEmpty &&
                             phone.isNotEmpty &&
                             name.isNotEmpty) {
-                          final createAddress =
-                              await _addressViewModel.createAddress(address, "type", phone, name);
+                          final createAddress = await _addressViewModel
+                              .createAddress(address, "type", phone, name);
 
                           if (createAddress == true) {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const NavigationHomePage(),
+                                builder: (context) =>
+                                    const NavigationHomePage(),
                               ),
                             );
                             showTopSnackBar(
@@ -381,7 +405,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         }
                       },
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(kGreenColor),
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(kGreenColor),
                       ),
                       child: Text('${AppLocalizations.of(context)?.save}'),
                     ),
@@ -391,7 +416,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         Navigator.pop(context);
                       },
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(kRedColor),
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(kRedColor),
                       ),
                       child: Text('${AppLocalizations.of(context)?.close}'),
                     ),
