@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/src/core/model/district.dart';
 
 import '../view_model/address_view_model.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class DistrictForm extends StatefulWidget {
   String? provinceId;
   District? selectedDistrict;
@@ -32,7 +32,7 @@ class _DistrictDropdownState extends State<DistrictForm> {
               districts.map((district) => district.district_name ?? "").toList();
           return DropdownButton<String>(
             menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
-            hint: const Text("District"),
+            hint: Text('${AppLocalizations.of(context)?.district}'),
             value: widget.selectedDistrict?.district_name,
             onChanged: (name) {
               setState(() {

@@ -180,8 +180,8 @@ class _CartPageState extends State<CartPage> {
                       showTopSnackBar(
                         // ignore: use_build_context_synchronously
                         Overlay.of(context),
-                        const CustomSnackBar.error(
-                          message: 'Please fill in all fields',
+                         CustomSnackBar.error(
+                          message:'${AppLocalizations.of(context)?.pleaseEnterFullInformation} ',
                           backgroundColor: Colors.red,
                         ),
                       );
