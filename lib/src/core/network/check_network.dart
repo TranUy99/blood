@@ -9,7 +9,7 @@ class CheckNetwork {
   late final BuildContext context;
   checkInternetConnection() {
     if (_networkController.connectionType.value ==  "No Internet Connection") {
-      log("No Internet Connection");
+   
       Get.defaultDialog(
           title: AppLocalizations.of(context)!.notification,
           content:

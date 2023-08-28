@@ -111,8 +111,8 @@ class CartBloc {
 class SelectedPromotionCubit extends Cubit<int> {
   SelectedPromotionCubit() : super(0);
 
-  void setSelectedPromotionIndex(int index) {
-    emit(index);
+  void setSelectedPromotionIndex(int? index) {
+    emit(index!);
   }
 
   void resetState() {

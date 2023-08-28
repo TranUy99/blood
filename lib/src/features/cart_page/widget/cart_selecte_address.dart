@@ -30,6 +30,12 @@ class _SelectedAddressCartState extends State<SelectedAddressCart> {
         } else {
           if (snapshot.hasData) {
             addressList = snapshot.data!;
+            final defaultAddress = addressList.firstWhere(
+              (address) => address.defaults == true,
+            );
+
+           
+
             return Column(children: [
               buildUI(context),
             ]);
@@ -61,13 +67,13 @@ class _SelectedAddressCartState extends State<SelectedAddressCart> {
               itemBuilder: (context, index) {
                 final address = addressList[index];
                 return RadioListTile(
-                  value: addressList[index].id!,
+                  value: address.id!,
                   groupValue: selectedAddressId,
                   onChanged: (value) {
                     setState(() {
                       selectedAddressId = value!;
                     });
-                    context.read<SelectedAddressCubit>().setSelectedAddressIndex(value);
+                    context.read<SelectedAddressCubit>().setSelectedAddressIndex(address.id);
                   },
                   activeColor: kGreenColor,
                   title: RichText(
