@@ -19,7 +19,7 @@ class Address {
   final String? nameReceiver;
 
   @JsonKey(name: 'defaults')
-  final bool? defaults;
+  bool? defaults;
 
   Address(
       {this.defaults, this.location, this.nameReceiver, this.phoneReceiver, this.type, this.id});
