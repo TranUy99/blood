@@ -1,4 +1,5 @@
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/features/detail_product/bloc/detail_product_event.dart';
 import 'package:mobile_store/src/features/detail_product/bloc/detail_product_state.dart';
@@ -43,4 +44,10 @@ class DetailProductBloc {
   }
 
   void dispose() {}
+}
+
+class DetailProductCubit extends Cubit<DetailProductCubitState> {
+  DetailProductCubit() : super(DetailProductCubitState());
+
+  void reload() => emit(DetailProductCubitState());
 }

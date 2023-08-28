@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_store/src/core/remote/response/product_filter_response/category_filter_response.dart';
 import 'package:mobile_store/src/features/category/view_model/category_view_model.dart';
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../constant/api_outside/api_image.dart';
 import '../../../constant/color/color.dart';
@@ -63,8 +63,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
     _getDataManufacturer();
     _getDataProduct(widget.categoryID, currentPage);
     _scrollController.addListener(() {
-      if (_scrollController.offset ==
-          _scrollController.position.maxScrollExtent) {
+      if (_scrollController.position.maxScrollExtent ==
+          _scrollController.offset) {
         fetch();
       }
     });
@@ -75,6 +75,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
       try {
         setState(() {
           currentPage++;
+          isLoad = false;
           _getDataProduct(widget.categoryID, currentPage);
         });
       } catch (e) {
@@ -133,17 +134,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
               future: categoryViewModel.categoryFilterViewModel(manufacturerId,
                   widget.categoryID, lowerPrice, higherPrice, currentPage, limit),
               builder: (context, snapshot) {
-                isLoad = false;
                 if (snapshot.connectionState == ConnectionState.waiting && isLoad) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
+                  return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasData) {
-                  return productFilterDisplay();
+                  return productFilterGridViewDisplay();
                 } else {
-                  return Text('${AppLocalizations.of(context)?.noProductsAvailable}');
+                  return const Text('Not have any product');
                 }
               },
             ),
@@ -153,7 +149,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     );
   }
 
-  Widget productFilterDisplay() {
+  Widget productFilterGridViewDisplay() {
     return SizedBox(
       height: successLoginState.onLoginState
           ? MediaQuery.of(context).size.height * 0.65
@@ -161,74 +157,64 @@ class _CategoryScreenState extends State<CategoryScreen> {
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         controller: _scrollController,
-        child: Column(
-          children: [
-            GridView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio:
-                    MediaQuery.of(context).devicePixelRatio * 0.25,
-                crossAxisCount: 2,
-                crossAxisSpacing: 5.0,
-                mainAxisSpacing: 5.0,
+        child: GridView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            childAspectRatio:
+                MediaQuery.of(context).devicePixelRatio * 0.25,
+            crossAxisCount: 2,
+            crossAxisSpacing: 5.0,
+            mainAxisSpacing: 5.0,
+          ),
+          itemCount: products.length,
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            final product = products[index];
+            String logo = '${product.imageDTOs![0].name}';
+            return Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: kZambeziColor,
+                  width: 2.0,
+                ),
               ),
-              itemCount: products.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                final product = products[index];
-                String logo = '${product.imageDTOs![0].name}';
-                return Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: kZambeziColor,
-                      width: 2.0,
-                    ),
+              child: InkWell(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ProductDetailScreen(idProduct: product.id!),
                   ),
-                  child: InkWell(
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            ProductDetailScreen(idProduct: product.id!),
+                ),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      child: CachedNetworkImage(
+                        imageUrl: ApiImage().generateImageUrl(logo),
+                        height: 20,
                       ),
                     ),
-                    child: Column(
+                    Column(
                       children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.25,
-                          child: CachedNetworkImage(
-                            imageUrl: ApiImage().generateImageUrl(logo),
-                            height: 20,
-                          ),
-                        ),
-                        Column(
-                          children: [
-                            Text('${product.name}',
-                                style: const TextStyle(
-                                    fontSize: 20,
-                                    color: kRedColor,
-                                    fontFamily: 'sans-serif')),
-                            Text('${textCurrency.format(product.price)} đ',
-                                style: const TextStyle(
-                                    fontSize: 20,
-                                    color: kGreenColor,
-                                    fontFamily: 'sans-serif')),
-                          ],
-                        ),
+                        Text('${product.name}',
+                            style: const TextStyle(
+                                fontSize: 20,
+                                color: kRedColor,
+                                fontFamily: 'sans-serif')),
+                        Text('${textCurrency.format(product.price)} đ',
+                            style: const TextStyle(
+                                fontSize: 20,
+                                color: kGreenColor,
+                                fontFamily: 'sans-serif')),
                       ],
                     ),
-                  ),
-                );
-              },
-            ),
-            (currentPage < (categoryFilterResponse!.totalPages! - 1) &&
-                    products.length > 3)
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : const SizedBox.shrink(),
-          ],
+                  ],
+                ),
+              ),
+            );
+          },
         ),
       ),
     );

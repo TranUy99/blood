@@ -5,13 +5,13 @@ import 'package:get/get.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/remote/response/review_response/review_response.dart';
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
-import 'package:mobile_store/src/features/review/view_model/extended_review.dart';
+import 'package:mobile_store/src/features/review/widget/extended_review.dart';
 import 'package:mobile_store/src/features/review/view_model/review_view_model.dart';
-import 'package:mobile_store/src/features/review/view_model/review_written.dart';
+import 'package:mobile_store/src/features/review/widget/review_written.dart';
 
 import '../../../../main.dart';
 import '../../../core/model/review_dtos.dart';
-import '../view_model/edit_review.dart';
+import '../widget/edit_review.dart';
 
 class ReviewProduct extends StatefulWidget {
   const ReviewProduct({

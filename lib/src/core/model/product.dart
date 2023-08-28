@@ -35,6 +35,9 @@ class ProductDTO {
   @JsonKey(name: 'status')
   final bool? status;
 
+  @JsonKey(name: 'star')
+  final double? star;
+
   @JsonKey(name: 'views')
   final int? views;
 
@@ -66,6 +69,7 @@ class ProductDTO {
       this.memoryDTOs,
       this.seriDTOs,
       this.status,
+        this.star,
       this.stocks,
       this.views});
   factory ProductDTO.fromJson(Map<String, dynamic> json) => _$ProductDTOFromJson(json);

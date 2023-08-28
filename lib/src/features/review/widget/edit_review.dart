@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:mobile_store/src/features/detail_product/view/detail_product_screen.dart';
 import 'package:mobile_store/src/features/review/view_model/review_view_model.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../constant/color/color.dart';
+import '../../detail_product/bloc/detail_product_bloc.dart';
+import '../../detail_product/view_model/detail_product_view_model.dart';
 
 class EditReview extends StatefulWidget {
   const EditReview(
@@ -38,10 +42,9 @@ class _EditReviewState extends State<EditReview> {
   @override
   Widget build(BuildContext context) {
 
-
     return AlertDialog(
-      title: Text('Write your review'),
-      content: Container(
+      title: const Text('Write your review'),
+      content: SizedBox(
         width: MediaQuery.of(context).size.width * 0.7,
         height: MediaQuery.of(context).size.height * 0.3,
         child: Column(
@@ -92,6 +95,7 @@ class _EditReviewState extends State<EditReview> {
                             Overlay.of(context),
                             const CustomSnackBar.success(
                                 message: 'Edit review successful'));
+                        context.read<DetailProductCubit>().reload();
                         Navigator.pop(context);
                       } else {
                         showTopSnackBar(

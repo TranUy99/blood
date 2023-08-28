@@ -87,7 +87,7 @@ class _AnotherProductState extends State<AnotherProduct> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ProductDetailScreen(
-                            idProduct: product.id!,
+                            idProduct: product.id!
                           ),
                         ),
                       ),

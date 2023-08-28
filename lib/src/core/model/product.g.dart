@@ -35,6 +35,7 @@ ProductDTO _$ProductDTOFromJson(Map<String, dynamic> json) => ProductDTO(
           ?.map((e) => SeriDTOs.fromJson(e as Map<String, dynamic>))
           .toList(),
       status: json['status'] as bool?,
+      star: (json['star'] as num?)?.toDouble(),
       stocks: json['stocks'] as int?,
       views: json['views'] as int?,
     );
@@ -49,6 +50,7 @@ Map<String, dynamic> _$ProductDTOToJson(ProductDTO instance) =>
       'price': instance.price,
       'stocks': instance.stocks,
       'status': instance.status,
+      'star': instance.star,
       'views': instance.views,
       'productTechDTOs': instance.productTechDTOs,
       'seriDTOs': instance.seriDTOs,

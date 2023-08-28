@@ -27,6 +27,7 @@ class _ExtendedReviewState extends State<ExtendedReview> {
   int limit = 9;
   bool flag = true;
   final ScrollController _scrollController = ScrollController();
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -34,13 +35,20 @@ class _ExtendedReviewState extends State<ExtendedReview> {
     super.initState();
     _getReviewData(page);
     _scrollController.addListener(() {
-      if (page < (reviewResponse?.totalPages)! - 1) {
-        setState(() {
-          page++;
-        });
-        _getReviewData(page);
+      if(_scrollController.position.maxScrollExtent == _scrollController.offset){
+        _fetch();
       }
     });
+  }
+
+  _fetch() async {
+    if (page < (reviewResponse?.totalPages)!) {
+      setState(() {
+        page++;
+        isLoading = false;
+      });
+      _getReviewData(page);
+    }
   }
 
   _getReviewData(int currentPage) async {
@@ -62,10 +70,9 @@ class _ExtendedReviewState extends State<ExtendedReview> {
 
   Widget reviewListview() {
     return FutureBuilder(
-      future:
-          _reviewViewModel.getReviewViewModel(widget.productId, page, limit),
+      future: _reviewViewModel.getReviewViewModel(widget.productId, page, limit),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        if (snapshot.connectionState == ConnectionState.waiting && isLoading) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasData) {
           return Column(
@@ -146,11 +153,12 @@ class _ExtendedReviewState extends State<ExtendedReview> {
                       ),
                     );
                   } else {
-                    Center(
-                      child: (page < (reviewResponse?.totalPages)! - 1)
-                          ? CircularProgressIndicator()
-                          : Text('All review are shown'),
+                    return Center(
+                      child: (page < (reviewResponse?.totalPages)! )
+                          ? const CircularProgressIndicator()
+                          : const Text('All review are shown'),
                     );
+
                   }
                   return null;
                 },

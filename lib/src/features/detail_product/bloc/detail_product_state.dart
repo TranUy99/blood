@@ -34,3 +34,5 @@ class RelatedProductErrorState extends DetailProductState {
 
   RelatedProductErrorState(this.errorMessage);
 }
+
+class DetailProductCubitState {}

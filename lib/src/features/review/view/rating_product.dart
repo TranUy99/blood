@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/features/cart_page/view_model/cart_view_model.dart';
+
+import '../../detail_product/bloc/detail_product_bloc.dart';
+import '../../detail_product/view_model/detail_product_view_model.dart';
 
 class RatingProduct extends StatefulWidget {
   final ProductDTO productDTO;
@@ -18,7 +22,14 @@ class RatingProduct extends StatefulWidget {
 class _RatingProductState extends State<RatingProduct> {
   String selectedOption = '';
   String selectedColor = '';
+  DetailProductViewModel detailProductViewModel = DetailProductViewModel();
   CartViewModel cartViewModel = CartViewModel();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +46,10 @@ class _RatingProductState extends State<RatingProduct> {
                 fontSize: 16, color: kBlackColor, fontWeight: FontWeight.bold),
           ),
         ),
-
         //rating product
         RatingBar.builder(
           ignoreGestures: true,
-          initialRating: 3,
+          initialRating: widget.productDTO.star ?? 0.0,
           minRating: 1,
           direction: Axis.horizontal,
           allowHalfRating: true,

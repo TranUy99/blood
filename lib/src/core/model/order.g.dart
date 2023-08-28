@@ -14,10 +14,10 @@ Order _$OrderFromJson(Map<String, dynamic> json) => Order(
           : OrderProductDTO.fromJson(
               json['productOrderDTO'] as Map<String, dynamic>),
       receiveDate: json['receiveDate'] as String?,
+      quantity: json['quantity'] as int?,
       statusDTO: json['statusDTO'] == null
           ? null
           : StatusDTO.fromJson(json['statusDTO'] as Map<String, dynamic>),
-    quantity: json['quantity'] as int?
     );
 
 Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{

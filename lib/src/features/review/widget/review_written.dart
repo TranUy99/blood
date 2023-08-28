@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:mobile_store/src/features/review/view_model/review_view_model.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../constant/color/color.dart';
+import '../../detail_product/bloc/detail_product_bloc.dart';
 
 class ReviewWritten extends StatefulWidget {
   const ReviewWritten({Key? key, required this.productId}) : super(key: key);
@@ -81,6 +83,7 @@ class _ReviewWrittenState extends State<ReviewWritten> {
                             Overlay.of(context),
                             const CustomSnackBar.success(
                                 message: 'Thanks to review product'));
+                        context.read<DetailProductCubit>().reload();
                         Navigator.pop(context);
                       }else{
                         showTopSnackBar(
