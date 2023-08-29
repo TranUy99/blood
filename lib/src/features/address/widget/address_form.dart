@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../constant/color/color.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BuildAddressForm extends StatefulWidget {
   final TextEditingController textAddressController;
@@ -22,7 +23,7 @@ class _BuildAddressFormState extends State<BuildAddressForm> {
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
           errorText: errorAddress ? errorAddressText : null,
-          hintText: "Nhan dia chi cua ban",
+          hintText: '${AppLocalizations.of(context)?.enterYourAddress}',
           hintStyle: const TextStyle(color: kTextFieldColor),
           focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
         ),
@@ -30,17 +31,14 @@ class _BuildAddressFormState extends State<BuildAddressForm> {
           setState(() {
             if (value.isEmpty) {
               errorAddress = true;
-              errorAddressText = 'Địa chỉ không được để trống';
+              errorAddressText = '${AppLocalizations.of(context)?.addressCannotBeLeftBlank}';
             } else if (value.startsWith(' ')) {
               errorAddress = true;
-              errorAddressText = 'Không có dấu cách ở đầu';
+              errorAddressText = '${AppLocalizations.of(context)?.noSpacesAtTheBeginning}';
             } else if (value.endsWith(' ')) {
               errorAddress = true;
-              errorAddressText = 'Không có dấu cách cuối';
-            } else {
-              errorAddress = false;
-              errorAddressText = '';
-            }
+              errorAddressText = '${AppLocalizations.of(context)?.noSpacesAtTheEndOfSentences}';
+            } 
           });
         },
       ),

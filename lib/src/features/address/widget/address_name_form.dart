@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 
 import '../../../constant/utils/validate.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BuildNameAddressForm extends StatefulWidget {
   final TextEditingController textNameController;
@@ -28,7 +29,7 @@ class _BuildNameFormAddressState extends State<BuildNameAddressForm> {
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
           errorText: errorName ? errorNameText : null,
-          hintText: "Nhan tên người nhận",
+          hintText: '${AppLocalizations.of(context)?.enterTheRecipientName}',
           hintStyle: const TextStyle(color: kTextFieldColor),
           focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
         ),
@@ -37,12 +38,12 @@ class _BuildNameFormAddressState extends State<BuildNameAddressForm> {
             if (value.isEmpty || Validate.validName(value)) {
               errorName = true;
               errorNameText = value.isEmpty
-                  ? 'Tên không được để trống'
+                  ? '${AppLocalizations.of(context)?.nameCannotBeBlank}'
                   : value.startsWith(' ')
-                      ? 'Không có dấu cách ở đầu'
+                      ? '${AppLocalizations.of(context)?.noSpacesAtTheBeginning}'
                       : value.endsWith(' ')
-                          ? 'Không có dấu cách cuối'
-                          : 'Không được nhập số hoặc ký tự đặc biệt';
+                          ? '${AppLocalizations.of(context)?.noSpacesAtTheEndOfSentences}'
+                          : '${AppLocalizations.of(context)?.doNotEnterNumbersOrSpecialCharacters}';
             } else {
               errorName = false;
               errorNameText = '';

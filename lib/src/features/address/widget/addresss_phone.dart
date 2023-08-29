@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../constant/color/color.dart';
 import '../../../constant/utils/validate.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BuildAddressPhoneForm extends StatefulWidget {
   final TextEditingController textPhoneController;
@@ -23,7 +24,7 @@ class _BuildAddressPhoneFormState extends State<BuildAddressPhoneForm> {
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
           errorText: errorPhone ? errorPhoneText : null,
-          hintText: "Nhan so dien thoai cua ban",
+          hintText: '${AppLocalizations.of(context)?.enterYourPhoneNumber}',
           hintStyle: const TextStyle(color: kTextFieldColor),
           focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
         ),
@@ -32,12 +33,12 @@ class _BuildAddressPhoneFormState extends State<BuildAddressPhoneForm> {
             if (value.isEmpty || Validate.invalidateMobile(value)) {
               errorPhone = true;
               errorPhoneText = value.isEmpty
-                  ? 'Số điện thoại không được để trống'
+                  ? '${AppLocalizations.of(context)?.phoneNumberCanNotBeLeftBlank}'
                   : value.startsWith(' ')
-                      ? 'Không có dấu cách ở đầu'
+                      ? '${AppLocalizations.of(context)?.noSpacesAtTheBeginning}'
                       : value.endsWith(' ')
-                          ? 'Không có dấu cách cuối'
-                          : 'Số điện thoại phải 10 số';
+                          ? '${AppLocalizations.of(context)?.noSpacesAtTheEndOfSentences}'
+                          : '${AppLocalizations.of(context)?.phoneNumberMustBe10Digits}';
             } else {
               errorPhone = false;
               errorPhoneText = '';

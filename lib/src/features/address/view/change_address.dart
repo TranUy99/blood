@@ -13,7 +13,7 @@ import '../widget/address_form.dart';
 import '../widget/address_name_form.dart';
 import '../widget/address_province.dart';
 import '../widget/addresss_phone.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // ignore: must_be_immutable
 class ChangeAddressScreen extends StatefulWidget {
   String? name;
@@ -156,8 +156,8 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.005),
-                    child: const Text('DELIVERY ADDRESS',
-                        style: TextStyle(
+                    child:Text('${AppLocalizations.of(context)?.deliveryAddress.toUpperCase()}',
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -188,7 +188,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
 
                   //get district
                   provinceId == ""
-                      ? const Text("Ban phai chon thanh pho")
+                      ?Text("${AppLocalizations.of(context)?.youMustChooseACity}")
                       : DistrictForm(
                           provinceId: provinceId,
                           selectedDistrict: selectedDistrict,
@@ -202,7 +202,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
 
                   //get ward
                   districtId == ""
-                      ? const Text("Ban phai chon quan")
+                      ? Text("${AppLocalizations.of(context)?.youMustChooseADistrict}")
                       : FutureBuilder<List<Ward>>(
                           future: _addressViewModel.getWard("$districtId"),
                           builder: (context, snapshot) {
@@ -213,7 +213,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
 
                               return DropdownButton<String>(
                                 menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
-                                hint: const Text("Ward"),
+                                hint: Text("${AppLocalizations.of(context)?.ward}"),
                                 value: selectedWard?.ward_name,
                                 onChanged: (name) {
                                   setState(() {
@@ -296,15 +296,15 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                             );
                             showTopSnackBar(
                               Overlay.of(context),
-                              const CustomSnackBar.error(
-                                  message: 'Cập nhât địa chỉ thành công ',
+                               CustomSnackBar.error(
+                                  message:  '${AppLocalizations.of(context)?.addSuccessfulAddress} ',
                                   backgroundColor: kGreenColor),
                             );
                           } else {
                             showTopSnackBar(
                               Overlay.of(context),
-                              const CustomSnackBar.error(
-                                message: 'Cập nhât  địa chỉ thất bại',
+                               CustomSnackBar.error(
+                                message: '${AppLocalizations.of(context)?.addFailedAddress} ',
                                 backgroundColor: kRedColor,
                               ),
                             );
@@ -313,8 +313,8 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                         } else {
                           showTopSnackBar(
                             Overlay.of(context),
-                            const CustomSnackBar.error(
-                              message: 'Vui long nhap dau tu thong tin',
+                             CustomSnackBar.error(
+                              message: '${AppLocalizations.of(context)?.pleaseEnterFullInformation} ',
                               backgroundColor: kRedColor,
                             ),
                           );
@@ -323,7 +323,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(kGreenColor),
                       ),
-                      child: const Text('Save'),
+                      child:Text("${AppLocalizations.of(context)?.save}"),
                     ),
                     const SizedBox(width: 40),
                     ElevatedButton(
@@ -333,7 +333,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(kRedColor),
                       ),
-                      child: const Text('Close'),
+                      child: Text("${AppLocalizations.of(context)?.close}"),
                     ),
                   ]),
                 ],

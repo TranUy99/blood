@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../core/model/district.dart';
 import '../../../core/model/province.dart';
 import '../../../core/model/ward.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class ProvinceForm extends StatefulWidget {
   List<Province> provinceList;
   Province? selectedProvince;
@@ -28,7 +28,7 @@ class _ProvinceState extends State<ProvinceForm> {
   Widget build(BuildContext context) {
     return DropdownButton<String>(
       menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
-      hint: const Text("Province"),
+      hint:  Text('${AppLocalizations.of(context)?.province}'),
       value: widget.selectedProvince?.province_name,
       onChanged: (name) {
         setState(() {

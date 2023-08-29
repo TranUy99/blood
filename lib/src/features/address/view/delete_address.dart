@@ -4,7 +4,7 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../constant/color/color.dart';
 import '../../home_page/view/navigation_home_page.dart';
 import '../view_model/address_view_model.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class DeleteAddress extends StatefulWidget {
   final int? id;
   const DeleteAddress({required this.id, super.key});
@@ -18,7 +18,7 @@ class _DeleteAddressState extends State<DeleteAddress> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        title: const Text("Bạn có muốn xóa địa chỉ ko ?"),
+        title: Text('${AppLocalizations.of(context)?.doYouWantToDeleteTheAddress.toUpperCase()}'),
         content: Builder(builder: (BuildContext context) {
           return Row(
             children: [
@@ -27,6 +27,7 @@ class _DeleteAddressState extends State<DeleteAddress> {
                   final deleteAddress = await _addressViewModel.deleteAddress(widget.id);
 
                   if (deleteAddress == true) {
+                    // ignore: use_build_context_synchronously
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -35,16 +36,16 @@ class _DeleteAddressState extends State<DeleteAddress> {
                     );
                     showTopSnackBar(
                       Overlay.of(context),
-                      const CustomSnackBar.error(
-                        message: 'Xóa địa chỉ thành công ',
+                      CustomSnackBar.error(
+                        message: '${AppLocalizations.of(context)?.successfullyDeletedAddress}',
                         backgroundColor: kGreenColor,
                       ),
                     );
                   } else {
                     showTopSnackBar(
                       Overlay.of(context),
-                      const CustomSnackBar.error(
-                        message: 'Xóa  địa chỉ thất bại',
+                      CustomSnackBar.error(
+                        message: '${AppLocalizations.of(context)?.addressDeletionFailed}',
                         backgroundColor: kRedColor,
                       ),
                     );
@@ -54,7 +55,7 @@ class _DeleteAddressState extends State<DeleteAddress> {
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(kGreenColor),
                 ),
-                child: const Text('Yes'),
+                child: Text('${AppLocalizations.of(context)?.yes}'),
               ),
               const SizedBox(width: 40),
               TextButton(
@@ -64,7 +65,7 @@ class _DeleteAddressState extends State<DeleteAddress> {
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(kRedColor),
                 ),
-                child: const Text('No'),
+                child:Text('${AppLocalizations.of(context)?.no}'),
               ),
             ],
           );

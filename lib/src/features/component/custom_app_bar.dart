@@ -9,6 +9,8 @@ import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../../languages/language.dart';
+import '../../../languages/language_contanst.dart';
 import '../../../main.dart';
 import '../../constant/color/color.dart';
 import '../category/widget/menu_button.dart';
@@ -38,8 +40,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
         ),
         color: kDarkGreyColor,
         boxShadow: const [BoxShadow(blurRadius: 50.0)],
-        borderRadius: BorderRadius.vertical(
-            bottom: Radius.elliptical(MediaQuery.of(context).size.width, 20)),
+        borderRadius:
+            BorderRadius.vertical(bottom: Radius.elliptical(MediaQuery.of(context).size.width, 20)),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -57,13 +59,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
                     child: GestureDetector(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Search()));
+                            context, MaterialPageRoute(builder: (context) => const Search()));
                       },
                       child: Container(
-                        padding:
-                            const EdgeInsets.fromLTRB(10.0, 10.0, 20.0, 10.0),
+                        padding: const EdgeInsets.fromLTRB(10.0, 10.0, 20.0, 10.0),
                         decoration: BoxDecoration(
                           color: kWhiteColor,
                           borderRadius: BorderRadius.circular(10),
@@ -75,8 +74,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                             child: DefaultTextStyle(
                               style: GoogleFonts.lato(
                                 color: kGreenColor,
-                                textStyle:
-                                    Theme.of(context).textTheme.displayLarge,
+                                textStyle: Theme.of(context).textTheme.displayLarge,
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                                 fontStyle: FontStyle.italic,
@@ -97,11 +95,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                   ),
                                 ],
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const Search()));
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) => const Search()));
                                 },
                               ),
                             ),
@@ -149,8 +144,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       Text(getUser.userDTO.fullName ?? ''),
                       TextButton(
                           onPressed: () async {
-                            SharedPreferences preferences =
-                                await SharedPreferences.getInstance();
+                            SharedPreferences preferences = await SharedPreferences.getInstance();
                             if (getUser.isRemember == false) {
                               preferences.remove('email');
                               preferences.remove('password');
@@ -162,15 +156,13 @@ class _CustomAppBarState extends State<CustomAppBar> {
                             getUser.email = preferences.getString('email');
                             getUser.idUser = preferences.getInt('idUser');
                             getUser.token = preferences.getString('token');
-                            getUser.password =
-                                preferences.getString('password');
+                            getUser.password = preferences.getString('password');
 
                             // ignore: use_build_context_synchronously
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        const NavigationHomePage()));
+                                    builder: (context) => const NavigationHomePage()));
                           },
                           child: Text(
                             '${AppLocalizations.of(context)?.logout}',
@@ -208,6 +200,31 @@ PreferredSizeWidget? appBarWidget(BuildContext context, bool isBack) {
             : Image(
                 image: const AssetImage('assets/images/banner0.jpg'),
                 height: MediaQuery.of(context).size.height * 0.06),
-        flexibleSpace: CustomAppBar()),
+        actions: [
+          DropdownButton<Language>(
+            iconSize: 30,
+            icon: const Icon(Icons.language_outlined),
+            onChanged: (Language? language) async {
+              if (language != null) {
+                Locale _locale = await setLocale(language.languageCode);
+                MyApp.setLocale(context, _locale);
+              }
+            },
+            items: Language.languageList()
+                .map<DropdownMenuItem<Language>>(
+                  (e) => DropdownMenuItem<Language>(
+                    value: e,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(e.name),
+                      ],
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+        ],
+        flexibleSpace: const CustomAppBar()),
   );
 }
