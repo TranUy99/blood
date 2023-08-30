@@ -164,7 +164,36 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                         )),
                   ),
                   const SizedBox(height: 13),
-
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        children: [
+                          Image.asset(
+                            'assets/icon/home_icon.png',
+                            height: MediaQuery.of(context).size.height * 0.02,
+                          ),
+                          const SizedBox(
+                            width: 6,
+                          ),
+                          Text('${AppLocalizations.of(context)?.home}'.toUpperCase()),
+                        ],
+                      ),
+                      const SizedBox(width: 20),
+                      Row(
+                        children: [
+                          Image.asset(
+                            'assets/icon/office_icon.png',
+                            height: MediaQuery.of(context).size.height * 0.02,
+                          ),
+                          const SizedBox(
+                            width: 6,
+                          ),
+                          Text('${AppLocalizations.of(context)?.office}'.toUpperCase()),
+                        ],
+                      )
+                    ],
+                  ),
                   const SizedBox(height: 5),
 
                   //get province
