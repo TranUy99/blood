@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_store/src/core/model/order_detail.dart';
+import 'package:mobile_store/src/core/model/product.dart';
+import 'package:mobile_store/src/features/cart_page/view_model/cart_view_model.dart';
+import 'package:mobile_store/src/features/checkout/widget/delivery_address.dart';
+
 import '../../../constant/api_outside/api_image.dart';
-import '../view_model/order_view_model.dart';
 import '../../../constant/color/color.dart';
 import '../../component/custom_app_bar.dart';
-import 'package:mobile_store/src/features/checkout/widget/delivery_address.dart';
+import '../view_model/order_view_model.dart';
 
 class OrderDetail extends StatefulWidget {
   final int? idOrder;
@@ -21,6 +24,9 @@ class OrderDetail extends StatefulWidget {
 class _OrderDetailState extends State<OrderDetail> {
   final OrderViewModel _orderViewModel = OrderViewModel();
   late OrderDetailDTO orderDetailDTO;
+  final CartViewModel _cartViewModel = CartViewModel();
+  bool isBuyAgain = true;
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<OrderDetailDTO?>(
@@ -227,23 +233,6 @@ class _OrderDetailState extends State<OrderDetail> {
                             ),
                           ],
                         ),
-                        // ElevatedButton(
-                        //   onPressed: () {
-                        //     // Handle the Pay button press
-                        //   },
-                        //   style: ElevatedButton.styleFrom(
-                        //     backgroundColor: kGreyColor,
-                        //     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        //   ),
-                        //   child: Text(
-                        //     AppLocalizations.of(context)!.paid,
-                        //     style: const TextStyle(
-                        //       fontWeight: FontWeight.bold,
-                        //       fontSize: 15,
-                        //       color: Colors.white,
-                        //     ),
-                        //   ),
-                        // ),
                       ],
                     ),
                   ],
@@ -290,8 +279,61 @@ class _OrderDetailState extends State<OrderDetail> {
                 ),
               ),
               const SizedBox(height: 10),
+              isBuyAgain? buyAgainButton() : const SizedBox.shrink(),
             ],
           ),
         ));
+  }
+
+  Widget buyAgainButton(){
+    final orderProductDTOList = orderDetailDTO.orderProductDTOList;
+    return Container(
+      child: Column(
+        children: [
+          //Buy again button
+          InkWell(
+            onTap: () {
+
+            },
+            child: Container(
+              margin: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).size.height * 0.01),
+              height: MediaQuery.of(context).size.height * 0.05,
+              width: MediaQuery.of(context).size.width * 0.4,
+              decoration: const BoxDecoration(
+                color: kGreenColor,
+              ),
+              child: const Center(
+                  child: Text(
+                'Buy again',
+                style: TextStyle(fontSize: 20, color: kWhiteColor),
+              )),
+            ),
+          ),
+          //Cancel button
+          InkWell(
+            onTap: () {
+              setState(() {
+                isBuyAgain = false;
+              });
+            },
+            child: Container(
+              margin: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).size.height * 0.01),
+              height: MediaQuery.of(context).size.height * 0.05,
+              width: MediaQuery.of(context).size.width * 0.4,
+              decoration: const BoxDecoration(
+                color: kRedColor,
+              ),
+              child: const Center(
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(fontSize: 20, color: kWhiteColor),
+                  )),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

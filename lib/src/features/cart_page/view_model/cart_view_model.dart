@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:mobile_store/src/core/model/order_product_dto.dart';
 import 'package:mobile_store/src/core/model/product_detail_cart.dart';
 import 'package:mobile_store/src/features/cart_page/view/cart_page.dart';
+import 'package:mobile_store/src/features/detail_product/bloc/detail_product_bloc.dart';
+import 'package:mobile_store/src/features/detail_product/bloc/detail_product_event.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -14,8 +16,9 @@ import '../bloc/cart_event.dart';
 import '../bloc/cart_state.dart';
 
 class CartViewModel {
-  GetProductCartBloc getProductCartBloc = GetProductCartBloc();
-  GetDataCartBloc getDataCartBloc = GetDataCartBloc();
+  final GetProductCartBloc getProductCartBloc = GetProductCartBloc();
+  final GetDataCartBloc getDataCartBloc = GetDataCartBloc();
+  final DetailProductBloc _detailProductBloc = DetailProductBloc();
   double price = 0;
   List<OrderProductDTO> cartList = [];
 
@@ -33,7 +36,7 @@ class CartViewModel {
     return cartList;
   }
 
-  addToCart(BuildContext context, String selectedOption, String selectedColor,
+  addToCart(BuildContext context, String? selectedOption, String? selectedColor,
       ProductDTO productDTO) {
     int? flag;
     String? memory;
@@ -90,6 +93,11 @@ class CartViewModel {
               message: 'You are not login yet'));
     }
   }
+
+  // buyAgain(int productID) async {
+  //   _detailProductBloc.getDetailProduct(GetDetailProductEvent(productID));
+  //
+  // }
 
   streamLengthCartList() async {
     List<OrderProductDTO> list = await cartViewModel();
