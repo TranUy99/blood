@@ -94,6 +94,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             Padding(
               padding: EdgeInsets.symmetric(
                   vertical: MediaQuery.of(context).size.height * 0.02),
+              child: Text('Verify code has been sent to your email address\nPlease confirm it and enter your new password'),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  vertical: MediaQuery.of(context).size.height * 0.02),
               child: TextField(
                 cursorColor: kGreenColor,
                 textAlign: TextAlign.center,
