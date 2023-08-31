@@ -794,7 +794,6 @@ class _ApiService implements ApiService {
   @override
   Future<ReviewResponse> getReview(
     int manufacturerID,
-    String auth,
     int no,
     int limit,
   ) async {
@@ -803,8 +802,7 @@ class _ApiService implements ApiService {
       r'no': no,
       r'limit': limit,
     };
-    final _headers = <String, dynamic>{r'Authorization': auth};
-    _headers.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<ReviewResponse>(Options(
