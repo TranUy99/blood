@@ -69,6 +69,7 @@ class _GetAddressScreenState extends State<GetAddressScreen> {
                           child: OutlinedButton(
                             onPressed: () {},
                             style: OutlinedButton.styleFrom(
+                              backgroundColor: kDarkGreyColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(0),
                               ),
@@ -91,11 +92,14 @@ class _GetAddressScreenState extends State<GetAddressScreen> {
                           width: 70,
                           height: 35,
                           decoration: BoxDecoration(
-                            border: Border.all(color: kRedColor),
+                            border: Border.all(color: kOrange),
+                            color: kDarkGreyColor
                           ),
                           child: Center(
                               child: Text(
-                                  '${address.locationType?.toUpperCase()}', style: TextStyle(color: kRedColor),)),
+                            '${address.locationType?.toUpperCase()}',
+                            style: TextStyle(color: kOrange, fontWeight: FontWeight.bold),
+                          )),
                         )
                       ],
                     ),

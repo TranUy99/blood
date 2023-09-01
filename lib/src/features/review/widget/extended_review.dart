@@ -93,7 +93,7 @@ class _ExtendedReviewState extends State<ExtendedReview> {
                         child: ListTile(
                           trailing: (reviewList[index].userName ==
                                       getUser.userDTO.fullName &&
-                                  successLoginState.onLoginState)
+                                  successLoginState.isVerified)
                               ? IconButton(
                                   icon: const Icon(Icons.edit),
                                   onPressed: () async {

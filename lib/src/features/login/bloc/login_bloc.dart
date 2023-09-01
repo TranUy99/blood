@@ -33,6 +33,7 @@ class LoginBloc {
         message = value.message;
         error = value.error;
         token = value.token;
+
         getUser.idUser = value.idUser!;
         getUser.token = value.token;
         getUser.email = email;
