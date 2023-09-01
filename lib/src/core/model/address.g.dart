@@ -11,14 +11,14 @@ Address _$AddressFromJson(Map<String, dynamic> json) => Address(
       location: json['location'] as String?,
       nameReceiver: json['nameReceiver'] as String?,
       phoneReceiver: json['phoneReceiver'] as String?,
-      type: json['type'] as String?,
+      locationType: json['type'] as String?,
       id: json['id'] as int?,
     );
 
 Map<String, dynamic> _$AddressToJson(Address instance) => <String, dynamic>{
       'id': instance.id,
       'location': instance.location,
-      'type': instance.type,
+      'type': instance.locationType,
       'phoneReceiver': instance.phoneReceiver,
       'nameReceiver': instance.nameReceiver,
       'defaults': instance.defaults,

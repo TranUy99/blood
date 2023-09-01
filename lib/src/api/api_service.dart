@@ -200,7 +200,6 @@ abstract class ApiService {
   @GET('/review/{manufacturerID}')
   Future<ReviewResponse> getReview(
       @Path('manufacturerID') int manufacturerID,
-      @Header("Authorization") String auth,
       @Query('no') int no,
       @Query('limit') int limit);
 }

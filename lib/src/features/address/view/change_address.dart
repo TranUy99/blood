@@ -20,12 +20,13 @@ class ChangeAddressScreen extends StatefulWidget {
   String? phone;
   String? address;
   int? id;
+  String? locationType;
   ChangeAddressScreen(
       {super.key,
       required this.name,
       required this.phone,
       required this.address,
-      required this.id});
+      required this.id, required this.locationType});
 
   @override
   State<ChangeAddressScreen> createState() => _ChangeAddressScreenState();
@@ -57,11 +58,15 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
   String provinceName = "";
   String districtName = "";
   String? wardName;
+  String? locationType;
+
+
   @override
   void initState() {
     super.initState();
     textNameController.text = '${widget.name}';
     textPhoneController.text = '${widget.phone}';
+    locationType = widget.locationType;
     String location = widget.address ?? "";
     List<String> locationParts = location.split(", ");
     String address = locationParts[0];
@@ -139,6 +144,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return AlertDialog(
       contentPadding: EdgeInsets.zero,
       content: Builder(builder: (BuildContext context) {
@@ -146,6 +152,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
         final viewInsets = MediaQuery.of(context).viewInsets;
         final double availableHeight = MediaQuery.of(context).size.height - viewInsets.bottom;
         final double contentHeight = availableHeight < maxHeight ? availableHeight : maxHeight;
+
         return SizedBox(
           height: contentHeight,
           child: SingleChildScrollView(
@@ -167,30 +174,74 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Row(
-                        children: [
-                          Image.asset(
-                            'assets/icon/home_icon.png',
-                            height: MediaQuery.of(context).size.height * 0.02,
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            if(locationType == null){
+                              locationType = 'home';
+                            }else if(locationType != 'home'){
+                              locationType = 'home';
+                            }else{
+                              locationType = null;
+                            }
+                          });
+                        },
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.05,
+                          width: MediaQuery.of(context).size.width * 0.25,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: (locationType == 'home')? kGreenColor : Colors.transparent),
+                              borderRadius: BorderRadius.circular(20)
                           ),
-                          const SizedBox(
-                            width: 6,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/icon/home_icon.png',
+                                height: MediaQuery.of(context).size.height * 0.02,
+                              ),
+                              const SizedBox(
+                                width: 6,
+                              ),
+                              Text('${AppLocalizations.of(context)?.home}'.toUpperCase()),
+                            ],
                           ),
-                          Text('${AppLocalizations.of(context)?.home}'.toUpperCase()),
-                        ],
+                        ),
                       ),
                       const SizedBox(width: 20),
-                      Row(
-                        children: [
-                          Image.asset(
-                            'assets/icon/office_icon.png',
-                            height: MediaQuery.of(context).size.height * 0.02,
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            if(locationType == null){
+                              locationType = 'office';
+                            }else if(locationType != 'office'){
+                              locationType = 'office';
+                            }else{
+                              locationType = null;
+                            }
+                          });
+                        },
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.05,
+                          width: MediaQuery.of(context).size.width * 0.25,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: (locationType == 'office')? kGreenColor : Colors.transparent),
+                              borderRadius: BorderRadius.circular(20)
                           ),
-                          const SizedBox(
-                            width: 6,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/icon/office_icon.png',
+                                height: MediaQuery.of(context).size.height * 0.02,
+                              ),
+                              const SizedBox(
+                                width: 6,
+                              ),
+                              Text('${AppLocalizations.of(context)?.office}'.toUpperCase()),
+                            ],
                           ),
-                          Text('${AppLocalizations.of(context)?.office}'.toUpperCase()),
-                        ],
+                        ),
                       )
                     ],
                   ),
@@ -306,14 +357,16 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                         String phone = textPhoneController.text;
                         String name = textNameController.text;
 
+                        print(locationType);
+
                         if (addressHome.isNotEmpty &&
                             wardName!.isNotEmpty &&
                             districtName.isNotEmpty &&
                             provinceName.isNotEmpty &&
                             phone.isNotEmpty &&
-                            name.isNotEmpty) {
+                            name.isNotEmpty && locationType!.isNotEmpty) {
                           final createAddress = await _addressViewModel.changeAddress(
-                              address, "type", phone, name, widget.id, isDefault);
+                              address, locationType!, phone, name, widget.id, isDefault);
 
                           if (createAddress == true) {
                             // ignore: use_build_context_synchronously

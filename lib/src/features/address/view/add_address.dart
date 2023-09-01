@@ -40,6 +40,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   String errorPhoneText = '';
   bool errorName = false;
   String errorNameText = '';
+  String? locationType;
 
   final AddressViewModel _addressViewModel = AddressViewModel();
 
@@ -79,30 +80,74 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Row(
-                        children: [
-                          Image.asset(
-                            'assets/icon/home_icon.png',
-                            height: MediaQuery.of(context).size.height * 0.02,
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            if(locationType == null){
+                              locationType = 'home';
+                            }else if(locationType != 'home'){
+                              locationType = 'home';
+                            }else{
+                              locationType = null;
+                            }
+                          });
+                        },
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.05,
+                          width: MediaQuery.of(context).size.width * 0.25,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: (locationType == 'home')? kGreenColor : Colors.transparent),
+                            borderRadius: BorderRadius.circular(20)
                           ),
-                          const SizedBox(
-                            width: 6,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/icon/home_icon.png',
+                                height: MediaQuery.of(context).size.height * 0.02,
+                              ),
+                              const SizedBox(
+                                width: 6,
+                              ),
+                              Text('${AppLocalizations.of(context)?.home}'.toUpperCase()),
+                            ],
                           ),
-                          Text('${AppLocalizations.of(context)?.home}'.toUpperCase()),
-                        ],
+                        ),
                       ),
                       const SizedBox(width: 20),
-                      Row(
-                        children: [
-                          Image.asset(
-                            'assets/icon/office_icon.png',
-                            height: MediaQuery.of(context).size.height * 0.02,
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            if(locationType == null){
+                              locationType = 'office';
+                            }else if(locationType != 'office'){
+                              locationType = 'office';
+                            }else{
+                              locationType = null;
+                            }
+                          });
+                        },
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.05,
+                          width: MediaQuery.of(context).size.width * 0.25,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: (locationType == 'office')? kGreenColor : Colors.transparent),
+                              borderRadius: BorderRadius.circular(20)
                           ),
-                          const SizedBox(
-                            width: 6,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/icon/office_icon.png',
+                                height: MediaQuery.of(context).size.height * 0.02,
+                              ),
+                              const SizedBox(
+                                width: 6,
+                              ),
+                              Text('${AppLocalizations.of(context)?.office}'.toUpperCase()),
+                            ],
                           ),
-                          Text('${AppLocalizations.of(context)?.office}'.toUpperCase()),
-                        ],
+                        ),
                       )
                     ],
                   ),
@@ -261,9 +306,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                             newWard!.isNotEmpty &&
                             newDistrict!.isNotEmpty &&
                             phone.isNotEmpty &&
-                            name.isNotEmpty) {
+                            name.isNotEmpty && locationType != null) {
                           final createAddress =
-                              await _addressViewModel.createAddress(address, "type", phone, name);
+                              await _addressViewModel.createAddress(address, locationType!, phone, name);
 
                           if (createAddress == true) {
                             // ignore: use_build_context_synchronously

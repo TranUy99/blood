@@ -2,15 +2,22 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_store/src/core/model/order_detail.dart';
 import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/features/cart_page/view_model/cart_view_model.dart';
 import 'package:mobile_store/src/features/checkout/widget/delivery_address.dart';
+import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../constant/api_outside/api_image.dart';
 import '../../../constant/color/color.dart';
+import '../../../core/model/order_product_dto.dart';
 import '../../component/custom_app_bar.dart';
+import '../../detail_product/view_model/detail_product_view_model.dart';
 import '../view_model/order_view_model.dart';
 
 class OrderDetail extends StatefulWidget {
@@ -26,6 +33,7 @@ class _OrderDetailState extends State<OrderDetail> {
   late OrderDetailDTO orderDetailDTO;
   final CartViewModel _cartViewModel = CartViewModel();
   bool isBuyAgain = true;
+  final DetailProductViewModel _detailProductViewModel = DetailProductViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -279,61 +287,69 @@ class _OrderDetailState extends State<OrderDetail> {
                 ),
               ),
               const SizedBox(height: 10),
-              isBuyAgain? buyAgainButton() : const SizedBox.shrink(),
+              isBuyAgain? buyAgainButton(orderProductDTOList) : const SizedBox.shrink(),
             ],
           ),
         ));
   }
 
-  Widget buyAgainButton(){
-    final orderProductDTOList = orderDetailDTO.orderProductDTOList;
-    return Container(
-      child: Column(
-        children: [
-          //Buy again button
-          InkWell(
-            onTap: () {
-
-            },
-            child: Container(
-              margin: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).size.height * 0.01),
-              height: MediaQuery.of(context).size.height * 0.05,
-              width: MediaQuery.of(context).size.width * 0.4,
-              decoration: const BoxDecoration(
-                color: kGreenColor,
-              ),
-              child: const Center(
-                  child: Text(
-                'Buy again',
-                style: TextStyle(fontSize: 20, color: kWhiteColor),
-              )),
+  Widget buyAgainButton(List<OrderProductDTO>? orderProductDTOList){
+    return Column(
+      children: [
+        //Buy again button
+        InkWell(
+          onTap: () async {
+            for(int i=0; i<orderProductDTOList!.length; i++){
+              ProductDTO productDTO = await _detailProductViewModel
+                  .getDetailProduct(orderProductDTOList[i].id ?? 0);
+              _cartViewModel.addToCart(context, orderProductDTOList[i].memory,
+                  orderProductDTOList[i].color, productDTO);
+            }
+            showTopSnackBar(Overlay.of(context),
+                const CustomSnackBar.success(message: 'Add to cart successfully'));
+            setState(() {
+              indexScreen = 1;
+            });
+            Get.offAll(const NavigationHomePage());
+          },
+          child: Container(
+            margin: EdgeInsets.only(
+                bottom: MediaQuery.of(context).size.height * 0.01),
+            height: MediaQuery.of(context).size.height * 0.05,
+            width: MediaQuery.of(context).size.width * 0.4,
+            decoration: const BoxDecoration(
+              color: kGreenColor,
             ),
+            child: const Center(
+                child: Text(
+              'Buy again',
+              style: TextStyle(fontSize: 20, color: kWhiteColor),
+            )),
           ),
-          //Cancel button
-          InkWell(
-            onTap: () {
-              setState(() {
-                isBuyAgain = false;
-              });
-            },
-            child: Container(
-              margin: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).size.height * 0.01),
-              height: MediaQuery.of(context).size.height * 0.05,
-              width: MediaQuery.of(context).size.width * 0.4,
-              decoration: const BoxDecoration(
-                color: kRedColor,
-              ),
-              child: const Center(
-                  child: Text(
-                    'Cancel',
-                    style: TextStyle(fontSize: 20, color: kWhiteColor),
-                  )),
+        ),
+        //Cancel button
+        InkWell(
+          onTap: () {
+            setState(() {
+              isBuyAgain = false;
+            });
+          },
+          child: Container(
+            margin: EdgeInsets.only(
+                bottom: MediaQuery.of(context).size.height * 0.01),
+            height: MediaQuery.of(context).size.height * 0.05,
+            width: MediaQuery.of(context).size.width * 0.4,
+            decoration: const BoxDecoration(
+              color: kRedColor,
             ),
+            child: const Center(
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(fontSize: 20, color: kWhiteColor),
+                )),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

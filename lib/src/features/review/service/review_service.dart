@@ -26,7 +26,7 @@ class ReviewService {
   Future<ReviewResponse> getReviewService(
       String token, int manufacturerID, int no, int limit) async {
     ReviewResponse reviewResult =
-        await ApiService(dio.Dio()).getReview(manufacturerID, 'Bearer $token', no, limit);
+        await ApiService(dio.Dio()).getReview(manufacturerID, no, limit);
     return reviewResult;
   }
 }
