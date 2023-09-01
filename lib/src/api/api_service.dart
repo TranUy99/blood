@@ -26,7 +26,6 @@ import '../core/remote/request/address_request/address_create_request.dart';
 import '../core/remote/request/forgot_password_request/forgot_password_request.dart';
 import '../core/remote/request/order_request/order_request.dart';
 import '../core/remote/request/sign_up_request/sign_up_request.dart';
-import '../core/remote/response/active_otp_response/active_otp_response.dart';
 import '../core/remote/response/active_otp_response/send_email_active_user_response.dart';
 import '../core/remote/response/category_response/category_items_response.dart';
 import '../core/remote/response/change_password_response/change_password_response.dart';

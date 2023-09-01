@@ -151,7 +151,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   Widget productFilterGridViewDisplay() {
     return SizedBox(
-      height: successLoginState.onLoginState
+      height: successLoginState.isVerified
           ? MediaQuery.of(context).size.height * 0.65
           : MediaQuery.of(context).size.height * 0.7,
       child: SingleChildScrollView(

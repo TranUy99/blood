@@ -172,7 +172,7 @@ class _RatingProductState extends State<RatingProduct> {
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               onPressed: () async {
-                if (successLoginState.onLoginState) {
+                if (successLoginState.isVerified) {
                   if (selectedOption != '' && selectedColor != '') {
                     cartViewModel.addToCart(context, selectedOption,
                         selectedColor, widget.productDTO);

@@ -1,5 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_store/src/features/cart_page/bloc/cart_bloc.dart';
@@ -7,7 +8,6 @@ import 'package:mobile_store/src/features/cart_page/bloc/cart_state.dart';
 import 'package:mobile_store/src/features/cart_page/view_model/cart_view_model.dart';
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../languages/language.dart';
 import '../../../languages/language_contanst.dart';
@@ -119,7 +119,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                           });
                           Get.offAll(const NavigationHomePage());
                         },
-                        icon: successLoginState.onLoginState
+                        icon: (successLoginState.onLoginState && successLoginState.isVerified)
                             ? Badge(
                                 label: Text('${snapshot.data?.cartListLength}'),
                                 child: const Icon(
@@ -135,7 +135,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
               ],
             ),
           ),
-          (successLoginState.onLoginState)
+          (successLoginState.onLoginState && successLoginState.isVerified)
               ? Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Row(
@@ -183,7 +183,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
 
 PreferredSizeWidget? appBarWidget(BuildContext context, bool isBack) {
   return PreferredSize(
-    preferredSize: successLoginState.onLoginState
+    preferredSize: (successLoginState.onLoginState && successLoginState.isVerified)
         ? Size.fromHeight(MediaQuery.of(context).size.height * 0.2)
         : Size.fromHeight(MediaQuery.of(context).size.height * 0.15),
     child: AppBar(
@@ -203,7 +203,8 @@ PreferredSizeWidget? appBarWidget(BuildContext context, bool isBack) {
         actions: [
           DropdownButton<Language>(
             iconSize: 30,
-            icon: const Icon(Icons.language_outlined),
+            icon: Image.asset('assets/icon/language_option.png',
+                height: MediaQuery.of(context).size.height * 0.045),
             onChanged: (Language? language) async {
               if (language != null) {
                 Locale _locale = await setLocale(language.languageCode);
