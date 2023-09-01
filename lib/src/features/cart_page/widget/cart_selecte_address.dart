@@ -30,12 +30,9 @@ class _SelectedAddressCartState extends State<SelectedAddressCart> {
         } else {
           if (snapshot.hasData) {
             addressList = snapshot.data!;
-            final defaultAddress = addressList.firstWhere(
-              (address) => address.defaults == true,
-            );
-
-           
-
+            // final defaultAddress = addressList.firstWhere(
+            //   (address) => address.defaults == true,
+            // );
             return Column(children: [
               buildUI(context),
             ]);

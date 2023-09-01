@@ -2,11 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:mobile_store/src/core/model/order_product_dto.dart';
 import 'package:mobile_store/src/core/model/product_detail_cart.dart';
 import 'package:mobile_store/src/features/cart_page/view/cart_page.dart';
-import 'package:mobile_store/src/features/detail_product/bloc/detail_product_bloc.dart';
-import 'package:mobile_store/src/features/detail_product/bloc/detail_product_event.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
-
 import '../../../../main.dart';
 import '../../../core/model/product.dart';
 import '../../component/custom_app_bar.dart';
@@ -18,7 +15,6 @@ import '../bloc/cart_state.dart';
 class CartViewModel {
   final GetProductCartBloc getProductCartBloc = GetProductCartBloc();
   final GetDataCartBloc getDataCartBloc = GetDataCartBloc();
-  final DetailProductBloc _detailProductBloc = DetailProductBloc();
   double price = 0;
   List<OrderProductDTO> cartList = [];
 

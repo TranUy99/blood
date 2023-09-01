@@ -31,7 +31,7 @@ class _GetAddressScreenState extends State<GetAddressScreen> {
             // Build UI using the retrieved products
             return buildUI(context);
           } else {
-            return const Text('No address ');
+            return  Container();
           }
         }
       },
