@@ -8,12 +8,11 @@ import 'package:mobile_store/src/features/home_page/view/navigation_home_page.da
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import '../../../constant/utils/validate.dart';
 import '../widget/address_district.dart';
-import '../widget/address_form.dart';
-import '../widget/address_name_form.dart';
 import '../widget/address_province.dart';
-import '../widget/addresss_phone.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 // ignore: must_be_immutable
 class ChangeAddressScreen extends StatefulWidget {
   String? name;
@@ -26,7 +25,8 @@ class ChangeAddressScreen extends StatefulWidget {
       required this.name,
       required this.phone,
       required this.address,
-      required this.id, required this.locationType});
+      required this.id,
+      required this.locationType});
 
   @override
   State<ChangeAddressScreen> createState() => _ChangeAddressScreenState();
@@ -59,7 +59,6 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
   String districtName = "";
   String? wardName;
   String? locationType;
-
 
   @override
   void initState() {
@@ -144,11 +143,10 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return AlertDialog(
       contentPadding: EdgeInsets.zero,
       content: Builder(builder: (BuildContext context) {
-        final double maxHeight = MediaQuery.of(context).size.height * 0.6;
+        final double maxHeight = MediaQuery.of(context).size.height * 0.72;
         final viewInsets = MediaQuery.of(context).viewInsets;
         final double availableHeight = MediaQuery.of(context).size.height - viewInsets.bottom;
         final double contentHeight = availableHeight < maxHeight ? availableHeight : maxHeight;
@@ -163,7 +161,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.005),
-                    child:Text('${AppLocalizations.of(context)?.deliveryAddress.toUpperCase()}',
+                    child: Text('${AppLocalizations.of(context)?.deliveryAddress.toUpperCase()}',
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 18,
@@ -177,11 +175,11 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                       InkWell(
                         onTap: () {
                           setState(() {
-                            if(locationType == null){
+                            if (locationType == null) {
                               locationType = 'home';
-                            }else if(locationType != 'home'){
+                            } else if (locationType != 'home') {
                               locationType = 'home';
-                            }else{
+                            } else {
                               locationType = null;
                             }
                           });
@@ -190,9 +188,10 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                           height: MediaQuery.of(context).size.height * 0.05,
                           width: MediaQuery.of(context).size.width * 0.25,
                           decoration: BoxDecoration(
-                              border: Border.all(color: (locationType == 'home')? kGreenColor : Colors.transparent),
-                              borderRadius: BorderRadius.circular(20)
-                          ),
+                              border: Border.all(
+                                  color:
+                                      (locationType == 'home') ? kGreenColor : Colors.transparent),
+                              borderRadius: BorderRadius.circular(20)),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -212,22 +211,24 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                       InkWell(
                         onTap: () {
                           setState(() {
-                            if(locationType == null){
+                            if (locationType == null) {
                               locationType = 'office';
-                            }else if(locationType != 'office'){
+                            } else if (locationType != 'office') {
                               locationType = 'office';
-                            }else{
+                            } else {
                               locationType = null;
                             }
                           });
                         },
                         child: Container(
                           height: MediaQuery.of(context).size.height * 0.05,
-                          width: MediaQuery.of(context).size.width * 0.25,
+                          width: MediaQuery.of(context).size.width * 0.35,
                           decoration: BoxDecoration(
-                              border: Border.all(color: (locationType == 'office')? kGreenColor : Colors.transparent),
-                              borderRadius: BorderRadius.circular(20)
-                          ),
+                              border: Border.all(
+                                  color: (locationType == 'office')
+                                      ? kGreenColor
+                                      : Colors.transparent),
+                              borderRadius: BorderRadius.circular(20)),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -268,7 +269,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
 
                   //get district
                   provinceId == ""
-                      ?Text("${AppLocalizations.of(context)?.youMustChooseACity}")
+                      ? Text("${AppLocalizations.of(context)?.youMustChooseACity}")
                       : DistrictForm(
                           provinceId: provinceId,
                           selectedDistrict: selectedDistrict,
@@ -342,11 +343,94 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                       });
                     },
                   ),
-                  BuildAddressForm(textAddressController: textAddressController),
-                  BuildNameAddressForm(
-                    textNameController: textNameController,
+                  TextField(
+                    controller: textAddressController,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      errorText: errorAddress ? errorAddressText : null,
+                      hintText: '${AppLocalizations.of(context)?.enterYourAddress}',
+                      hintStyle: const TextStyle(color: kTextFieldColor),
+                      focusedBorder:
+                          const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        if (value.isEmpty) {
+                          errorAddress = true;
+                          errorAddressText =
+                              '${AppLocalizations.of(context)?.addressCannotBeLeftBlank}';
+                        } else if (value.startsWith(' ')) {
+                          errorAddress = true;
+                          errorAddressText =
+                              '${AppLocalizations.of(context)?.noSpacesAtTheBeginning}';
+                        } else if (value.endsWith(' ')) {
+                          errorAddress = true;
+                          errorAddressText =
+                              '${AppLocalizations.of(context)?.noSpacesAtTheEndOfSentences}';
+                        } else {
+                          errorAddress = false;
+                          errorAddressText = '';
+                        }
+                      });
+                    },
                   ),
-                  BuildAddressPhoneForm(textPhoneController: textPhoneController),
+
+                  TextField(
+                    controller: textNameController,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      errorText: errorName ? errorNameText : null,
+                      hintText: '${AppLocalizations.of(context)?.enterTheRecipientName}',
+                      hintStyle: const TextStyle(color: kTextFieldColor),
+                      focusedBorder:
+                          const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        if (value.isEmpty || Validate.validName(value)) {
+                          errorName = true;
+                          errorNameText = value.isEmpty
+                              ? '${AppLocalizations.of(context)?.nameCannotBeBlank}'
+                              : value.startsWith(' ')
+                                  ? '${AppLocalizations.of(context)?.noSpacesAtTheBeginning}'
+                                  : value.endsWith(' ')
+                                      ? '${AppLocalizations.of(context)?.noSpacesAtTheEndOfSentences}'
+                                      : '${AppLocalizations.of(context)?.doNotEnterNumbersOrSpecialCharacters}';
+                        } else {
+                          errorName = false;
+                          errorNameText = '';
+                        }
+                      });
+                    },
+                  ),
+                  TextField(
+                    controller: textPhoneController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      errorText: errorPhone ? errorPhoneText : null,
+                      hintText: '${AppLocalizations.of(context)?.enterYourPhoneNumber}',
+                      hintStyle: const TextStyle(color: kTextFieldColor),
+                      focusedBorder:
+                          const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        if (value.isEmpty || Validate.invalidateMobile(value)) {
+                          errorPhone = true;
+                          errorPhoneText = value.isEmpty
+                              ? '${AppLocalizations.of(context)?.phoneNumberCanNotBeLeftBlank}'
+                              : value.startsWith(' ')
+                                  ? '${AppLocalizations.of(context)?.noSpacesAtTheBeginning}'
+                                  : value.endsWith(' ')
+                                      ? '${AppLocalizations.of(context)?.noSpacesAtTheEndOfSentences}'
+                                      : '${AppLocalizations.of(context)?.phoneNumberMustBe10Digits}';
+                        } else {
+                          errorPhone = false;
+                          errorPhoneText = '';
+                        }
+                      });
+                    },
+                  ),
 
                   const SizedBox(height: 16.0),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -364,7 +448,11 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                             districtName.isNotEmpty &&
                             provinceName.isNotEmpty &&
                             phone.isNotEmpty &&
-                            name.isNotEmpty && locationType!.isNotEmpty) {
+                            name.isNotEmpty &&
+                            errorAddress == false &&
+                            errorName == false&&
+                            errorPhone == false &&
+                            locationType!.isNotEmpty) {
                           final createAddress = await _addressViewModel.changeAddress(
                               address, locationType!, phone, name, widget.id, isDefault);
 
@@ -378,14 +466,14 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                             );
                             showTopSnackBar(
                               Overlay.of(context),
-                               CustomSnackBar.error(
-                                  message:  '${AppLocalizations.of(context)?.addSuccessfulAddress} ',
+                              CustomSnackBar.error(
+                                  message: '${AppLocalizations.of(context)?.addSuccessfulAddress} ',
                                   backgroundColor: kGreenColor),
                             );
                           } else {
                             showTopSnackBar(
                               Overlay.of(context),
-                               CustomSnackBar.error(
+                              CustomSnackBar.error(
                                 message: '${AppLocalizations.of(context)?.addFailedAddress} ',
                                 backgroundColor: kRedColor,
                               ),
@@ -395,8 +483,9 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                         } else {
                           showTopSnackBar(
                             Overlay.of(context),
-                             CustomSnackBar.error(
-                              message: '${AppLocalizations.of(context)?.pleaseEnterFullInformation} ',
+                            CustomSnackBar.error(
+                              message:
+                                  '${AppLocalizations.of(context)?.pleaseEnterFullInformation} ',
                               backgroundColor: kRedColor,
                             ),
                           );
@@ -405,7 +494,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(kGreenColor),
                       ),
-                      child:Text("${AppLocalizations.of(context)?.save}"),
+                      child: Text("${AppLocalizations.of(context)?.save}"),
                     ),
                     const SizedBox(width: 40),
                     ElevatedButton(

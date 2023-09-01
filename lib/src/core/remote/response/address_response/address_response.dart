@@ -7,7 +7,7 @@ part 'address_response.g.dart';
 class AddressResponse {
   @JsonKey(name: 'message')
   final String? message;
-
+    
   @JsonKey(name: 'path')
   final String? path;
 
