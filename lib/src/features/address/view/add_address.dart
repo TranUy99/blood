@@ -40,7 +40,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   String errorPhoneText = '';
   bool errorName = false;
   String errorNameText = '';
-  String? locationType;
+  String locationType = 'home';
 
   final AddressViewModel _addressViewModel = AddressViewModel();
 
@@ -83,12 +83,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       InkWell(
                         onTap: () {
                           setState(() {
-                            if(locationType == null){
+                            if(locationType != 'home'){
                               locationType = 'home';
-                            }else if(locationType != 'home'){
-                              locationType = 'home';
-                            }else{
-                              locationType = null;
                             }
                           });
                         },
@@ -118,12 +114,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       InkWell(
                         onTap: () {
                           setState(() {
-                            if(locationType == null){
+                            if(locationType != 'office'){
                               locationType = 'office';
-                            }else if(locationType != 'office'){
-                              locationType = 'office';
-                            }else{
-                              locationType = null;
                             }
                           });
                         },

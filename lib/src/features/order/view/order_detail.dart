@@ -299,14 +299,27 @@ class _OrderDetailState extends State<OrderDetail> {
         //Buy again button
         InkWell(
           onTap: () async {
+            int statusNotification = StatusAddToCart.successfully.index;
             for(int i=0; i<orderProductDTOList!.length; i++){
               ProductDTO productDTO = await _detailProductViewModel
                   .getDetailProduct(orderProductDTOList[i].id ?? 0);
-              _cartViewModel.addToCart(context, orderProductDTOList[i].memory,
-                  orderProductDTOList[i].color, productDTO);
+              int status = _cartViewModel.addToCart(context, orderProductDTOList[i].memory,
+                    orderProductDTOList[i].color, productDTO);
+              if(status == StatusAddToCart.maximumInStock.index){
+                statusNotification = StatusAddToCart.maximumInStock.index;
+              }
             }
-            showTopSnackBar(Overlay.of(context),
-                const CustomSnackBar.success(message: 'Add to cart successfully'));
+            if(statusNotification == StatusAddToCart.maximumInStock.index){
+              showTopSnackBar(
+                  Overlay.of(context),
+                  const CustomSnackBar.info(
+                      message: 'Add to cart successfully but some product has maximum quantity'));
+            }else{
+              showTopSnackBar(
+                  Overlay.of(context),
+                  const CustomSnackBar.success(
+                      message: 'Add to cart successfully'));
+            }
             setState(() {
               indexScreen = 1;
             });
