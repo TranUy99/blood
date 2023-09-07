@@ -57,7 +57,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
   String errorPhoneText = '';
   bool errorName = false;
   String errorNameText = '';
-  bool isDefault = false;
+  bool isDefault = true;
   final AddressViewModel _addressViewModel = AddressViewModel();
   String provinceName = "";
   String districtName = "";

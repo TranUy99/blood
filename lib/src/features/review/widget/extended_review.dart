@@ -160,7 +160,7 @@ class _ExtendedReviewState extends State<ExtendedReview> {
                     );
 
                   }
-                  return null;
+                 
                 },
                 itemCount: reviewList.length + 1,
                 shrinkWrap: true,

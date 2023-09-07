@@ -35,7 +35,7 @@ class PromotionBloc {
       if (promotion != null) {
         _promotionStateSubject.sink.add(SuccessGetIdPromotionState(promotion));
       } else {
-        _promotionStateSubject.sink.add(const FailedGetIdPromotionState("No address available"));
+        _promotionStateSubject.sink.add(const FailedGetIdPromotionState("No promotion available"));
       }
     }
   }
