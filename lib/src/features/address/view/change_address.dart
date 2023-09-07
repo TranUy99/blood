@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/model/district.dart';
@@ -8,9 +10,11 @@ import 'package:mobile_store/src/features/home_page/view/navigation_home_page.da
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:toggle_switch/toggle_switch.dart';
-import '../../../constant/utils/validate.dart';
 import '../widget/address_district.dart';
+import '../widget/address_form.dart';
+import '../widget/address_name_form.dart';
 import '../widget/address_province.dart';
+import '../widget/addresss_phone.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
@@ -343,91 +347,27 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                       });
                     },
                   ),
-                  TextField(
-                    controller: textAddressController,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      errorText: errorAddress ? errorAddressText : null,
-                      hintText: '${AppLocalizations.of(context)?.enterYourAddress}',
-                      hintStyle: const TextStyle(color: kTextFieldColor),
-                      focusedBorder:
-                          const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
-                    ),
-                    onChanged: (value) {
+                  BuildAddressForm(
+                    textAddressController: textAddressController,
+                    onAddressChanged: (bool) {
                       setState(() {
-                        if (value.isEmpty) {
-                          errorAddress = true;
-                          errorAddressText =
-                              '${AppLocalizations.of(context)?.addressCannotBeLeftBlank}';
-                        } else if (value.startsWith(' ')) {
-                          errorAddress = true;
-                          errorAddressText =
-                              '${AppLocalizations.of(context)?.noSpacesAtTheBeginning}';
-                        } else if (value.endsWith(' ')) {
-                          errorAddress = true;
-                          errorAddressText =
-                              '${AppLocalizations.of(context)?.noSpacesAtTheEndOfSentences}';
-                        } else {
-                          errorAddress = false;
-                          errorAddressText = '';
-                        }
+                        errorAddress = bool;
                       });
                     },
                   ),
-
-                  TextField(
-                    controller: textNameController,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      errorText: errorName ? errorNameText : null,
-                      hintText: '${AppLocalizations.of(context)?.enterTheRecipientName}',
-                      hintStyle: const TextStyle(color: kTextFieldColor),
-                      focusedBorder:
-                          const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
-                    ),
-                    onChanged: (value) {
+                  BuildNameAddressForm(
+                    textNameController: textNameController,
+                    onNameChanged: (bool) {
                       setState(() {
-                        if (value.isEmpty || Validate.validName(value)) {
-                          errorName = true;
-                          errorNameText = value.isEmpty
-                              ? '${AppLocalizations.of(context)?.nameCannotBeBlank}'
-                              : value.startsWith(' ')
-                                  ? '${AppLocalizations.of(context)?.noSpacesAtTheBeginning}'
-                                  : value.endsWith(' ')
-                                      ? '${AppLocalizations.of(context)?.noSpacesAtTheEndOfSentences}'
-                                      : '${AppLocalizations.of(context)?.doNotEnterNumbersOrSpecialCharacters}';
-                        } else {
-                          errorName = false;
-                          errorNameText = '';
-                        }
+                        errorName = bool;
                       });
                     },
                   ),
-                  TextField(
-                    controller: textPhoneController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      errorText: errorPhone ? errorPhoneText : null,
-                      hintText: '${AppLocalizations.of(context)?.enterYourPhoneNumber}',
-                      hintStyle: const TextStyle(color: kTextFieldColor),
-                      focusedBorder:
-                          const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
-                    ),
-                    onChanged: (value) {
+                  BuildAddressPhoneForm(
+                    textPhoneController: textPhoneController,
+                    onPhoneChanged: (bool) {
                       setState(() {
-                        if (value.isEmpty || Validate.invalidateMobile(value)) {
-                          errorPhone = true;
-                          errorPhoneText = value.isEmpty
-                              ? '${AppLocalizations.of(context)?.phoneNumberCanNotBeLeftBlank}'
-                              : value.startsWith(' ')
-                                  ? '${AppLocalizations.of(context)?.noSpacesAtTheBeginning}'
-                                  : value.endsWith(' ')
-                                      ? '${AppLocalizations.of(context)?.noSpacesAtTheEndOfSentences}'
-                                      : '${AppLocalizations.of(context)?.phoneNumberMustBe10Digits}';
-                        } else {
-                          errorPhone = false;
-                          errorPhoneText = '';
-                        }
+                        errorName = bool;
                       });
                     },
                   ),
@@ -441,7 +381,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                         String phone = textPhoneController.text;
                         String name = textNameController.text;
 
-                        print(locationType);
+                        log('$errorName');
 
                         if (addressHome.isNotEmpty &&
                             wardName!.isNotEmpty &&
@@ -450,7 +390,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                             phone.isNotEmpty &&
                             name.isNotEmpty &&
                             errorAddress == false &&
-                            errorName == false&&
+                            errorName == false &&
                             errorPhone == false &&
                             locationType!.isNotEmpty) {
                           final createAddress = await _addressViewModel.changeAddress(

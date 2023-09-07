@@ -6,10 +6,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BuildNameAddressForm extends StatefulWidget {
   final TextEditingController textNameController;
-
+   final Function(bool) onNameChanged;
   const BuildNameAddressForm({
     super.key,
     required this.textNameController,
+    required this.onNameChanged,
   });
 
   @override
@@ -28,7 +29,7 @@ class _BuildNameFormAddressState extends State<BuildNameAddressForm> {
         controller: widget.textNameController,
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
-          errorText: errorName ? errorNameText : null,
+          errorText: errorNameText.isNotEmpty ? errorNameText : null,
           hintText: '${AppLocalizations.of(context)?.enterTheRecipientName}',
           hintStyle: const TextStyle(color: kTextFieldColor),
           focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
@@ -36,7 +37,7 @@ class _BuildNameFormAddressState extends State<BuildNameAddressForm> {
         onChanged: (value) {
           setState(() {
             if (value.isEmpty || Validate.validName(value)) {
-              errorName = true;
+             widget.onNameChanged(true);
               errorNameText = value.isEmpty
                   ? '${AppLocalizations.of(context)?.nameCannotBeBlank}'
                   : value.startsWith(' ')
@@ -45,7 +46,7 @@ class _BuildNameFormAddressState extends State<BuildNameAddressForm> {
                           ? '${AppLocalizations.of(context)?.noSpacesAtTheEndOfSentences}'
                           : '${AppLocalizations.of(context)?.doNotEnterNumbersOrSpecialCharacters}';
             } else {
-              errorName = false;
+               widget.onNameChanged(false);
               errorNameText = '';
             }
           });

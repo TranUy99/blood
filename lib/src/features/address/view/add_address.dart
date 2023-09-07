@@ -10,6 +10,10 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../constant/utils/validate.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../widget/address_form.dart';
+import '../widget/address_name_form.dart';
+import '../widget/addresss_phone.dart';
+
 class AddAddressScreen extends StatefulWidget {
   const AddAddressScreen({super.key});
 
@@ -289,91 +293,27 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         ),
                   const SizedBox(height: 16.0),
 
-                  TextField(
-                    controller: textAddressController,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      errorText: errorAddress ? errorAddressText : null,
-                      hintText: '${AppLocalizations.of(context)?.enterYourAddress}',
-                      hintStyle: const TextStyle(color: kTextFieldColor),
-                      focusedBorder:
-                          const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
-                    ),
-                    onChanged: (value) {
+                  BuildAddressForm(
+                    textAddressController: textAddressController,
+                    onAddressChanged: (bool) {
                       setState(() {
-                        if (value.isEmpty) {
-                          errorAddress = true;
-                          errorAddressText =
-                              '${AppLocalizations.of(context)?.addressCannotBeLeftBlank}';
-                        } else if (value.startsWith(' ')) {
-                          errorAddress = true;
-                          errorAddressText =
-                              '${AppLocalizations.of(context)?.noSpacesAtTheBeginning}';
-                        } else if (value.endsWith(' ')) {
-                          errorAddress = true;
-                          errorAddressText =
-                              '${AppLocalizations.of(context)?.noSpacesAtTheEndOfSentences}';
-                        } else {
-                          errorAddress = false;
-                          errorAddressText = '';
-                        }
+                        errorAddress = bool;
                       });
                     },
                   ),
-
-                  TextField(
-                    controller: textNameController,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      errorText: errorName ? errorNameText : null,
-                      hintText: '${AppLocalizations.of(context)?.enterTheRecipientName}',
-                      hintStyle: const TextStyle(color: kTextFieldColor),
-                      focusedBorder:
-                          const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
-                    ),
-                    onChanged: (value) {
+                  BuildNameAddressForm(
+                    textNameController: textNameController,
+                    onNameChanged: (bool) {
                       setState(() {
-                        if (value.isEmpty || Validate.validName(value)) {
-                          errorName = true;
-                          errorNameText = value.isEmpty
-                              ? '${AppLocalizations.of(context)?.nameCannotBeBlank}'
-                              : value.startsWith(' ')
-                                  ? '${AppLocalizations.of(context)?.noSpacesAtTheBeginning}'
-                                  : value.endsWith(' ')
-                                      ? '${AppLocalizations.of(context)?.noSpacesAtTheEndOfSentences}'
-                                      : '${AppLocalizations.of(context)?.doNotEnterNumbersOrSpecialCharacters}';
-                        } else {
-                          errorName = false;
-                          errorNameText = '';
-                        }
+                        errorName = bool;
                       });
                     },
                   ),
-                  TextField(
-                    controller: textPhoneController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      errorText: errorPhone ? errorPhoneText : null,
-                      hintText: '${AppLocalizations.of(context)?.enterYourPhoneNumber}',
-                      hintStyle: const TextStyle(color: kTextFieldColor),
-                      focusedBorder:
-                          const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
-                    ),
-                    onChanged: (value) {
+                  BuildAddressPhoneForm(
+                    textPhoneController: textPhoneController,
+                    onPhoneChanged: (bool) {
                       setState(() {
-                        if (value.isEmpty || Validate.invalidateMobile(value)) {
-                          errorPhone = true;
-                          errorPhoneText = value.isEmpty
-                              ? '${AppLocalizations.of(context)?.phoneNumberCanNotBeLeftBlank}'
-                              : value.startsWith(' ')
-                                  ? '${AppLocalizations.of(context)?.noSpacesAtTheBeginning}'
-                                  : value.endsWith(' ')
-                                      ? '${AppLocalizations.of(context)?.noSpacesAtTheEndOfSentences}'
-                                      : '${AppLocalizations.of(context)?.phoneNumberMustBe10Digits}';
-                        } else {
-                          errorPhone = false;
-                          errorPhoneText = '';
-                        }
+                        errorName = bool;
                       });
                     },
                   ),
@@ -393,7 +333,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                             phone.isNotEmpty &&
                             name.isNotEmpty &&
                             errorAddress == false &&
-                            errorName == false&&
+                            errorName == false &&
                             errorPhone == false &&
                             locationType != null) {
                           final createAddress = await _addressViewModel.createAddress(

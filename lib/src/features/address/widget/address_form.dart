@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import '../../../constant/color/color.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-  class BuildAddressForm extends StatefulWidget {
+class BuildAddressForm extends StatefulWidget {
   final TextEditingController textAddressController;
-  final Function(bool) errorAddress;
+  final Function(bool) onAddressChanged;
 
-  BuildAddressForm({required this.textAddressController, required this.errorAddress});
+  BuildAddressForm({
+    required this.textAddressController,
+    required this.onAddressChanged,
+  });
 
   @override
   State<BuildAddressForm> createState() => _BuildAddressFormState();
@@ -24,7 +27,7 @@ class _BuildAddressFormState extends State<BuildAddressForm> {
         controller: widget.textAddressController,
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
-          errorText: widget.errorAddress(true) ? errorAddressText : null,
+          errorText: errorAddressText.isNotEmpty ? errorAddressText : null,
           hintText: '${AppLocalizations.of(context)?.enterYourAddress}',
           hintStyle: const TextStyle(color: kTextFieldColor),
           focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
@@ -32,17 +35,17 @@ class _BuildAddressFormState extends State<BuildAddressForm> {
         onChanged: (value) {
           setState(() {
             if (value.isEmpty) {
-              widget.errorAddress(true);
               errorAddressText = '${AppLocalizations.of(context)?.addressCannotBeLeftBlank}';
+              widget.onAddressChanged(true);
             } else if (value.startsWith(' ')) {
-              widget.errorAddress(true);
               errorAddressText = '${AppLocalizations.of(context)?.noSpacesAtTheBeginning}';
+              widget.onAddressChanged(true);
             } else if (value.endsWith(' ')) {
-              widget.errorAddress(true);
               errorAddressText = '${AppLocalizations.of(context)?.noSpacesAtTheEndOfSentences}';
+              widget.onAddressChanged(true);
             } else {
-              widget.errorAddress(false);
               errorAddressText = '';
+              widget.onAddressChanged(false);
             }
           });
         },
