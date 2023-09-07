@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/model/address.dart';
 import 'package:mobile_store/src/features/address/view/change_address.dart';
 import 'package:mobile_store/src/features/address/view/delete_address.dart';
@@ -59,30 +60,47 @@ class _GetAddressScreenState extends State<GetAddressScreen> {
                     child: Text('${address.location}'),
                   ),
                   const SizedBox(height: 4),
-                  if (address.defaults == true)
-                    
+                  
                     Row(
                       children: [
-                        OutlinedButton(
-                          onPressed: () {},
-                          style: OutlinedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(0),
+                        if (address.defaults == true)
+                        Padding(
+                          padding: EdgeInsets.only(right: 20),
+                          child: OutlinedButton(
+                            onPressed: () {},
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: kDarkGreyColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(0),
+                              ),
+                              side: const BorderSide(width: 1, color: Colors.green),
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 0.1,
+                                horizontal: 14,
+                              ),
                             ),
-                            side: const BorderSide(width: 1, color: Colors.green),
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 0.1,
-                              horizontal: 14,
-                            ),
-                          ),
-                          child: const Text(
-                            'Default',
-                            style: TextStyle(
-                              color: Colors.green,
+                            child: const Text(
+                              'Default',
+                              style: TextStyle(
+                                color: Colors.green,
+                              ),
                             ),
                           ),
                         ),
-                        const SizedBox(width: 20),
+                        if(address.locationType != '')
+                        Container(
+                          width: 70,
+                          height: 35,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: kOrange),
+                            color: kDarkGreyColor
+                          ),
+                          child: Center(
+                              child: Text(
+                            '${address.locationType?.toUpperCase()}',
+                            style: TextStyle(color: kOrange, fontWeight: FontWeight.bold),
+                          )),
+                        )
                       ],
                     ),
                     
@@ -100,7 +118,7 @@ class _GetAddressScreenState extends State<GetAddressScreen> {
                               name: address.nameReceiver,
                               phone: address.phoneReceiver,
                               address: address.location,
-                              id: address.id);
+                              id: address.id, locationType: address.locationType,);
                         },
                       );
                     },

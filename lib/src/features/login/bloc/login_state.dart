@@ -1,3 +1,4 @@
+import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class LoginState {}
@@ -22,6 +23,7 @@ class SuccessLoginState extends LoginState {
     preferences.setBool('isRemember', isRemember!);
   }
 }
+
 
 //Failed state login
 class ErrorLoginState extends LoginState {

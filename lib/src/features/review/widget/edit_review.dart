@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:mobile_store/src/features/detail_product/view/detail_product_screen.dart';
 import 'package:mobile_store/src/features/review/view_model/review_view_model.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../constant/color/color.dart';
 import '../../detail_product/bloc/detail_product_bloc.dart';
-import '../../detail_product/view_model/detail_product_view_model.dart';
 
 class EditReview extends StatefulWidget {
   const EditReview(

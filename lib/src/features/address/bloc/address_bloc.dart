@@ -53,7 +53,7 @@ class AddressBloc {
       final createAddress = await AddressService.createAddress(
           event.location, event.type, event.phoneReceiver, event.nameReceiver);
 
-      if (createAddress.message == null) {
+      if (createAddress.path == null) {
         _addressStateSubject.sink.add(SuccessCreateAddressState(true));
       } else {
         _addressStateSubject.sink.add(FailedCreateAddressState("error"));

@@ -6,7 +6,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BuildAddressPhoneForm extends StatefulWidget {
   final TextEditingController textPhoneController;
-  const BuildAddressPhoneForm({super.key, required this.textPhoneController});
+  final Function(bool) onPhoneChanged;
+  const BuildAddressPhoneForm(
+      {super.key, required this.textPhoneController, required this.onPhoneChanged});
 
   @override
   State<BuildAddressPhoneForm> createState() => _BuildAddressPhoneFormState();
@@ -23,7 +25,7 @@ class _BuildAddressPhoneFormState extends State<BuildAddressPhoneForm> {
         controller: widget.textPhoneController,
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
-          errorText: errorPhone ? errorPhoneText : null,
+          errorText: errorPhoneText.isNotEmpty ? errorPhoneText : null,
           hintText: '${AppLocalizations.of(context)?.enterYourPhoneNumber}',
           hintStyle: const TextStyle(color: kTextFieldColor),
           focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
@@ -31,7 +33,7 @@ class _BuildAddressPhoneFormState extends State<BuildAddressPhoneForm> {
         onChanged: (value) {
           setState(() {
             if (value.isEmpty || Validate.invalidateMobile(value)) {
-              errorPhone = true;
+              widget.onPhoneChanged(true);
               errorPhoneText = value.isEmpty
                   ? '${AppLocalizations.of(context)?.phoneNumberCanNotBeLeftBlank}'
                   : value.startsWith(' ')
@@ -40,7 +42,7 @@ class _BuildAddressPhoneFormState extends State<BuildAddressPhoneForm> {
                           ? '${AppLocalizations.of(context)?.noSpacesAtTheEndOfSentences}'
                           : '${AppLocalizations.of(context)?.phoneNumberMustBe10Digits}';
             } else {
-              errorPhone = false;
+              widget.onPhoneChanged(false);
               errorPhoneText = '';
             }
           });

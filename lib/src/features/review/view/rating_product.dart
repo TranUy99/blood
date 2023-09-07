@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile_store/main.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/features/cart_page/view_model/cart_view_model.dart';
+import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-import '../../detail_product/bloc/detail_product_bloc.dart';
 import '../../detail_product/view_model/detail_product_view_model.dart';
 
 class RatingProduct extends StatefulWidget {
@@ -135,11 +137,15 @@ class _RatingProductState extends State<RatingProduct> {
                   child: Container(
                     padding: const EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
-                      color: selectedColor == colorName
-                          ? colorMap[colorName]
-                          : Colors.white,
+                      // color: selectedColor == colorName
+                      //     ? colorMap[colorName]
+                      //     : Colors.white,
                       borderRadius: BorderRadius.circular(5.0),
-                      border: Border.all(),
+                      border: Border.all(
+                        color: selectedColor == colorName
+                            ? kGreenColor
+                            : kGreyColor,
+                      ),
                     ),
                     child: Text(
                       colorName!,
@@ -171,8 +177,33 @@ class _RatingProductState extends State<RatingProduct> {
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               onPressed: () async {
-                cartViewModel.addToCart(
-                    context, selectedOption, selectedColor, widget.productDTO);
+                if (successLoginState.isVerified) {
+                  if (selectedOption != '' && selectedColor != '') {
+                    int status = cartViewModel.addToCart(context, selectedOption,
+                        selectedColor, widget.productDTO);
+                    if(status == StatusAddToCart.successfully.index){
+                      showTopSnackBar(
+                          Overlay.of(context),
+                          const CustomSnackBar.success(
+                              message: 'Add to cart successfully'));
+                    }else{
+                      showTopSnackBar(
+                          Overlay.of(context),
+                          const CustomSnackBar.info(
+                              message: 'Maximum number of product'));
+                    }
+                  } else {
+                    showTopSnackBar(
+                        Overlay.of(context),
+                        const CustomSnackBar.error(
+                            message: 'Please choose memory or color option'));
+                  }
+                } else {
+                  showTopSnackBar(
+                      Overlay.of(context),
+                      const CustomSnackBar.error(
+                          message: 'You are not login yet'));
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: kGreenColor,

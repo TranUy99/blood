@@ -18,7 +18,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   TextEditingController textNewPasswordController = TextEditingController();
   TextEditingController textOldPasswordController = TextEditingController();
   TextEditingController textConfirmPasswordController = TextEditingController();
-  bool obscure = true;
+
+  bool obscurePassword = true;
+  bool obscureNewPassword = true;
+  bool obscureRepeatPassword = true;
   final ChangePasswordViewModel _changePasswordViewModel = ChangePasswordViewModel();
   bool error = false;
   bool errorNewPassword = false;
@@ -58,22 +61,36 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     TextFormField(
                       controller: textPasswordController,
                       keyboardType: TextInputType.text,
-                      obscureText: obscure,
+                      obscureText: obscurePassword,
                       decoration: InputDecoration(
                           errorText: error ? errorText : null,
-                          hintText: 'Old password',
+                          hintText: '${AppLocalizations.of(context)?.oldPassword}',
                           hintStyle: const TextStyle(color: kTextFieldColor),
                           focusedBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: kGreenColor)),
-                          suffixIcon: obscureChange()),
+                          suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  obscurePassword = !obscurePassword;
+                                });
+                              },
+                              icon: obscurePassword
+                                  ? const Icon(
+                                      Icons.visibility_off,
+                                      color: kGreenColor,
+                                    )
+                                  : const Icon(
+                                      Icons.visibility,
+                                      color: kGreenColor,
+                                    ))),
                       onChanged: (value) {
                         setState(() {
                           // Check password
                           if (value.isEmpty || Validate.checkInvalidateNewPassword(value)) {
                             error = true;
                             errorText = value.isEmpty
-                                ? 'Mật khẩu không được để trống'
-                                : 'Mật khẩu nên có chữ cái in hoa và kí tự đặc biệt';
+                                ? '${AppLocalizations.of(context)?.passwordCanNotBeBlank}'
+                                : '${AppLocalizations.of(context)?.passwordShouldHaveCapitalLettersAndSpecialCharacters}';
                           } else {
                             error = false;
                             errorText = '';
@@ -84,22 +101,36 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     TextFormField(
                       controller: textNewPasswordController,
                       keyboardType: TextInputType.text,
-                      obscureText: obscure,
+                      obscureText: obscureNewPassword,
                       decoration: InputDecoration(
                           errorText: errorNewPassword ? errorNewPasswordText : null,
-                          hintText: 'New password',
+                          hintText: '${AppLocalizations.of(context)?.newPassword}',
                           hintStyle: const TextStyle(color: kTextFieldColor),
                           focusedBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: kGreenColor)),
-                          suffixIcon: obscureChange()),
+                          suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  obscureNewPassword = !obscureNewPassword;
+                                });
+                              },
+                              icon: obscureNewPassword
+                                  ? const Icon(
+                                      Icons.visibility_off,
+                                      color: kGreenColor,
+                                    )
+                                  : const Icon(
+                                      Icons.visibility,
+                                      color: kGreenColor,
+                                    ))),
                       onChanged: (value) {
                         setState(() {
                           // Check password
                           if (value.isEmpty || Validate.checkInvalidateNewPassword(value)) {
                             errorNewPassword = true;
                             errorNewPasswordText = value.isEmpty
-                                ? 'Mật khẩu không được để trống'
-                                : 'Mật khẩu nên có chữ cái in hoa và kí tự đặc biệt';
+                                ? '${AppLocalizations.of(context)?.passwordCanNotBeBlank}'
+                                : '${AppLocalizations.of(context)?.passwordShouldHaveCapitalLettersAndSpecialCharacters}';
                           } else {
                             errorNewPassword = false;
                             errorNewPasswordText = '';
@@ -110,21 +141,36 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     TextFormField(
                       controller: textConfirmPasswordController,
                       keyboardType: TextInputType.text,
-                      obscureText: obscure,
+                      obscureText: obscureRepeatPassword,
                       decoration: InputDecoration(
                           errorText: errorConfirmPassword ? errorComFirmPasswordText : null,
-                          hintText: 'New password',
+                          hintText: '${AppLocalizations.of(context)?.repeatPassword}',
                           hintStyle: const TextStyle(color: kTextFieldColor),
                           focusedBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: kGreenColor)),
-                          suffixIcon: obscureChange()),
+                          suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  obscureRepeatPassword = !obscureRepeatPassword;
+                                });
+                              },
+                              icon: obscureRepeatPassword
+                                  ? const Icon(
+                                      Icons.visibility_off,
+                                      color: kGreenColor,
+                                    )
+                                  : const Icon(
+                                      Icons.visibility,
+                                      color: kGreenColor,
+                                    ))),
                       onChanged: (value) {
                         setState(() {
                           // Check password
                           if (textConfirmPasswordController.text !=
                               textNewPasswordController.text) {
                             errorConfirmPassword = true;
-                            errorComFirmPasswordText = 'Mật khẩu không trùng khớp';
+                            errorComFirmPasswordText =
+                                '${AppLocalizations.of(context)?.passwordsDoNotMatch}';
                           } else {
                             errorConfirmPassword = false;
                             errorComFirmPasswordText = '';
@@ -155,8 +201,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             if (changPassword == true) {
                               showTopSnackBar(
                                 Overlay.of(context),
-                                const CustomSnackBar.error(
-                                    message: 'Change password success',
+                                CustomSnackBar.error(
+                                    message:
+                                        '${AppLocalizations.of(context)?.changePasswordSuccess}',
                                     backgroundColor: kGreenColor),
                               );
                               // Navigator.pop(context);
@@ -164,8 +211,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             } else {
                               showTopSnackBar(
                                 Overlay.of(context),
-                                const CustomSnackBar.error(
-                                  message: 'Failed change password',
+                                CustomSnackBar.error(
+                                  message:
+                                      '${AppLocalizations.of(context)?.theOldPasswordIsIncorrect}',
                                   backgroundColor: kRedColor,
                                 ),
                               );
@@ -174,8 +222,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           } else {
                             showTopSnackBar(
                               Overlay.of(context),
-                              const CustomSnackBar.error(
-                                message: 'Vui long nhap dau tu thong tin',
+                              CustomSnackBar.error(
+                                message:
+                                    '${AppLocalizations.of(context)?.pleaseEnterFullInformation}',
                                 backgroundColor: kRedColor,
                               ),
                             );
@@ -184,7 +233,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(kGreenColor),
                         ),
-                        child: const Text('Save'),
+                        child:  Text('${AppLocalizations.of(context)?.save}'),
                       ),
                       const SizedBox(width: 40),
                       ElevatedButton(
@@ -194,7 +243,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(kRedColor),
                         ),
-                        child: const Text('Close'),
+                        child:Text('${AppLocalizations.of(context)?.close}'),
                       ),
                     ],
                   ),
@@ -205,23 +254,5 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         ),
       ),
     );
-  }
-
-  Widget obscureChange() {
-    return IconButton(
-        onPressed: () {
-          setState(() {
-            obscure = !obscure;
-          });
-        },
-        icon: obscure
-            ? const Icon(
-                Icons.visibility_off,
-                color: kGreenColor,
-              )
-            : const Icon(
-                Icons.visibility,
-                color: kGreenColor,
-              ));
   }
 }
