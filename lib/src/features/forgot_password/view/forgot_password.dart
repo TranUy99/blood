@@ -294,7 +294,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               setState(() {
                 email = textEmailController.text;
               });
-              _sendEmail(email, 'Wrong email');
+              _sendEmail(email, 'Email không tồn tại');
             },
             child: const PrimaryButton(buttonText: 'Send OTP'),
           ),
