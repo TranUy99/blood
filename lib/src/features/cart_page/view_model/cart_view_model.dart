@@ -10,6 +10,8 @@ import '../bloc/cart_bloc.dart';
 import '../bloc/cart_event.dart';
 import '../bloc/cart_state.dart';
 
+enum StatusAddToCart{successfully, maximumInStock}
+
 class CartViewModel {
   final GetProductCartBloc getProductCartBloc = GetProductCartBloc();
   final GetDataCartBloc getDataCartBloc = GetDataCartBloc();
@@ -30,25 +32,28 @@ class CartViewModel {
     return cartList;
   }
 
-  addToCart(BuildContext context, String? selectedOption, String? selectedColor,
-      ProductDTO productDTO) {
-    int? flag;
+  int addToCart(BuildContext context, String? selectedOption,
+      String? selectedColor, ProductDTO productDTO) {
+    int status = StatusAddToCart.successfully.index;
+    int? indexCartProduct;
     String? memory;
     String? color;
     List<ProductDetailCart> cartList = [];
 
+    //Kiểm tra sản phẩm có trong giỏ hàng hay chưa
     for (int i = 0; i < getUser.cartBox!.length; i++) {
       ProductDetailCart product = getUser.cartBox?.getAt(i);
       cartList.add(product);
       if (productDTO.id == product.productID &&
           selectedOption == product.memory &&
           selectedColor == product.color) {
-        flag = i;
+        indexCartProduct = i;
         memory = selectedOption;
         color = selectedColor;
       }
     }
-    if (flag == null && memory == null && color == null) {
+    //Khi chưa có sản phẩm trong giỏ hàng
+    if (indexCartProduct == null && memory == null && color == null) {
       cartList.insert(
           0,
           ProductDetailCart(
@@ -59,18 +64,26 @@ class CartViewModel {
               stock: productDTO.stocks));
       getUser.cartBox?.deleteAll(getUser.cartBox!.keys);
       getUser.cartBox?.addAll(cartList);
+      status = StatusAddToCart.successfully.index;
     } else {
-      ProductDetailCart product = getUser.cartBox?.getAt(flag ?? 0);
-      getUser.cartBox?.putAt(
-          flag ?? 0,
-          ProductDetailCart(
-              productID: productDTO.id ?? 0,
-              productQuantity: product.productQuantity + 1,
-              memory: product.memory,
-              color: product.color,
-              stock: productDTO.stocks));
+      //Khi đã có sản phẩm
+      ProductDetailCart product = getUser.cartBox?.getAt(indexCartProduct ?? 0);
+      if (product.stock! > product.productQuantity) {
+        getUser.cartBox?.putAt(
+            indexCartProduct ?? 0,
+            ProductDetailCart(
+                productID: productDTO.id ?? 0,
+                productQuantity: product.productQuantity + 1,
+                memory: product.memory,
+                color: product.color,
+                stock: productDTO.stocks));
+        status = StatusAddToCart.successfully.index;
+      } else {
+        status = StatusAddToCart.maximumInStock.index;
+      }
     }
     streamLengthCartList();
+    return status;
   }
 
   streamLengthCartList() async {

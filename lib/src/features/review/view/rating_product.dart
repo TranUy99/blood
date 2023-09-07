@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile_store/main.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/core/model/product.dart';
 import 'package:mobile_store/src/features/cart_page/view_model/cart_view_model.dart';
@@ -178,12 +179,19 @@ class _RatingProductState extends State<RatingProduct> {
               onPressed: () async {
                 if (successLoginState.isVerified) {
                   if (selectedOption != '' && selectedColor != '') {
-                    cartViewModel.addToCart(context, selectedOption,
+                    int status = cartViewModel.addToCart(context, selectedOption,
                         selectedColor, widget.productDTO);
-                    showTopSnackBar(
-                        Overlay.of(context),
-                        const CustomSnackBar.success(
-                            message: 'Add to cart successfully'));
+                    if(status == StatusAddToCart.successfully.index){
+                      showTopSnackBar(
+                          Overlay.of(context),
+                          const CustomSnackBar.success(
+                              message: 'Add to cart successfully'));
+                    }else{
+                      showTopSnackBar(
+                          Overlay.of(context),
+                          const CustomSnackBar.info(
+                              message: 'Maximum number of product'));
+                    }
                   } else {
                     showTopSnackBar(
                         Overlay.of(context),
