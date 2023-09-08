@@ -16,34 +16,38 @@ class _NotLoginState extends State<NotLogin> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              '${AppLocalizations.of(context)?.notLoginYet}',
-              style: TextStyle(fontSize: 40),
-            ),
-            Padding(
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            '${AppLocalizations.of(context)?.notLoginYet}',
+            style: TextStyle(fontSize: 40),
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).orientation == Orientation.portrait
+                ? MediaQuery.of(context).size.width * 0.8
+                : MediaQuery.of(context).size.width * 0.4,
+            child: Padding(
+              
               padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
               child: Image.asset('assets/images/not_login.png'),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.05,
-            ),
-            InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LogInScreen(),
-                      ));
-                },
-                child: PrimaryButton(buttonText: '${AppLocalizations.of(context)?.logIn}')),
-          ],
-        ),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.05,
+          ),
+          InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LogInScreen(),
+                    ));
+              },
+              child: PrimaryButton(buttonText: '${AppLocalizations.of(context)?.logIn}')),
+        ],
       ),
     );
   }
