@@ -7,10 +7,13 @@ import 'package:mobile_store/src/features/address/view_model/address_view_model.
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import '../../../constant/utils/validate.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import '../widget/address_form.dart';
 import '../widget/address_name_form.dart';
 import '../widget/addresss_phone.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class AddAddressScreen extends StatefulWidget {
   const AddAddressScreen({super.key});
 
@@ -61,6 +64,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
         final double contentHeight = availableHeight < maxHeight ? availableHeight : maxHeight;
         return SizedBox(
           height: contentHeight,
+          width: MediaQuery.of(context).size.width * 0.8,
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(12.0),
@@ -92,9 +96,10 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                           height: MediaQuery.of(context).size.height * 0.05,
                           width: MediaQuery.of(context).size.width * 0.25,
                           decoration: BoxDecoration(
-                            border: Border.all(color: (locationType == 'home')? kGreenColor : Colors.transparent),
-                            borderRadius: BorderRadius.circular(20)
-                          ),
+                              border: Border.all(
+                                  color:
+                                      (locationType == 'home') ? kGreenColor : Colors.transparent),
+                              borderRadius: BorderRadius.circular(20)),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -121,11 +126,13 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         },
                         child: Container(
                           height: MediaQuery.of(context).size.height * 0.05,
-                          width: MediaQuery.of(context).size.width * 0.25,
+                          width: MediaQuery.of(context).size.width * 0.35,
                           decoration: BoxDecoration(
-                              border: Border.all(color: (locationType == 'office')? kGreenColor : Colors.transparent),
-                              borderRadius: BorderRadius.circular(20)
-                          ),
+                              border: Border.all(
+                                  color: (locationType == 'office')
+                                      ? kGreenColor
+                                      : Colors.transparent),
+                              borderRadius: BorderRadius.circular(20)),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -251,7 +258,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
                               return DropdownButton<String>(
                                 menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
-                                hint:Text("${AppLocalizations.of(context)?.ward}"),
+                                hint: Text("${AppLocalizations.of(context)?.ward}"),
                                 value: selectedWard?.ward_name,
                                 onChanged: (name) {
                                   setState(() {
@@ -278,11 +285,30 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         ),
                   const SizedBox(height: 16.0),
 
-                  BuildAddressForm(textAddressController: textAddressController),
+                  BuildAddressForm(
+                    textAddressController: textAddressController,
+                    onAddressChanged: (bool) {
+                      setState(() {
+                        errorAddress = bool;
+                      });
+                    },
+                  ),
                   BuildNameAddressForm(
                     textNameController: textNameController,
+                    onNameChanged: (bool) {
+                      setState(() {
+                        errorName = bool;
+                      });
+                    },
                   ),
-                  BuildAddressPhoneForm(textPhoneController: textPhoneController),
+                  BuildAddressPhoneForm(
+                    textPhoneController: textPhoneController,
+                    onPhoneChanged: (bool) {
+                      setState(() {
+                        errorName = bool;
+                      });
+                    },
+                  ),
 
                   const SizedBox(height: 16.0),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -292,15 +318,18 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         String address = ('$addressHome,$newWard ,$newDistrict ,$newProvince');
                         String phone = textPhoneController.text;
                         String name = textNameController.text;
-
                         if (addressHome.isNotEmpty &&
                             newProvince!.isNotEmpty &&
                             newWard!.isNotEmpty &&
                             newDistrict!.isNotEmpty &&
                             phone.isNotEmpty &&
-                            name.isNotEmpty && locationType != null) {
-                          final createAddress =
-                              await _addressViewModel.createAddress(address, locationType!, phone, name);
+                            name.isNotEmpty &&
+                            errorAddress == false &&
+                            errorName == false &&
+                            errorPhone == false &&
+                            locationType != null) {
+                          final createAddress = await _addressViewModel.createAddress(
+                              address, locationType!, phone, name);
 
                           if (createAddress == true) {
                             // ignore: use_build_context_synchronously
@@ -313,14 +342,13 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                             showTopSnackBar(
                               Overlay.of(context),
                               CustomSnackBar.error(
-                                  message:
-                                      '${AppLocalizations.of(context)?.addSuccessfulAddress} ',
+                                  message: '${AppLocalizations.of(context)?.addSuccessfulAddress} ',
                                   backgroundColor: kGreenColor),
                             );
                           } else {
                             showTopSnackBar(
                               Overlay.of(context),
-                               CustomSnackBar.error(
+                              CustomSnackBar.error(
                                 message: '${AppLocalizations.of(context)?.addFailedAddress}',
                                 backgroundColor: kRedColor,
                               ),
@@ -330,8 +358,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         } else {
                           showTopSnackBar(
                             Overlay.of(context),
-                             CustomSnackBar.error(
-                              message: '${AppLocalizations.of(context)?.pleaseEnterFullInformation}',
+                            CustomSnackBar.error(
+                              message:
+                                  '${AppLocalizations.of(context)?.pleaseEnterFullInformation}',
                               backgroundColor: kRedColor,
                             ),
                           );

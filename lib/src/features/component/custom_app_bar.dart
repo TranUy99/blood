@@ -54,23 +54,44 @@ class _CustomAppBarState extends State<CustomAppBar> {
               children: [
                 const MenuButton(),
                 SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.65,
-                    height: MediaQuery.of(context).size.height * 0.05,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context, MaterialPageRoute(builder: (context) => const Search()));
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(10.0, 10.0, 20.0, 10.0),
-                        decoration: BoxDecoration(
-                          color: kWhiteColor,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: kGreyColor, width: 1),
-                        ),
-                        child: Row(children: [
+                  width: MediaQuery.of(context).orientation == Orientation.portrait
+                      ? MediaQuery.of(context).size.width * 0.65
+                      : MediaQuery.of(context).size.width *
+                          0.45, // Điều chỉnh kích thước cho cả hai hướng
+                  height: MediaQuery.of(context).orientation == Orientation.portrait
+                      ? MediaQuery.of(context).size.height * 0.05
+                      : MediaQuery.of(context).size.height *
+                          0.1, // Điều chỉnh kích thước cho cả hai hướng
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Search()),
+                      );
+                    },
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(
+                        MediaQuery.of(context).orientation == Orientation.portrait
+                            ? 10.0
+                            : 20.0, // Điều chỉnh lề cho cả hai hướng
+                        10.0,
+                        MediaQuery.of(context).orientation == Orientation.portrait
+                            ? 20.0
+                            : 10.0, // Điều chỉnh lề cho cả hai hướng
+                        10.0,
+                      ),
+                      decoration: BoxDecoration(
+                        color: kWhiteColor,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: kGreyColor, width: 1),
+                      ),
+                      child: Row(
+                        children: [
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.50,
+                            width: MediaQuery.of(context).orientation == Orientation.portrait
+                                ? MediaQuery.of(context).size.width * 0.50
+                                : MediaQuery.of(context).size.width *
+                                    0.30, // Điều chỉnh kích thước cho cả hai hướng
                             child: DefaultTextStyle(
                               style: GoogleFonts.lato(
                                 color: kGreenColor,
@@ -95,8 +116,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                   ),
                                 ],
                                 onTap: () {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) => const Search()));
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const Search()),
+                                  );
                                 },
                               ),
                             ),
@@ -105,9 +128,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
                             Icons.search,
                             color: kGreenColor,
                           ),
-                        ]),
+                        ],
                       ),
-                    )),
+                    ),
+                  ),
+                ),
                 StreamBuilder<GetLengthCartState>(
                   initialData: cartViewModel.initialLengthCart(),
                   stream: CustomAppBar.cartBloc.getLengthStateController.stream,

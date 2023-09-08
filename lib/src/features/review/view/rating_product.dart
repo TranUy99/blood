@@ -137,11 +137,15 @@ class _RatingProductState extends State<RatingProduct> {
                   child: Container(
                     padding: const EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
-                      color: selectedColor == colorName
-                          ? colorMap[colorName]
-                          : Colors.white,
+                      // color: selectedColor == colorName
+                      //     ? colorMap[colorName]
+                      //     : Colors.white,
                       borderRadius: BorderRadius.circular(5.0),
-                      border: Border.all(),
+                      border: Border.all(
+                        color: selectedColor == colorName
+                            ? kGreenColor
+                            : kGreyColor,
+                      ),
                     ),
                     child: Text(
                       colorName!,

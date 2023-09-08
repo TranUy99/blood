@@ -49,7 +49,7 @@ class _DistrictDropdownState extends State<DistrictForm> {
             items: districtNames
                 .map((name) => DropdownMenuItem(
                       value: name,
-                      child: Text(name!),
+                      child: Text(name),
                     ))
                 .toList(),
           );

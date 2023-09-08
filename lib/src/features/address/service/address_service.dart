@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart' as dio;
 import 'package:mobile_store/main.dart';
@@ -23,7 +24,7 @@ class AddressService {
       final List<dynamic> results = json['results'];
       final List<Province> provinces =
           results.map<Province>((province) => Province.fromJson(province)).toList();
-     
+
       return provinces;
     } catch (e) {
       return [];
@@ -73,7 +74,7 @@ class AddressService {
             type: type,
             phoneReceiver: phoneReceiver,
             nameReceiver: nameReceiver));
-
+   
     return response;
   }
 

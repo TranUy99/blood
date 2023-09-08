@@ -76,9 +76,10 @@ class _SelectedPromotionCardState extends State<SelectedPromotionCard> {
                 builder: (context, getData) {
                   if (getData.connectionState == ConnectionState.waiting) {
                     return const Center(
-                      child: CircularProgressIndicator(),
+                      
                     );
-                  } else if (getData.hasError) {
+                  } else
+                   if (getData.hasError) {
                     return Text('Error: ${getData.error}');
                   } else {
                     return StreamBuilder<GetPriceCartState>(
