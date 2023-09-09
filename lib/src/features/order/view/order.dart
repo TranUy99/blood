@@ -186,6 +186,7 @@ class _OrderState extends State<OrderView> {
                                           MaterialPageRoute(
                                             builder: (context) => OrderDetail(
                                               idOrder: order.id,
+                                              receiveDate: dateTime,
                                             ),
                                           ),
                                         );

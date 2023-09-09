@@ -33,3 +33,13 @@ class FailedGetOrderDetail extends OrderState {
   final String errorMessage;
   const FailedGetOrderDetail(this.errorMessage);
 }
+
+abstract class CancelOrderState{}
+
+class SuccessCancelOrderState extends CancelOrderState{
+}
+
+class ErrorCancelOrderState extends CancelOrderState{
+  String? error;
+  ErrorCancelOrderState(this.error);
+}

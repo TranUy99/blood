@@ -1,4 +1,3 @@
-
 import 'package:mobile_store/src/core/model/order_detail.dart';
 import 'package:mobile_store/src/features/order/bloc/order_event.dart';
 import 'package:rxdart/rxdart.dart';
@@ -38,4 +37,20 @@ class OrderBloc {
   }
 
   void dispose() {}
+}
+
+class CancelOrderBloc{
+  final _stateController = BehaviorSubject<CancelOrderState>();
+  Stream<CancelOrderState> get state => _stateController.stream;
+
+  Future<void> cancelOrderBloc(int orderID)async {
+    String? cancelOrderResult = await OrderService.cancelOrder(orderID);
+
+    if(cancelOrderResult != null && cancelOrderResult == 'true'){
+      print('bloc $cancelOrderResult');
+      _stateController.add(SuccessCancelOrderState());
+    }else{
+      _stateController.add(ErrorCancelOrderState('Failed to cancel order'));
+    }
+  }
 }
