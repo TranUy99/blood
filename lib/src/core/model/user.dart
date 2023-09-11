@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mobile_store/src/core/model/role.dart';
 
 part 'user.g.dart';
 
@@ -22,7 +21,7 @@ class UserDTO {
 
 
   @JsonKey(name: 'roleDTO')
-  final RoleDTO? roleDTO;
+  final String? roleDTO;
 
   @JsonKey(name: 'statusDTO')
   final bool? statusDTO;

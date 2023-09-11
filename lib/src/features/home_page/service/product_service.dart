@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:mobile_store/src/core/model/product.dart';
+
 import '../../../api/api_service.dart';
 
 //get product with api
