@@ -47,6 +47,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Row(
@@ -56,12 +57,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 SizedBox(
                   width: MediaQuery.of(context).orientation == Orientation.portrait
                       ? MediaQuery.of(context).size.width * 0.65
-                      : MediaQuery.of(context).size.width *
-                          0.45, // Điều chỉnh kích thước cho cả hai hướng
+                      : MediaQuery.of(context).size.width * 0.45, 
                   height: MediaQuery.of(context).orientation == Orientation.portrait
                       ? MediaQuery.of(context).size.height * 0.05
-                      : MediaQuery.of(context).size.height *
-                          0.1, // Điều chỉnh kích thước cho cả hai hướng
+                      : MediaQuery.of(context).size.height * 0.1, 
                   child: GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -73,11 +72,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       padding: EdgeInsets.fromLTRB(
                         MediaQuery.of(context).orientation == Orientation.portrait
                             ? 10.0
-                            : 20.0, // Điều chỉnh lề cho cả hai hướng
+                            : 20.0,
                         10.0,
                         MediaQuery.of(context).orientation == Orientation.portrait
                             ? 20.0
-                            : 10.0, // Điều chỉnh lề cho cả hai hướng
+                            : 10.0, 
                         10.0,
                       ),
                       decoration: BoxDecoration(
@@ -90,8 +89,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                           SizedBox(
                             width: MediaQuery.of(context).orientation == Orientation.portrait
                                 ? MediaQuery.of(context).size.width * 0.50
-                                : MediaQuery.of(context).size.width *
-                                    0.30, // Điều chỉnh kích thước cho cả hai hướng
+                                : MediaQuery.of(context).size.width * 0.35, 
                             child: DefaultTextStyle(
                               style: GoogleFonts.lato(
                                 color: kGreenColor,
@@ -161,42 +159,47 @@ class _CustomAppBarState extends State<CustomAppBar> {
             ),
           ),
           (successLoginState.onLoginState && successLoginState.isVerified)
-              ? Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(getUser.userDTO.fullName ?? ''),
-                      TextButton(
-                          onPressed: () async {
-                            SharedPreferences preferences = await SharedPreferences.getInstance();
-                            if (getUser.isRemember == false) {
-                              preferences.remove('email');
-                              preferences.remove('password');
-                            }
-                            preferences.remove('id');
-                            preferences.remove('token');
-                            successLoginState.onLoginState = false;
-                            indexScreen = 0;
-                            getUser.email = preferences.getString('email');
-                            getUser.idUser = preferences.getInt('idUser');
-                            getUser.token = preferences.getString('token');
-                            getUser.password = preferences.getString('password');
+              ? SizedBox(
+                  height: MediaQuery.of(context).orientation == Orientation.portrait
+                      ? MediaQuery.of(context).size.height * 0.05
+                      : MediaQuery.of(context).size.height * 0.08,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(getUser.userDTO.fullName ?? ''),
+                        TextButton(
+                            onPressed: () async {
+                              SharedPreferences preferences = await SharedPreferences.getInstance();
+                              if (getUser.isRemember == false) {
+                                preferences.remove('email');
+                                preferences.remove('password');
+                              }
+                              preferences.remove('id');
+                              preferences.remove('token');
+                              successLoginState.onLoginState = false;
+                              indexScreen = 0;
+                              getUser.email = preferences.getString('email');
+                              getUser.idUser = preferences.getInt('idUser');
+                              getUser.token = preferences.getString('token');
+                              getUser.password = preferences.getString('password');
 
-                            // ignore: use_build_context_synchronously
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const NavigationHomePage()));
-                          },
-                          child: Text(
-                            '${AppLocalizations.of(context)?.logout}',
-                            style: const TextStyle(
-                              color: kRedColor,
-                              fontSize: 15,
-                            ),
-                          ))
-                    ],
+                              // ignore: use_build_context_synchronously
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const NavigationHomePage()));
+                            },
+                            child: Text(
+                              '${AppLocalizations.of(context)?.logout}',
+                              style: const TextStyle(
+                                color: kRedColor,
+                                fontSize: 15,
+                              ),
+                            ))
+                      ],
+                    ),
                   ),
                 )
               : const SizedBox.shrink(),
@@ -209,7 +212,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
 PreferredSizeWidget? appBarWidget(BuildContext context, bool isBack) {
   return PreferredSize(
     preferredSize: (successLoginState.onLoginState && successLoginState.isVerified)
-        ? Size.fromHeight(MediaQuery.of(context).size.height * 0.2)
+        ? MediaQuery.of(context).orientation == Orientation.portrait
+            ? Size.fromHeight(MediaQuery.of(context).size.height * 0.2)
+            : Size.fromHeight(MediaQuery.of(context).size.height * 0.35)
         : Size.fromHeight(MediaQuery.of(context).size.height * 0.15),
     child: AppBar(
         backgroundColor: kSecondaryColor,
@@ -229,7 +234,9 @@ PreferredSizeWidget? appBarWidget(BuildContext context, bool isBack) {
           DropdownButton<Language>(
             iconSize: 30,
             icon: Image.asset('assets/icon/language_option.png',
-                height: MediaQuery.of(context).size.height * 0.045),
+                height: MediaQuery.of(context).orientation == Orientation.portrait
+                    ? MediaQuery.of(context).size.height * 0.045
+                    : MediaQuery.of(context).size.height * 0.1),
             onChanged: (Language? language) async {
               if (language != null) {
                 Locale _locale = await setLocale(language.languageCode);

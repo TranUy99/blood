@@ -38,7 +38,7 @@ import '../core/remote/response/sign_up_response/sign_up_response.dart';
 part 'api_service.g.dart';
 
 //Base address
-@RestApi(baseUrl: 'http://45.117.170.206:60/apis')
+@RestApi(baseUrl: 'http://192.168.1.11:60/apis')
 // @RestApi(baseUrl: 'http://45.117.170.206:8085')
 
 abstract class ApiService {
@@ -200,4 +200,8 @@ abstract class ApiService {
       @Path('manufacturerID') int manufacturerID,
       @Query('no') int no,
       @Query('limit') int limit);
+
+  @POST('/order/cancel/{orderID}')
+  Future<HttpResponse> cancelOrder(
+      @Path('orderID') int orderID, @Header("Authorization") String auth);
 }

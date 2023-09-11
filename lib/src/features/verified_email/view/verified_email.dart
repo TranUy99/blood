@@ -59,16 +59,7 @@ class _VerifiedEmailState extends State<VerifiedEmail> {
                 horizontal: MediaQuery.of(context).size.width * 0.05),
             child: Column(
               children: [
-                Row(
-                  children: [
-                    IconButton(onPressed: () {
-                      setState(() {
-                        indexScreen = 0;
-                      });
-                      Get.offAll(const NavigationHomePage());
-                    }, icon: const Icon(Icons.arrow_back_ios, color: kGreyColor,)),
-                  ],
-                ),
+           
                 Padding(
                     padding: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * 0.04),

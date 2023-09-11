@@ -3,7 +3,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_store/src/core/model/order_detail.dart';
 import 'package:mobile_store/src/core/model/product.dart';
@@ -22,7 +21,9 @@ import '../view_model/order_view_model.dart';
 
 class OrderDetail extends StatefulWidget {
   final int? idOrder;
-  const OrderDetail({required this.idOrder, super.key});
+
+  final DateTime receiveDate;
+  const OrderDetail({required this.idOrder, super.key, required this.receiveDate});
 
   @override
   State<OrderDetail> createState() => _OrderDetailState();
@@ -32,8 +33,9 @@ class _OrderDetailState extends State<OrderDetail> {
   final OrderViewModel _orderViewModel = OrderViewModel();
   late OrderDetailDTO orderDetailDTO;
   final CartViewModel _cartViewModel = CartViewModel();
-  bool isBuyAgain = true;
-  final DetailProductViewModel _detailProductViewModel = DetailProductViewModel();
+  final CancelOrderViewModel _cancelOrderViewModel = CancelOrderViewModel();
+  final DetailProductViewModel _detailProductViewModel =
+      DetailProductViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +71,8 @@ class _OrderDetailState extends State<OrderDetail> {
               SizedBox(
                 height: 100,
                 child: Image(
-                  image: const AssetImage('assets/icon/delivery_truck_icon.png'),
+                  image:
+                      const AssetImage('assets/icon/delivery_truck_icon.png'),
                   height: MediaQuery.of(context).size.height * 1,
                   width: MediaQuery.of(context).size.width * 1,
                 ),
@@ -137,7 +140,8 @@ class _OrderDetailState extends State<OrderDetail> {
                                 initialPage: 0,
                                 autoPlay: true,
                                 autoPlayInterval: const Duration(seconds: 2),
-                                autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                                autoPlayAnimationDuration:
+                                    const Duration(milliseconds: 800),
                                 autoPlayCurve: Curves.fastOutSlowIn,
                                 scrollDirection: Axis.vertical,
                               ),
@@ -145,9 +149,14 @@ class _OrderDetailState extends State<OrderDetail> {
                                   .map(
                                     (item) => Center(
                                       child: CachedNetworkImage(
-                                        imageUrl: ApiImage().generateImageUrl('${item.image}'),
-                                        height: MediaQuery.of(context).size.height * 0.6,
-                                        width: MediaQuery.of(context).size.width * 0.8,
+                                        imageUrl: ApiImage()
+                                            .generateImageUrl('${item.image}'),
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.6,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.8,
                                       ),
                                     ),
                                   )
@@ -161,26 +170,31 @@ class _OrderDetailState extends State<OrderDetail> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.17,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.17,
                                 width: MediaQuery.of(context).size.width * 0.5,
                                 child: SingleChildScrollView(
                                   child: ListView.builder(
                                       shrinkWrap: true,
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      itemCount: orderProductDTOList
-                                          .length, // số lượng sản phẩm trong giỏ hàng
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemCount: orderProductDTOList.length,
+                                      // số lượng sản phẩm trong giỏ hàng
                                       itemBuilder: (context, index) {
                                         return Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Column(
                                             children: [
                                               Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Text(
                                                     "${orderProductDTOList[index].name}",
                                                     style: const TextStyle(
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       fontSize: 15,
                                                     ),
                                                   ),
@@ -190,18 +204,21 @@ class _OrderDetailState extends State<OrderDetail> {
                                                 height: 10,
                                               ),
                                               Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
                                                     "${orderProductDTOList[index].color}, ${orderProductDTOList[index].memory}",
                                                     style: const TextStyle(
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       fontSize: 14,
                                                       color: kGreyColor,
                                                     ),
                                                   ),
-                                                 
                                                 ],
                                               ),
                                             ],
@@ -210,7 +227,6 @@ class _OrderDetailState extends State<OrderDetail> {
                                       }),
                                 ),
                               ),
-                          
                             ],
                           ),
                         ],
@@ -287,34 +303,38 @@ class _OrderDetailState extends State<OrderDetail> {
                 ),
               ),
               const SizedBox(height: 10),
-              isBuyAgain? buyAgainButton(orderProductDTOList) : const SizedBox.shrink(),
+              (widget.receiveDate.isAfter(DateTime.now()))
+                  ? buyAgainButton(orderProductDTOList)
+                  : const SizedBox.shrink(),
             ],
           ),
         ));
   }
 
-  Widget buyAgainButton(List<OrderProductDTO>? orderProductDTOList){
+  Widget buyAgainButton(List<OrderProductDTO>? orderProductDTOList) {
     return Column(
       children: [
         //Buy again button
         InkWell(
           onTap: () async {
             int statusNotification = StatusAddToCart.successfully.index;
-            for(int i=0; i<orderProductDTOList!.length; i++){
+            for (int i = 0; i < orderProductDTOList!.length; i++) {
               ProductDTO productDTO = await _detailProductViewModel
                   .getDetailProduct(orderProductDTOList[i].id ?? 0);
-              int status = _cartViewModel.addToCart(context, orderProductDTOList[i].memory,
-                    orderProductDTOList[i].color, productDTO);
-              if(status == StatusAddToCart.maximumInStock.index){
+              int status = _cartViewModel.addToCart(context,
+                  orderProductDTOList[i].memory,
+                  orderProductDTOList[i].color, productDTO);
+              if (status == StatusAddToCart.maximumInStock.index) {
                 statusNotification = StatusAddToCart.maximumInStock.index;
               }
             }
-            if(statusNotification == StatusAddToCart.maximumInStock.index){
+            if (statusNotification == StatusAddToCart.maximumInStock.index) {
               showTopSnackBar(
                   Overlay.of(context),
                   const CustomSnackBar.info(
-                      message: 'Add to cart successfully but some product has maximum quantity'));
-            }else{
+                      message:
+                          'Add to cart successfully but some product has maximum quantity'));
+            } else {
               showTopSnackBar(
                   Overlay.of(context),
                   const CustomSnackBar.success(
@@ -342,10 +362,23 @@ class _OrderDetailState extends State<OrderDetail> {
         ),
         //Cancel button
         InkWell(
-          onTap: () {
-            setState(() {
-              isBuyAgain = false;
-            });
+          onTap: () async {
+            bool? isCancel = await _cancelOrderViewModel
+                .cancelOrderViewModel(widget.idOrder ?? 0);
+            print('view $isCancel');
+            if (isCancel != null && isCancel) {
+              showTopSnackBar(
+                  Overlay.of(context),
+                  const CustomSnackBar.success(
+                      message: 'Success cancel order'));
+              setState(() {
+                indexScreen = 0;
+                Get.offAll(const NavigationHomePage());
+              });
+            } else {
+              showTopSnackBar(Overlay.of(context),
+                  const CustomSnackBar.error(message: 'Can not cancel order'));
+            }
           },
           child: Container(
             margin: EdgeInsets.only(
@@ -357,9 +390,9 @@ class _OrderDetailState extends State<OrderDetail> {
             ),
             child: const Center(
                 child: Text(
-                  'Cancel',
-                  style: TextStyle(fontSize: 20, color: kWhiteColor),
-                )),
+              'Cancel',
+              style: TextStyle(fontSize: 20, color: kWhiteColor),
+            )),
           ),
         ),
       ],

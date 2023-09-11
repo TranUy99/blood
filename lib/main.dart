@@ -48,8 +48,9 @@ GetUser getUser = GetUser();
 
 _getUser() async {
   if (successLoginState.onLoginState) {
-    getUser.userDTO = await UserService.userService(getUser.idUser!, getUser.token!);
-    successLoginState.isVerified = getUser.userDTO.statusDTO!;
+    getUser.userDTO =
+        await UserService.userService(getUser.idUser!, getUser.token!);
+    successLoginState.isVerified = getUser.userDTO.statusDTO ?? false;
   }else{
     successLoginState.isVerified = false;
   }
