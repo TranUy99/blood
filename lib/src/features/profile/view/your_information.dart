@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/main.dart';
-import 'package:mobile_store/src/features/address/view/add_address.dart';
-import 'package:mobile_store/src/features/address/view/get_address.dart';
-
 import '../../../constant/color/color.dart';
-import '../../change_password/view/change_password_screen.dart';
+
 import '../widget/edit_information_form.dart';
 
 class YourInformation extends StatefulWidget {
@@ -156,64 +153,25 @@ class _YourInformationState extends State<YourInformation> {
                     ],
                   ),
                   const SizedBox(height: 5),
-                  Row(
-                    children: [
-                      ElevatedButton(
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return const ChangePasswordScreen();
-                              },
-                            );
-                          },
-                          child: const Text('Change password')),
-                    ],
-                  )
+                // Row(
+                //   children: [
+                //     ElevatedButton(
+                //         onPressed: () {
+                //           showDialog(
+                //             context: context,
+                //             builder: (BuildContext context) {
+                //               return const ChangePasswordScreen();
+                //             },
+                //           );
+                //         },
+                //         child: const Text('Change password')),
+                //   ],
+                // )
                 ],
               ),
             ),
             const Divider(color: kWhiteGrey, thickness: 10),
-            Container(
-              padding: EdgeInsets.symmetric(
-                  vertical: MediaQuery.of(context).size.height * 0.015,
-                  horizontal: MediaQuery.of(context).size.width * 0.03),
-              child: Column(
-                children: [
-                  Container(
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).size.height * 0.015),
-                      width: MediaQuery.of(context).size.width * 1,
-                      child: const Text('ADDRESS',
-                          style: TextStyle(fontSize: 18))),
-                  const GetAddressScreen(),
-                  Row(
-                    children: [
-                      SizedBox(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return const AddAddressScreen();
-                              },
-                            );
-                          },
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all<Color>(Colors.green),
-                          ),
-                          child: const Text('Add'),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+        ])) 
     );
   }
 

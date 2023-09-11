@@ -9,7 +9,7 @@ class LoginResponse {
   @JsonKey(name: 'token')
   final String? token;
 
-  @JsonKey(name: 'idUser')
+  @JsonKey(name: 'user')
   final int? idUser;
 
   @JsonKey(name: 'type')
@@ -18,7 +18,7 @@ class LoginResponse {
   @JsonKey(name: 'message')
   final String? message;
 
-  @JsonKey(name: 'error')
+  @JsonKey(name: 'errCode')
   final String? error;
 
   @JsonKey(name: 'email')

@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 import 'package:mobile_store/src/features/login/bloc/login_event.dart';
 import '../bloc/login_state.dart';
+
 enum LoginStatusEnum { successLogin, successLoginWithoutVerified, errorLogin }
 
 class LoginViewModel {
@@ -17,6 +20,7 @@ class LoginViewModel {
         if (state is SuccessLoginState) {
           if (successLoginState.isVerified) {
             isLogin = LoginStatusEnum.successLogin.index;
+        
           } else {
             isLogin = LoginStatusEnum.successLoginWithoutVerified.index;
           }
@@ -25,7 +29,7 @@ class LoginViewModel {
         }
       },
     );
-   
+
     return isLogin;
   }
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_store/src/features/home_page/bloc/product_bloc.dart';
 import 'package:mobile_store/src/features/home_page/view/product_screen.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
 import 'carousel_slider.dart';
@@ -12,7 +11,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final ProductBloc productBloc = ProductBloc();
+  
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +20,12 @@ class _HomePageState extends State<HomePage> {
       body: RefreshIndicator(
         onRefresh: () async {
           setState(() {});
-          ProductScreen(productBloc: productBloc);
+          // ProductScreen(productBloc: productBloc);
         },
-        child: SingleChildScrollView(
-          child: Column(children: [
-            const CarouselSliderBanner(),
-            ProductScreen(productBloc: productBloc),
+        child: const SingleChildScrollView(
+          child:  Column(children: [
+            CarouselSliderBanner(),
+            Menu(),
           ]),
         ),
       ),

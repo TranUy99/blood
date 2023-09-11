@@ -3,11 +3,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 import 'package:mobile_store/main.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
-import 'package:mobile_store/src/features/forgot_password/view/forgot_password.dart';
+
 import 'package:mobile_store/src/features/home_page/view/navigation_home_page.dart';
 import 'package:mobile_store/src/features/login/view_model/login_view_model.dart';
 import 'package:mobile_store/src/features/login/widget/login_form.dart';
-import 'package:mobile_store/src/features/verified_email/view/verified_email.dart';
+
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -36,19 +36,10 @@ class _LogInScreenState extends State<LogInScreen> {
     Get.offAll(const NavigationHomePage());
   }
 
-  navigationVerifiedPage() {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const VerifiedEmail(),
-        ));
-  }
-
   @override
   void initState() {
     super.initState();
     _loginViewModel = LoginViewModel();
-    print('${getUser.email} - ${getUser.password} - ${getUser.isRemember}');
     isRemember = getUser.isRemember ?? false;
     if(isRemember){
       textEmailController.text = getUser.email ?? '';
@@ -79,7 +70,7 @@ class _LogInScreenState extends State<LogInScreen> {
                         top: MediaQuery.of(context).size.height * 0.04),
                     child: Text(
                         AppLocalizations.of(context)!.logIn.toUpperCase(),
-                        style: titleText)),
+                        style: const TextStyle(color: kBlueColor, fontSize: 32, fontWeight: FontWeight.w700))),
                 Padding(
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.03),
@@ -107,12 +98,12 @@ class _LogInScreenState extends State<LogInScreen> {
                         isRemember: isCheckCheckbox(),
                       ),
                       InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const ForgotPasswordScreen(),),
-                          );
-                        },
+                        // onTap: () {
+                        //   Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(builder: (context) => const ForgotPasswordScreen(),),
+                        //   );
+                        // },
                         child: Text(
                           '${AppLocalizations.of(context)!.forgotPassword}?',
                           style: const TextStyle(
@@ -126,19 +117,16 @@ class _LogInScreenState extends State<LogInScreen> {
                     ],
                   ),
                 ),
+
                 Padding(
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.03),
                   child: InkWell(
                     onTap: () async {
-                      // String email = 'vanhau27062001@gmail.com';
-                      // String password = '1234567Hau';
-                      // String email = 'tranuy0907@gmail.com';
-                      // String password = 'Tranuy1.';
+                      
                       String email = textEmailController.text;
                       String password = textPasswordController.text;
-                      // String email = 'yukatanguyen545@gmail.com';
-                      // String password = 'Candidate123';
+                   
                       final int? loginStatus = await _loginViewModel.login(
                           email, password, isRemember);
 
@@ -150,15 +138,6 @@ class _LogInScreenState extends State<LogInScreen> {
                                   message: 'Login success'));
                           indexScreen = 0;
                           navigationHomePage();
-                        } else if (loginStatus ==
-                            LoginStatusEnum.successLoginWithoutVerified.index) {
-                          showTopSnackBar(
-                              Overlay.of(context),
-                              const CustomSnackBar.info(
-                                  message:
-                                      'Please enter your otp number that was sent via email'));
-                          indexScreen = 0;
-                          navigationVerifiedPage();
                         } else {
                           showTopSnackBar(
                               Overlay.of(context),
@@ -189,7 +168,7 @@ class _LogInScreenState extends State<LogInScreen> {
                         children: [
                           const Expanded(
                             child: Divider(
-                              color: kGreyColor,
+                              color: kBlueBlandColor,
                               height: 1.5,
                             ),
                           ),
@@ -212,24 +191,8 @@ class _LogInScreenState extends State<LogInScreen> {
                           ),
                         ],
                       ),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            AppLocalizations.of(context)!.logInwith,
-                            style: subtitle.copyWith(color: kGreyColor),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        height: MediaQuery.of(context).size.height * 0.1,
-                        child: const LoginOption(),
-                      ),
+                   
+                   
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.01),
                       Row(
@@ -278,8 +241,8 @@ class _LogInScreenState extends State<LogInScreen> {
           });
         },
         icon: obscure
-            ? const Icon(Icons.visibility_off, color: kGreenColor)
-            : const Icon(Icons.visibility, color: kGreenColor));
+            ? const Icon(Icons.visibility_off, color: kBlueBlandColor)
+            : const Icon(Icons.visibility, color: kBlueBlandColor));
   }
 
   Widget isCheckCheckbox() {
@@ -294,9 +257,9 @@ class _LogInScreenState extends State<LogInScreen> {
         height: MediaQuery.of(context).devicePixelRatio * 7,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4),
-            border: Border.all(color: kDarkGreyColor)),
+            border: Border.all(color: kBlueBlandColor)),
         child: isRemember
-            ? const Icon(Icons.check, size: 17, color: Colors.green)
+            ? const Icon(Icons.check, size: 17, color:kBlueBlandColor)
             : null,
       ),
     );

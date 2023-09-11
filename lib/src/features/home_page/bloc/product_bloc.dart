@@ -12,25 +12,25 @@ class ProductBloc {
 
   Stream<ProductState> get productListStream => _productStateSubject.stream;
 
-  //Get product and add state
-  Future<void> fetchProducts(FetchProductEvent event) async {
-    _productStateSubject.sink.add(ProductLoadingState());
+  // //Get product and add state
+  // Future<void> fetchProducts(FetchProductEvent event) async {
+  //   _productStateSubject.sink.add(ProductLoadingState());
 
-    try {
-      final List<ProductDTO> products =
-          await ProductService.getProductService();
+  //   try {
+  //     final List<ProductDTO> products =
+  //         await ProductService.getProductService();
 
-      if (products.isNotEmpty) {
-        _productStateSubject.sink.add(ProductLoadedState(products));
-      } else {
-        _productStateSubject.sink
-            .add(ProductErrorState("No products available"));
-      }
-    } catch (e) {
-      _productStateSubject.sink
-          .add(ProductErrorState("Error fetching products"));
-    }
-  }
+  //     if (products.isNotEmpty) {
+  //       _productStateSubject.sink.add(ProductLoadedState(products));
+  //     } else {
+  //       _productStateSubject.sink
+  //           .add(ProductErrorState("No products available"));
+  //     }
+  //   } catch (e) {
+  //     _productStateSubject.sink
+  //         .add(ProductErrorState("Error fetching products"));
+  //   }
+  // }
 
   void dispose() {}
 }

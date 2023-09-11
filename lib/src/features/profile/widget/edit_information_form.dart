@@ -117,17 +117,17 @@ class _EditInformationFormState extends State<EditInformationForm> {
               if (fullNameText != '' &&
                   dateOfBirth != null &&
                   _selectedGender != null) {
-                UserDTO userInformation =
-                    await changeInformationViewModel.changeInformationViewModel(
-                  fullNameText,
-                  _selectedGender!,
-                  birthdayFormat,
-                );
+                // UserDTO userInformation =
+                //     await changeInformationViewModel.changeInformationViewModel(
+                //   fullNameText,
+                //   _selectedGender!,
+                //   birthdayFormat,
+                // );
 
-                setState(() {
-                  getUser.userDTO = userInformation;
-                  indexScreen = 2;
-                });
+                // setState(() {
+                //   getUser.userDTO = userInformation;
+                //   indexScreen = 2;
+                // });
                 showTopSnackBar(
                   Overlay.of(context),
                   const CustomSnackBar.success(

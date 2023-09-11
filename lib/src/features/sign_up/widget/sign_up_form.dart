@@ -51,7 +51,7 @@ class _BuildInputFormSignInState extends State<BuildInputFormSignIn> {
           errorText: error ? errorText : null,
           hintText: widget.hint,
           hintStyle: const TextStyle(color: kTextFieldColor),
-          focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: kGreenColor)),
+          focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: kBlueColor)),
         ),
       ),
     );

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_store/src/constant/color/color.dart';
 import 'package:mobile_store/src/features/component/primary_button.dart';
-import 'package:mobile_store/src/features/login/view/login_option.dart';
+
 import 'package:mobile_store/src/features/sign_up/bloc/sign_up_bloc.dart';
 import 'package:mobile_store/src/features/sign_up/widget/sign_up_form.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -65,7 +65,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       top: MediaQuery.of(context).size.height * 0.04),
                   child: Text(
                     AppLocalizations.of(context)!.signUp.toUpperCase(),
-                    style: titleText,
+                    style: const TextStyle(color: kBlueColor, fontSize: 32, fontWeight: FontWeight.w700),
                   ),
                 ),
                 Padding(
@@ -91,7 +91,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           hintText: AppLocalizations.of(context)!.password,
                           hintStyle: const TextStyle(color: kTextFieldColor),
                           focusedBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: kGreenColor)),
+                              borderSide: BorderSide(color: kBlueColor)),
                           suffixIcon: obscureChange()),
                       onChanged: (value) {
                         setState(() {
@@ -118,7 +118,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           hintText: AppLocalizations.of(context)!.password,
                           hintStyle: const TextStyle(color: kTextFieldColor),
                           focusedBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: kGreenColor)),
+                              borderSide: BorderSide(color: kBlueColor)),
                           suffixIcon: obscureChange()),
                       onChanged: (value) {
                         setState(() {
@@ -231,24 +231,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ],
                       ),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            AppLocalizations.of(context)!.signUpwith,
-                            style: subtitle.copyWith(color: kGreyColor),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        height: MediaQuery.of(context).size.height * 0.1,
-                        child: const LoginOption(),
-                      ),
+                   
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.01),
                       Row(
@@ -297,11 +280,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
         icon: obscure
             ? const Icon(
                 Icons.visibility_off,
-                color: kGreenColor,
+                color: kBlueColor,
               )
             : const Icon(
                 Icons.visibility,
-                color: kGreenColor,
+                color: kBlueColor,
               ));
   }
 

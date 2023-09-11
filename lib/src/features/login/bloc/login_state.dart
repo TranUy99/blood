@@ -16,9 +16,9 @@ class SuccessLoginState extends LoginState {
   void saveLoginState(
       String? email, String? password, String? token, int? id, bool? isRemember) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString('email', email!);
+     preferences.setString('email', email!);
     preferences.setString('token', token!);
-    preferences.setInt('idUser', id!);
+    preferences.setInt('user', id!);
     preferences.setString('password', password!);
     preferences.setBool('isRemember', isRemember!);
   }

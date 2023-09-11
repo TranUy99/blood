@@ -1,33 +1,26 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_store/src/features/cart_page/bloc/cart_bloc.dart';
-import 'package:mobile_store/src/features/cart_page/bloc/cart_state.dart';
-import 'package:mobile_store/src/features/cart_page/view_model/cart_view_model.dart';
 import 'package:mobile_store/src/features/login/bloc/login_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../languages/language.dart';
 import '../../../languages/language_contanst.dart';
 import '../../../main.dart';
 import '../../constant/color/color.dart';
-import '../category/widget/menu_button.dart';
+
 import '../home_page/view/navigation_home_page.dart';
-import '../search/view/search.dart';
 
 class CustomAppBar extends StatefulWidget {
   const CustomAppBar({super.key});
 
-  static CartBloc cartBloc = CartBloc.getLength();
+
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
-  CartViewModel cartViewModel = CartViewModel();
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,117 +40,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const MenuButton(),
-                SizedBox(
-                  width: MediaQuery.of(context).orientation == Orientation.portrait
-                      ? MediaQuery.of(context).size.width * 0.65
-                      : MediaQuery.of(context).size.width * 0.45, 
-                  height: MediaQuery.of(context).orientation == Orientation.portrait
-                      ? MediaQuery.of(context).size.height * 0.05
-                      : MediaQuery.of(context).size.height * 0.1, 
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Search()),
-                      );
-                    },
-                    child: Container(
-                      padding: EdgeInsets.fromLTRB(
-                        MediaQuery.of(context).orientation == Orientation.portrait
-                            ? 10.0
-                            : 20.0,
-                        10.0,
-                        MediaQuery.of(context).orientation == Orientation.portrait
-                            ? 20.0
-                            : 10.0, 
-                        10.0,
-                      ),
-                      decoration: BoxDecoration(
-                        color: kWhiteColor,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: kGreyColor, width: 1),
-                      ),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).orientation == Orientation.portrait
-                                ? MediaQuery.of(context).size.width * 0.50
-                                : MediaQuery.of(context).size.width * 0.35, 
-                            child: DefaultTextStyle(
-                              style: GoogleFonts.lato(
-                                color: kGreenColor,
-                                textStyle: Theme.of(context).textTheme.displayLarge,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                fontStyle: FontStyle.italic,
-                              ),
-                              child: AnimatedTextKit(
-                                animatedTexts: [
-                                  TyperAnimatedText(
-                                    '${AppLocalizations.of(context)?.search}...',
-                                    speed: const Duration(milliseconds: 200),
-                                  ),
-                                  TyperAnimatedText(
-                                    'R2S..',
-                                    speed: const Duration(milliseconds: 200),
-                                  ),
-                                  TyperAnimatedText(
-                                    'Mobile Store',
-                                    speed: const Duration(milliseconds: 200),
-                                  ),
-                                ],
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => const Search()),
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                          const Icon(
-                            Icons.search,
-                            color: kGreenColor,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                StreamBuilder<GetLengthCartState>(
-                  initialData: cartViewModel.initialLengthCart(),
-                  stream: CustomAppBar.cartBloc.getLengthStateController.stream,
-                  builder: (context, snapshot) {
-                    return IconButton(
-                        onPressed: () {
-                          setState(() {
-                            indexScreen = 1;
-                          });
-                          Get.offAll(const NavigationHomePage());
-                        },
-                        icon: (successLoginState.onLoginState && successLoginState.isVerified)
-                            ? Badge(
-                                label: Text('${snapshot.data?.cartListLength}'),
-                                child: const Icon(
-                                  Icons.shopping_cart_outlined,
-                                  color: Colors.white,
-                                ))
-                            : const Icon(
-                                Icons.shopping_cart_outlined,
-                                color: Colors.white,
-                              ));
-                  },
-                )
-              ],
-            ),
-          ),
           (successLoginState.onLoginState && successLoginState.isVerified)
               ? SizedBox(
                   height: MediaQuery.of(context).orientation == Orientation.portrait
@@ -168,7 +50,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(getUser.userDTO.fullName ?? ''),
+                        Text("${getUser.email}" ?? ''),
                         TextButton(
                             onPressed: () async {
                               SharedPreferences preferences = await SharedPreferences.getInstance();

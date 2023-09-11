@@ -42,7 +42,7 @@ class _BuildInputFormLogInState extends State<BuildInputFormLogIn> {
           hintText: widget.hint,
           hintStyle: const TextStyle(color: kTextFieldColor),
           focusedBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: kGreenColor)),
+              borderSide: BorderSide(color: kBlueColor)),
         ),
       ),
     );
@@ -95,7 +95,7 @@ class _BuildInputFormPasswordState extends State<BuildInputFormPassword> {
             hintText: widget.hint,
             hintStyle: const TextStyle(color: kTextFieldColor),
             focusedBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: kGreenColor)),
+                borderSide: BorderSide(color: kBlueColor)),
             suffixIcon: widget.function),
       ),
     );

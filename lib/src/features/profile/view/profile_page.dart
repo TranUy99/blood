@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_store/src/features/component/custom_app_bar.dart';
-import 'package:mobile_store/src/features/order/view/order.dart';
-import 'package:mobile_store/src/features/promotion/view/promotion.dart';
+
 import 'package:mobile_store/src/features/profile/view/your_information.dart';
 
 import '../../../constant/color/color.dart';
@@ -18,8 +17,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   List<StatefulWidget> profilePageList = [
     const YourInformation(),
-    const OrderView(),
-    const Promotion()
   ];
 
   @override

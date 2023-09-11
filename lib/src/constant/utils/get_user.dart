@@ -51,4 +51,5 @@ class GetUser {
   set idUser(int? value) {
     _idUser = value;
   }
+  
 }

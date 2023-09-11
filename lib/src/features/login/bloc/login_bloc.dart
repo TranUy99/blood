@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:mobile_store/src/features/login/bloc/login_event.dart';
 import 'package:rxdart/rxdart.dart';
@@ -25,15 +26,13 @@ class LoginBloc {
 
   //Call api and get data user
   Future<void> _login(String email, String password, bool? isRemember) async {
-
-
     final loginResult = LoginService.loginService(email, password);
+
     try {
       await loginResult.then((value) {
         message = value.message;
         error = value.error;
         token = value.token;
-
         getUser.idUser = value.idUser!;
         getUser.token = value.token;
         getUser.email = email;
@@ -44,21 +43,11 @@ class LoginBloc {
       error = '$e';
     }
 
-    try {
-      getUser.userDTO = await UserService.userService(getUser.idUser!, getUser.token!);
-      verifiedStatus = (getUser.userDTO.statusDTO)!;
-    } catch (e) {
-      error = '$e';
-    }
-
     if (token != null) {
-      if (verifiedStatus) {
-        _stateController.add(successLoginState = SuccessLoginState(true, true));
-      } else {
-        _stateController.add(successLoginState = SuccessLoginState(false, false));
-      }
-      successLoginState.saveLoginState(getUser.email, getUser.password,
-          getUser.token, getUser.idUser, getUser.isRemember);
+      _stateController.add(successLoginState = SuccessLoginState(true, true));
+
+      successLoginState.saveLoginState(
+          getUser.email, getUser.password, getUser.token, getUser.idUser, getUser.isRemember);
     } else {
       _stateController.add(ErrorLoginState(error!));
     }
